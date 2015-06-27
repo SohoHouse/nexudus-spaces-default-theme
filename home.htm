@@ -38,38 +38,38 @@
         <div class="carousel-inner">
             {% assign loop = 0 %}
             
-          {% for post in data.Local.BannerBlogPosts %}
-          <div class="item {% if loop == 0 %}active{% endif %}">
-            <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">
-              <img src="{% Url Blog, GetImage, id: post.Id, w: 1170, h: 450%}" alt="{{ post.Name}}">
-            </a>
-            <div class="carousel-caption">
-              <h4>{{ post.Title }}</h4>
-              <p>
-                {{ post.SummaryText | StripHtml | MarkDown | TruncateWords words: 15 }}
-                | <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">{% T Read more %}</a>  
-              </p>
+    {% for post in data.Local.BannerBlogPosts %}
+    <div class="item {% if loop == 0 %}active{% endif %}">
+    <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">
+        <img src="{% Url Blog, GetImage, id: post.Id, w: 1170, h: 450%}" alt="{{ post.Name}}">
+    </a>
+    <div class="carousel-caption">
+        <h4>{{ post.Title }}</h4>
+        <p>
+        {{ post.SummaryText | StripHtml | MarkDown | TruncateWords words: 15 }}
+        | <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">{% T Read more %}</a>  
+        </p>
               
-            </div>
-          </div>
-          {% assign loop = loop | Plus: 1 %}
-          {% endfor %}
+    </div>
+    </div>
+    {% assign loop = loop | Plus: 1 %}
+    {% endfor %}
           
-          {% for event in data.Local.BannerEvents %}
-          <div class="item {% if loop == 0 %}active{% endif %}">
-            <a href="{% Url Events, View, Id: event.Id, title: event.Name | Clean %}">
-              <img src="{% Url Events, GetLargeImage, id: event.Id, w: 1170, h: 450 %}" alt="{{ event.Name }}">
-            </a>
-            <div class="carousel-caption">
-              <h4>{{ event.Name }}</h4>
-              <p>{{ event.ShortDescription }}
-                | <a href="{% Url Events, View, Id: event.Id, title: event.Name | Clean %}">{% T Read more %}</a>
-              </p>
+{% for event in data.Local.BannerEvents %}
+<div class="item {% if loop == 0 %}active{% endif %}">
+<a href="{% Url Events, View, Id: event.Id, title: event.Name | Clean %}">
+    <img src="{% Url Events, GetLargeImage, id: event.Id, w: 1170, h: 450 %}" alt="{{ event.Name }}">
+</a>
+<div class="carousel-caption">
+    <h4>{{ event.Name }}</h4>
+    <p>{{ event.ShortDescription }}
+    | <a href="{% Url Events, View, Id: event.Id, title: event.Name | Clean %}">{% T Read more %}</a>
+    </p>
               
-            </div>
-          </div>
-          {% assign loop = loop | Plus: 1 %}
-          {% endfor %}
+</div>
+</div>
+{% assign loop = loop | Plus: 1 %}
+{% endfor %}
           
           {% for image in data.Local.Gallery %}
           <div class="item {% if loop == 0 %}active{% endif %}">

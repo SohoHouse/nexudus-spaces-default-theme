@@ -36,6 +36,18 @@
             <section id="content" class="span12">
 
                 <div class="body-content">
+                    {% if data.Coworker.Teams.size > 0 %}
+                    <div class="alert">
+                        <div>
+                            <strong>{% T Heads Up! %}</strong> {% T Your are part of the follow team: %}
+                            <strong>{{ data.Coworker.Teams }}</strong>.
+                            {% if data.Coworker.PaysInvoicesViaTeam %}
+                            {% T Any bills will be paid by: %}
+                            <strong>{{ data.Coworker.PayingMember.FullName }}</strong>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
                     <p class="alert alert-info" data-bind="visible: products().length == 0">
                         {% T There are no products available %}
                     </p>

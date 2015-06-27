@@ -84,8 +84,8 @@
               {% endif %}
               <a href="{% Url Events, ICal, Id: data.Local.Event.Id, title: ev.Name | Clean %}" title="{% T Add to Calendar %}" class="btn btn-grey addthisevent">
                 {% T Add to Calendar %}
-                <span class="_start">{{ data.Local.Event.StartDate | Date: 'MM-dd-yyyy' }} {{ data.Local.Event.StartDate | Date: 'hh:mm:ss' }}</span>
-                <span class="_end">{{ data.Local.Event.EndDate | Date: 'MM-dd-yyyy' }} {{ data.Local.Event.EndDate | Date: 'hh:mm:ss' }}</span>
+                <span class="_start">{{ data.Local.Event.StartDate | Date: 'MM-dd-yyyy' }} {{ data.Local.Event.StartDate | Date: 'HH:mm:ss' }}</span>
+                <span class="_end">{{ data.Local.Event.EndDate | Date: 'MM-dd-yyyy' }} {{ data.Local.Event.EndDate | Date: 'HH:mm:ss' }}</span>
                 
                 <span class="_summary">{{ data.Local.Event.Name }}</span>
                 <span class="_description">{{ data.Local.Event.ShortDescription }}</span>

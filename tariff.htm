@@ -26,6 +26,8 @@
 
         <div class="row">
 
+
+
             {% if data.Local.PricePlanId == null %}
             <h2 class="page-title span12">
                 {% if data.Coworker.Tariff == null or data.Coworker.Active == false %}
@@ -37,6 +39,20 @@
             {% endif %}
             <!-- CONTENT -->
             <section id="content" class="span12">
+
+                {% if data.Coworker.Teams.size > 0 %}
+                <div class="alert">
+                    <div>
+                        <strong>{% T Heads Up! %}</strong> {% T Your are part of the follow team: %}
+                        <strong>{{ data.Coworker.Teams }}</strong>.
+                        {% if data.Coworker.PaysInvoicesViaTeam %}
+                        {% T Any bills will be paid by: %}
+                        <strong>{{ data.Coworker.PayingMember.FullName }}</strong>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
                 {% if data.Coworker.Tariff != null and data.Coworker.Active %}
                 <div class="alert alert-info text-center">
                     <h4>{% T Your are in the "{0}" price plan. || data.Coworker.Tariff.Name %}</h4>

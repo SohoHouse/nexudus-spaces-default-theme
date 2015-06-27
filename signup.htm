@@ -12,10 +12,19 @@
 
             <!-- CONTENT -->
             <section id="content" class="span12">
-
+                {% if data.Local.Team != null %}
+                <div class="alert">
+                    <div>
+                        <strong>{% T Heads Up! %}</strong> {% T Your are joining the follow team: %}
+                        <strong>{{ data.Local.Team.Name }}</strong>.
+                        {% T if this is not right, please do not complete this form and get in touch with us %}.
+                    </div>
+                </div>
+                {% endif %}
 
                 <form action="{% Url Signup, Index %}" method="POST" enctype="multipart/form-data" id="profile-form">
                     <input type="hidden" name="PricePlanId" value="{{ data.Local.PricePlanId }}" />
+                    <input type="hidden" name="teamGuid" value="{{ data.Local.TeamGuid }}" />
                     <input type="hidden" name="ReturnUrl" value="{{ data.Local.ReturnUrl }}" />
                     <h3>{% T Personal Details %}</h3>
                     <div class="well">
@@ -101,7 +110,11 @@
                                 <select id="Coworker_Custom{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">
                                     <option></option>
                                     {% for opt in field.AvailableOptionArray %}
-                                    <option {% if opt= ={{data.Coworker[customFieldName]}} %}selected="selected" {% endif %}>{{opt}}</option>
+                                    {% if opt == {{data.Coworker[customFieldName]}} %}
+                                    <option selected="selected">{{opt}}</option>
+                                    {% else %}
+                                    <option>{{opt}}</option>
+                                    {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
@@ -134,11 +147,11 @@
                         <div class="row-fluid">
                             <div class="span4">
                                 <label for="Coworker_State">{% T State / Province %}</label>
-                                <input value="{{ data.Coworker.State }}"  type="text" name="Coworker.State" id="Coworker_State" class="span12">
+                                <input value="{{ data.Coworker.State }}" type="text" name="Coworker.State" id="Coworker_State" class="span12">
                             </div>
                             <div class="span4">
                                 <label for="Coworker_CityName">{% T Town %}</label>
-                                <input value="{{ data.Coworker.CityName }}"  type="text" name="Coworker.CityName" id="Coworker_CityName" class="span12">
+                                <input value="{{ data.Coworker.CityName }}" type="text" name="Coworker.CityName" id="Coworker_CityName" class="span12">
                             </div>
                             <div class="span4">
                                 <label for="Coworker_PostCode">{% T Postcode / Zip code %}</label>

@@ -48,7 +48,7 @@
           <p>{{ data.Local.Invoice.CreatedOn | Date: 'D' }}</p>
           <br/>
         {% if data.Local.Invoice.PurchaseOrder.size > 0%}
-        <strong>{% T Purhcase Order %}</strong>: {{ data.Local.Invoice.PurchaseOrder }}
+        <strong>{% T Purchase Order %}</strong>: {{ data.Local.Invoice.PurchaseOrder }}
         {% endif %}
         {% if data.Local.Invoice.InvoiceFromDate %}
         <strong>{% T Period %}</strong>:

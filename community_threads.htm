@@ -34,11 +34,13 @@
     {% endif %}
     
     <div class="pull-right  visible-desktop">
-      {% if data.Local.Threads.size > 0 %}  
+      {% if data.Local.Threads.size > 0 %}
       {% if data.Coworker != null %}
-      <a href="#modal_thread" data-toggle="modal" class="start-conversation btn btn-orange btn-small">
+        {% if data.Local.CanStartConversation %}
+        <a href="#modal_thread" data-toggle="modal" class="start-conversation btn btn-orange btn-small">
         <i aria-hidden="true" class="icon i-8 icon-plus"></i>
         {% T Start a Conversation %}</a>
+        {% endif %}
       {% else %}
       <a href="{% Url Login, Index %}?returnUrl={% Url Community, Index %}" class="start-conversation btn btn-orange btn-small">
         <i aria-hidden="true" class="icon i-8 icon-user"></i>
@@ -67,9 +69,11 @@
     <div class="text-center visible-phone visible-tablet">
       {% if data.Local.Threads.size > 0 %}  
       {% if data.Coworker != null %}
-      <a href="#modal_thread" data-toggle="modal" class="start-conversation btn btn-orange ">
-        <i aria-hidden="true" class="icon i-8 icon-plus"></i>
-        {% T Start a Conversation %}</a>
+        {% if data.Local.CanStartConversation %}  
+        <a href="#modal_thread" data-toggle="modal" class="start-conversation btn btn-orange ">
+          <i aria-hidden="true" class="icon i-8 icon-plus"></i>
+          {% T Start a Conversation %}</a>
+        {% endif %}  
       {% else %}
       <a href="{% Url Login, Index %}?returnUrl={% Url Community, Index %}" class="start-conversation btn btn-orange">
         <i aria-hidden="true" class="icon i-8 icon-user"></i>
@@ -131,7 +135,9 @@
       
       <div class="media comment comment-form">
       {% if data.Coworker != null %}
-      	<a href="#modal_thread" data-toggle="modal" class="start-conversation btn btn-orange btn-large">{% T Start a new one %}</a>
+        {% if data.Local.CanStartConversation %}  
+          <a href="#modal_thread" data-toggle="modal" class="start-conversation btn btn-orange btn-large">{% T Start a new one %}</a>
+        {% endif %}    
       {% else %}
         <a href="{% Url Login, Index %}?returnUrl={% Url Community, Index %}" class="start-conversation btn btn-orange btn-large">{% T Start a new one %}</a>
       {% endif %}
