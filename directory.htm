@@ -171,18 +171,35 @@
                 <div class="accordion-inner">
                   
                   {% if cm.FieldType == 'Dropdown' %}
-                  {% for opt in cm.AvailableOptionArray %}
+                  
                   <ul>  
+                    {% for opt in cm.AvailableOptionArray %}
                     <li class="{% if data.QueryString[cm.FieldName] == opt %}selected{% endif %}">
                       <label>
                         <input name="custom{{ cm.Id }}" class="cm-checkbox" disabled="disabled" type="radio" {% if data.QueryString[cm.FieldName] == opt %}checked{% endif %} data-value="{{ opt }}" data-cmindex="{{ cm.CustomFieldIndex }}"/>
                         <a href="{% Url Directory, Index %}?Custom{{ cm.CustomFieldIndex }}={{ opt }}" class="cm-checkbox-link">{{ opt }}</a>
                       </label>
                     </li>
+                    {% endfor %}
                   </ul>
-                  {% endfor %}
-                  {% endif %}
                   
+                  {% else cm.FieldType = 'Boolean' %}
+
+                  <ul>  
+                    <li class="{% if data.QueryString[cm.FieldName] == 'true' %}selected{% endif %}">
+                      <label>
+                        <input name="custom{{ cm.Id }}" class="cm-checkbox" disabled="disabled" type="radio" {% if data.QueryString[cm.FieldName] == 'true' %}checked{% endif %} data-value="true" data-cmindex="{{ cm.CustomFieldIndex }}"/>
+                        <a href="{% Url Directory, Index %}?Custom{{ cm.CustomFieldIndex }}=true" class="cm-checkbox-link">{% T Yes %}</a>
+                      </label>
+                    </li>
+                    <li class="{% if data.QueryString[cm.FieldName] == '' %}selected{% endif %}">
+                      <label>
+                        <input name="custom{{ cm.Id }}" class="cm-checkbox" disabled="disabled" type="radio" {% if data.QueryString[cm.FieldName] == '' %}checked{% endif %} data-value="" data-cmindex="{{ cm.CustomFieldIndex }}"/>
+                        <a href="{% Url Directory, Index %}?Custom{{ cm.CustomFieldIndex }}=" class="cm-checkbox-link">{% T No %}</a>
+                      </label>
+                    </li>
+                  </ul>
+                  {% endif %}
                   
                 </div>
               </div>
@@ -247,7 +264,7 @@
       
       $('.cm-checkbox').each(function(k, el){
         var cb = $(el);
-        if(cb.is(':checked'))
+        if(cb.is(':checked') && cb.attr('data-value'))
           customs = customs + 'Custom' + cb.attr('data-cmindex') + '=' + cb.attr('data-value') + '&';
       });
       

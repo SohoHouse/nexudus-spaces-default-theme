@@ -59,17 +59,10 @@
               <div style="margin-top: 10px">
                 <h4>{% T Contact details %}</h4>
                 {% if data.Setting_PublicWebSite_CommunityBoard %}
-                {% if data.Coworker != null %}
                 <a href="#modal_thread" data-toggle="modal" class="start-conversation btn btn-orange ">
-                    <i aria-hidden="true" class="icon i-8 icon-bubble"></i>
-                    {% T Start a Conversation with {0} || data.Local.Coworker.Salutation %}
+                  <i aria-hidden="true" class="icon i-8 icon-bubble"></i>
+                  {% T Start a Conversation with {0} || data.Local.Coworker.Salutation %}
                 </a>
-                {% else %}
-                <a href="{% Url Login, Index %}?returnUrl={% Url Directory, Profile, Id: data.Local.Coworker.Id, name: data.Local.Coworker.FullName | Clean %}" class="start-conversation btn btn-orange">
-                    <i aria-hidden="true" class="icon i-8 icon-user"></i>
-                    {% T Login to start a Conversation %}
-                </a>
-                {% endif %}
                 {% endif %}
                 {% if data.Local.Coworker.ProfileWebsite.size > 0 %}
                 <a target="_blank" href="{{ data.Local.Coworker.ProfileWebsite }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-earth"></span></a>
@@ -193,7 +186,7 @@
                   <ul id="top-tags">
                     {% for tag in data.Local.TopTags %}
                     {% assign thisTag = tag.Tag %}
-                    <li class="selected">
+                    <li class="{% if data.Local.Coworker.ProfileTags contains thisTag %}selected{% endif %}">
                       <label>
                         
                         <input class="tag-checkbox" disabled="disabled" type="checkbox" checked="checked"/>
@@ -206,7 +199,7 @@
                     
                     {% for tag in data.Local.OtherTags %}
                     {% assign thisTag = tag.Tag  %}
-                    <li class="other-tag hide">
+                    <li class="other-tag {% if data.Local.Coworker.ProfileTags contains thisTag %}selected{% else %}hide{% endif %}">
                       <label>
                         <input class="tag-checkbox" disabled="disabled" type="checkbox" {% if data.Local.Coworker.ProfileTags contains thisTag %}checked{% endif %} data-tag="{{ tag.Tag }}"/>
                         <a class="tag-checkbox-link" href="{% Url Directory, Index, tag: tag.Tag %}">{{ tag.Tag }}</a> 
@@ -225,27 +218,44 @@
             {% endif %}
             <!-- CUSTOM FIELDS SEARCH -->
             {% for cm in data.Local.CustomFields %}
-            {% if data.Local.Coworker[cm.FieldName] != null %}
+            {% if data.Local.Coworker[cm.FieldName] != null or cm.FieldType == 'Boolean' %}
             <div class="accordion-group">
               <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#search-panels" href="#search-{{ cm.Id }}">
                   {% T cm.NameInSearch %}
                 </a>
               </div>
-              <div id="search-{{ cm.Id }}" class="accordion-body collapse {% if data.Local.Coworker[cm.FieldName] != null %}in{% endif %}">
+              <div id="search-{{ cm.Id }}" class="accordion-body collapse in">
                 <div class="accordion-inner">
                   
                   {% if cm.FieldType == 'Dropdown' %}
-                  {% for opt in cm.AvailableOptionArray %}
                   <ul>  
+                    {% for opt in cm.AvailableOptionArray %}
                     <li class="{% if data.Local.Coworker[cm.FieldName] == opt %}selected{% endif %}">
                       <label>
                         <input name="custom{{ cm.Id }}" class="cm-checkbox" disabled="disabled" type="radio" {% if data.Local.Coworker[cm.FieldName] == opt %}checked{% endif %} data-value="{{ opt }}" data-cmindex="{{ cm.CustomFieldIndex }}"/>
                         <a href="{% Url Directory, Index %}?Custom{{ cm.CustomFieldIndex }}={{ opt }}" class="cm-checkbox-link">{{ opt }}</a>
                       </label>
                     </li>
+                    {% endfor %}
                   </ul>
-                  {% endfor %}
+                  {% else cm.FieldType = 'Boolean' %}
+                  
+                  <ul>  
+                    
+                    <li class="{% if data.Local.Coworker[cm.FieldName] == 'true' %}selected{% endif %}">
+                      <label>
+                        <input name="custom{{ cm.Id }}" class="cm-checkbox" disabled="disabled" type="radio" {% if data.Local.Coworker[cm.FieldName] == 'true' %}checked{% endif %} data-value="true" data-cmindex="{{ cm.CustomFieldIndex }}"/>
+                        <a href="{% Url Directory, Index %}?Custom{{ cm.CustomFieldIndex }}=true" class="cm-checkbox-link">{% T Yes %}</a>
+                      </label>
+                    </li>
+                    <li class="{% if data.Local.Coworker[cm.FieldName].size == 0' %}selected{% endif %}">
+                      <label>
+                        <input name="custom{{ cm.Id }}" class="cm-checkbox" disabled="disabled" type="radio" {% if data.Local.Coworker[cm.FieldName] == null %}checked{% endif %} data-value="" data-cmindex="{{ cm.CustomFieldIndex }}"/>
+                        <a href="{% Url Directory, Index %}?Custom{{ cm.CustomFieldIndex }}=" class="cm-checkbox-link">{% T No %}</a>
+                      </label>
+                    </li>
+                  </ul>
                   {% endif %}
                   
                   
