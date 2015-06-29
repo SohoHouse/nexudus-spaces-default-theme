@@ -718,6 +718,28 @@ footer .block .well.no-content p {
     margin-bottom: 5px !important;
 }
     
+#directoy-search .accordion-body ul {
+	list-style: none;
+	margin: 0;
+}
+#directoy-search .accordion-body ul a {
+    display: inline-table;
+}
+#directoy-search .accordion-body ul a.tag-checkbox-link {
+    width: 85%;
+}
+#directoy-search .accordion-body label{
+	margin: 0;
+	margin-left: 20px
+}
+#directoy-search .accordion-body input{
+	margin: 0;
+	margin-left: -20px
+}
+
+#directoy-search .accordion-body li.selected a {
+	font-weight: bold;
+}
 
 /* filter */
 .filter {

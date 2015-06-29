@@ -196,16 +196,26 @@
                             {% elseif field.FieldType == 'Dropdown' %}
                             <div class="span12">
                                 <label for="Coworker_Custom{{ customFieldName }}">{% T field.Name %}</label>
-                                <select id="Coworker_Custom{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">
-                                    <option></option>
-                                    {% for opt in field.AvailableOptionArray %}
-                                    {% if opt == {{data.Coworker[customFieldName]}} %}
-                                    <option selected="selected">{{opt}}</option>
-                                    {% else %}
-                                    <option>{{opt}}</option>
-                                    {% endif %}
-                                    {% endfor %}
-                                </select>
+                              
+                              {% if field.AllowMultipleOptions %}
+                              <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}"  class="span12 multiple_select" style="display: none"> 
+                              <select required="required" multiple="multiple" id="Coworker_{{ customFieldName }}_Select" class="span12">
+                                {% for opt in field.AvailableOptionArray %}
+                                <option {% if {{data.Coworker[customFieldName]}} != null and opt contains {{data.Coworker[customFieldName]}} %}selected="selected"{% endif %}>{{opt}}</option>
+                                {% endfor %}
+                              </select>
+                              {% else %}
+                              <select id="Coworker_Custom{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">
+                                <option></option>
+                                {% for opt in field.AvailableOptionArray %}
+                                {% if opt == {{data.Coworker[customFieldName]}} %}
+                                <option selected="selected">{{opt}}</option>
+                                {% else %}
+                                <option>{{opt}}</option>
+                                {% endif %}
+                                {% endfor %}
+                              </select>
+                              {% endif %}
                             </div>
                             {% elseif field.FieldType == 'Date' %}
                             <div class="span12">
@@ -537,6 +547,19 @@
         $('form').h5Validate();
         $(".date").datetimepicker({ language: '{{ data.Language }}', format: "dd MM yyyy", minuteStep: 15, showMeridian: true, autoclose: true, minView: 2, startView: 4 });
         $('form').h5Validate();
+      
+      $('.multiple_select').each(function(i, el){
+        var sel = $(el).siblings('select');
+        var tags = $(el).val();
+        sel.val(tags.split(','));
+        
+        sel.chosen();
+        $(sel).change(function(){
+          var tags = sel.val().join();  
+          $(el).val(tags);
+        });
+      });
+      
     });
 </script>
 {% endblock %}
