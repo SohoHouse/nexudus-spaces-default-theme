@@ -107,7 +107,7 @@
               {% elseif field.FieldType == 'Dropdown' %}
               <div class="span12">
                 <label for="Coworker_Custom{{ customFieldName }}">{% T field.Name %}</label>
-                {% if field.AllowMultipleOptions != null %}
+                {% if field.AllowMultipleOptions %}
                 <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}"  class="span12 multiple_select" style="display: none"> 
                 <select required="required" multiple="multiple" id="Coworker_{{ customFieldName }}_Select" class="span12">
                   {% for opt in field.AvailableOptionArray %}

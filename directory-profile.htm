@@ -59,11 +59,18 @@
               <div style="margin-top: 10px">
                 <h4>{% T Contact details %}</h4>
                 {% if data.Setting_PublicWebSite_CommunityBoard %}
+				{% if data.Coworker != null %}
                 <a href="#modal_thread" data-toggle="modal" class="start-conversation btn btn-orange ">
                   <i aria-hidden="true" class="icon i-8 icon-bubble"></i>
                   {% T Start a Conversation with {0} || data.Local.Coworker.Salutation %}
                 </a>
+				{% else %}
+				<a href="{% Url Login, Index %}?returnUrl={% Url Directory, Profile, Id: data.Local.Coworker.Id, name: data.Local.Coworker.FullName | Clean %}" data-toggle="modal" class="start-conversation btn btn-orange ">
+                  <i aria-hidden="true" class="icon i-8 icon-bubble"></i>
+                  {% T Login to start a Conversation %}
+                </a>
                 {% endif %}
+				{% endif %}
                 {% if data.Local.Coworker.ProfileWebsite.size > 0 %}
                 <a target="_blank" href="{{ data.Local.Coworker.ProfileWebsite }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-earth"></span></a>
                 {% endif %}
