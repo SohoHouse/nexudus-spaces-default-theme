@@ -1,0 +1,42 @@
+{% extends master.master %}
+{% block title %}{% T Terms and Conditions %} | {{ data.Business.Name }} {% endblock %}
+{% block content %}
+<div id="wrapper">
+  <!-- CONTAINER -->
+  <div id="main" class="container">
+    <!-- BREADCRUMB -->
+    <ul class="breadcrumb">
+      <li><a href="{% Url PublicHome, Index %}">{% T Home %}</a> <span class="divider">/</span></li>
+      <li class="active">{% T Terms and Conditions %}</li>
+    </ul>
+
+    <!-- END BREADCRUMB -->
+    <div class="row">
+      
+      <h2 class="page-title span12">{% T Terms and Conditions %}</h2>
+      
+      <!-- CONTENT -->
+      <section id="content" class="span12">
+        {% if data.Business.TermsAndConditions.size > 0 and data.Coworker.GeneralTermsAccepted == false %}
+        <h4>{% T General Terms and Conditions %}</h4>
+        {{ data.Business.TermsAndConditions | StripHtml | MarkDown }}
+        {% endif %}
+        {% if data.Coworker.Tariff != null data.Coworker.Tariff.TermsAndConditions.size > 0 and data.Coworker.PricePlanTermsAccepted == false %}
+        <h4>{% T Price Plan Terms and Conditions %}</h4>
+        {{ data.Coworker.Tariff.TermsAndConditions | StripHtml | MarkDown }}
+        {% endif %}
+        
+        
+      </section>
+      <!-- END CONTENT -->
+    </div>
+    <div class="row-fluid">
+      <a href="{% Url TermsAndConditions, Accept, returnUrl: data.Local.ReturnUrl %}" class="btn pull-right btn-orange">{% T Accept %}</a>
+    </div>
+    
+    
+  </div>
+  <!-- END CONTAINER -->
+</div>
+
+{% endblock %}

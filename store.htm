@@ -36,18 +36,6 @@
             <section id="content" class="span12">
 
                 <div class="body-content">
-                    {% if data.Coworker.Teams.size > 0 %}
-                    <div class="alert">
-                        <div>
-                            <strong>{% T Heads Up! %}</strong> {% T Your are part of the follow team: %}
-                            <strong>{{ data.Coworker.Teams }}</strong>.
-                            {% if data.Coworker.PaysInvoicesViaTeam %}
-                            {% T Any bills will be paid by: %}
-                            <strong>{{ data.Coworker.PayingMember.FullName }}</strong>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endif %}
                     <p class="alert alert-info" data-bind="visible: products().length == 0">
                         {% T There are no products available %}
                     </p>
@@ -71,7 +59,7 @@
                                     <select style="width:50px" data-bind="value: Quantity, optionsCaption: '', options: $root.qtys"></select>
                                 </td>
                                 <td class="text-center">
-                                    <input data-bind="checked: RegularCharge" type="checkbox" {% if data.coworker.tariff= =null %}disabled="disabled" {% endif %} />
+                                    <input data-bind="checked: (RegularCharge() || AlwaysRecurrent()) && (Quantity() > 0), disable: AlwaysRecurrent() || AlwaysOneOff()" type="checkbox" {% if data.coworker.tariff= =null %}disabled="disabled" {% endif %} />
                                 </td>
                             </tr>
 
