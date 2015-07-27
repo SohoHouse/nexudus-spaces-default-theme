@@ -18,9 +18,9 @@
     <!-- END BREADCRUMB -->
     <div class="row">
       <!-- CONTENT -->
-      
+
       <section id="content" class="span9">
-        
+
         {% if data.Local.Coworkers.size == 0 and data.Local.Teams.size == 0 %}
         <div class="well well-large text-center">
           <h2>{% T We found no results... :/ %}</h2>
@@ -34,10 +34,10 @@
           {% DivRow team in data.Local.Teams cols:3 %}
           <div class="team_block member_block span3 text-center">
             <a href="{% Url Directory, Team, Id: team.Id, name: team.Name | Clean %}" class="user_avatar">
-              <img class="img-circle" style="height: 140px; width: 140px;" height="140" width="140" src="{% Url Team, GetAvatar, id: team.Id, h:140, w:140, mode: 'Pad' %}" alt="{{ team.Name | Capitalize }}" >          
+              <img class="img-circle" style="height: 140px; width: 140px;" height="140" width="140" src="{% Url Team, GetAvatar, id: team.Id, h:140, w:140, mode: 'Pad' %}" alt="{{ team.Name | Capitalize }}" >
             </a>
             <h4 class="subheader">{{ team.Name | Capitalize }}</h4>
-            
+
             {% if team.ProfileWebsite.size > 0 %}
             <a target="_blank" href="{{ team.ProfileWebsite }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-earth"></span></a>
             {% else %}
@@ -55,16 +55,16 @@
             {% if team.Skype.size > 0 %}
             <a href="callto://{{ team.Skype }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-skype"></span></a>
             {% endif %}
-            
+
           </div>
           {% endDivRow %}
           {% endif %}
-          
+
           {% DivRow member in data.Local.Coworkers cols:3 %}
           <!-- member -->
           <div class="member_block span3 text-center {% if member.CheckedIn %}checkedin{% endif %}">
             <a href="{% Url Directory, Profile, Id: member.Id, name: member.FullName | Clean %}" class="user_avatar">
-              <img class="img-circle" style="height: 140px; width: 140px;" height="140" width="140" src="{% Url Coworker, GetAvatar, id: member.Id, h:140, w:140 %}" alt="{{ member.FullName | Capitalize }}" >          
+              <img class="img-circle" style="height: 140px; width: 140px;" height="140" width="140" src="{% Url Coworker, GetAvatar, id: member.Id, h:140, w:140 %}" alt="{{ member.FullName | Capitalize }}" >
             </a>
             {% if member.CheckedIn %}
             <br/>
@@ -97,10 +97,10 @@
           {% endDivRow %}
         </div>
         <style>
-          
+
         </style>
       </section>
-      
+
       <aside id="directoy-search" class="span3">
         <div class="text-center">
           <form class="form-search" method="GET" action="{% Url Directory, Search %}">
@@ -118,7 +118,7 @@
         </div>
         <div>
           <div class="accordion" id="search-panels">
-            
+
             <div class="accordion-group">
               <div class="accordion-heading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#search-panels" href="#search-1">
@@ -133,22 +133,22 @@
                     <li class="{% if data.Local.Tag contains thisTag %}selected{% endif %}">
                       <label>
                         <input class="tag-checkbox" disabled="disabled" type="checkbox" {% if data.Local.Tag contains thisTag %}checked{% endif %} data-tag="{{ tag.Tag }}"/>
-                      	<a class="tag-checkbox-link" href="{% Url Directory, Index, tag: tag.Tag %}">{{ tag.Tag }}</a> 
+                      	<a class="tag-checkbox-link" href="{% Url Directory, Index, tag: tag.Tag %}">{{ tag.Tag }}</a>
                         <span class="pull-right">[{{ tag.Count }}]</span>
                       </label>
-                      
+
                     </li>
                     {% endfor %}
-                    
+
                     {% for tag in data.Local.OtherTags %}
                     {% assign thisTag = tag.Tag | Downcase %}
                     <li class="other-tag {% if data.Local.Tag contains thisTag %}selected{% else %}hide{% endif %}">
                       <label>
                         <input class="tag-checkbox" disabled="disabled" type="checkbox" {% if data.Local.Tag contains thisTag %}checked{% endif %} data-tag="{{ tag.Tag }}"/>
-                      	<a class="tag-checkbox-link" href="{% Url Directory, Index, tag: tag.Tag %}">{{ tag.Tag }}</a> 
+                      	<a class="tag-checkbox-link" href="{% Url Directory, Index, tag: tag.Tag %}">{{ tag.Tag }}</a>
                         <span class="pull-right">[{{ tag.Count }}]</span>
                       </label>
-                      
+
                     </li>
                     {% endfor %}
                   </ul>
@@ -158,7 +158,7 @@
                 </div>
               </div>
             </div>
-            
+
             <!-- CUSTOM FIELDS SEARCH -->
             {% for cm in data.Local.CustomFields %}
             <div class="accordion-group">
@@ -169,10 +169,10 @@
               </div>
               <div id="search-{{ cm.Id }}" class="accordion-body collapse {% if data.QueryString[cm.FieldName] != null %}in{% endif %}">
                 <div class="accordion-inner">
-                  
+
                   {% if cm.FieldType == 'Dropdown' %}
-                  
-                  <ul>  
+
+                  <ul>
                     {% for opt in cm.AvailableOptionArray %}
                     <li class="{% if data.QueryString[cm.FieldName] == opt %}selected{% endif %}">
                       <label>
@@ -182,10 +182,10 @@
                     </li>
                     {% endfor %}
                   </ul>
-                  
+
                   {% else cm.FieldType = 'Boolean' %}
 
-                  <ul>  
+                  <ul>
                     <li class="{% if data.QueryString[cm.FieldName] == 'true' %}selected{% endif %}">
                       <label>
                         <input name="custom{{ cm.Id }}" class="cm-checkbox" disabled="disabled" type="radio" {% if data.QueryString[cm.FieldName] == 'true' %}checked{% endif %} data-value="true" data-cmindex="{{ cm.CustomFieldIndex }}"/>
@@ -200,18 +200,18 @@
                     </li>
                   </ul>
                   {% endif %}
-                  
+
                 </div>
               </div>
             </div>
             {% endfor %}
             <!-- CUSTOM FIELDS SEARCH END -->
-            
+
           </div>
         </div>
       </aside>
       <!-- END CONTENT -->
-      
+
     </div>
   </div>
   <!-- END CONTAINER -->
@@ -233,22 +233,28 @@
       source: data,
       limit: 15
     });
-    
-    $('.tag-checkbox, .cm-checkbox').click(buildSearchQuery);
+
+    $('.tag-checkbox, .cm-checkbox').click(function(){
+      var el = $(this);
+      if(el.attr('type') == 'radio' && el.is(':checked'))
+        el.attr('checked', null);
+
+      buildSearchQuery()
+    });
     $('.tag-checkbox, .cm-checkbox').attr('disabled',null);
     $('.cm-checkbox-link, .tag-checkbox-link').click(function(){
       var cb = $(this).siblings('input');
-      
+
       if(cb.is(':checked'))
          cb.attr('checked', null);
       else
          cb.attr('checked','checked');
-      
+
       buildSearchQuery();
       return false;
     });
 
-    
+
     function buildSearchQuery(){
       //tags
       var url = '{% Url Directory, Index %}';
@@ -259,19 +265,19 @@
         if(cb.is(':checked'))
           tags = tags + cb.attr('data-tag') + ',';
       });
-      
+
       tags = tags.substring(0, tags.length - 1);
-      
+
       $('.cm-checkbox').each(function(k, el){
         var cb = $(el);
         if(cb.is(':checked') && cb.attr('data-value'))
           customs = customs + 'Custom' + cb.attr('data-cmindex') + '=' + cb.attr('data-value') + '&';
       });
-      
+
       var location = url + '?' + (tags ? 'tag=' + tags + '&': '') + (customs ? customs: '');
       location = location.substring(0, location.length - 1);
       window.location = location;
-      
+
       return false;
      }
   });

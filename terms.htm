@@ -21,7 +21,7 @@
         <h4>{% T General Terms and Conditions %}</h4>
         {{ data.Business.TermsAndConditions | StripHtml | MarkDown }}
         {% endif %}
-        {% if data.Coworker.Tariff != null data.Coworker.Tariff.TermsAndConditions.size > 0 and data.Coworker.PricePlanTermsAccepted == false %}
+        {% if data.Coworker.Tariff != null and data.Coworker.Tariff.TermsAndConditions.size > 0 and data.Coworker.PricePlanTermsAccepted == false %}
         <h4>{% T Price Plan Terms and Conditions %}</h4>
         {{ data.Coworker.Tariff.TermsAndConditions | StripHtml | MarkDown }}
         {% endif %}

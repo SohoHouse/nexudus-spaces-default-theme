@@ -15,10 +15,10 @@
     <div class="row">
       <!-- CONTENT -->
       <section id="content" class="span12">
-        
+
         <div class="row">
           <div class="span12 text-center team_block">
-            <img class="img-circle" style="height: 200px; width: 200px;" height="200" width="200" src="{% Url Team, GetAvatar, id: data.Local.Team.Id, h:200, w:200, mode: 'Pad' %}" alt="{{ data.Local.Team.Name | Capitalize }}" >          
+            <img class="img-circle" style="height: 200px; width: 200px;" height="200" width="200" src="{% Url Team, GetAvatar, id: data.Local.Team.Id, h:200, w:200, mode: 'Pad' %}" alt="{{ data.Local.Team.Name | Capitalize }}" >
             <br/>
             <h3>{{ data.Local.Team.Name | StripHtml }}</h3>
             {% if data.Local.Team.ProfileWebsite.size > 0 %}
@@ -36,14 +36,14 @@
             {% if data.Local.Team.Skype.size > 0 %}
             <a href="callto://{{ data.Local.Team.Skype }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-skype"></span></a>
             {% endif %}
-            
+
           </div>
         </div>
         <div class="row">
           <div class="span8 offset2 text-justify">
-            
+
             {{ data.Local.Team.ProfileSummary }}
-            
+
             {% if data.Local.Team.HasImages %}
             <hr/>
             <div class="text-center">
@@ -76,7 +76,7 @@
               {% endif %}
             </div>
             {% endif %}
-            
+
             {% if data.Local.Team.ProfileTagsList.size > 0 %}
             <hr/>
             <div class="text-center">
@@ -88,16 +88,16 @@
             {% if data.Local.Team.GoogleMapsLink.size > 0 %}
             <hr/>
             <h3>{% T Find us %}</h3>
-            
+
             <div class="text-center">
               <iframe src="{{ data.Local.Team.GoogleMapsLink }}" style="border:0" width="100%" frameborder="0" height="400"></iframe>
             </div>
-            
+
             {% endif %}
           </div>
         </div>
 
-        
+
         {% if data.Local.Team.TeamMembers.size > 0 %}
         <hr/>
         <h3>{% T Meet {0} || data.Local.Team.Name %}</h3>
@@ -107,7 +107,7 @@
             <!-- member -->
             <div class="member_block span3 text-center {% if member.CheckedIn %}checkedin{% endif %}">
               <a href="{% Url Directory, Profile, Id: member.Id, name: member.FullName | Clean %}" class="user_avatar">
-                <img class="img-circle" style="height: 140px; width: 140px;" height="140" width="140" src="{% Url Coworker, GetAvatar, id: member.Id, h:140, w:140 %}" alt="{{ member.FullName | Capitalize }}" >          
+                <img class="img-circle" style="height: 140px; width: 140px;" height="140" width="140" src="{% Url Coworker, GetAvatar, id: member.Id, h:140, w:140 %}" alt="{{ member.FullName | Capitalize }}" >
               </a>
               {% if member.CheckedIn %}
               <br/>
@@ -148,17 +148,17 @@
         <div class="row">
           <div class="span8 offset2 text-center">
             {% for tag in data.Local.MemberTags %}
-            <a href="{% Url Directory, Index, tag: tag %}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-tag"></span> {{ tag }}</a>
+            <a style="margin-bottom: 10px" href="{% Url Directory, Index, tag: tag %}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-tag"></span> {{ tag }}</a>
             {% endfor %}
           </div>
         </div>
         <br/>
         {% endif %}
         {% endif %}
-        
+
       </section>
       <!-- END CONTENT -->
-      
+
     </div>
   </div>
   <!-- END CONTAINER -->

@@ -4,7 +4,7 @@
 <div id="wrapper">
   <!-- CONTAINER -->
   <div id="main" class="container">
-    
+
     {% assign RegularPaymentOption = false %}
     {% if data.Local.SpreedlyEnabled or data.Coworker.EnableGoCardlessPayments %}
     {% assign RegularPaymentOption = true %}
@@ -13,10 +13,10 @@
     {% if data.Coworker.RegularPaymentProvider != "" or data.Coworker.HasGoCardlessContractNumber %}
     {% assign HasEnteredPaymentDetails = true %}
     {% endif %}
-    
+
     {% if data.Coworker.Active == false and data.Coworker.Tariff != null and RegularPaymentOption and HasEnteredPaymentDetails == false %}
     <div class="progress progress-striped">
-      
+
       <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
       <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
       <div class="bar bar-success" style="width: 20%;">3. {% T Additional Products %}</div>
@@ -24,7 +24,7 @@
     </div>
     {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails %}
     <div class="progress progress-striped active">
-      
+
       <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
       <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
       <div class="bar bar-success" style="width: 20%;">3. {% T Additional Products %}</div>
@@ -33,7 +33,7 @@
     </div>
     {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and data.Local.KeepNewAccountsOnHold %}
     <div class="progress progress-striped active">
-      
+
       <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
       <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
       <div class="bar bar-success" style="width: 20%;">3. {% T Additional Products %}</div>
@@ -41,7 +41,7 @@
     </div>
     {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and data.Local.KeepNewAccountsOnHold == false %}
     <div class="progress progress-striped">
-      
+
       <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
       <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
       <div class="bar bar-success" style="width: 20%;">3. {% T Additional Products %}</div>
@@ -55,11 +55,11 @@
     </ul>
     <!-- END BREADCRUMB -->
     {% endif %}
-    
-    
-    
+
+
+
     <div class="row">
-      
+
       {% if data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails == false %}
       <section id="content" class="span12">
         <div class="text-center">
@@ -89,10 +89,10 @@
         <hr />
       </section>
       {% else %}
-      
+
       <h2 class="page-title span12">{% T My account at {0} || data.Business.Name %}</h2>
-      
-      
+
+
       <!-- CONTENT -->
       <section id="content" class="span12">
         <ul class="nav nav-pills">
@@ -121,7 +121,7 @@
           <h3 id="personal-details">{% T Personal Details %}</h3>
           <div class="well">
             <div class="row-fluid">
-              
+
               <div class="span9">
                 <div class="row-fluid">
                   <div class="span4">
@@ -136,7 +136,7 @@
                     <label for="Coworker_Email">{% T Email %}</label>
                     <input type="text" readonly="readonly" id="Coworker_Email" name="Coworker.Email" value="{{ data.Coworker.Email }}" class="span12">
                   </div>
-                  
+
                 </div>
                 <div class="row-fluid">
                   <div class="span4">
@@ -162,11 +162,11 @@
                 <input type="file" name="Coworker_Avatar" id="Coworker_Avatar" class="span12" />
                 <br />
                 <small>{% T Max 10Mb. %}</small>
-                
-                
+
+
               </div>
             </div>
-            
+
           </div>
           <div class="row-fluid">
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
@@ -198,16 +198,16 @@
               {% elseif field.FieldType == 'Dropdown' %}
               <div class="span12">
                 <label for="Coworker_Custom{{ customFieldName }}">{% T field.Name %}</label>
-                
+
                 {% if field.AllowMultipleOptions %}
-                <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}"  class="span12 multiple_select" style="display: none"> 
-                <select multiple="multiple" id="Coworker_{{ customFieldName }}_Select" class="span12">
+                <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}"  class="span12 multiple_select" style="display: none">
+                <select required="required" multiple="multiple" id="Coworker_{{ customFieldName }}_Select" class="span12">
                   {% for opt in field.AvailableOptionArray %}
                   <option {% if {{data.Coworker[customFieldName]}} != null and opt contains {{data.Coworker[customFieldName]}} %}selected="selected"{% endif %}>{{opt}}</option>
                   {% endfor %}
                 </select>
                 {% else %}
-                <select id="Coworker_Custom{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">
+                <select required="required" id="Coworker_Custom{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">
                   <option></option>
                   {% for opt in field.AvailableOptionArray %}
                   {% if opt == {{data.Coworker[customFieldName]}} %}
@@ -236,10 +236,11 @@
             </div>
             {% endfor %}
           </div>
-          {% endif %}
           <div class="row-fluid">
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
           </div>
+          {% endif %}
+
           <h3 id="account-details">{% T Contact Details %}</h3>
           <div class="well">
             <div class="row-fluid">
@@ -277,7 +278,7 @@
             <div class="row-fluid">
               <div class="span12">
                 <label for="Coworker_BillingAddress">{% T Address %}</label>
-                
+
                 <textarea rows="5" id="Coworker_BillingAddress" name="Coworker.BillingAddress" type="text" class="span12">{{ data.Coworker.BillingAddress }}</textarea>
               </div>
             </div>
@@ -363,7 +364,7 @@
               <div class="span12">
                 <label for="Coworker_ProfileTags">{% T Skills (separate by commas) %}</label>
                 {% if data.Local.ProfileTags.size > 0 %}
-                <input type="text" id="Coworker_ProfileTags" name="Coworker.ProfileTags" value="{{data.Coworker.ProfileTags}}"  class="span12 multiple_select" style="display: none"> 
+                <input type="text" id="Coworker_ProfileTags" name="Coworker.ProfileTags" value="{{data.Coworker.ProfileTags}}"  class="span12 multiple_select" style="display: none">
                 <select multiple="multiple"  class="span12">
                   {% for tag in data.Local.ProfileTags %}
                   {% assign thisTag = tag | Downcase %}
@@ -374,7 +375,7 @@
                 {% else %}
                 <input id="Coworker_ProfileTags" maxlength="254" name="Coworker.ProfileTags" type="text" value="{{ data.Coworker.ProfileTags }}" class="span12"/>
                 {% endif %}
-                
+
                 <br />
                 <small>{% T Max: 254 characters. Keep it relevant, less is more... %}</small>
               </div>
@@ -437,16 +438,16 @@
                 <input id="User_ReceiveEveryMessage_Hidden" name="User.ReceiveEveryMessage" type="hidden" value="false" />
                 {% T Send me an notification shortly after every message. You can still mute individual conversations. %}
               </label>
-              
+
             </div>
           </div>
           {% endif %}
           <div class="row-fluid">
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
           </div>
-          
+
         </form>
-        
+
       </section>
       <!-- END CONTENT -->
       {% endif %}
@@ -460,27 +461,27 @@
     width: 300px;
     margin-left: -150px;
   }
-  
+
   #ccdialog .modal-header,
   #spreedly .modal-header {
     background: #f1f4f6;
     padding: 25px;
   }
-  
+
   #ccdialog .controls label,
   #spreedly .controls label {
     margin-bottom: 0;
   }
-  
+
   #ccdialog h4,
   #spreedly h4 {
     margin-bottom: 5px;
   }
-  
+
   .invoiceNumber {
     color: #929496;
   }
-  
+
   table form {
     display: inline;
   }
@@ -497,8 +498,8 @@
       <span class="invoiceNumber"></span>
     </div>
     <div class="modal-body">
-      
-      
+
+
       <div class="controls controls-row">
         <label class="span7">{% T Card Number %}</label>
         <label class="span5">{% T Expires %}</label>
@@ -517,7 +518,7 @@
         <input class="span5" id="credit_card_last_name" name="credit_card[last_name]" type="text" placeholder="{% T Last name %}" />
         <input class="span3" autocomplete="off" id="credit_card_verification_value" name="credit_card[verification_value]" type="text" />
       </div>
-      
+
     </div>
     <div class="modal-footer">
       <a class="btn  btn-grey" data-dismiss="modal" aria-hidden="true">{% T Close %}</a>
@@ -539,7 +540,7 @@
       $('.invoiceNumber').text(invoiceNumber);
       el.modal();
     });
-    
+
     $('.spreedlyButton').click(function () {
       var el = $('#spreedly');
       var invoiceNumber = $(this).attr('data-description');
@@ -550,14 +551,14 @@
       $('.invoiceNumber').text(invoiceNumber);
       el.modal();
     });
-    
+
     $('#spreedly-ccpay-button').click(function () {
       if ($('#spreedly-ccpay-button').attr('disabled')) return;
       $('#spreedly-ccpay-button').attr('disabled', 'disabled');
       $('#spreedly-ccpay-button').text('{% T Please wait... %}');
       $('#spreedly-ccform').submit();
     });
-    
+
     $('#ccpay-button').click(function () {
       if ($('#ccpay-button').attr('disabled')) return;
       $('#ccpay-button').attr('disabled', 'disabled');
@@ -568,22 +569,33 @@
 
 <script>
   $(function () {
-    $('form').h5Validate();
+    
     $(".date").datetimepicker({ language: '{{ data.Language }}', format: "dd MM yyyy", minuteStep: 15, showMeridian: true, autoclose: true, minView: 2, startView: 4 });
     $('form').h5Validate();
-    
+
+    $('form button[type="submit"]').on('click', function () {
+        var result = $('form').h5Validate('allValid');
+        if (result == true) {
+            $('form button[type="submit"]').text('{% T Please wait... %}');
+            return true;
+        }
+        else {
+            showErrorMessage('{% T Please complete all the required fields %}');
+        }
+    });
+
     $('.multiple_select').each(function(i, el){
       var sel = $(el).siblings('select');
       var tags = $(el).val();
       sel.val(tags.split(','));
-      
+
       sel.chosen();
       $(sel).change(function(){
-        var tags = sel.val().join();  
+        var tags = sel.val().join();
         $(el).val(tags);
       });
     });
-    
+
   });
 </script>
 {% endblock %}

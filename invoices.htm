@@ -97,7 +97,7 @@
                 {% if data.Coworker.Teams.size > 0 %}
                 <div class="alert">
                     <div>
-                        <strong>{% T Heads Up! %}</strong> {% T Your are part of the follow team: %}
+                        <strong>{% T Heads Up! %}</strong> {% T You are part of the following team: %}
                         <strong>{{ data.Coworker.Teams }}</strong>.
                         {% if data.Coworker.PaysInvoicesViaTeam %}
                         {% T Any bills will be paid by: %}
@@ -109,7 +109,7 @@
                 {% if data.Coworker.Active %}
                 <div class="alert alert-info text-center">
                     {% if data.Coworker.Tariff != null %}
-                    <h4>{% T Your are in the "{0}" price plan. || data.Coworker.Tariff.Name %}</h4>
+                    <h4>{% T You are in the "{0}" price plan. || data.Coworker.Tariff.Name %}</h4>
                     {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
                     {% T Your price plan is due for renewal on {0}. || renewDateFormated %}
                     {% else %}
