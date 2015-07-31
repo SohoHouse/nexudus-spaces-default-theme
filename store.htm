@@ -59,7 +59,7 @@
                                     <select style="width:50px" data-bind="value: Quantity, optionsCaption: '', options: $root.qtys"></select>
                                 </td>
                                 <td class="text-center">
-                                    <input data-bind="checked: (RegularCharge() || AlwaysRecurrent()) && (Quantity() > 0), disable: AlwaysRecurrent() || AlwaysOneOff()" type="checkbox" {% if data.coworker.tariff= =null %}disabled="disabled" {% endif %} />
+                                    <input data-bind="checked: RegularCharge, visible: Quantity() > 0, disable: AlwaysRecurrent() || AlwaysOneOff()" type="checkbox" {% if data.coworker.tariff= =null %}disabled="disabled" {% endif %} />
                                 </td>
                             </tr>
 

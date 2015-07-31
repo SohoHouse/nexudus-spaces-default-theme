@@ -149,7 +149,7 @@
                   </div>
                   <div class="span4">
                     <label>&nbsp;</label>
-                    <a target="blank" href="/Login/ResetPassword?lang={{ data.Language }}&email={{ data.Coworker.User.Email }}" class="btn btn-grey">{% T Change password %}</a>
+                    <a target="_blank" href="/Login/ResetPassword?lang={{ data.Language }}&email={{ data.Coworker.User.Email }}" class="btn btn-grey">{% T Change password %}</a>
                   </div>
                 </div>
               </div>
@@ -179,8 +179,8 @@
             <div class="row-fluid">
               {% if field.FieldType == 'Text'  %}
               <div class="span12">
-                <label for="Coworker_Custom{{ customFieldName }}">{% T field.Name %}</label>
-                <input type="text" id="Coworker_Custom{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}" class="span12">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
+                <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}" class="span12">
               </div>
               {% elseif field.FieldType == 'LongText' %}
               <div class="span12">
@@ -189,15 +189,15 @@
               </div>
               {% elseif field.FieldType == 'Boolean' %}
               <div class="span12">
-                <label for="Coworker_Custom{{ customFieldName }}" class="checkbox">
-                  <input id="Coworker_Custom{{ customFieldName }}" name="Coworker.{{ customFieldName }}" type="checkbox" {% if data.coworker[customfieldname]= ='true' %}checked="checked" {% endif %} value="true">
-                  <input id="Coworker_Custom{{ customFieldName }}_Hidden" name="Coworker.{{ customFieldName }}" type="hidden" value="false">
+                <label for="Coworker_{ customFieldName }}" class="checkbox">
+                  <input id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" type="checkbox" {% if data.coworker[customfieldname]= ='true' %}checked="checked" {% endif %} value="true">
+                  <input id="Coworker_{{ customFieldName }}_Hidden" name="Coworker.{{ customFieldName }}" type="hidden" value="false">
                   {% T field.Name %}
                 </label>
               </div>
               {% elseif field.FieldType == 'Dropdown' %}
               <div class="span12">
-                <label for="Coworker_Custom{{ customFieldName }}">{% T field.Name %}</label>
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
 
                 {% if field.AllowMultipleOptions %}
                 <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}"  class="span12 multiple_select" style="display: none">
@@ -207,7 +207,7 @@
                   {% endfor %}
                 </select>
                 {% else %}
-                <select required="required" id="Coworker_Custom{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">
+                <select required="required" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">
                   <option></option>
                   {% for opt in field.AvailableOptionArray %}
                   {% if opt == {{data.Coworker[customFieldName]}} %}
@@ -221,16 +221,16 @@
               </div>
               {% elseif field.FieldType == 'Date' %}
               <div class="span12">
-                <label for="Coworker_Custom{{ customFieldName }}">{% T field.Name %}</label>
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
                 <div class="input-append date">
-                  <input type="text" id="Coworker_Custom{{ customFieldName }}" name="Coworker.{{ customFieldName }}" />
+                  <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" />
                   <span class="add-on"><i class="icon-th icon-calendar"></i></span>
                 </div>
               </div>
               {% else %}
               <div class="span12">
-                <label for="Coworker_Custom{{ customFieldName }}">{% T field.Name %}</label>
-                <input type="text" id="Coworker_Custom{{ field.CustomFieldIndex }}" name="Coworker.Custom{{ field.CustomFieldIndex }}" value="{{data.Coworker[customFieldName]}}" class="span2">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
+                <input type="text" id="Coworker_{{ field.CustomFieldIndex }}" name="Coworker.Custom{{ field.CustomFieldIndex }}" value="{{data.Coworker[customFieldName]}}" class="span2">
               </div>
               {% endif %}
             </div>
@@ -393,7 +393,7 @@
                 </label>
               </div>
             </div>
-            <a target="blank" href="{% Url Directory, Profile, Id: data.Coworker.Id, name: data.Coworker.FullName | Clean %}'" class="btn btn-grey">{% T View my profile %}</a>
+            <a target="_blank" href="{% Url Directory, Profile, Id: data.Coworker.Id, name: data.Coworker.FullName | Clean %}'" class="btn btn-grey">{% T View my profile %}</a>
           </div>
           <div class="row-fluid">
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>

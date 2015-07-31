@@ -35,7 +35,7 @@
           {% endif %}
         </div>
         <ul class="nav nav-tabs">
-          {% if data.Local.TariffTimePasses.size > 0 or data.Local.TariffExtraServices.size > 0 or data.Local.OtherTimePasses.size > 0 or data.Local.OtherExtraServices.size > 0 or data.Coworker.TotalRemainingBookingCredit > 0 %}  
+          {% if data.Local.TariffProducts.size > 0 or data.Local.TariffTimePasses.size > 0 or data.Local.TariffExtraServices.size > 0 or data.Local.OtherTimePasses.size > 0 or data.Local.OtherExtraServices.size > 0 or data.Coworker.TotalRemainingBookingCredit > 0 %}
           <li ><a href="#summary" data-toggle="tab">{% T Summary %}</a></li>
           {% endif %}
           {% if data.Local.TariffHasLimits or data.Coworker.TimePasses.size > 0 %}
