@@ -86,15 +86,15 @@
             {% if(data.Local.Page == 1 %}
             <li class="disabled"><a href="#">&#8249;</a></li>
             {% else %}
-            <li><a href="{% Url Events, Index, page: data.Local.Page | Minus: 1 %}">&#8249;</a></li>
-            <li><a href="{% Url Events, Index, page: data.Local.Page | Minus: 1 %}">{{ data.Local.Page | Minus: 1 }}</a></li>
+            <li><a href="{% Url Events, Index, pastEvents: data.Local.PastEvents, page: data.Local.Page | Minus: 1 %}">&#8249;</a></li>
+            <li><a href="{% Url Events, Index, pastEvents: data.Local.PastEvents, page: data.Local.Page | Minus: 1 %}">{{ data.Local.Page | Minus: 1 }}</a></li>
             {% endif %}
             <li class="active"><a href="#">{{ data.Local.Page }}</a></li>
             {% if data.Local.CalendarEvents.size == 0 %}
             <li class="disabled"><a href="#">&#8250;</a></li>
             {% else %}
-            <li><a href="{% Url Events, Index, page: data.Local.Page | Plus: 1 %}">{{ data.Local.Page | Plus: 1 }}</a></li>
-            <li><a href="{% Url Events, Index, page: data.Local.Page | Plus: 1 %}" class="next">&#8250;</a></li>
+            <li><a href="{% Url Events, Index, pastEvents: data.Local.PastEvents, page: data.Local.Page | Plus: 1 %}">{{ data.Local.Page | Plus: 1 }}</a></li>
+            <li><a href="{% Url Events, Index, pastEvents: data.Local.PastEvents, page: data.Local.Page | Plus: 1 %}" class="next">&#8250;</a></li>
             {% endif %}
           </ul>
         </div>

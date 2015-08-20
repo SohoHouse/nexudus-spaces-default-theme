@@ -25,28 +25,34 @@
         <form action="{% Url Signup, Index %}" method="POST" enctype="multipart/form-data" id="profile-form">
           <input type="hidden" name="PricePlanId" value="{{ data.Local.PricePlanId }}" />
           <input type="hidden" name="teamGuid" value="{{ data.Local.TeamGuid }}" />
+          <input type="hidden" name="tariffGuid" value="{{ data.Local.TariffGuid }}" />
           <input type="hidden" name="ReturnUrl" value="{{ data.Local.ReturnUrl }}" />
+
           <h3>{% T Personal Details %}</h3>
           <div class="well">
             <div class="row-fluid">
               <div class="span4">
-                <label for="Coworker_FullName">{% T Fullname %}</label>
+                <label for="Coworker_FullName">{% T Fullname %} <span class="text-error">*</span></label>
                 <input type="text" id="Coworker_FullName" name="Coworker.FullName" value="{{ data.Coworker.FullName }}" required="required" class="span12">
               </div>
-              <div class="span8">
-                <label for="Coworker_Salutation">{% T What should we call you? %} <span class="muted">{% T (for example, when we send you mail?) %}</span></label>
-                <input class="span6" type="text" id="Coworker_Salutation" name="Coworker.Salutation" value="{{ data.Coworker.Salutation }}" required="required" class="span12">
+              <div class="span4">
+                <label for="Coworker_Salutation">{% T What should we call you? %} <span class="text-error">*</span></label>
+                <input class="span12" type="text" id="Coworker_Salutation" name="Coworker.Salutation" value="{{ data.Coworker.Salutation }}" required="required" class="span12">
+              </div>
+              <div class="span4">
+                <label for="Coworker_LandLine">{% T Phone %}<span class="text-error">*</span></label>
+                <input class="span12" type="text" id="Coworker_LandLine" name="Coworker.LandLine" value="{{ data.Coworker.LandLine }}" required="required" class="span12">
               </div>
             </div>
             <div class="row-fluid">
               <div class="span4">
-                <label for="Coworker_Email">{% T Email %}</label>
+                <label for="Coworker_Email">{% T Email %}<span class="text-error">*</span></label>
                 <input type="text" id="Coworker_Email" name="Coworker.Email" value="{{ data.Coworker.Email }}" class="span12">
               </div>
               <div class="span4">
                 <label for="Coworker_Gender">{% T Gender %}</label>
                 <select id="Coworker_Gender" name="Coworker.Gender">
-                  <option>-</option>
+                  <option value="1">-</option>
                   <option value="2" {% if (data.coworker.gender= ='Male' %} selected="selected" {% endif %}>{% T Male %}</option>
                   <option value="3" {% if (data.coworker.gender= ='Female' %} selected="selected" {% endif %}>{% T Female %}</option>
                 </select>
@@ -69,11 +75,11 @@
             </div>
             <div class="row-fluid">
               <div class="span3">
-                <label for="Coworker_Password">{% T Password %}</label>
+                <label for="Coworker_Password">{% T Password %}<span class="text-error">*</span></label>
                 <input required="required" type="password" id="Coworker_Password" name="Coworker.Password" value="" class="span12">
               </div>
               <div class="span3">
-                <label for="Coworker_User_NewPassword">{% T Confirm Password %}</label>
+                <label for="Coworker_User_NewPassword">{% T Confirm Password %} <span class="text-error">*</span></label>
                 <input required="required" type="password" id="Coworker_PasswordConfirm" name="Coworker.PasswordConfirm" value="" class="span12">
               </div>
             </div>
@@ -88,13 +94,13 @@
               {% capture customFieldName %}Custom{{ field.CustomFieldIndex}}{%endcapture%}
               {% if field.FieldType == 'Text'  %}
               <div class="span12">
-                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
-                <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}" class="span12">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %} {% if field.Required %}<span class="text-error">*</span>{% endif %}</label>
+                <input {% if field.Required %}required="required"{% endif %}  type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}" class="span12">
               </div>
               {% elseif field.FieldType == 'LongText' %}
               <div class="span12">
-                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
-                <textarea id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">{{data.Coworker[customFieldName]}}</textarea>
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %} {% if field.Required %}<span class="text-error">*</span>{% endif %}</label>
+                <textarea {% if field.Required %}required="required"{% endif %} id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">{{data.Coworker[customFieldName]}}</textarea>
               </div>
               {% elseif field.FieldType == 'Boolean' %}
               <div class="span12">
@@ -106,16 +112,16 @@
               </div>
               {% elseif field.FieldType == 'Dropdown' %}
               <div class="span12">
-                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %} {% if field.Required %}<span class="text-error">*</span>{% endif %}</label>
                 {% if field.AllowMultipleOptions %}
                 <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}"  class="span12 multiple_select" style="display: none">
-                <select required="required" multiple="multiple" id="Coworker_{{ customFieldName }}_Select" class="span12">
+                <select {% if field.Required %}required="required"{% endif %}  multiple="multiple" id="Coworker_{{ customFieldName }}_Select" class="span12">
                   {% for opt in field.AvailableOptionArray %}
                   <option {% if {{data.Coworker[customFieldName]}} != null and opt contains {{data.Coworker[customFieldName]}} %}selected="selected"{% endif %}>{{opt}}</option>
                   {% endfor %}
                 </select>
                 {% else %}
-                <select required="required" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">
+                <select {% if field.Required %}required="required"{% endif %}  id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">
                   <option></option>
                   {% for opt in field.AvailableOptionArray %}
                   {% if opt == {{data.Coworker[customFieldName]}} %}
@@ -129,16 +135,16 @@
               </div>
               {% elseif field.FieldType == 'Date' %}
               <div class="span12">
-                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %} {% if field.Required %}<span class="text-error">*</span>{% endif %}</label>
                 <div class="input-append date">
-                  <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" />
+                  <input {% if field.Required %}required="required"{% endif %}  type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" />
                   <span class="add-on"><i class="icon-th icon-calendar"></i></span>
                 </div>
               </div>
               {% else %}
               <div class="span12">
-                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
-                <input type="text" id="Coworker_{{ field.CustomFieldIndex }}" name="Coworker.Custom{{ field.CustomFieldIndex }}" value="{{data.Coworker[customFieldName]}}" class="span2">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %} {% if field.Required %}<span class="text-error">*</span>{% endif %}</label>
+                <input {% if field.Required %}required="required"{% endif %}  type="text" id="Coworker_{{ field.CustomFieldIndex }}" name="Coworker.Custom{{ field.CustomFieldIndex }}" value="{{data.Coworker[customFieldName]}}" class="span2">
               </div>
               {% endif %}
             </div>
@@ -149,22 +155,22 @@
           <div class="well">
             <div class="row-fluid">
               <div class="span12">
-                <label for="Coworker_Address">{% T Address %}</label>
-                <textarea rows="5" id="Coworker_Address" name="Coworker.Address" type="text" class="span12">{{ data.Coworker.Address }}</textarea>
+                <label for="Coworker_Address">{% T Address %} <span class="text-error">*</span></label>
+                <textarea required="required" rows="5" id="Coworker_Address" name="Coworker.Address" type="text" class="span12">{{ data.Coworker.Address }}</textarea>
               </div>
             </div>
             <div class="row-fluid">
               <div class="span4">
-                <label for="Coworker_State">{% T State / Province %}</label>
-                <input value="{{ data.Coworker.State }}"  type="text" name="Coworker.State" id="Coworker_State" class="span12">
+                <label for="Coworker_State">{% T State / Province %} <span class="text-error">*</span></label>
+                <input value="{{ data.Coworker.State }}" required="required" type="text" name="Coworker.State" id="Coworker_State" class="span12">
               </div>
               <div class="span4">
-                <label for="Coworker_CityName">{% T Town %}</label>
-                <input value="{{ data.Coworker.CityName }}"  type="text" name="Coworker.CityName" id="Coworker_CityName" class="span12">
+                <label for="Coworker_CityName">{% T Town %} <span class="text-error">*</span></label>
+                <input value="{{ data.Coworker.CityName }}" required="required" type="text" name="Coworker.CityName" id="Coworker_CityName" class="span12">
               </div>
               <div class="span4">
-                <label for="Coworker_PostCode">{% T Postcode / Zip code %}</label>
-                <input value="{{ data.Coworker.PostCode }}" type="text" name="Coworker.PostCode" id="Coworker_PostCode" class="span12">
+                <label for="Coworker_PostCode">{% T Postcode / Zip code %} <span class="text-error">*</span></label>
+                <input value="{{ data.Coworker.PostCode }}" required="required" type="text" name="Coworker.PostCode" id="Coworker_PostCode" class="span12">
               </div>
             </div>
           </div>

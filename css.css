@@ -95,7 +95,7 @@ a {
 }
 
 a:hover {
-    color: #ee8825;
+    color: black;
 }
 
 h1 a:hover,
@@ -147,8 +147,8 @@ a.thumbnail:focus {
 
 .btn-orange:hover,
 .btn-orange:focus {
-    background: #ee8825;
-    border-color: #ee8825;
+    background: black;
+    border-color: black;
     color: #fff;
 }
 
@@ -230,9 +230,9 @@ a.thumbnail:focus {
 }
 
 a:hover .circle.orange {
-    background: #ee8825;
+    background: black;
     color: #fff;
-    border-color: #ee8825;
+    border-color: black;
 }
 
 a .icon {
@@ -293,6 +293,13 @@ textarea {
 /* -----------------------------------------
 	carousel
 ----------------------------------------- */
+
+
+#carousel {
+    margin: 0;
+    width: 100%;
+}
+
 .carousel-control {
     font-size: 48px;
     font-weight: bold;
@@ -426,6 +433,11 @@ textarea {
 .navbar .btn-navbar .icon {
     margin: 0;
 }
+
+.home .navbar-inner {
+	margin-bottom: 0px !important;
+}
+
 
 .dropdown-menu>.active>a, .dropdown-menu>.active>a:hover, .dropdown-menu>.active>a:focus {
     color: #ffffff;

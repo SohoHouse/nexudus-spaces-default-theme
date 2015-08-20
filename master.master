@@ -27,7 +27,7 @@
     
   </head>
   
-  <body>
+  <body class="{% block bodyClass%}{% endblock%}">
     {% include header.htm %}
     {% block content %}{% endblock %}
     {% include footer.htm %}

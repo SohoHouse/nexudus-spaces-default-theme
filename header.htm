@@ -41,7 +41,7 @@
               {% if data.CustomTemplates.size > 0 %}
               <li class="divider"></li>
               {% for t in data.CustomTemplates %}
-              <li>
+              <li class="{%if data.Controller == 'page' and data.URL contains t.Permalink %}active{%endif%}">
                 <a role="menuitem" tabindex="-1" href="{% Url Page, Index, name: t.Permalink %}">
                   {% if t.IsPasswordProtected %}
                   <span aria-hidden="true" class="icon i-16 icon-lock"></span>

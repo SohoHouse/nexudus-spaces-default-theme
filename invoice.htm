@@ -140,7 +140,7 @@
           <tr id="settlement_tr">
             <td colspan="3" class="item_r">
               {% T Paid On %}
-              {{ payment.PaymentDate | Date: 'D' }}
+              {{ payment.PaymentDate | Date: 'D' }} ({{ payment.PaymentGatewayName | Replace: 'MultiGateway', 'Card' | Replace: 'Manual', 'Credit' }})
             </td>
             <td class="item_r">
               {{ payment.Credit | FormatDecimal: 'N' }}
