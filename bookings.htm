@@ -1,76 +1,100 @@
 {% extends master.master %}
 {% block title %}{% if data.Local.Resource != null %} {{ data.Local.Resource.Name }} | {% endif %}{% T Events and bookings %} | {{ data.Business.Name }}{% endblock %}
 {% block content %}
+{% assign type = data.ResourceGroups[0] | Clean %}
+{% assign qs = data.QueryString["type"] %}
+{% if qs != null %}
+{% assign type = qs %}
+{% endif %}
+
 <div id="wrapper">
-    <!-- CONTAINER -->
-    <div id="main" class="container">
-        <!-- BREADCRUMB -->
-        <ul class="breadcrumb">
-            <li><a href="{% Url PublicHome, Index %}">{% T Home %}</a> <span class="divider">/</span></li>
-            {% if data.Local.Resource == null %}
-            <li class="active">{% T Events and bookings %}</li>
-            {% else %}
-            <li><a href="{% Url Bookings, Index %}">{% T Events and bookings %}</a> <span class="divider">/</span></li>
-            <li class="active">{{ data.Local.Resource.Name }}</li>
-            {% endif %}
-        </ul>
-        <!-- END BREADCRUMB -->
-        <div class="row">
-            <h2 class="page-title span12">
-                {% if data.Local.Resource == null %}
-                {% T Events and bookings calendar %}
+  <!-- CONTAINER -->
+  <div id="main" class="container">
+    <!-- BREADCRUMB -->
+    <ul class="breadcrumb">
+      <li><a href="{% Url PublicHome, Index %}">{% T Home %}</a> <span class="divider">/</span></li>
+      {% if data.Local.Resource == null %}
+      <li class="active">{% T Events and bookings %}</li>
+      {% else %}
+      <li><a href="{% Url Bookings, Index %}">{% T Events and bookings %}</a> <span class="divider">/</span></li>
+      <li class="active">{{ data.Local.Resource.Name }}</li>
+      {% endif %}
+    </ul>
+    <!-- END BREADCRUMB -->
+    <div class="row">
+
+      <!-- CONTENT -->
+      <section id="content" class="span12">
+
+        <div class="navbar hidden-phone">
+          <div class="navbar-inner">
+            <div class="container" style="width: auto; padding: 0 20px;">
+              <ul class="nav">
+                {% if data.Local.Resource != null %}
+                <li class="active"><a href="#">{{ data.Local.Resource.Name }}</a></li>
                 {% else %}
-                {{ data.Local.Resource.Name }}
+                {% for group in data.ResourceGroups %}
+                {% assign groupKey = group | Clean %}
+                <li class="{% if type == groupKey %}active{% endif %}"><a href="/en/bookings?type={{ groupKey }}">{{ group }}</a></li>
+                {% endfor %}
                 {% endif %}
-                <select id="resource-filter" class="pull-right hidden-phone" style="margin-top: 5px">
-                    <option value="">{% T Show all resources %}</option>
-                    {% for resource in data.Resources %}
-                    {% if data.Local.Resource.Id == resource.Id %}
-                    <option selected="selected" value="{{ resource.Id }}">{{ resource.Name }}</option>
+
+              </ul>
+              <ul class="nav pull-right">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    {% if data.Local.Resource != null %}
+                    {{ data.Local.Resource.Name | TruncateWords: 3 }}
                     {% else %}
-                    <option value="{{ resource.Id }}">{{ resource.Name }}</option>
+                    {% T Resources %}
                     {% endif %}
+                    <b class="caret" style="margin-top: 8px"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="{% Url Bookings, Index %}">{% T Show all resources %}</a></li>
+                    {% for resource in data.Resources %}
+                    <li class="{% if data.Local.Resource.Id == resource.Id %}active{% endif %}"><a href="{% Url Bookings, Index, ResourceId: resource.Id %}">{{ resource.Name }}</a></li>
                     {% endfor %}
-                </select>
-            </h2>
-
-            <!-- CONTENT -->
-            <section id="content" class="span12">
-                {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
-                <div class="alert alert-info fade in text-center">
-                    <b>{% T Click on the calendar to request a booking. %}</b>
-                </div>
-                {% else %}
-                <p>
-                    <a class="btn btn-orange" href="{% Url Login, Index, lang: data.Language %}&returnUrl={{ data.URL }}">{% T Login to make a booking %}</a>
-                </p>
-                {% endif %}
-                <div id="calendar" class="well"></div>
-                <div class="row">
-                    <div class="span9">
-                        <span>{% T Legend %}:</span><br />
-                        <a href="{% Url Bookings, Index, showAll: false %}"><span class="label" style="background: black">{% T Your bookings %}</span></a>
-                        <span class="label" style="background: #a1a1a1">{% T Events %}</span>
-                        <br />
-                        {% for resource in data.Resources %}
-                        <a href="{% Url Bookings, Index, resourceId: resource.Id %}"><span class="label resource" id="legend-resource-{{ resource.Id }}" style="background: lightgray">{{ resource.Name }}</span></a>
-                        {% endfor %}
-                    </div>
-                    <div class="span3">
-                        {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
-                        <a onclick="createBooking(new Date())" class="btn btn-orange pull-right">{% T Make a booking %}</a>
-                        {% else %}
-                        <a class="btn btn-orange pull-right" href="{% Url Login, Index, lang: data.Language %}&returnUrl=/{{ data.Language }}/bookings">{% T Login to make a booking %}</a>
-                        {% endif %}
-                    </div>
-                </div>
-
-            </section>
-            <!-- END CONTENT -->
+                  </ul>
+                </li>
+                <li class="divider-vertical"></li>
+                <li>
+                  {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
+                  <a href="#" onclick="createBooking(new Date())"><strong>{% T Make a booking %}</strong></a>
+                  {% else %}
+                  <a href="{% Url Login, Index, lang: data.Language %}&returnUrl=/{{ data.Language }}/bookings">{% T Log in %}</a>
+                  {% endif %}
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
+
+        <div id="calendar" class="well"></div>
+        <div class="row">
+          <div class="span9">
+            <span>{% T Legend %}:</span><br />
+            <a href="{% Url Bookings, Index, showAll: false %}"><span class="label" style="background: black">{% T Your bookings %}</span></a>
+            <span class="label" style="background: #a1a1a1">{% T Events %}</span>
+            <br />
+            {% for resource in data.Resources %}
+            <a href="{% Url Bookings, Index, resourceId: resource.Id %}"><span class="label resource" id="legend-resource-{{ resource.Id }}" style="background: lightgray">{{ resource.Name }}</span></a>
+            {% endfor %}
+          </div>
+          <div class="span3">
+            {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
+            <a onclick="createBooking(new Date())" class="btn btn-orange pull-right">{% T Make a booking %}</a>
+            {% else %}
+            <a class="btn btn-orange pull-right" href="{% Url Login, Index, lang: data.Language %}&returnUrl=/{{ data.Language }}/bookings">{% T Login to make a booking %}</a>
+            {% endif %}
+          </div>
+        </div>
+
+      </section>
+      <!-- END CONTENT -->
     </div>
-    <!-- END CONTAINER -->
-    {% include booking.htm %}
+  </div>
+  <!-- END CONTAINER -->
+  {% include booking.htm %}
 </div>
 
 {% endblock %}
@@ -90,7 +114,13 @@
         firstDay: 1,
         resources: [
           {% for resource in data.Resources %}
+          {% assign resourceGroupKey = resource.GroupName | Clean %}
+          {% if resourceGroupKey == '' %}
+          {% assign resourceGroupKey = 'resources' %}
+          {% endif %}
+          {% if type == resourceGroupKey %}
           {'id':{{ resource.Id }},'name':'{{ resource.Name }}'},
+          {% endif %}
           {% endfor %}
 
           ],
@@ -135,62 +165,74 @@
         {
             events: [
             {% for event in data.Local.Bookings %}
-            {
+              {% assign groupKey = event.Resource.GroupName | Clean %}
+              {% if groupKey == '' %}
+              {% assign groupKey = 'resources' %}
+              {% endif %}
+              {% if groupKey == type or data.Local.Resource != null %}
+              {
                 id: {{ event.Id }},
                 resources: {{ event.Resource.Id }},
                 title  : '{{ event.Resource.Name | Replace: "'", "\'" }}',
                 startDate: '{{event.FromTime | Date: 'd'}}',
                 endDate: '{{event.ToTime | Date: 'd'}}',
-            startTime: '{{event.FromTime | Date: 't'}}',
-            endTime: '{{event.ToTime | Date: 't'}}',
-        start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
-        end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
-        allDay : false,
-    editable: false,
-    ignoreTimezone: true,
-    color: 'black'
-    },
-    {% endfor %}
-    {% if data.Local.ShowAll and data.Local.ShowAllBookings %}
-    {% for event in data.Local.AllBookings %}
-    {
-        private: true,
-        resources: {{ event.Resource.Id }},
-        title  : '{{ event.Resource.Name | Replace: "'", "\'" }}',
-        start  : '{{ event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
-        end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
-        allDay : false,
-        editable: false,
-        ignoreTimezone: true,
-        color: getColurFromName('{{ event.Resource.Name }}')
-    },
-    {% endfor %}
-    {% if data.Local.ShowAll %}
-    {% if data.Local.Resource == null %}
-    {% for event in data.Local.Events %}
-    {
-    private: true,
-    url: '{% Url events, view, id: event.Id, title: event.Name | Clean %}',{% if event.Resource != null %}resources: {{ event.Resource.Id }},{% endif %}
-    title  : '{{ event.Name | Replace: "'", "\'" }}',
-    start  : '{{ event.StartDate | Date: 'yyyy' }}-{{ event.StartDate | Date: 'MM' }}-{{ event.StartDate | Date: 'dd' }}T{{ event.StartDate | Date: 'HH' }}:{{ event.StartDate | Date: 'mm' }}Z',
-    end  : '{{ event.EndDate | Date: 'yyyy' }}-{{ event.EndDate | Date: 'MM' }}-{{ event.EndDate | Date: 'dd' }}T{{ event.EndDate | Date: 'HH' }}:{{ event.EndDate | Date: 'mm' }}Z',
-    allDay : false,
-    editable: true,
-    ignoreTimezone: true
-    },
-    {% endfor %}
-    {% endif %}
-    {% endif %}
-    {% endif %}
-    {
-        title  : 'BOT',
-        start  : '1950-01-01T00:00:00',
-        allDay : false // will make the time show
-    }
-    ]},
-                            $.fullCalendar.gcalFeed('{% Setting Google.CalendarXmlFeed %}')
-    ]
-    });
+                startTime: '{{event.FromTime | Date: 't'}}',
+                endTime: '{{event.ToTime | Date: 't'}}',
+                start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+                end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+                allDay : false,
+                editable: false,
+                ignoreTimezone: true,
+                color: 'black'
+              },
+              {% endif %}
+              {% endfor %}
+              {% if data.Local.ShowAll and data.Local.ShowAllBookings %}
+              {% for event in data.Local.AllBookings %}
+              {% assign groupKey = event.Resource.GroupName | Clean %}
+              {% if groupKey == '' %}
+              {% assign groupKey = 'resources' %}
+              {% endif %}
+              {% if groupKey == type or data.Local.Resource != null %}
+              {
+                  private: true,
+                  resources: {{ event.Resource.Id }},
+                  title  : '{{ event.Resource.Name | Replace: "'", "\'" }}',
+                  start  : '{{ event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+                  end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+                  allDay : false,
+                  editable: false,
+                  ignoreTimezone: true,
+                  color: getColurFromName('{{ event.Resource.Name }}')
+              },
+              {% endif %}
+              {% endfor %}
+              {% if data.Local.ShowAll %}
+              {% if data.Local.Resource == null %}
+              {% for event in data.Local.Events %}
+              {
+              private: true,
+              url: '{% Url events, view, id: event.Id, title: event.Name | Clean %}',{% if event.Resource != null %}resources: {{ event.Resource.Id }},{% endif %}
+              title  : '{{ event.Name | Replace: "'", "\'" }}',
+              start  : '{{ event.StartDate | Date: 'yyyy' }}-{{ event.StartDate | Date: 'MM' }}-{{ event.StartDate | Date: 'dd' }}T{{ event.StartDate | Date: 'HH' }}:{{ event.StartDate | Date: 'mm' }}Z',
+              end  : '{{ event.EndDate | Date: 'yyyy' }}-{{ event.EndDate | Date: 'MM' }}-{{ event.EndDate | Date: 'dd' }}T{{ event.EndDate | Date: 'HH' }}:{{ event.EndDate | Date: 'mm' }}Z',
+              allDay : false,
+              editable: true,
+              ignoreTimezone: true
+              },
+              {% endfor %}
+              {% endif %}
+              {% endif %}
+              {% endif %}
+              {
+                  title  : 'BOT',
+                  start  : '1950-01-01T00:00:00',
+                  allDay : false // will make the time show
+              }
+              ]},
+              $.fullCalendar.gcalFeed('{% Setting Google.CalendarXmlFeed %}')
+            ]
+          });
 
     $(function () {
 
@@ -261,7 +303,7 @@
 
             var fromDateFormatted = moment($('#Booking_From').datetimepicker('getDate')).format('YYYY-MM-DD');
             var data = getBookingData();
-            postAndClose(url, data, function(){ window.location = '{% Url Bookings, Index %}?date=' + fromDateFormatted; });
+            postAndClose(url, data, function(){ window.location = '{% Url Bookings, Index %}?type={{ type }}&date=' + fromDateFormatted; });
             event.preventDefault();
         });
 
