@@ -10,7 +10,7 @@
     {% assign RegularPaymentOption = true %}
     {% endif %}
     {% assign HasEnteredPaymentDetails = false %}
-    {% if data.Coworker.RegularPaymentProvider != "" or data.Coworker.HasGoCardlessContractNumber %}
+    {% if data.Coworker.HasSetupRegularPayments or data.Coworker.HasGoCardlessContractNumber %}
     {% assign HasEnteredPaymentDetails = true %}
     {% endif %}
 
@@ -60,7 +60,7 @@
 
     <div class="row">
 
-      {% if data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails == false %}
+      {% if RegularPaymentOption and data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails == false %}
       <section id="content" class="span12">
         <div class="text-center">
           <div class="alert alert-info text-center">
@@ -170,9 +170,12 @@
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
           </div>
           {% if data.Local.HasCustomFields %}
-          <h3 id="other-details">{% T Other Details %}</h3>
+          {% for group in data.Local.CustomFieldGroups %}
+
+          <h3>{% T group %}</h3>
           <div class="well">
             {% for field in data.Local.CustomFields %}
+            {% if field.GroupName == group or field.GroupName == null and group == "Other Details" %}
             {% capture customFieldName %}Custom{{ field.CustomFieldIndex}}{%endcapture%}
             <div class="row-fluid">
               {% if field.FieldType == 'Text' %}
@@ -188,9 +191,10 @@
               {% elseif field.FieldType == 'Boolean' %}
               <div class="span12">
                 <label for="Coworker_{ customFieldName }}" class="checkbox">
-                  <input id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" type="checkbox" {% if data.coworker[customfieldname]= ='true' %}checked="checked" {% endif %} value="true">
+                  <input {% if field.Required %}required="required"{% endif %} id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" type="checkbox" {% if data.coworker[customfieldname]= ='true' %}checked="checked" {% endif %} value="true">
                   <input id="Coworker_{{ customFieldName }}_Hidden" name="Coworker.{{ customFieldName }}" type="hidden" value="false">
                   {% T field.Name %}
+                  {% if field.Required %}<span class="text-error">*</span>{% endif %}
                 </label>
               </div>
               {% elseif field.FieldType == 'Dropdown' %}
@@ -232,11 +236,13 @@
               </div>
               {% endif %}
             </div>
+            {% endif %}
             {% endfor %}
           </div>
           <div class="row-fluid">
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
           </div>
+          {% endfor %}
           {% endif %}
 
           <h3 id="account-details">{% T Contact Details %}</h3>
@@ -569,16 +575,17 @@
   $(function () {
 
     $(".date").datetimepicker({ language: '{{ data.Language }}', format: "dd MM yyyy", minuteStep: 15, showMeridian: true, autoclose: true, minView: 2, startView: 4 });
-    $('form').h5Validate();
+    $('#profile-form').h5Validate();
 
-    $('form button[type="submit"]').on('click', function () {
-        var result = $('form').h5Validate('allValid');
+    $('#profile-form button[type="submit"]').on('click', function () {
+        var result = $('#profile-form').h5Validate('allValid');
         if (result == true) {
-            $('form button[type="submit"]').text('{% T Please wait... %}');
+            $('#profile-form button[type="submit"]').text('{% T Please wait... %}');
             return true;
         }
         else {
-            showErrorMessage('{% T Please complete all the required fields %}');
+         	showErrorMessage('{% T Please complete all the required fields %}');
+         	return false;
         }
     });
 
