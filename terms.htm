@@ -12,29 +12,34 @@
 
     <!-- END BREADCRUMB -->
     <div class="row">
-      
+
       <h2 class="page-title span12">{% T Terms and Conditions %}</h2>
-      
+
       <!-- CONTENT -->
-      <section id="content" class="span12">
+      <section id="content" class="span12" style="height: 250px;overflow: auto; margin-bottom: 10px;">
         {% if data.Business.TermsAndConditions.size > 0 and data.Coworker.GeneralTermsAccepted == false %}
         <h4>{% T General Terms and Conditions %}</h4>
         {{ data.Business.TermsAndConditions | StripHtml | MarkDown }}
         {% endif %}
-        {% if data.Coworker.Tariff != null and data.Coworker.Tariff.TermsAndConditions.size > 0 and data.Coworker.PricePlanTermsAccepted == false %}
-        <h4>{% T Price Plan Terms and Conditions %}</h4>
-        {{ data.Coworker.Tariff.TermsAndConditions | StripHtml | MarkDown }}
+
+
+        {% if data.Coworker.NotAgreedContracts.size > 0 %}
+        {% for contract in data.Coworker.NotAgreedContracts %}
+        {% if contract.Tariff.TermsAndConditions.size > 0 %}
+        <h4>{% T Price Plan Terms and Conditions %} ({{ contract.Tariff.Name }})</h4>
+        {{ contract.Tariff.TermsAndConditions | StripHtml | MarkDown }}
         {% endif %}
-        
-        
+        {% endfor %}
+        {% endif %}
+
       </section>
       <!-- END CONTENT -->
     </div>
     <div class="row-fluid">
       <a href="{% Url TermsAndConditions, Accept, returnUrl: data.Local.ReturnUrl %}" class="btn pull-right btn-orange">{% T Accept %}</a>
     </div>
-    
-    
+
+
   </div>
   <!-- END CONTAINER -->
 </div>
