@@ -2,8 +2,8 @@
 {% block script %}
 <script>
   $(document).ready(function() {
-  $('#myCarousel').carousel({ interval: 3000, cycle: true });
-});
+    $('#myCarousel').carousel({ interval: 3000, cycle: true });
+  });
 </script>
 {% endblock %}
 {% block bodyClass %}home{% endblock %}
@@ -37,40 +37,40 @@
 
         <!-- carousel-content -->
         <div class="carousel-inner">
-            {% assign loop = 0 %}
+          {% assign loop = 0 %}
 
-    {% for post in data.Local.BannerBlogPosts %}
-    <div class="item {% if loop == 0 %}active{% endif %}">
-    <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">
-        <img src="{% Url Blog, GetImage, id: post.Id, w: 1170, h: 450%}" alt="{{ post.Name}}">
-    </a>
-    <div class="carousel-caption">
-        <h4>{{ post.Title }}</h4>
-        <p>
-        {{ post.SummaryText | StripHtml | MarkDown | TruncateWords words: 15 }}
-        | <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">{% T Read more %}</a>
-        </p>
+          {% for post in data.Local.BannerBlogPosts %}
+          <div class="item {% if loop == 0 %}active{% endif %}">
+            <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">
+              <img src="{% Url Blog, GetImage, id: post.Id, w: 1170, h: 450%}" alt="{{ post.Name}}">
+            </a>
+            <div class="carousel-caption">
+              <h4>{{ post.Title }}</h4>
+              <p>
+                {{ post.SummaryText | StripHtml | MarkDown | TruncateWords words: 15 }}
+                | <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">{% T Read more %}</a>
+              </p>
 
-    </div>
-    </div>
-    {% assign loop = loop | Plus: 1 %}
-    {% endfor %}
+            </div>
+          </div>
+          {% assign loop = loop | Plus: 1 %}
+          {% endfor %}
 
-{% for event in data.Local.BannerEvents %}
-<div class="item {% if loop == 0 %}active{% endif %}">
-<a href="{% Url Events, View, Id: event.Id, title: event.Name | Clean %}">
-    <img src="{% Url Events, GetLargeImage, id: event.Id, w: 1170, h: 450 %}" alt="{{ event.Name }}">
-</a>
-<div class="carousel-caption">
-    <h4>{{ event.Name }}</h4>
-    <p>{{ event.ShortDescription }}
-    | <a href="{% Url Events, View, Id: event.Id, title: event.Name | Clean %}">{% T Read more %}</a>
-    </p>
+          {% for event in data.Local.BannerEvents %}
+          <div class="item {% if loop == 0 %}active{% endif %}">
+            <a href="{% Url Events, View, Id: event.Id, title: event.Name | Clean %}">
+              <img src="{% Url Events, GetLargeImage, id: event.Id, w: 1170, h: 450 %}" alt="{{ event.Name }}">
+            </a>
+            <div class="carousel-caption">
+              <h4>{{ event.Name }}</h4>
+              <p>{{ event.ShortDescription }}
+                | <a href="{% Url Events, View, Id: event.Id, title: event.Name | Clean %}">{% T Read more %}</a>
+              </p>
 
-</div>
-</div>
-{% assign loop = loop | Plus: 1 %}
-{% endfor %}
+            </div>
+          </div>
+          {% assign loop = loop | Plus: 1 %}
+          {% endfor %}
 
           {% for image in data.Local.Gallery %}
           <div class="item {% if loop == 0 %}active{% endif %}">
@@ -161,19 +161,19 @@
         <h3 class="subheader">{% T Are you looking for a place to work, learn and share? %}</h3>
         <h3>
           {% if data.Local.ChepeastPlan != null %}
-            {% if data.Local.ChepeastPlan.InvoiceInMonths %}
-              {% if data.Local.ChepeastPlan.InvoiceEvery == 1 %}
-                {% T Prices from {0} {1} a month. || data.Local.ChepeastPlan.Price || {{ data.Business.Currency.Code }} %}
-              {% elseif data.Local.ChepeastPlan.InvoiceEvery == 12 %}
-                {% T Prices from {0} {1} a year. || data.Local.ChepeastPlan.Price || {{ data.Business.Currency.Code }} %}
-              {% else %}
-                {% T Prices from {0} {1} every {2} months. || data.Local.ChepeastPlan.Price || {{ data.Business.Currency.Code }} || data.Local.ChepeastPlan.InvoiceEvery %}
-              {% endif %}
-            {% else %}
-              {% T Prices from {0} {1} a week. || data.Local.ChepeastPlan.Price || {{ data.Business.Currency.Code }} %}
-            {% endif %}
+          {% if data.Local.ChepeastPlan.InvoiceInMonths %}
+          {% if data.Local.ChepeastPlan.InvoiceEvery == 1 %}
+          {% T Prices from {0} {1} a month. || data.Local.ChepeastPlan.Price || {{ data.Business.Currency.Code }} %}
+          {% elseif data.Local.ChepeastPlan.InvoiceEvery == 12 %}
+          {% T Prices from {0} {1} a year. || data.Local.ChepeastPlan.Price || {{ data.Business.Currency.Code }} %}
           {% else %}
-            {% T Contact with us for more information about our price plans. %}
+          {% T Prices from {0} {1} every {2} months. || data.Local.ChepeastPlan.Price || {{ data.Business.Currency.Code }} || data.Local.ChepeastPlan.InvoiceEvery %}
+          {% endif %}
+          {% else %}
+          {% T Prices from {0} {1} a week. || data.Local.ChepeastPlan.Price || {{ data.Business.Currency.Code }} %}
+          {% endif %}
+          {% else %}
+          {% T Contact with us for more information about our price plans. %}
 		  {% endif %}
         </h3>
         <a href="{% Url Contact, Index %}" class="btn btn-orange btn-large">{% T Contact %}</a>
@@ -308,57 +308,66 @@
   <section id="accordions">
     <div class="container">
       <div class="row">
+
+        {% if data.Local.PricePlans.size > 0 %}
         <!-- accordion_block -->
         <div class="accordion_block span12">
-
           <h3>{% T Price plans %}</h3>
-          {% if data.Local.PricePlans.size == 0 %}
-          <div class="well no-content text-center">
-            <span aria-hidden="true" class="icon i-48 icon-plus"></span>
-            <p><strong><a target="_blank" href="https://spaces.nexudus.com/Billing/Tariffs">{% T Click here to create services %}</a></strong></p>
-          </div>
-          {% endif %}
-          <div class="accordion" id="accordion-plans">
-            {% for service in data.Local.PricePlans %}
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-plans" href="#collapse-plans-{{ forloop.index0 }}">
-                  <span aria-hidden="true" class="icon icon-plus i-16 circle white"></span>
-                  <span aria-hidden="true" class="icon icon-minus i-16 circle white"></span> {{ service.Name }}
-                </a>
-              </div>
-              <div id="collapse-plans-{{ forloop.index0 }}" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  <p>
-                    {{ service.Description }}
-                    <br/>
-                    <small>
 
-                      {% T From {0} {1} ||  service.Price  || service.Currency.Code %}
-                      -
-                      <a onclick="window.location='{% Url Signup, Index %}?priceplanid={{ service.Id }}'" href="{% Url Signup, Index %}?priceplanid={{ service.Id }}">{% T Signup %}</a>
-                    </small>
-                  </p>
+          {% if data.Local.PricePlanGroups.size > 1 %}
+          <ul id="membershipTabs" class="nav nav-tabs">
+            {% for group in data.Local.PricePlanGroups %}
+            <li class="{% if forloop.index0 == 0 %}active{% endif %}"><a href="#tariffs-{{group  | Clean }}" data-toggle="tab">{% T group  %}</a></li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          <div class="tab-content">
+            {% for group in data.Local.PricePlanGroups %}
+
+            <div class="tab-pane {% if forloop.index0 == 0 %}active{% endif %}" id="tariffs-{{ group | Clean}}">
+              <div class="accordion" id="accordion-tariffs-{{group  | Clean}}">
+
+                {% for service in data.Local.PricePlans %}
+                {% if service.GroupName == group or (service.GroupName == null and group == "Price Plans") %}
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-tariffs-{{group  | Clean}}" href="#collapse-accordion-tariffs-{{group  | Clean}}-{{ forloop.index0 }}">
+                      <span aria-hidden="true" class="icon icon-plus i-16 circle white"></span>
+                      <span aria-hidden="true" class="icon icon-minus i-16 circle white"></span> {{ service.Name }}
+                    </a>
+                  </div>
+                  <div id="collapse-accordion-tariffs-{{group  | Clean}}-{{ forloop.index0 }}" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <p>
+                        {{ service.Description }}
+                        <br/>
+                        <small>
+
+                          {% T From {0} {1} ||  service.Price  || service.Currency.Code %}
+                          -
+                          <a onclick="window.location='{% Url Signup, Index %}?priceplanid={{ service.Id }}'" href="{% Url Signup, Index %}?priceplanid={{ service.Id }}">{% T Signup %}</a>
+                        </small>
+                      </p>
+                    </div>
+                  </div>
                 </div>
+                {% endif %}
+                {%endfor %}
               </div>
             </div>
-            {%endfor %}
+            {% endfor %}
           </div>
-
         </div>
         <!-- END accordion_block -->
+        {% endif %}
       </div>
       <div class="row">
-         <!-- accordion_block -->
-        <div class="accordion_block {% if data.Local.Services.size == data.Local.Product.size%}span6{% else %}span12{% endif %}">
+        {% if data.Local.Services.size > 0 %}
+        <!-- accordion_block -->
+        <div class="accordion_block {% if data.Local.Services.size == data.Local.Products.size%}span6{% else %}span12{% endif %}">
 
           <h3>{% T Services %}</h3>
-          {% if data.Local.Services.size == 0 %}
-          <div class="well no-content text-center">
-            <span aria-hidden="true" class="icon i-48 icon-plus"></span>
-            <p><strong><a target="_blank" href="https://spaces.nexudus.com/Billing/ExtraServices">{% T Click here to create services %}</a></strong></p>
-          </div>
-          {% endif %}
+
           <div class="accordion" id="accordion-services">
             {% for service in data.Local.Services %}
             <div class="accordion-group">
@@ -390,44 +399,62 @@
           </div>
         </div>
         <!-- END accordion_block -->
-         <!-- accordion_block -->
-        <div class="accordion_block {% if data.Local.Services.size == data.Local.Product.size%}span6{% else %}span12{% endif %}">
+        {% endif %}
+
+        {% if data.Local.Products.size > 0 %}
+        <!-- accordion_block -->
+        <div class="accordion_block {% if data.Local.Services.size == data.Local.Products.size%}span6{% else %}span12{% endif %}">
 
           <h3>{% T Products %}</h3>
-          {% if data.Local.Products.size == 0 %}
-          <div class="well no-content text-center">
-            <span aria-hidden="true" class="icon i-48 icon-plus"></span>
-            <p><strong><a target="_blank" href="https://spaces.nexudus.com/Billing/Products">{% T Click here to create services %}</a></strong></p>
-          </div>
+
+          {% if data.Local.ProductGroups.size > 1 %}
+          <ul id="membershipTabs" class="nav nav-tabs">
+            {% for group in data.Local.ProductGroups %}
+            <li class="{% if forloop.index0 == 0 %}active{% endif %}"><a href="#tariffs-{{group  | Clean }}" data-toggle="tab">{% T group  %}</a></li>
+            {% endfor %}
+          </ul>
           {% endif %}
-          <div class="accordion" id="accordion-products">
-            {% for service in data.Local.Products %}
-            <div class="accordion-group">
-              <div class="accordion-heading">
-                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-products" href="#collapse-products-{{ forloop.index0 }}">
-                  <span aria-hidden="true" class="icon icon-plus i-16 circle white"></span>
-                  <span aria-hidden="true" class="icon icon-minus i-16 circle white"></span> {{ service.Name }}
-                </a>
-              </div>
-              <div id="collapse-products-{{ forloop.index0 }}" class="accordion-body collapse">
-                <div class="accordion-inner">
-                  <p>
-                    {{ service.Description }}
-                    <br/>
-                    <small>
-                      {% assign servicePrice = service.Price | FormatDecimal: '0.00' %}
-                      {{ servicePrice }} {{ service.Currency.Code }}
-                      -
-                      <a href="{% Url Store, Products, productId: service.Id %}">{% T Buy %}</a>
-                    </small>
-                  </p>
+          <div class="tab-content">
+            {% for group in data.Local.ProductGroups %}
+
+            <div class="tab-pane {% if forloop.index0 == 0 %}active{% endif %}" id="tariffs-{{ group | Clean}}">
+              <div class="accordion" id="accordion-products-{{group  | Clean}}">
+
+                {% for service in data.Local.Products %}
+                {% if service.Tags contains group or (service.Tags == null and group == "Products") %}
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-products-{{group  | Clean}}" href="#collapse-products-{{ group | Clean}}-{{ forloop.index0 }}">
+                      <span aria-hidden="true" class="icon icon-plus i-16 circle white"></span>
+                      <span aria-hidden="true" class="icon icon-minus i-16 circle white"></span> {{ service.Name }}
+                    </a>
+                  </div>
+                  <div id="collapse-products-{{ group | Clean}}-{{ forloop.index0 }}" class="accordion-body collapse">
+                    <div class="accordion-inner">
+                      <p>
+                        {{ service.Description }}
+                        <br/>
+                        <small>
+                          {% assign servicePrice = service.Price | FormatDecimal: '0.00' %}
+                          {{ servicePrice }} {{ service.Currency.Code }}
+                          -
+                          <a href="{% Url Store, Products, productId: service.Id %}">{% T Buy %}</a>
+                        </small>
+                      </p>
+                    </div>
+                  </div>
                 </div>
+                {% endif %}
+                {%endfor %}
               </div>
             </div>
-            {%endfor %}
+            {% endfor %}
           </div>
+
+
         </div>
         <!-- END accordion_block -->
+        {% endif %}
       </div>
     </div>
   </section>
@@ -452,10 +479,10 @@
             {% endif %}
           </a>
           <h4 class="subheader">
-          {{ member.FullName  | Capitalize }}
+            {{ member.FullName  | Capitalize }}
           </h4>
           <h5 class="subheader">
-          {{ member.BusinessArea | Capitalize }}
+            {{ member.BusinessArea | Capitalize }}
           </h5>
           <a href="{% Url Directory, Profile, Id: member.Id, name: member.FullName | Clean %}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-user"></span></a>
           {% if member.ProfileWebsite.size > 0 %}
@@ -472,7 +499,7 @@
           {% endif %}
         </div>
         <!-- END member -->
-          {% endDivRow %}
+        {% endDivRow %}
       </div>
       <div class="row text-center well">
         <a href="{% Url Directory, Index %}" class="btn btn-large btn-orange">{% T View all members %}</a>
