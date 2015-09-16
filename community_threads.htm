@@ -32,7 +32,7 @@
       </div>
     </div>
     {% endif %}
-    
+
     <div class="pull-right  visible-desktop">
       {% if data.Local.Threads.size > 0 %}
       {% if data.Coworker != null %}
@@ -48,7 +48,7 @@
       {% endif %}
       {% endif %}
     </div>
-    
+
     <select class="visible-phone visible-tablet span12" onchange="window.location = $(this).val()" class="span12">
       <option {% if data.Local.PublicThreads %}selected{% endif %} value="{% Url Community, Index, query: data.Local.Query %}">{% T Community %}</option>
       <option {% if data.Local.MyThreads %}selected{% endif %} value="{% Url Community, Me, query: data.Local.Query %}">{% T My Conversations %}</option>
@@ -64,16 +64,16 @@
       </optgroup>
       {% endif %}
     </select>
-    
-        
+
+
     <div class="text-center visible-phone visible-tablet">
-      {% if data.Local.Threads.size > 0 %}  
+      {% if data.Local.Threads.size > 0 %}
       {% if data.Coworker != null %}
-        {% if data.Local.CanStartConversation %}  
+        {% if data.Local.CanStartConversation %}
         <a href="#modal_thread" data-toggle="modal" class="start-conversation btn btn-orange ">
           <i aria-hidden="true" class="icon i-8 icon-plus"></i>
           {% T Start a Conversation %}</a>
-        {% endif %}  
+        {% endif %}
       {% else %}
       <a href="{% Url Login, Index %}?returnUrl={% Url Community, Index %}" class="start-conversation btn btn-orange">
         <i aria-hidden="true" class="icon i-8 icon-user"></i>
@@ -82,9 +82,8 @@
       {% endif %}
       <hr/>
     </div>
-    
+
     <ul class="nav nav-tabs visible-desktop">
-      <li><a style="border: none; background: none" href="{% Url PublicHome, Index %}">{% T Home %}</a></li>
       <li class="{% if data.Local.PublicThreads %}active{% endif %}"><a href="{% Url Community, Index, query: data.Local.Query %}">{% T Community %}</a></li>
       <li class="{% if data.Local.MyThreads %}active{% endif %}"><a href="{% Url Community, Me, query: data.Local.Query %}">{% T My Conversations %}</a></li>
       <li class="{% if data.Local.PrivateThreads %}active{% endif %}"><a href="{% Url Community, Private, query: data.Local.Query %}"><i aria-hidden="true" class="icon i-8 icon-lock"></i> {% T Private %}</a></li>
@@ -116,10 +115,10 @@
       </li>
       {% endif %}
     </ul>
-    
+
     {% if data.Local.Threads.size == 0 %}
     <div class="well well-large text-center">
-      
+
       {% if data.Local.Query.size == 0 %}
       {% if data.Local.MyThreads %}
       <h2>{% T You haven't started any conversations :( %}</h2>
@@ -132,12 +131,12 @@
       {% else %}
       <h2>{% T We found no conversations :( %}</h2>
       {% endif %}
-      
+
       <div class="media comment comment-form">
       {% if data.Coworker != null %}
-        {% if data.Local.CanStartConversation %}  
+        {% if data.Local.CanStartConversation %}
           <a href="#modal_thread" data-toggle="modal" class="start-conversation btn btn-orange btn-large">{% T Start a new one %}</a>
-        {% endif %}    
+        {% endif %}
       {% else %}
         <a href="{% Url Login, Index %}?returnUrl={% Url Community, Index %}" class="start-conversation btn btn-orange btn-large">{% T Start a new one %}</a>
       {% endif %}
@@ -145,7 +144,7 @@
     </div>
     {% endif %}
 
-    
+
 
     <div class="tab-content">
       <div class="tab-pane" id="home">...</div>
@@ -217,11 +216,11 @@
               {% for participantId in thread.Participants %}
               <a href="{% Url Directory, Profile, Id: participantId %}"><img class="img-circle" height="38" width="38" src="/en/coworker/getavatar?id={{ participantId }}&h=38&w=38" title="{{ thread.FullNames[forloop.index0] }}" alt="{{ thread.FullNames[forloop.index0] }}"></a>
               {% endfor %}
-              
+
             </div>
             {% if thread.LastMessageCoworkerId > 0 %}
             <div class="message-latest">
-              <small><a href="{% Url Directory, Profile, Id: thread.LastMessageCoworkerId, name: thread.LastMessageUserFullName | Clean %}">{{ thread.LastMessageUserFullName }}</a> 
+              <small><a href="{% Url Directory, Profile, Id: thread.LastMessageCoworkerId, name: thread.LastMessageUserFullName | Clean %}">{{ thread.LastMessageUserFullName }}</a>
                 <abbr class="timeago" title="{{ thread.LastMessage | FormatDate: 'yyyy-MM-ddTHH:mm:ssZ' }}">{% T The time the last message was posted by {0} || thread.LastMessageUserFullName %}</abbr>
               </small>
             </div>
@@ -244,7 +243,7 @@
         {% endfor %}
       </div>
     </div>
-    
+
     <div class="row threads-footer">
       <div class="span4">
         <form class="form-search" method="GET" action="">
@@ -254,7 +253,7 @@
               <i class="icon-search"></i>
             </button>
           </div>
-          
+
           {% if data.Local.Query.size > 0 %}
           <a class="btn btn-link btn-small" href="{% Url Conversations, Index %}">{% T Show all %}</a>
           {% endif %}
@@ -289,10 +288,10 @@
       <h3 >{% T Start a new conversation %}</h3>
     </div>
     <!-- END MODAL HEADER-->
-    
+
     <!-- MODAL BODY-->
     <div class="modal-body">
-      
+
       <label for="message_subject">{% T Topic %}:</label>
       <input required="required" placeholder="{% T Keep it relevant, less is more... %}"  maxlength="254" type="text" class="span12" id="message_subject" name="CommunityThread.Subject" value="{{data.Local.CommunityThread.Subject}}">
       <label for="message_messagetext">{% T Message %}</label>
@@ -307,10 +306,10 @@
         <input type="hidden" value="false" name="CommunityThread.Private">
         <br/><small>{% T Only you and those people you @mention will see this conversation %}</small>
       </label>
-      
+
     </div>
     <!-- END MODAL BODY-->
-    
+
     <!-- MODAL FOOTER-->
     <div class="modal-footer">
       <button class="btn btn-link" data-dismiss="modal" aria-hidden="true">{% T Close %}</button>
