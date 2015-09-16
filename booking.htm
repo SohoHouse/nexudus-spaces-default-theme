@@ -152,13 +152,24 @@
             <button id="delete-button" class="hidden-phone btn btn-danger pull-left">{% T Cancel this booking %}</button>
             <button class="btn btn-link" data-dismiss="modal" aria-hidden="true">{% T Go back %}</button>
             <button type="submit" id="save-booking-button" class="btn btn-success">{% T Save booking %}</button>
-            <a href="#" id="continue-booking-button" onclick="$('#continue-booking-button').hide(); $('#save-booking-button').show(); $('#quicksignup-details').hide(); $('#booking-details').show();" class="btn btn-success">{% T Continue %}</a>
+            <a href="#" id="continue-booking-button" onclick="verifyContactDetailsAndContinue()" class="btn btn-success">{% T Continue %}</a>
         </div>
     </form>
     <!-- END MODAL FOOTER-->
 </div>
 <!-- END MODAL -->
 <script>
+    function verifyContactDetailsAndContinue(){
+      if(!$('#Coworker_FullName').val()){
+        showErrorMessage('{% T Please enter your full name %}')
+        return;
+      }
+      if(!$('#Coworker_Email').val()){
+        showErrorMessage('{% T Please enter full email address %}')
+        return;
+      }
+      $('#continue-booking-button').hide(); $('#save-booking-button').show(); $('#quicksignup-details').hide(); $('#booking-details').show();
+    }
     function postAndClose(url, data, callback) {
         $.post(url, data, function (result) {
             if (result.WasSuccessful) {
