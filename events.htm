@@ -54,8 +54,20 @@
                 {{ ev.ShortDescription | StripHtml | MarkDown }}
                 <p>
                   <a class="btn btn-orange" href="{% Url Events, View, Id: ev.Id, title: ev.Name | Clean %}">{% T Read more %}</a>
-                  {% if ev.TicketsPage.size > 0 %}
-                  <a class="btn btn-grey" href="{{ ev.TicketsPage }}"><i class="icon-calendar"></i> {% T Tickets %}</a>
+                  {% if ev.WebAddress != null %}
+                  <a href="{{ev.WebAddress}}" class="btn btn-grey">
+                    <i class="icon-earth"></i> 
+                    {% T Website %}</a>
+                  {% endif %}
+                  {% if ev.FacebookPage != null %}
+                  <a href="{{ev.FacebookPage}}" class="btn btn-grey">
+                    <i class="icon-facebook"></i> 
+                    {% T Facebook Page %}</a>
+                  {% endif %}
+                  {% if ev.TicketsPage != null %}
+                  <a href="{{ev.TicketsPage}}" class="btn btn-grey">
+                    <i class="icon-ticket"></i>
+                    {% T Get Tickets %}</a>
                   {% endif %}
                   <a href="{% Url Events, ICal, Id: ev.Id, title: ev.Name | Clean %}" title="{% T Add to Calendar %}" class="btn btn-grey addthisevent">
                     {% T Add to Calendar %}
