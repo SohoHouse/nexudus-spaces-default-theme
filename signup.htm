@@ -53,8 +53,8 @@
                 <label for="Coworker_Gender">{% T Gender %}</label>
                 <select id="Coworker_Gender" name="Coworker.Gender">
                   <option value="1">-</option>
-                  <option value="2" {% if (data.coworker.gender= ='Male' %} selected="selected" {% endif %}>{% T Male %}</option>
-                  <option value="3" {% if (data.coworker.gender= ='Female' %} selected="selected" {% endif %}>{% T Female %}</option>
+                  <option value="2" {% if (data.Coworker.Gender == 'Male' %} selected="selected" {% endif %}>{% T Male %}</option>
+                  <option value="3" {% if (data.Coworker.Gender == 'Female' %} selected="selected" {% endif %}>{% T Female %}</option>
                 </select>
               </div>
               <div class="span3">
