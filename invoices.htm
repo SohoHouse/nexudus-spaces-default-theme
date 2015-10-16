@@ -106,15 +106,21 @@
           </div>
         </div>
         {% endif %}
-        {% if data.Coworker.Active %}
+        {% if data.Coworker.Tariff.Id != data.Coworker.NextTariff.Id %}
+        <div class="alert alert-warning text-center">
+          <h4>{% T Your price plan is about to change. %}</h4>
+          {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
+          {% if data.Coworker.NextTariff != null %}
+          {% T Your price plan will change to "{1}" on {0} || renewDateFormated || data.Coworker.NextTariff.Name %}
+          {% else %}
+          {% T Your price plan will be cancelled on {0} || renewDateFormated %}
+          {% endif %}
+        </div>
+        {% elseif data.Coworker.Tariff != null and data.Coworker.Active %}
         <div class="alert alert-info text-center">
-          {% if data.Coworker.Tariff != null %}
           <h4>{% T You are in the "{0}" price plan. || data.Coworker.Tariff.Name %}</h4>
           {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
           {% T Your price plan is due for renewal on {0}. || renewDateFormated %}
-          {% else %}
-          <h4>{% T You are not in a price plan. %}</h4>
-          {% endif %}
         </div>
         {% endif %}
 
@@ -481,7 +487,7 @@
 
       //PH
       frame.setPlaceholder('#spf-verification_value','CVC');
-      frame.setPlaceholder('#spf-number','{% T Name on Card %}');
+      frame.setPlaceholder('#spf-number','{% T Card Number %}');
 
       //Labels
       frame.setText('label[for="spf-number"]', '');
