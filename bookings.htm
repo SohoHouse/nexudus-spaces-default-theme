@@ -1,11 +1,21 @@
 {% extends master.master %}
 {% block title %}{% if data.Local.Resource != null %} {{ data.Local.Resource.Name }} | {% endif %}{% T Events and bookings %} | {{ data.Business.Name }}{% endblock %}
 {% block content %}
-{% assign type = data.ResourceGroups[0] | Clean %}
-{% assign qs = data.QueryString["type"] %}
-{% if qs != null %}
-{% assign type = qs %}
-{% endif %}
+
+{% assign type = '' %}
+{% assign qsType = data.QueryString["type"] %}
+{% if qsType != null %}{% assign type = qsType %}{% endif %}
+
+{% assign showMemberDetails = data.Setting_Calendars_ShowMemberDetailsInFeed %}
+{% assign defaultView = data.Setting_Calendars_DefaultView %}
+{% if defaultView == 1%}{% assign defaultView = 'timelineDay' %}{% endif %}
+{% if defaultView == 2%}{% assign defaultView = 'agendaWeek' %}{% endif %}
+{% if defaultView == 3%}{% assign defaultView = 'month' %}{% endif %}
+
+{% assign qsView = data.QueryString["view"] %}
+{% if qsView != null %}{% assign defaultView = qsView %}{% endif %}
+
+
 
 <div id="wrapper">
   <!-- CONTAINER -->
@@ -13,33 +23,45 @@
     <!-- BREADCRUMB -->
     <ul class="breadcrumb">
       <li><a href="{% Url PublicHome, Index %}">{% T Home %}</a> <span class="divider">/</span></li>
+
       {% if data.Local.Resource == null %}
-      <li class="active">{% T Events and bookings %}</li>
+        {% if data.Local.ShowAll == false %}
+        <li><a href="{% Url Bookings, Index %}">{% T Events and bookings %}</a> <span class="divider">/</span></li>
+        <li class="active">{% T My Bookings %}</li>
+        {% else %}
+        <li class="active">{% T Events and bookings %}</li>
+        {% endif %}
       {% else %}
-      <li><a href="{% Url Bookings, Index %}">{% T Events and bookings %}</a> <span class="divider">/</span></li>
-      <li class="active">{{ data.Local.Resource.Name }}</li>
+        <li><a href="{% Url Bookings, Index %}">{% T Events and bookings %}</a> <span class="divider">/</span></li>
+        {% if data.Local.ShowAll == false %}
+        <li><a href="{% Url Bookings, Index, showAll: false %}">{% T My Bookings %}</a> <span class="divider">/</span></li>
+        {% endif %}
+        <li class="active">{{ data.Local.Resource.Name }}</li>
       {% endif %}
+
     </ul>
     <!-- END BREADCRUMB -->
     <div class="row">
 
       <!-- CONTENT -->
       <section id="content" class="span12">
-
+		{% if data.Resources.size > 0 %}
         <div class="navbar hidden-phone">
           <div class="navbar-inner">
             <div class="container" style="width: auto; padding: 0 20px;">
               <ul class="nav">
+                <li class="{% if type == '' and data.Local.Resource == null %}active{% endif %}"><a data-url="{% Url Bookings, Index %}" href="{% Url Bookings, Index %}">{% T All %}</a></li>
                 {% if data.Local.Resource != null %}
                 <li class="active"><a href="#">{{ data.Local.Resource.Name }}</a></li>
                 {% else %}
                 {% for group in data.ResourceGroups %}
                 {% assign groupKey = group | Clean %}
-                <li class="{% if type == groupKey %}active{% endif %}"><a href="/en/bookings?type={{ groupKey }}">{{ group }}</a></li>
+                <li class="{% if type == groupKey %}active{% endif %}"><a data-url="{% Url Bookings, Index, type: groupKey, showAll: data.Local.ShowAll  %}" href="{% Url Bookings, Index, type: groupKey, showAll: data.Local.ShowAll  %}">{{ group }}</a></li>
                 {% endfor %}
                 {% endif %}
 
               </ul>
+
               <ul class="nav pull-right">
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -52,10 +74,11 @@
                   <ul class="dropdown-menu">
                     <li><a href="{% Url Bookings, Index %}">{% T Show all resources %}</a></li>
                     {% for resource in data.Resources %}
-                    <li class="{% if data.Local.Resource.Id == resource.Id %}active{% endif %}"><a href="{% Url Bookings, Index, ResourceId: resource.Id %}">{{ resource.Name }}</a></li>
+                    <li class="{% if data.Local.Resource.Id == resource.Id %}active{% endif %}"><a data-url="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}" href="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}">{{ resource.Name }}</a></li>
                     {% endfor %}
                   </ul>
                 </li>
+
                 <li class="divider-vertical"></li>
                 <li>
                   {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
@@ -64,10 +87,13 @@
                   <a href="{% Url Login, Index, lang: data.Language %}&returnUrl=/{{ data.Language }}/bookings">{% T Log in %}</a>
                   {% endif %}
                 </li>
+
               </ul>
+
             </div>
           </div>
         </div>
+		{% endif %}
 
         <div id="calendar" class="well"></div>
         <div class="row">
@@ -77,9 +103,10 @@
             <span class="label" style="background: #a1a1a1">{% T Events %}</span>
             <br />
             {% for resource in data.Resources %}
-            <a href="{% Url Bookings, Index, resourceId: resource.Id %}"><span class="label resource" id="legend-resource-{{ resource.Id }}" style="background: lightgray">{{ resource.Name }}</span></a>
+            <a data-url="{% Url Bookings, Index, resourceId: resource.Id, showAll: data.Local.ShowAll %}" href="{% Url Bookings, Index, resourceId: resource.Id, showAll: data.Local.ShowAll %}"><span class="label resource" id="legend-resource-{{ resource.Id }}" style="background: lightgray">{{ resource.Name }}</span></a>
             {% endfor %}
           </div>
+          {% if data.Resources.size > 0 %}
           <div class="span3">
             {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
             <a onclick="createBooking(new Date())" class="btn btn-orange pull-right">{% T Make a booking %}</a>
@@ -87,6 +114,7 @@
             <a class="btn btn-orange pull-right" href="{% Url Login, Index, lang: data.Language %}&returnUrl=/{{ data.Language }}/bookings">{% T Login to make a booking %}</a>
             {% endif %}
           </div>
+          {% endif %}
         </div>
 
       </section>
@@ -102,35 +130,49 @@
 
 <script>
     {% for resource in data.Resources %}
-    $('#legend-resource-{{ resource.Id }}').css('background-color', getColurFromName('{{ resource.Name }}'));
+    $('#legend-resource-{{ resource.Id }}').css('background-color', getColurFromName('{{ resource.Name | Replace: "'", "\'" }}'));
     {% endfor %}
     $('#modal_unpaidbooking').modal();
     $('#Booking_Resource').prepend('<option></option>');
 
     var vm;
     var fc = $('#calendar').fullCalendar({
+        schedulerLicenseKey: '0011856468-fcs-1444557994',
         lang: '{{ data.Language }}',
         allDaySlot: false,
+      	scrollTime: '06:00',
+      	minTime:'06:00',
+        aspectRatio: 1.8,
+      	height: 'auto',
         firstDay: 1,
+      	editable: false,
+      	resourceLabelText: '{{ data.Business.Name }}',
+      	resourceGroupField: 'groupName',
+     	viewRender: function (view) {
+        	var date = view.intervalStart.format('YYYY-MM-DD');
+          	$('a[data-url]').each(function(){
+          	  var url = $(this).attr('data-url');
+              $(this).attr('href', url + (url.indexOf('?') > -1 ? '&' : '?') +'date=' + date + '&view=' + view.name);
+          	});
+    	},
         resources: [
           {% for resource in data.Resources %}
           {% assign resourceGroupKey = resource.GroupName | Clean %}
+          {% assign resourceGroupName = resource.GroupName %}
           {% if resourceGroupKey == '' %}
           {% assign resourceGroupKey = 'resources' %}
+          {% assign resourceGroupName = 'Resources' %}
           {% endif %}
-          {% if type == resourceGroupKey %}
-          {'id':{{ resource.Id }},'name':'{{ resource.Name }}'},
+          {% if type == resourceGroupKey or type == '' %}
+          {'id':{{ resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ resource.Name }}', eventColor: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')},
           {% endif %}
           {% endfor %}
-
-          ],
-
-
+        ],
         eventClick: function(calEvent, jsEvent, view) {
             if(calEvent.url)
                 window.location = url;
             else if(calEvent.private) {
-                showWarningMessage('{% T This is a booking made by another member of {0} ||  data.Business.Name %}');
+                showWarningMessage("{% T This is a booking made by another member of {0} ||  data.Business.Name %}");
                 return false;
             }
             else
@@ -139,9 +181,9 @@
                 return false;
             }
         },
-        dayClick: function(date, evData, jsEvent) {
-            if(evData.data && evData.data.id)
-                $('#Booking_Resource').val(evData.data.id);
+        dayClick: function(date, evData, jsEvent, resourceObj ) {
+            if(resourceObj)
+                $('#Booking_Resource').val(resourceObj.id);
             else
                 $('#Booking_Resource').val(null);
             {% if data.Coworker != null %}
@@ -152,14 +194,25 @@
             showWarningMessage('{% T Login to make a booking %}');
             {% endif %}
         },
-        defaultView: $(window).width() < 768 ? 'basicDay' : '{% if data.Local.Resource.Id > 0 %}agendaDay{% else %}resourceDay{% endif %}',
+        defaultView: $(window).width() < 768 ? 'basicDay' : '{% if data.Local.Resource.Id > 0 %}agendaDay{% else %}{{defaultView}}{% endif %}',
         editable: true,
         displayEventEnd: true,
         defaultDate: moment('{{ data.Local.CurrentDate | FormatDate: 'yyyy-MM-dd' }}'),
         header: {
             left:   $(window).width() >= 768 ? 'title' : null,
-            center: $(window).width() < 768 ? 'basicDay' : 'month, agendaWeek, {% if data.Local.Resource.Id > 0 %}agendaDay{% else %}resourceDay{% endif %}',
+            center: $(window).width() < 768 ? 'basicDay' : 'month, agendaWeek, {% if data.Local.Resource.Id > 0 %}agendaDay{% else %}timelineDay{% endif %}',
             right:  'today prev,next'
+        },
+        resourceRender: function(resourceObj, dataTds, eventTd) {
+          {% for resource in data.Resources %}
+          {% if resource.HasImage %}
+            if(resourceObj.id == {{ resource.Id }}){
+              dataTds.find('.fc-cell-text').prepend('<img data-toggle="lightbox" href="#resource-image-{{resource.Id}}"  style="cursor: pointer; display: inline; margin-right: 10px; border: 1px solid rgb(51, 51, 51)" src="{% Url PublicResources, GetImage, id: resource.Id, h: 20, w: 20 %}" />');
+              $('#calendar').append('<div id="resource-image-{{resource.Id}}" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true"><div class="lightbox-content"><img src="{% Url PublicResources, GetImage, id: resource.Id, h: 600, w: 800 %}"/><div class="lightbox-caption"><p>{{ resource.Name }}</p></div></div></div>');
+            }
+          {% endif %}
+          {% endfor %}
+
         },
         eventSources: [
         {
@@ -169,11 +222,11 @@
               {% if groupKey == '' %}
               {% assign groupKey = 'resources' %}
               {% endif %}
-              {% if groupKey == type or data.Local.Resource != null %}
+              {% if groupKey == type or data.Local.Resource != null or type == '' %}
               {
                 id: {{ event.Id }},
-                resources: {{ event.Resource.Id }},
-                title  : '{{ event.Resource.Name | Replace: "'", "\'" }}',
+                resourceId: '{{ event.Resource.Id }}',
+              	title  : '{{ event.Resource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
                 startDate: '{{event.FromTime | Date: 'd'}}',
                 endDate: '{{event.ToTime | Date: 'd'}}',
                 startTime: '{{event.FromTime | Date: 't'}}',
@@ -193,17 +246,17 @@
               {% if groupKey == '' %}
               {% assign groupKey = 'resources' %}
               {% endif %}
-              {% if groupKey == type or data.Local.Resource != null %}
+              {% if groupKey == type or data.Local.Resource != null or type == '' %}
               {
                   private: true,
-                  resources: {{ event.Resource.Id }},
-                  title  : '{{ event.Resource.Name | Replace: "'", "\'" }}',
+                  resourceId: {{ event.Resource.Id }},
+                  title  : '{{ event.Resource.Name | Replace: "'", "\'" }} {% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
                   start  : '{{ event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
                   end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
                   allDay : false,
                   editable: false,
                   ignoreTimezone: true,
-                  color: getColurFromName('{{ event.Resource.Name }}')
+                  color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')
               },
               {% endif %}
               {% endfor %}
@@ -212,12 +265,15 @@
               {% for event in data.Local.Events %}
               {
               private: true,
+              {% if event.HasResource %}
+              resourceId: {{ event.Resource.Id }},
+              {% endif %}
               url: '{% Url events, view, id: event.Id, title: event.Name | Clean %}',{% if event.Resource != null %}resources: {{ event.Resource.Id }},{% endif %}
               title  : '{{ event.Name | Replace: "'", "\'" }}',
               start  : '{{ event.StartDate | Date: 'yyyy' }}-{{ event.StartDate | Date: 'MM' }}-{{ event.StartDate | Date: 'dd' }}T{{ event.StartDate | Date: 'HH' }}:{{ event.StartDate | Date: 'mm' }}Z',
               end  : '{{ event.EndDate | Date: 'yyyy' }}-{{ event.EndDate | Date: 'MM' }}-{{ event.EndDate | Date: 'dd' }}T{{ event.EndDate | Date: 'HH' }}:{{ event.EndDate | Date: 'mm' }}Z',
               allDay : false,
-              editable: true,
+              editable: false,
               ignoreTimezone: true
               },
               {% endfor %}
@@ -230,7 +286,7 @@
                   allDay : false // will make the time show
               }
               ]},
-              $.fullCalendar.gcalFeed('{% Setting Google.CalendarXmlFeed %}')
+
             ]
           });
 
