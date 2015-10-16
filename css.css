@@ -1,7 +1,7 @@
-/* 
-	-------------------------------------------------- 
+/*
+	--------------------------------------------------
    	Nexudus Bootstrap theme
-	-------------------------------------------------- 
+	--------------------------------------------------
 	Table of Contents
 
 		1. UX
@@ -36,7 +36,7 @@
 				:: contact
             :: Utils
 
-	-------------------------------------------------- 
+	--------------------------------------------------
 */
 
 
@@ -254,21 +254,21 @@ form {
     margin: 0;
 }
 
-textarea:focus, 
-input[type="text"]:focus, 
-input[type="password"]:focus, 
-input[type="datetime"]:focus, 
-input[type="datetime-local"]:focus, 
-input[type="date"]:focus, 
-input[type="month"]:focus, 
-input[type="time"]:focus, 
-input[type="week"]:focus, 
-input[type="number"]:focus, 
-input[type="email"]:focus, 
-input[type="url"]:focus, 
-input[type="search"]:focus, 
-input[type="tel"]:focus, 
-input[type="color"]:focus, 
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
 .uneditable-input:focus {
     border-color: rgba(248, 171, 3, 0.8);
     outline: 0;
@@ -320,7 +320,7 @@ textarea {
     width: 16px;
 }
 
-.carousel-inner>.item>img, 
+.carousel-inner>.item>img,
 .carousel-inner>.item>a>img {
     width: 100%;
 }
@@ -367,7 +367,7 @@ textarea {
 .accordion-body p {
     margin-left: 40px;
 }
-	
+
 
 /* -----------------------------------------
 	navbar
@@ -376,10 +376,10 @@ textarea {
     color: #333;
 }
 
-.navbar .nav>.active>a, 
-.navbar .nav>.active>a:hover, 
+.navbar .nav>.active>a,
+.navbar .nav>.active>a:hover,
 .navbar .nav>.active>a:focus,
-.nav-pills>.active>a, 
+.nav-pills>.active>a,
 .nav-pills>.active>a:hover,
 .nav-pills>.active>a:focus {
     color: #333;
@@ -505,7 +505,7 @@ header.navbar-static-top .nav li.dropdown.open>.dropdown-toggle,
     color: #333;
 }
 
-header.navbar-static-top .nav>li>a:focus, 
+header.navbar-static-top .nav>li>a:focus,
 			header.navbar-static-top .nav>li>a:hover {
     background-color: #e5e5e5;
 }
@@ -729,7 +729,7 @@ footer .block .well.no-content p {
 .resource_features > span {
     margin-bottom: 5px !important;
 }
-    
+
 #directoy-search .accordion-body ul {
 	list-style: none;
 	margin: 0;
@@ -816,8 +816,11 @@ footer .block .well.no-content p {
 /* -----------------------------------------
 	fullcalendar
 ----------------------------------------- */
-.fc-content {
+.fc-view-container {
     background: #fff;
+}
+.fc-basic-view .fc-body .fc-row {
+	min-height: 128px !important;
 }
 
 .fc-header-title h2 {
@@ -846,13 +849,16 @@ footer .block .well.no-content p {
     border-color: #666;
 }
 
-.fc-day, .fc-event {
+.fc-day, .fc-event, .fc-rows {
     cursor: pointer !important;
 }
 
-.fc-agenda-slots .fc-widget-content:hover {
-   background-color: #primarycolor;
+
+.fc-day-grid-event .fc-content {
+	overflow: visible;
+	white-space: normal;
 }
+
 /* -----------------------------------------
 	content-types
 ----------------------------------------- */
@@ -875,7 +881,7 @@ footer .block .well.no-content p {
     margin: 0 0 20px 20px;
 }
 
-/* contact */ 
+/* contact */
 #map-canvas {
     margin: 0;
     padding: 0;
@@ -934,7 +940,7 @@ footer .block .well.no-content p {
 
   /* Landscape phone to portrait tablet */
 @media (max-width: 767px) {
-  
+
     #intro .wellcome_block p {
         min-height: initial;
     }
@@ -1212,7 +1218,7 @@ footer .block .well.no-content p {
 }
 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      /*!
-* bootstrap-lightbox.css v0.6.1 
+* bootstrap-lightbox.css v0.6.1
 * Copyright 2013 Jason Butz
 * http://www.apache.org/licenses/LICENSE-2.0.txt
 */
@@ -1402,7 +1408,7 @@ footer .block .well.no-content p {
     margin-top: 6px;
 }
 
-.nav .dropdown-toggle:hover .caret, 
+.nav .dropdown-toggle:hover .caret,
 .nav .dropdown-toggle:focus .caret {
     border-top-color: black !important;
     border-bottom-color: black !important;
