@@ -97,9 +97,9 @@
       <section id="content" class="span12">
         <ul class="nav nav-pills">
           <li><a href="#personal-details"><i class="icon-user"></i>&nbsp;{% T Personal Details %}</a></li>
-          {% if data.Local.HasCustomFields %}
-          <li><a href="#other-details"><i class="icon-list"></i>&nbsp;{% T Other Details %}</a></li>
-          {% endif %}
+          {% for group in data.Local.CustomFieldGroups %}
+          <li><a href="#group-{{ group | Clean }}"><i class="icon-list"></i>&nbsp;{% T group %}</a></li>
+          {% endfor %}
           <li><a href="#account-details"><i class="icon-briefcase"></i>&nbsp;{% T Account details %}</a></li>
           <li><a href="#location"><i class="icon-home"></i>&nbsp;{% T Your location %}</a></li>
           <li><a href="#public-profile"><i class="icon-tags"></i>&nbsp;{% T Public profile %}</a></li>
@@ -115,6 +115,12 @@
           {% else %}
           {% T Your price plan will be cancelled on {0} || renewDateFormated %}
           {% endif %}
+        </div>
+        {% elseif data.Coworker.Tariff != null and data.Coworker.Active %}
+        <div class="alert alert-info text-center">
+          <h4>{% T You are in the "{0}" price plan. || data.Coworker.Tariff.Name %}</h4>
+          {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
+          {% T Your price plan is due for renewal on {0}. || renewDateFormated %}
         </div>
         {% endif %}
         <form action="{% Url Profile, Index %}" method="POST" enctype="multipart/form-data" id="profile-form">
@@ -172,7 +178,7 @@
           {% if data.Local.HasCustomFields %}
           {% for group in data.Local.CustomFieldGroups %}
 
-          <h3>{% T group %}</h3>
+          <h3 id="group-{{ group | Clean }}">{% T group %}</h3>
           <div class="well">
             {% for field in data.Local.CustomFields %}
             {% if field.GroupName == group or field.GroupName == null and group == "Other Details" %}
