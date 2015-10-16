@@ -39,13 +39,7 @@
       {% endif %}
       <!-- CONTENT -->
       <section id="content" class="span12">
-        {% if data.Coworker.Tariff != null and data.Coworker.Active %}
-        <div class="alert alert-info text-center">
-          <h4>{% T You are in the "{0}" price plan. || data.Coworker.Tariff.Name %}</h4>
-          {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
-          {% T Your price plan is due for renewal on {0}. || renewDateFormated %}
-        </div>
-        {% endif %}
+
         {% if data.Coworker.Tariff.Id != data.Coworker.NextTariff.Id %}
         <div class="alert alert-warning text-center">
           <h4>{% T Your price plan is about to change. %}</h4>
@@ -56,7 +50,14 @@
           {% T Your price plan will be cancelled on {0} || renewDateFormated %}
           {% endif %}
         </div>
+        {% elseif data.Coworker.Tariff != null and data.Coworker.Active %}
+        <div class="alert alert-info text-center">
+          <h4>{% T You are in the "{0}" price plan. || data.Coworker.Tariff.Name %}</h4>
+          {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
+          {% T Your price plan is due for renewal on {0}. || renewDateFormated %}
+        </div>
         {% endif %}
+
 
 
         {% if data.Local.PricePlanId != null %}
