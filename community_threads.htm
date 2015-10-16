@@ -33,6 +33,37 @@
     </div>
     {% endif %}
 
+    <div class="row threads-footer">
+      <div class="span4">
+        <form class="form-search" method="GET" action="">
+          <div class="input-append">
+            <input value="{{ data.Local.Query }}" type="text" name="query" class="input-medium search-query" placeholder="{% T Search... %}">
+            <button type="submit" class="btn">
+              <i class="icon-search"></i>
+            </button>
+          </div>
+          {% if data.Local.Query.size > 0 %}
+          <a class="btn btn-link btn-small" href="{% Url Conversations, Index %}">{% T Show all %}</a>
+          {% endif %}
+        </form>
+      </div>
+
+      <div class="span8 text-right">
+        <div class="pagination">
+          <ul>
+            <li class="{% if data.Local.Page == 1 %}disabled{% endif %}"><a href="{% if data.Local.Page > 1 %}{% Url Conversations, Index, limit: data.Local.Limit, query: data.Local.Query, Page: data.Local.Page | Plus: -1 %}{% else %}#{% endif %}">&#8249; {% T Newer %}</a></li>
+            {% if (data.Local.Page > 2 %}
+            <li><a href="{% Url Conversations, Index, limit: data.Local.Limit, query: data.Local.Query, Page: 1 %}">1</a></li>
+            <li class="disabled"><a href="#">...</a></li>
+            {% endif %}
+            <li class="active"><a href="#">{{ data.Local.Page }}</a></li>
+            <li class="{% if data.Local.Threads.size == 0 %}disabled{% endif %}"><a href="{% if data.Local.Threads.size > 0 %}{% Url Conversations, Index, limit: data.Local.Limit, query: data.Local.Query, Page: data.Local.Page | Plus: 1 %}{% else %}#{% endif %}">{% T Older %} &#8250;</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
     <div class="pull-right  visible-desktop">
       {% if data.Local.Threads.size > 0 %}
       {% if data.Coworker != null %}
@@ -296,7 +327,7 @@
       <input required="required" placeholder="{% T Keep it relevant, less is more... %}"  maxlength="254" type="text" class="span12" id="message_subject" name="CommunityThread.Subject" value="{{data.Local.CommunityThread.Subject}}">
       <label for="message_messagetext">{% T Message %}</label>
       <textarea placeholder="{% T Invite other people to this conversation by mentioning them: type the '@' symbol followed by their name. %}" required="required" rows="5" class="span12" id="reply-box">{{data.Local.CommunityThread.Message}}</textarea>
-      <textarea style="display:none" required="required" rows="5" class="span12" id="reply-box-server" name="CommunityThread.Message">{{data.Local.CommunityThread.Message}}</textarea>
+      <textarea style="display:none" rows="5" class="span12" id="reply-box-server" name="CommunityThread.Message">{{data.Local.CommunityThread.Message}}</textarea>
       <label for="message_tags">{% T Tags %}:</label>
       <input placeholder="{% T Help others find your posts by tagging them. Separate tags by commas (,). %}" maxlength="50" type="text" class="span12" id="message_tags" name="CommunityThread.Tags" value="{{data.Local.CommunityThread.Tags}}">
       <input type="hidden" value="{{ data.Local.Group.Id }}" id="Group.Id" name="Group.Id">
