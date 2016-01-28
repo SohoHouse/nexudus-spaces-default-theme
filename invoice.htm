@@ -1,7 +1,7 @@
 <html>
   <head>
     <title>Invoice. {{ data.Local.Invoice.InvoiceNumber }}</title>
-    
+
     <link href="/Content/themes/admin/css/Invoice.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -9,7 +9,7 @@
       <div class="float-right" style="margin-top:-43px">
         <button type="button"><img src="/Content/themes/admin/images/icons/fugue/printer.png" width="16" height="16"> Print</button>
       </div>
-      
+
       <div id="invoice" class="pagestyle">
         <div id="invoice-header">
           {% if data.Local.Invoice.Business.HasLogo %}
@@ -115,10 +115,10 @@
             </td>
             <td colspan="1" class="total" id="total_currency">
               {% T Tax %}
-              ({{ taxCat.Rate | FormatDecimal: 'N' }}%)
+              ({{ taxCat.Rate | FormatDecimal: 'N2' }}%)
             </td>
             <td class="total" id="total_amount">
-              {{ taxCat.TaxSubTotal | FormatDecimal: 'N' }}
+              {{ taxCat.TaxSubTotal | FormatDecimal: 'N2' }}
             </td>
             <td>&nbsp;</td>
           </tr>
@@ -128,8 +128,8 @@
               &nbsp;
             </td>
             <td colspan="1" class="total" id="Td1">
-              {{ data.Local.Invoice.TotalAmount | FormatDecimal: 'N' }}
-              (<span class="currency">{{ data.Local.Invoice.Currency.Code }}</span>)
+                {% T Total %}
+                (<span class="currency">{{ data.Local.Invoice.Currency.Code  }}</span>):
             </td>
             <td class="total" id="Td2">
               {{ data.Local.Invoice.TotalAmount | FormatDecimal: 'N' }}
@@ -151,7 +151,7 @@
           <tr id="due_tr">
             <td colspan="3" class="total">
               {% T Due %}
-              (<span class="currency">{{ data.Local.Invoice.Currency.Code  }}</span>)
+              (<span class="currency">{{ data.Local.Invoice.Currency.Code  }}</span>):
             </td>
             <td class="total">
               {{ data.Local.Invoice.TransactionTotalAmount | FormatDecimal: 'N' }}
@@ -186,27 +186,27 @@
           {% T Payment Details %}</h2>
         <div id="bank_name">
           {{ data.Local.BankName }}
-          
+
         </div>
         <div id="bank-code">
-          <strong>{% T Bank Code %}</strong> 
+          <strong>{% T Bank Code %}</strong>
           {{ data.Local.BankCode }} </div>
-        
+
         <div id="sort-code">
-          <strong>{% T Sort code %}</strong> 
+          <strong>{% T Sort code %}</strong>
           {{ data.Local.SortCode }} </div>
-        
+
         <div id="account-number">
-          <strong>{% T Account Number %}</strong> 
+          <strong>{% T Account Number %}</strong>
           {{ data.Local.AccountNumber }} </div>
         <div id="payment-reference">
           <strong>{% T Payment reference %}</strong> {{ data.Local.Invoice.PaymentReference }}</div>
       </div>
           </div>
           <div class="clear"></div>
-          
+
       </div>
-      
-      
+
+
   </body>
 </html>

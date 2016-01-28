@@ -5,7 +5,7 @@
   <div id="main" class="container">
 
     {% assign RegularPaymentOption = false %}
-    {% if data.Local.SpreedlyEnabled or data.Coworker.EnableGoCardlessPayments %}
+    {% if data.Local.SpreedlyEnabled or data.Coworker.EnableGoCardlessPayments or data.Local.StripeEnabled %}
     {% assign RegularPaymentOption = true %}
     {% endif %}
     {% assign HasEnteredPaymentDetails = false %}
@@ -21,8 +21,8 @@
       <div class="bar bar-success" style="width: 20%;">3. {% T Additional Products %}</div>
       <div class="bar" style="width: 20%;">4. {% T Submit Payment Details %}</div>
     </div>
-    {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails %}
-    <div class="progress progress-striped active">
+    {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and (HasEnteredPaymentDetails or data.Coworker.PaysInvoicesViaTeam) %}
+    <div class="progress progress-striped">
 
       <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
       <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
@@ -31,7 +31,7 @@
       <div class="bar bar-warning" style="width: 15%;">5. {% T Validating your account %}</div>
     </div>
     {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and data.Local.KeepNewAccountsOnHold %}
-    <div class="progress progress-striped active">
+    <div class="progress progress-striped">
 
       <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
       <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
@@ -59,7 +59,7 @@
 
     <div class="row">
 
-      {% if RegularPaymentOption and data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails == false %}
+      {% if RegularPaymentOption and data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails == false and data.Coworker.PaysInvoicesViaTeam == false %}
       <section id="content" class="span12">
         <div class="text-center">
           <div class="alert alert-info text-center">
@@ -75,10 +75,15 @@
           {% if data.Coworker.EnableGoCardlessPayments and data.Coworker.HasGoCardlessContractNumber == false %}
           <a class="btn btn-orange btn-large" href="https://spaces.nexudus.com/Callbacks/GoCardlessPre/{{ data.Coworker.Id }}"><span aria-hidden="true" class="icon i-24 icon-library"></span> {% T Setup Direct Debit  %}</a>
           {% endif %}
+          {% if  data.Local.UnPaidInvoices.size == 1 %}
+          {% if data.Local.StripeEnabled and data.Coworker.HasGoCardlessContractNumber == false %}
+          <a class="btn btn-orange stripePayButton btn-large" data-description="{% T Invoice %} #{{data.Local.UnPaidInvoices[0].InvoiceNumber}}" data-allow-remember-me="false" data-amount="{{ data.Local.UnPaidInvoices[0].TransactionTotalAmount | Times: 100 | FormatDecimal: '0' }}" data-currency="{{ data.Local.UnPaidInvoices[0].TransactionCurrency.Code }}" data-payurl="{% Url Invoices, Pay, Id: data.Local.UnPaidInvoices[0].Id, provider: 'Stripe' %}" href="#"><span aria-hidden="true" class="icon i-16 icon-credit"></span> {% T Submit Payment Details %}</a>
+          {% endif %}
+          {% endif %}
         </div>
         <hr />
       </section>
-      {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and data.Local.KeepNewAccountsOnHold  %}
+      {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null  %}
       <section id="content" class="span12">
         <div class="text-center">
           <div class="alert alert-info text-center">
@@ -116,6 +121,11 @@
           {% T Your price plan will be cancelled on {0} || renewDateFormated %}
           {% endif %}
         </div>
+        {% elseif data.Coworker.CancellationDate != null %}
+        <div class="alert alert-warning text-center">
+          <h4>{% T Your price plan is about to change. %}</h4>
+          {% T Your price plan will be cancelled on {0:D} || data.Coworker.CancellationDate %}
+        </div>
         {% elseif data.Coworker.Tariff != null and data.Coworker.Active %}
         <div class="alert alert-info text-center">
           <h4>{% T You are in the "{0}" price plan. || data.Coworker.Tariff.Name %}</h4>
@@ -137,7 +147,7 @@
             {% for invoice in data.Local.UnPaidInvoices %}
             <tr>
               <td><span aria-hidden="true" class="icon i-16 icon-warning"></span></td>
-              <td>{% T Invoice %} #{{invoice.InvoiceNumber}} - {{invoice.CreatedOn | Date: 'D'}} - <strong>{{ invoice.TotalAmount | FormatDecimal format: '0.00' }} {{ data.Business.Currency.Code }}</strong></td>
+              <td>{% T Invoice %} #{{invoice.InvoiceNumber}} - {{invoice.CreatedOn | Date: 'D'}} - <strong>{{ invoice.TotalAmount | FormatDecimal format: 'N2' }} {{ data.Business.Currency.Code }}</strong></td>
               <td>
                 <div class=" pull-right">
 
@@ -225,7 +235,7 @@
             {% for invoice in data.Local.PaidInvoices %}
             <tr>
               <td><span aria-hidden="true" class="icon i-16 icon-checkmark"></span></td>
-              <td>{% T Invoice %} #{{invoice.InvoiceNumber}} - {{invoice.CreatedOn | Date: 'D'}} - <strong>{{ invoice.TotalAmount | FormatDecimal format: '0.00' }} {{ data.Business.Currency.Code }}</strong></td>
+              <td>{% T Invoice %} #{{invoice.InvoiceNumber}} - {{invoice.CreatedOn | Date: 'D'}} - <strong>{{ invoice.TotalAmount | FormatDecimal format: 'N2' }} {{ data.Business.Currency.Code }}</strong></td>
               <td>
                 {% if data.Setting_Members_PrintInvoices == "true" %}
                 <a href="{% Url Invoices, Print, guid: invoice.UniqueId, lang: data.Language %}" class="btn btn-orange pull-right"><span aria-hidden="true" class="icon i-16 icon-file-3"></span> {% T Download invoice %}</a>
