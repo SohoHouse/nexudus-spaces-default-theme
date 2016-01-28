@@ -50,6 +50,11 @@
           {% T Your price plan will be cancelled on {0} || renewDateFormated %}
           {% endif %}
         </div>
+        {% elseif data.Coworker.CancellationDate != null %}
+        <div class="alert alert-warning text-center">
+          <h4>{% T Your price plan is about to change. %}</h4>
+          {% T Your price plan will be cancelled on {0:D} || data.Coworker.CancellationDate %}
+        </div>
         {% elseif data.Coworker.Tariff != null and data.Coworker.Active %}
         <div class="alert alert-info text-center">
           <h4>{% T You are in the "{0}" price plan. || data.Coworker.Tariff.Name %}</h4>
@@ -60,39 +65,38 @@
 
 
 
-        {% if data.Local.PricePlanId != null %}
+        {% if data.Local.SelectedTariff != null %}
         <h3>{% T You have selected: %}</h3>
         <div class="accordion" id="accordion-tariffs-selected">
-          {% for tariff in data.Local.Tariffs %}
-          {% if tariff.Id == data.Local.PricePlanId %}
+
           <div class="accordion-group">
             <div class="accordion-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-tariffs-selected" href="#collapse-{{tariff.Id}}">
-                {{ tariff.Name }}
-                {% if tariff.InvoiceInMonths %}
-                <span class="pull-right">{{ tariff.Price | FormatMoney }}  {{ tariff.Currency.Code }} {% T every %} {{ tariff.InvoiceEvery }} {% T month(s) %}</span>
+              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-tariffs-selected" href="#collapse-{{data.Local.SelectedTariff.Id}}">
+                {{ data.Local.SelectedTariff.Name }}
+                {% if data.Local.SelectedTariff.InvoiceInMonths %}
+                <span class="pull-right">{{ data.Local.SelectedTariff.PriceDecimal | FormatDecimal: 'N2' }}  {{ data.Local.SelectedTariff.Currency.Code }} {% T every %} {{ data.Local.SelectedTariff.InvoiceEvery }} {% T month(s) %}</span>
                 {% else %}
-                <span class="pull-right">{{ tariff.Price | FormatMoney }}  {{ tariff.Currency.Code }} {% T every %} {{ tariff.InvoiceEveryWeeks }} {% T week(s) %} </span>
+                <span class="pull-right">{{ data.Local.SelectedTariff.PriceDecimal | FormatDecimal: 'N2' }}  {{ data.Local.SelectedTariff.Currency.Code }} {% T every %} {{ data.Local.SelectedTariff.InvoiceEveryWeeks }} {% T week(s) %} </span>
                 {% endif %}
               </a>
             </div>
-            <div id="collapse-{{tariff.Id}}" class="accordion-body collapse {% if data.Local.PricePlanId == tariff.Id %}in{% endif %}">
+            <div id="collapse-{{data.Local.SelectedTariff.Id}}" class="accordion-body collapse in">
               <div class="accordion-inner">
 
-                {% if tariff.Description == null %}
+                {% if data.Local.SelectedTariff.Description == null %}
                 {% T Please contact us for more details about this price plan %}
                 {% endif %}
-                {{ tariff.Description }}
+                {{ data.Local.SelectedTariff.Description }}
 
                 <table class="table table-hover invoices">
                   <tbody>
-                    {% for service in tariff.ExtraServices %}
+                    {% for service in data.Local.SelectedTariff.ExtraServices %}
                     <tr>
                       <td style="width:20px"><span aria-hidden="true" class="icon i-16 icon-checkmark"></span></td>
-                      <td>{{ service.UsesIncluded }} {% T minutes %} <strong>{{service.ExtraService.Name }}</strong> {% T every %} {% T service.ServiceRenewalTime %}.</td>
+                      <td>{{ service.UsesIncluded }} <strong>{{service.ExtraService.Name }}</strong> {% T every %} {% T service.ServiceRenewalTime %}.</td>
                     </tr>
                     {% endfor %}
-                    {% for timePass in tariff.TimePasses %}
+                    {% for timePass in data.Local.SelectedTariff.TimePasses %}
                     <tr class="hide">
                       <td style="width:20px"><span aria-hidden="true" class="icon i-16 icon-checkmark"></span></td>
                       <td>{{ timePass.PassesIncluded }}x <strong>{{timePass.TimePass.Name }}</strong> {% T every %} {% T timePass.PassRenewalTime %}.</td>
@@ -101,26 +105,26 @@
                   </tbody>
                 </table>
                 <div>
-                  <a href="#modal-tariff-{{tariff.Id}}-selected" class="btn btn-orange" role="button" data-toggle="modal">{% T Select %}</a>
+                  <a href="#modal-tariff-{{data.Local.SelectedTariff.Id}}-selected" class="btn btn-orange" role="button" data-toggle="modal">{% T Select %}</a>
                 </div>
               </div>
             </div>
 
-            <div class="modal hide fade" id="modal-tariff-{{tariff.Id}}-selected">
+            <div class="modal hide fade" id="modal-tariff-{{data.Local.SelectedTariff.Id}}-selected">
                 <form action="{% Url Profile, Tariff %}" method="post">
-                  <input type="hidden" name="Coworker.Tariff" value="{{tariff.Id}}" />
+                  <input type="hidden" name="Coworker.Tariff" value="{{data.Local.SelectedTariff.Id}}" />
                   <input type="hidden" value="true" name="tc" />
                   <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3>{{ tariff.Name }}</h3>
+                    <h3>{{ data.Local.SelectedTariff.Name }}</h3>
                   </div>
                   <div class="modal-body">
                     <h4>{% T Signup %}</h4>
                     <p>
-                      {% if tariff.TermsAndConditions == null %}
+                      {% if data.Local.SelectedTariff.TermsAndConditions == null %}
                       {% T Please contact us for more details about this price plan %}
                       {% endif %}
-                      {{ tariff.TermsAndConditions | StripHtml | MarkDown }}
+                      {{ data.Local.SelectedTariff.TermsAndConditions | StripHtml | MarkDown }}
                     </p>
                   </div>
                   <div class="modal-footer">
@@ -131,8 +135,7 @@
               </div>
 
           </div>
-          {% endif %}
-          {% endfor %}
+
         </div>
         <h3>{% T Other options: %}</h3>
         {% endif %}
@@ -157,9 +160,9 @@
                   <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-tariffs-{{group  | Clean}}" href="#collapse-{{tariff.Id}}">
                     {{ tariff.Name }}
                     {% if tariff.InvoiceInMonths %}
-                    <span class="pull-right">{{ tariff.Price | FormatMoney }}  {{ tariff.Currency.Code }} {% T every %} {{ tariff.InvoiceEvery }} {% T month(s) %}</span>
+                    <span class="pull-right">{{ tariff.PriceDecimal | FormatDecimal: 'N2' }}  {{ tariff.Currency.Code }} {% T every %} {{ tariff.InvoiceEvery }} {% T month(s) %}</span>
                     {% else %}
-                    <span class="pull-right">{{ tariff.Price | FormatMoney }}  {{ tariff.Currency.Code }} {% T every %} {{ tariff.InvoiceEveryWeeks }} {% T week(s) %} </span>
+                    <span class="pull-right">{{ tariff.PriceDecimal | FormatDecimal: 'N2' }}  {{ tariff.Currency.Code }} {% T every %} {{ tariff.InvoiceEveryWeeks }} {% T week(s) %} </span>
                     {% endif %}
                   </a>
                 </div>
@@ -176,7 +179,7 @@
                         {% for service in tariff.ExtraServices %}
                         <tr>
                           <td style="width:20px"><span aria-hidden="true" class="icon i-16 icon-checkmark"></span></td>
-                          <td>{{ service.UsesIncluded }} {% T minutes %} <strong>{{service.ExtraService.Name }}</strong> {% T every %} {% T service.ServiceRenewalTime %}.</td>
+                          <td>{{ service.UsesIncluded }} <strong>{{service.ExtraService.Name }}</strong> {% T every %} {% T service.ServiceRenewalTime %}.</td>
                         </tr>
                         {% endfor %}
                         {% for timePass in tariff.TimePasses %}
