@@ -21,6 +21,7 @@
 
     <link rel="stylesheet" type="text/css" href="/content/themes/public/default/libs/fullcalendar-scheduler/lib/fullcalendar.min.css"/>
     <link rel="stylesheet" type="text/css" href="/content/themes/public/default/libs/fullcalendar-scheduler/scheduler.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/content/themes/public/default/libs/fullcalendar-scheduler/views/list.css"/>
     <link rel="stylesheet" type="text/css" href="{% Url Css, Index %}"/>
     <link rel="stylesheet" type="text/css" href="/content/themes/public/default/css/css-responsive.css"/>
     <link rel="stylesheet" type="text/css" href="/content/themes/public/default/css/icons.css"/>
@@ -54,6 +55,8 @@
     <script type="text/javascript" src="/content/themes/public/default/libs/fullcalendar-scheduler/lib/lang-all.js"></script>
     <script type="text/javascript" src="/content/themes/public/default/libs/fullcalendar-scheduler/lib/gcal.js"></script>
     <script type="text/javascript" src="/content/themes/public/default/libs/fullcalendar-scheduler/scheduler.js"></script>
+    <script type="text/javascript" src="/content/themes/public/default/libs/fullcalendar-scheduler/views/listView.js"></script>
+
     <script type="text/javascript" src="/content/themes/public/default/js/app_v2.js"></script>
     <script type="text/javascript" src="/content/themes/public/default/libs/jquery.h5validate.js"></script>
     <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
@@ -191,4 +194,4 @@
     <!-- END UNPAID BOOKING MODAL -->
 
   </body>
-</html> 
+</html>
