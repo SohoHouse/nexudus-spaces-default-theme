@@ -24,14 +24,14 @@
     </ul>
     <!-- END BREADCRUMB -->
     <div class="row">
-      
+
       <h2 class="page-title span12">
         {{ data.Local.Coworker.FullName  | StripHtml }}
         {% if data.Local.Coworker.NickName != null %}
         [{{data.Local.Coworker.NickName  | StripHtml}}]
         {% endif %}
       </h2>
-      
+
       <!-- CONTENT -->
       <section id="content" class="span9">
         <div class="body-content" style="margin-bottom: 25px">
@@ -47,6 +47,17 @@
                 {% endif %}
                 {{ data.Local.Coworker.ProfileSummary | StripHtml | MarkDown  }}
               </p>
+
+              {% for field in data.Local.ProfileCustomFields %}
+              {% if data.Local.Coworker[field.FieldName].size > 0 %}
+              <h4>{{ field.Name }}</h4>
+              <p>
+                {{ data.Local.Coworker[field.FieldName] }}
+              </p>
+
+              {% endif %}
+              {% endfor %}
+              <hr/>
               <div class="skills">
                 {% if data.Local.Coworker.ProfileTagsList.size == 0 %}
                 {% T {0} hasn't published any skills yet. || data.Local.Coworker.FullName %}
@@ -86,7 +97,32 @@
                 {% if data.Local.Coworker.Skype.size > 0 %}
                 <a href="callto://{{ data.Local.Coworker.Skype }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-skype"></span></a>
                 {% endif %}
-                
+
+                {% if data.Local.Coworker.Google.size > 0 %}
+                <a target="_blank" href="{{ data.Local.Coworker.Google }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-google-plus"></span></a>
+                {% endif %}
+                {% if data.Local.Coworker.Github.size > 0 %}
+                <a target="_blank" href="{{ data.Local.Coworker.Github }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-github"></span></a>
+                {% endif %}
+                {% if data.Local.Coworker.Pinterest.size > 0 %}
+                <a target="_blank" href="{{ data.Local.Coworker.Pinterest }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-pinterest"></span></a>
+                {% endif %}
+                {% if data.Local.Coworker.Flickr.size > 0 %}
+                <a target="_blank" href="{{ data.Local.Coworker.Flickr }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-flickr"></span></a>
+                {% endif %}
+                {% if data.Local.Coworker.Instagram.size > 0 %}
+                <a target="_blank" href="{{ data.Local.Coworker.Instagram }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-instagram"></span></a>
+                {% endif %}
+                {% if data.Local.Coworker.Vimeo.size > 0 %}
+                <a target="_blank" href="{{ data.Local.Coworker.Vimeo }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-vimeo"></span></a>
+                {% endif %}
+                {% if data.Local.Coworker.Tumblr.size > 0 %}
+                <a target="_blank" href="{{ data.Local.Coworker.Tumblr }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-tumblr"></span></a>
+                {% endif %}
+                {% if data.Local.Coworker.Blogger.size > 0 %}
+                <a target="_blank" href="{{ data.Local.Coworker.Blogger }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-blogger"></span></a>
+                {% endif %}
+
               </div>
               {% endif %}
             </div>
@@ -153,14 +189,14 @@
       </section>
       <!-- END CONTENT -->
       <!-- SIDEBAR -->
-      
+
       <aside id="directoy-search" class="span3">
         {% if data.Local.Coworker.Twitter.size > 0 %}
 
         {% endif %}
         <div>
           <div class="accordion" id="search-panels">
-            
+
             {% if data.Local.Coworker.Twitter.size > 0 %}
             <div class="accordion-group">
               <div class="accordion-heading">
@@ -175,12 +211,12 @@
                   data-widget-id="430399305858285569"
                   data-chrome="noheader nofooter transparent noborders"
                   data-screen-name="{{ data.Local.Coworker.Twitter | Replace: '@','' }}" data-show-replies="false">Tweets by @{{ data.Local.Coworker.Twitter | Replace: '@',''  }}</a>
-                  
+
                 </div>
               </div>
             </div>
             {% endif %}
-            
+
             {% if data.Local.Coworker.ProfileTags.size > 0 %}
             <div class="accordion-group">
               <div class="accordion-heading">
@@ -195,24 +231,24 @@
                     {% assign thisTag = tag.Tag %}
                     <li class="{% if data.Local.Coworker.ProfileTags contains thisTag %}selected{% endif %}">
                       <label>
-                        
+
                         <input class="tag-checkbox" disabled="disabled" type="checkbox" checked="checked"/>
-                        <a class="tag-checkbox-link" href="{% Url Directory, Index, tag: tag.Tag %}">{{ tag.Tag }}</a> 
+                        <a class="tag-checkbox-link" href="{% Url Directory, Index, tag: tag.Tag %}">{{ tag.Tag }}</a>
                         <span class="pull-right">[{{ tag.Count }}]</span>
                       </label>
-                      
+
                     </li>
                     {% endfor %}
-                    
+
                     {% for tag in data.Local.OtherTags %}
                     {% assign thisTag = tag.Tag  %}
                     <li class="other-tag {% if data.Local.Coworker.ProfileTags contains thisTag %}selected{% else %}hide{% endif %}">
                       <label>
                         <input class="tag-checkbox" disabled="disabled" type="checkbox" {% if data.Local.Coworker.ProfileTags contains thisTag %}checked{% endif %} data-tag="{{ tag.Tag }}"/>
-                        <a class="tag-checkbox-link" href="{% Url Directory, Index, tag: tag.Tag %}">{{ tag.Tag }}</a> 
+                        <a class="tag-checkbox-link" href="{% Url Directory, Index, tag: tag.Tag %}">{{ tag.Tag }}</a>
                         <span class="pull-right">[{{ tag.Count }}]</span>
                       </label>
-                      
+
                     </li>
                     {% endfor %}
                   </ul>
@@ -234,9 +270,9 @@
               </div>
               <div id="search-{{ cm.Id }}" class="accordion-body collapse in">
                 <div class="accordion-inner">
-                  
+
                   {% if cm.FieldType == 'Dropdown' %}
-                  <ul>  
+                  <ul>
                     {% for opt in cm.AvailableOptionArray %}
                     <li class="{% if data.Local.Coworker[cm.FieldName] == opt %}selected{% endif %}">
                       <label>
@@ -247,9 +283,9 @@
                     {% endfor %}
                   </ul>
                   {% else cm.FieldType = 'Boolean' %}
-                  
-                  <ul>  
-                    
+
+                  <ul>
+
                     <li class="{% if data.Local.Coworker[cm.FieldName] == 'true' %}selected{% endif %}">
                       <label>
                         <input name="custom{{ cm.Id }}" class="cm-checkbox" disabled="disabled" type="radio" {% if data.Local.Coworker[cm.FieldName] == 'true' %}checked{% endif %} data-value="true" data-cmindex="{{ cm.CustomFieldIndex }}"/>
@@ -264,22 +300,22 @@
                     </li>
                   </ul>
                   {% endif %}
-                  
-                  
+
+
                 </div>
               </div>
             </div>
             {% endif %}
             {% endfor %}
             <!-- CUSTOM FIELDS SEARCH END -->
-            
+
           </div>
         </div>
       </aside>
-      
-      
+
+
       <!-- END SIDEBAR -->
-      
+
     </div>
   </div>
   <!-- END CONTAINER -->
@@ -297,10 +333,10 @@
     <!-- END MODAL HEADER-->
     <!-- MODAL BODY-->
     <div class="modal-body">
-      
+
       <label for="message_subject">{% T Topic %}:</label>
       <input required="required" placeholder="{% T Keep it relevant, less is more... %}" maxlength="254" type="text" class="span12" id="message_subject" name="CommunityThread.Subject" value="{{data.Local.CommunityThread.Subject}}">
-      
+
       <label for="message_messagetext">{% T Message to {0} || data.Local.Coworker.Salutation %}</label>
       <textarea required="required" rows="5" class="span12" id="reply-box-server" name="CommunityThread.Message">{{data.Local.CommunityThread.Message}}</textarea>
       <label for="message_tags">{% T Tags %}:</label>

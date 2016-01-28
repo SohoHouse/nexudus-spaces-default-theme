@@ -36,7 +36,11 @@
             <a href="{% Url Directory, Team, Id: team.Id, name: team.Name | Clean %}" class="user_avatar">
               <img class="img-circle" style="height: 140px; width: 140px;" height="140" width="140" src="{% Url Team, GetAvatar, id: team.Id, h:140, w:140, mode: 'Pad' %}" alt="{{ team.Name | Capitalize }}" >
             </a>
-            <h4 class="subheader">{{ team.Name | Capitalize }}</h4>
+            <h4 class="subheader">
+              <a class="profile-link" href="{% Url Directory, Team, Id: team.Id, name: team.Name | Clean %}">
+                {{ team.Name | Capitalize }}
+              </a>
+            </h4>
 
             {% if team.ProfileWebsite.size > 0 %}
             <a target="_blank" href="{{ team.ProfileWebsite }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-earth"></span></a>
@@ -56,6 +60,7 @@
             <a href="callto://{{ team.Skype }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-skype"></span></a>
             {% endif %}
 
+
           </div>
           {% endDivRow %}
           {% endif %}
@@ -70,7 +75,11 @@
             <br/>
             <span class="label label-success">{% T checked in %}</span>
             {% endif %}
-            <h4 class="subheader">{{ member.FullName | Capitalize }}</h4>
+            <h4 class="subheader">
+              <a class="profile-link" href="{% Url Directory, Profile, Id: member.Id, name: member.FullName | Clean %}">
+                {{ member.FullName | Capitalize }}
+              </a>
+            </h4>
             {% if member.CompanyName != null %}
             <p>
               <a title="{{ member.CompanyName }}" href="{% Url Directory, Search %}?company={{ member.CompanyName }}">{{ member.CompanyName | TruncateWords: 3 }}</a>
@@ -91,6 +100,30 @@
             {% endif %}
             {% if member.Skype.size > 0 %}
             <a href="callto://{{ member.Skype }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-skype"></span></a>
+            {% endif %}
+            {% if member.Google.size > 0 %}
+            <a target="_blank" href="{{ member.Google }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-google-plus"></span></a>
+            {% endif %}
+            {% if member.Github.size > 0 %}
+            <a target="_blank" href="{{ member.Github }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-github"></span></a>
+            {% endif %}
+            {% if member.Pinterest.size > 0 %}
+            <a target="_blank" href="{{ member.Pinterest }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-pinterest"></span></a>
+            {% endif %}
+            {% if member.Flickr.size > 0 %}
+            <a target="_blank" href="{{ member.Flickr }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-flickr"></span></a>
+            {% endif %}
+            {% if member.Instagram.size > 0 %}
+            <a target="_blank" href="{{ member.Instagram }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-instagram"></span></a>
+            {% endif %}
+            {% if member.Vimeo.size > 0 %}
+            <a target="_blank" href="{{ member.Vimeo }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-vimeo"></span></a>
+            {% endif %}
+            {% if member.Tumblr.size > 0 %}
+            <a target="_blank" href="{{ member.Tumblr }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-tumblr"></span></a>
+            {% endif %}
+            {% if member.Blogger.size > 0 %}
+            <a target="_blank" href="{{ member.Blogger }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-blogger"></span></a>
             {% endif %}
           </div>
           <!-- END member -->
