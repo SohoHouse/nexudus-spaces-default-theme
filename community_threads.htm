@@ -180,6 +180,27 @@
     <div class="tab-content">
       <div class="tab-pane" id="home">...</div>
       <div class="tab-pane active" id="threads">
+
+        {% if data.Local.Guests != null %}
+        <div class="alert">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <div style="margin-bottom: 15px">
+            <strong>{% T Heads Up! %}</strong> {% T This conversation is private and can only be seen by the following people: %}
+          </div>
+          <div class="row" style="max-height: 110px; overflow: auto;">
+
+            {% for member in data.Local.Guests %}
+            <div class="span3">
+              <img class="img-circle" height="20" width="20" src="{% Url Coworker, GetAvatar, id: member.Id, h:20, w:20 %}" alt="{{ member.CoworkerFullName }}" title="{{ member.CoworkerFullName }}">
+              <a href="{% Url Directory, Profile, Id: member.Coworker.Id, name: member.Coworker.FullName | Clean %}">
+                {{ member.FullName }}
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+
         {% for thread in data.Local.Threads %}
         <div class="row {% if thread.MutedForUser %}muted-thread{% endif %}">
           <div class="span1 author-rail hidden-phone">
@@ -210,7 +231,7 @@
                 <a href="{% Url Conversations, Group, id: thread.GroupId, name: thread.GroupName %}" class="label label-info label-inverse">{{ thread.GroupName }}</a>
                 |
                 {% endif %}
-                <a href="{% Url conversations, thread, id: thread.Id %}#reply" class="btn btn-small btn-link">{% T Comment %}</a>
+                <a href="{% Url Conversations, Thread, id: thread.Id %}#reply" class="btn btn-small btn-link">{% T Comment %}</a>
                 {% if data.Coworker != null %}
                 &bull;
                 {% if thread.LikedByUser %}
@@ -294,13 +315,20 @@
       <div class="span8 text-right">
         <div class="pagination">
           <ul>
-            <li class="{% if data.Local.Page == 1 %}disabled{% endif %}"><a href="{% if data.Local.Page > 1 %}{% Url Conversations, Index, limit: data.Local.Limit, query: data.Local.Query, Page: data.Local.Page | Plus: -1 %}{% else %}#{% endif %}">&#8249; {% T Newer %}</a></li>
+            {% if data.Local.PrivateThreads %}
+            {% assign action = 'Private' %}
+            {% else %}
+            {% assign action = 'Index' %}
+            {% endif %}
+
+            <li class="{% if data.Local.Page == 1 %}disabled{% endif %}"><a href="{% if data.Local.Page > 1 %}{% Url Conversations, action, limit: data.Local.Limit, query: data.Local.Query, Page: data.Local.Page | Plus: -1 %}{% else %}#{% endif %}">&#8249; {% T Newer %}</a></li>
             {% if (data.Local.Page > 2 %}
-            <li><a href="{% Url Conversations, Index, limit: data.Local.Limit, query: data.Local.Query, Page: 1 %}">1</a></li>
+            <li><a href="{% Url Conversations, action, limit: data.Local.Limit, query: data.Local.Query, Page: 1 %}">1</a></li>
             <li class="disabled"><a href="#">...</a></li>
             {% endif %}
             <li class="active"><a href="#">{{ data.Local.Page }}</a></li>
-            <li class="{% if data.Local.Threads.size == 0 %}disabled{% endif %}"><a href="{% if data.Local.Threads.size > 0 %}{% Url Conversations, Index, limit: data.Local.Limit, query: data.Local.Query, Page: data.Local.Page | Plus: 1 %}{% else %}#{% endif %}">{% T Older %} &#8250;</a></li>
+
+            <li class="{% if data.Local.Threads.size == 0 %}disabled{% endif %}"><a href="{% if data.Local.Threads.size > 0 %}{% Url Conversations, action, limit: data.Local.Limit, query: data.Local.Query, Page: data.Local.Page | Plus: 1 %}{% else %}#{% endif %}">{% T Older %} &#8250;</a></li>
           </ul>
         </div>
       </div>
