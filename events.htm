@@ -16,7 +16,7 @@
     </ul>
     <!-- END BREADCRUMB -->
     <div class="row">
-      
+
       <!-- CONTENT -->
       <section id="content" class="span9">
         {% if data.Local.CalendarEvents.size == 0 %}
@@ -36,7 +36,11 @@
             <li>
               <span aria-hidden="true" class="icon i-16 icon-bubble"></span> <a href="{% Url Events, View, Id: ev.Id, title: ev.Name | Clean %}#comments">{% T {0} Comment(s) || ev.Comments.size %}</a>
             </li>
-
+            {% if data.Local.Event.Resource != null %}
+              <li>
+                <span aria-hidden="true" class="icon i-16 icon-location"></span> {{ data.Local.Event.Resource.Name }}
+              </li>
+           {% endif %}
           </ul>
           <!-- END POST INFO -->
           <!-- POST CONTENT -->
@@ -49,19 +53,19 @@
                 </a>
                 <div class="clearfix"></div>
               </div>
-              {% endif %}    
+              {% endif %}
               <div class="{% if ev.HasSmallImage %}span7{%else%}span9{%endif%}">
                 {{ ev.ShortDescription | StripHtml | MarkDown }}
                 <p>
                   <a class="btn btn-orange" href="{% Url Events, View, Id: ev.Id, title: ev.Name | Clean %}">{% T Read more %}</a>
                   {% if ev.WebAddress != null %}
                   <a href="{{ev.WebAddress}}" class="btn btn-grey">
-                    <i class="icon-earth"></i> 
+                    <i class="icon-earth"></i>
                     {% T Website %}</a>
                   {% endif %}
                   {% if ev.FacebookPage != null %}
                   <a href="{{ev.FacebookPage}}" class="btn btn-grey">
-                    <i class="icon-facebook"></i> 
+                    <i class="icon-facebook"></i>
                     {% T Facebook Page %}</a>
                   {% endif %}
                   {% if ev.TicketsPage != null %}
@@ -73,7 +77,7 @@
                     {% T Add to Calendar %}
                     <span class="_start">{{ ev.StartDate | Date: 'MM-dd-yyyy' }} {{ ev.StartDate | Date: 'HH:mm:ss' }}</span>
                     <span class="_end">{{ ev.EndDate | Date: 'MM-dd-yyyy' }} {{ ev.EndDate | Date: 'HH:mm:ss' }}</span>
-                
+
                     <span class="_summary">{{ ev.Name }}</span>
                     <span class="_description">{{ ev.ShortDescription }}</span>
                     <span class="_location">{{ ev.Business.Address }}</span>
@@ -83,15 +87,15 @@
                     <span class="_all_day_event">false</span>
                     <span class="_date_format">MM-dd-YYYY</span>
                   </a>
-                </p>    
+                </p>
               </div>
-            </div>                   
+            </div>
           </div>
           <!-- END POST CONTENT -->
         </article>
-        
+
         {% endfor %}
-        
+
         <!-- PAGINATION -->
         <div class="pagination pagination-centered">
           <ul>
@@ -111,10 +115,10 @@
           </ul>
         </div>
         <!-- END PAGINATION -->
-        
+
       </section>
       <!-- END CONTENT -->
-      
+
       <!-- SIDEBAR -->
       <aside id="sidebar-right" class="span3">
         <!-- WIDGET SKILLS -->
