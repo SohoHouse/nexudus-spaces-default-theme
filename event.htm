@@ -43,7 +43,7 @@
     </ul>
     <!-- END BREADCRUMB -->
     <div class="row">
-      
+
       <!-- CONTENT -->
       <section id="content" class="span9">
         <article class="post">
@@ -55,6 +55,11 @@
             <li>
               <span aria-hidden="true" class="icon i-16 icon-bubble"></span> <a href="#comments">{% T {0} Comment(s) || data.Local.Event.Comments.size %}</a>
             </li>
+            {% if ev.Resource != null %}
+            <li>
+              <span aria-hidden="true" class="icon i-16 icon-location"></span> {{ ev.Resource.Name }}
+            </li>
+            {% endif %}
           </ul>
           <div class="body-content" style="{% if data.Local.Event.HasSmallImage %}min-height: 215px{% endif %}">
             {% if data.Local.Event.HasLargeImage %}
@@ -65,16 +70,16 @@
             <p itemprop="description">
                 {{ data.Local.Event.LongDescription }}
             </p>
-            
+
             <p>
               {% if data.Local.Event.WebAddress != null %}
               <a href="{{data.Local.Event.WebAddress}}" class="btn btn-grey">
-                <i class="icon-earth"></i> 
+                <i class="icon-earth"></i>
                 {% T Website %}</a>
               {% endif %}
               {% if data.Local.Event.FacebookPage != null %}
               <a href="{{data.Local.Event.FacebookPage}}" class="btn btn-grey">
-                <i class="icon-facebook"></i> 
+                <i class="icon-facebook"></i>
                 {% T Facebook Page %}</a>
               {% endif %}
               {% if data.Local.Event.TicketsPage != null %}
@@ -86,7 +91,7 @@
                 {% T Add to Calendar %}
                 <span class="_start">{{ data.Local.Event.StartDate | Date: 'MM-dd-yyyy' }} {{ data.Local.Event.StartDate | Date: 'HH:mm:ss' }}</span>
                 <span class="_end">{{ data.Local.Event.EndDate | Date: 'MM-dd-yyyy' }} {{ data.Local.Event.EndDate | Date: 'HH:mm:ss' }}</span>
-                
+
                 <span class="_summary">{{ data.Local.Event.Name }}</span>
                 <span class="_description">{{ data.Local.Event.ShortDescription }}</span>
                 <span class="_location">{{ data.Local.Event.Business.Address }}</span>
@@ -99,25 +104,25 @@
             </p>
           </div>
         </article>
-        
+
         {% if data.Local.Attendees.size > 0 %}
         <h4 id="comments">{% T Who is coming? %}</h4>
         {% DivRow member in data.Local.Attendees cols:9 %}
         <!-- member -->
         <div class=" span1 text-center {% if member.CheckedIn %}checkedin{% endif %}">
           <a title="{{ member.FullName }}" href="{% Url Directory, Profile, Id: member.Id, name: member.FullName | Clean %}" class="user_avatar">
-            <img class="img-circle" style="height: 50px; width: 50px;" height="50" width="50" src="{% Url Coworker, GetAvatar, id: member.Id, h:50, w:50 %}" alt="{{ member.FullName | Capitalize }}" >          
+            <img class="img-circle" style="height: 50px; width: 50px;" height="50" width="50" src="{% Url Coworker, GetAvatar, id: member.Id, h:50, w:50 %}" alt="{{ member.FullName | Capitalize }}" >
           </a>
         </div>
         <!-- END member -->
         {% endDivRow %}
         <hr/>
         {% endif %}
-        
-       
+
+
         {% if data.Local.RelatedEvents.size > 0 %}
         <!-- RELATED EVENTS -->
-        
+
         <h4>{% T You may also like... %}</h4>
         {% DivRow event in data.Local.RelatedEvents cols:3 %}
         <div class="span3 post">
@@ -140,7 +145,7 @@
         {% endDivRow %}
         <!-- END RELATED EVENTS -->
         {% endif %}
-        
+
         <!-- NEW COMMENT -->
         {% if data.Local.Event.AllowComments or data.Local.Event.Comments.size > 0  %}
         <h4 id="comments">{% T Comments %}</h4>
@@ -150,7 +155,7 @@
         <div class="media comment">
           <a class="media-object pull-left" href="{% Url Directory, Profile, id: comment.PostedBy.Coworker.Id, name: comment.PostedBy.Coworker.FullName | Clean %}">
             {% if comment.PostedBy.Coworker.HasAvatar %}
-            <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: comment.PostedBy.Coworker.Id, h:64, w:64 %}" alt="{{ comment.PostedBy.Coworker.FullName | Capitalize }}" >          
+            <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: comment.PostedBy.Coworker.Id, h:64, w:64 %}" alt="{{ comment.PostedBy.Coworker.FullName | Capitalize }}" >
             {% else %}
             <img class="img-circle" height="64" width="64" src="/content/themes/public/clean/images/comment-avatar.jpg" alt="{{ comment.PostedBy.Coworker.FullName | Capitalize }}" >
             {% endif %}
@@ -168,7 +173,7 @@
         {% if data.Local.Event.AllowComments %}
         {% if data.Coworker != null %}
         <div class="media comment comment-form">
-          
+
           <a class="media-object pull-left" href="{% Url Directory, Profile, id: data.Coworker.Id %}">
             {% if data.Coworker.HasAvatar %}
             <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: data.Coworker.Id, h:64, w:64 %}" alt="{{ data.Coworker.FullName | Capitalize }}" >
@@ -179,8 +184,8 @@
           <div class="media-body">
             <form class="row-fluid" method="post" action="{% Url Events, NewComment %}">
                 {% AntiforgeryToken %}
-                <input type="hidden" id="id" name="id" required="required" value="{{ data.Local.Event.Id }}"> 
-          	  <input type="hidden" id="title" name="title" required="required" value="{{ data.Local.Event.Name }}"> 
+                <input type="hidden" id="id" name="id" required="required" value="{{ data.Local.Event.Id }}">
+          	  <input type="hidden" id="title" name="title" required="required" value="{{ data.Local.Event.Name }}">
               <label for="message_messagetext">{% T Comment %}</label>
               <textarea type="text" class="span12" maxlength="2000" name="comment" id="comment" required="required">{{data.Local.Comment.Text}}</textarea>
               <button type="submit" class="btn btn-orange pull-right">{% T Post message %}</button>
@@ -196,7 +201,7 @@
         <!-- END NEW COMMENT -->
       </section>
       <!-- END CONTENT -->
-      
+
       <!-- SIDEBAR -->
       <aside id="sidebar-right" class="span3">
         {% if data.Local.Categories.size > 0 %}
@@ -228,7 +233,7 @@
         {% endif %}
       </aside>
       <!-- END SIDEBAR -->
-      
+
     </div>
   </div>
   <!-- END CONTAINER -->
