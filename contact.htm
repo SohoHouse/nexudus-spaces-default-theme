@@ -12,30 +12,30 @@
 
     <!-- END BREADCRUMB -->
     <div class="row">
-      
+
       <h2 class="page-title span12">{% T Get in touch %}</h2>
-      
+
       <!-- CONTENT -->
       <section id="content" class="span12">
         <div id="map-canvas"></div>
       </section>
       <!-- END CONTENT -->
     </div>
-    
+
     <div class="row contact-form">
-      
+
       <!-- CONTACT FORM -->
       <div class="span8">
         <h3>{% T Send us an email %}</h3>
         <div class="well well-large">
           <form id="contact-form" method="post" action="{% Url Contact, NewUserMessage %}" class="row-fluid">
             <label>{% T Your email address%}</label>
-            <input type="text" id="UserMessage_FromName" name="UserMessage.FromName" required="required" class="required span8" value="{{data.Local.FromName}}"> 
+            <input type="text" id="UserMessage_FromName" name="UserMessage.FromName" required="required" class="required span8" value="{{data.Local.FromName}}">
             <label>{% T Subject %}:</label>
-            <input type="text" class="span8" id="UserMessage_Header" name="UserMessage.Header" value="{{data.Local.Header}}"> 
+            <input type="text" class="span8" id="UserMessage_Header" name="UserMessage.Header" value="{{data.Local.Header}}">
             <label>{% T Message %}:</label>
             <textarea type="text" name="UserMessage.Body" id="UserMessage_Body" class="required span12">{{data.Local.Body}}</textarea>
-            
+
             {% if data.User.IsAuthenticated == false %}
             <p class="textarea-block">
               <label>{% T Text in the image: %}</label>
@@ -45,17 +45,17 @@
             <input type="hidden" value="disabled" name="recaptcha_challenge_field" />
             <input type="hidden" value="disabled" name="recaptcha_response_field" />
             {% endif %}
-            
+
             <button type="submit" class="btn btn-orange pull-right">{% T Send %}</button>
           </form>
         </div>
       </div>
       <!-- END CONTACT FORM -->
-      
+
       <!-- CONTACT INFO -->
       <div class="span4">
         <h3>{% T Contact details %}</h3>
-        
+
         <div class="media">
           <div class="media-object pull-left">
             <span aria-hidden="true" class="icon i-24 icon-location"></span>
@@ -66,7 +66,7 @@
             </p>
           </div>
         </div>
-        
+
         {% if data.Business.Phone.size > 0 %}
         <div class="media">
           <div class="media-object pull-left">
@@ -77,7 +77,7 @@
           </div>
         </div>
         {% endif %}
-        
+
         {% if data.Business.Fax.size > 0 %}
         <div class="media">
           <div class="media-object pull-left">
@@ -88,7 +88,7 @@
           </div>
         </div>
         {% endif %}
-        
+
         {% if data.Business.EmailContact.size > 0 %}
         <div class="media">
           <div class="media-object pull-left">
@@ -99,7 +99,7 @@
           </div>
         </div>
         {% endif %}
-        
+
         {% if data.Business.WebContact.size > 0 %}
         <div class="media">
           <div class="media-object pull-left">
@@ -110,11 +110,11 @@
           </div>
         </div>
         {% endif %}
-        
+
       </div>
       <!-- END CONTACT INFO -->
     </div>
-    
+
   </div>
   <!-- END CONTAINER -->
 </div>
@@ -129,13 +129,14 @@
         var latlng = new google.maps.LatLng(-34.397, 150.644);
         var mapOptions = {
             zoom: 16,
+            scrollwheel: false,
             center: latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         }
         map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
         codeAddress();
     }
-  
+
     function codeAddress() {
         var address = "{{data.Business.Address | Replace: '\n', ' ' | Replace: '\r', ''}}";
         geocoder.geocode( { 'address': address}, function(results, status) {
@@ -153,7 +154,7 @@
             }
         });
     }
-  
+
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 {% endblock %}
