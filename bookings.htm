@@ -8,9 +8,13 @@
 
 {% assign showMemberDetails = data.Setting_Calendars_ShowMemberDetailsInFeed %}
 {% assign defaultView = data.Setting_Calendars_DefaultView %}
-{% if defaultView == 1%}{% assign defaultView = 'timelineDay' %}{% endif %}
-{% if defaultView == 2%}{% assign defaultView = 'agendaWeek' %}{% endif %}
-{% if defaultView == 3%}{% assign defaultView = 'month' %}{% endif %}
+{% assign resourceInAgendaView = 4 %}
+{% if defaultView == 1 and data.Resources.size > resourceInAgendaView %}{% assign defaultView = 'timelineDay' %}{% endif %}
+{% if defaultView == 1 and data.Resources.size <= resourceInAgendaView %}{% assign defaultView = 'agendaDay' %}{% endif %}
+{% if defaultView == 2 %}{% assign defaultView = 'agendaWeek' %}{% endif %}
+{% if defaultView == 3 %}{% assign defaultView = 'month' %}{% endif %}
+{% if defaultView == 4 %}{% assign defaultView = 'list' %}{% endif %}
+{% if data.Local.ShowAll == false %}{% assign defaultView = 'list' %}{% endif %}
 
 {% assign qsView = data.QueryString["view"] %}
 {% if qsView != null %}{% assign defaultView = qsView %}{% endif %}
@@ -100,6 +104,9 @@
           <div class="span9">
             <span>{% T Legend %}:</span><br />
             <a href="{% Url Bookings, Index, showAll: false %}"><span class="label" style="background: black">{% T Your bookings %}</span></a>
+            <a href="{% Url Bookings, Index, showAll: false %}"><span class="label" style="background: #484848">{% T Your team %}</span></a>
+
+
             <span class="label" style="background: #a1a1a1">{% T Events %}</span>
             <br />
             {% for resource in data.Resources %}
@@ -146,7 +153,7 @@
       	height: 'auto',
         firstDay: 1,
       	editable: false,
-      	resourceLabelText: '{{ data.Business.Name }}',
+      	resourceLabelText: '{{ data.Business.Name | Replace: "'", "\'" }}',
       	resourceGroupField: 'groupName',
      	viewRender: function (view) {
         	var date = view.intervalStart.format('YYYY-MM-DD');
@@ -156,21 +163,25 @@
           	});
     	},
         resources: [
-          {% for resource in data.Resources %}
-          {% assign resourceGroupKey = resource.GroupName | Clean %}
-          {% assign resourceGroupName = resource.GroupName %}
-          {% if resourceGroupKey == '' %}
-          {% assign resourceGroupKey = 'resources' %}
-          {% assign resourceGroupName = 'Resources' %}
-          {% endif %}
-          {% if type == resourceGroupKey or type == '' %}
-          {'id':{{ resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ resource.Name }}', eventColor: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')},
-          {% endif %}
-          {% endfor %}
+          {% if data.Local.Resource == null %}
+             {% for resource in data.Resources %}
+             {% assign resourceGroupKey = resource.GroupName | Clean %}
+             {% assign resourceGroupName = resource.GroupName %}
+             {% if resourceGroupKey == '' %}
+             {% assign resourceGroupKey = 'resources' %}
+             {% assign resourceGroupName = 'Resources' %}
+             {% endif %}
+             {% if type == resourceGroupKey or type == '' %}
+             {'id':{{ resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ resource.Name | Replace: "'", "\'" }}')},
+             {% endif %}
+             {% endfor %}
+             {% else %}
+             {'id':{{ data.Local.Resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ data.Local.Resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ data.Local.Resource.Name | Replace: "'", "\'" }}')}
+             {% endif %}
         ],
         eventClick: function(calEvent, jsEvent, view) {
             if(calEvent.url)
-                window.location = url;
+                window.location = calEvent.url;
             else if(calEvent.private) {
                 showWarningMessage("{% T This is a booking made by another member of {0} ||  data.Business.Name %}");
                 return false;
@@ -194,13 +205,13 @@
             showWarningMessage('{% T Login to make a booking %}');
             {% endif %}
         },
-        defaultView: $(window).width() < 768 ? 'basicDay' : '{% if data.Local.Resource.Id > 0 %}agendaDay{% else %}{{defaultView}}{% endif %}',
+        defaultView: $(window).width() < 768 ? 'list' : '{% if data.Local.Resource.Id > 0 %}agendaDay{% else %}{{defaultView}}{% endif %}',
         editable: true,
         displayEventEnd: true,
         defaultDate: moment('{{ data.Local.CurrentDate | FormatDate: 'yyyy-MM-dd' }}'),
         header: {
             left:   $(window).width() >= 768 ? 'title' : null,
-            center: $(window).width() < 768 ? 'basicDay' : 'month, agendaWeek, {% if data.Local.Resource.Id > 0 %}agendaDay{% else %}timelineDay{% endif %}',
+            center: $(window).width() < 768 ? 'list' : 'month,agendaWeek,{% if data.Local.Resource.Id > 0 or data.Resources.size <= resourceInAgendaView %}agendaDay{% else %}timelineDay{% endif %},list',
             right:  'today prev,next'
         },
         resourceRender: function(resourceObj, dataTds, eventTd) {
@@ -217,29 +228,72 @@
         eventSources: [
         {
             events: [
-            {% for event in data.Local.Bookings %}
+              {% for event in data.Local.Bookings %}
               {% assign groupKey = event.Resource.GroupName | Clean %}
               {% if groupKey == '' %}
               {% assign groupKey = 'resources' %}
               {% endif %}
               {% if groupKey == type or data.Local.Resource != null or type == '' %}
               {
-                id: {{ event.Id }},
-                resourceId: '{{ event.Resource.Id }}',
-              	title  : '{{ event.Resource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
-                startDate: '{{event.FromTime | Date: 'd'}}',
-                endDate: '{{event.ToTime | Date: 'd'}}',
-                startTime: '{{event.FromTime | Date: 't'}}',
-                endTime: '{{event.ToTime | Date: 't'}}',
-                start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
-                end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
-                allDay : false,
-                editable: false,
-                ignoreTimezone: true,
-                color: 'black'
+              id: {{ event.Id }},
+              resourceId: '{{ event.Resource.Id }}',
+              title  : '{{ event.Resource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
+              startDate: '{{event.FromTime | Date: 'd'}}',
+              endDate: '{{event.ToTime | Date: 'd'}}',
+              startTime: '{{event.FromTime | Date: 't'}}',
+              endTime: '{{event.ToTime | Date: 't'}}',
+              start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+              end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+              allDay : false,
+              editable: false,
+              ignoreTimezone: true,
+              color: 'black'
+              },
+              {% for linkedResource in event.Resource.LinkedResources %}
+              {
+              id: {{ event.Id }},
+              resourceId: '{{ linkedResource.Id }}',
+              title  : '{{ linkedResource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
+              startDate: '{{event.FromTime | Date: 'd'}}',
+              endDate: '{{event.ToTime | Date: 'd'}}',
+              startTime: '{{event.FromTime | Date: 't'}}',
+              endTime: '{{event.ToTime | Date: 't'}}',
+              start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+              end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+              allDay : false,
+              editable: false,
+              ignoreTimezone: true,
+              color: getColurFromName('{{ linkedResource.Name | Replace: "'", "\'" }}')
+              },
+              {% endfor %}
+              {% endif %}
+              {% endfor %}
+
+              {% for event in data.Local.TeamBookings %}
+              {% assign groupKey = event.Resource.GroupName | Clean %}
+              {% if groupKey == '' %}
+              {% assign groupKey = 'resources' %}
+              {% endif %}
+              {% if groupKey == type or data.Local.Resource != null or type == '' %}
+              {
+              id: {{ event.Id }},
+              resourceId: '{{ event.Resource.Id }}',
+              title  : '{{ event.Resource.Name | Replace: "'", "\'" }}{% if true %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
+              startDate: '{{event.FromTime | Date: 'd'}}',
+              endDate: '{{event.ToTime | Date: 'd'}}',
+              startTime: '{{event.FromTime | Date: 't'}}',
+              endTime: '{{event.ToTime | Date: 't'}}',
+              start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+              end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+              allDay : false,
+              private: true,
+              editable: false,
+              ignoreTimezone: true,
+              color: '#484848'
               },
               {% endif %}
               {% endfor %}
+
               {% if data.Local.ShowAll and data.Local.ShowAllBookings %}
               {% for event in data.Local.AllBookings %}
               {% assign groupKey = event.Resource.GroupName | Clean %}
@@ -258,11 +312,25 @@
                   ignoreTimezone: true,
                   color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')
               },
+              {% for linkedResource in event.Resource.LinkedResources %}
+              {
+              private: true,
+              resourceId: {{ linkedResource.Id }},
+              title  : '{{ linkedResource.Name | Replace: "'", "\'" }} {% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
+              start  : '{{ event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+              end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+              allDay : false,
+              editable: false,
+              ignoreTimezone: true,
+              color: getColurFromName('{{ linkedResource.Name | Replace: "'", "\'" }}')
+              },
+              {% endfor %}
               {% endif %}
               {% endfor %}
+
               {% if data.Local.ShowAll %}
-              {% if data.Local.Resource == null %}
               {% for event in data.Local.Events %}
+              {% if data.Local.Resource == null or event.Resource.Id == data.Local.Resource.Id %}
               {
               private: true,
               {% if event.HasResource %}
@@ -274,10 +342,13 @@
               end  : '{{ event.EndDate | Date: 'yyyy' }}-{{ event.EndDate | Date: 'MM' }}-{{ event.EndDate | Date: 'dd' }}T{{ event.EndDate | Date: 'HH' }}:{{ event.EndDate | Date: 'mm' }}Z',
               allDay : false,
               editable: false,
-              ignoreTimezone: true
-              },
-              {% endfor %}
+              ignoreTimezone: true,
+              {% if event.Resource != null %}
+              color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')
               {% endif %}
+              },
+              {% endif %}
+              {% endfor %}
               {% endif %}
               {% endif %}
               {
