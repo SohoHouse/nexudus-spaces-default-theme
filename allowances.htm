@@ -2,7 +2,7 @@
 {% block content %}
 <style>
   table tbody tr td { background-color: #f9f9f9; }
-  @media (max-width: 768px) { 
+  @media (max-width: 768px) {
     .nav-tabs > li {
       float:none;
     }
@@ -22,7 +22,7 @@
     </ul>
     <!-- END BREADCRUMB -->
     <div class="row">
-      
+
       <!-- CONTENT -->
       <section id="content" class="span12">
         <div class="alert alert-info text-center">
@@ -45,16 +45,16 @@
           <li><a href="#extraservices" data-toggle="tab">{% T Access to resources at {0} || data.Business.Name %}</a></li>
           {% endif %}
         </ul>
-        
+
         <div class="tab-content">
           <div class="tab-pane active" id="summary">
-            {% if data.Local.TariffHasLimits == false and data.Coworker.TimePasses.size == 0 and data.Coworker.ExtraServices.size == 0 and data.Coworker.BookingCredits.size == 0 %}  
+            {% if data.Local.TariffHasLimits == false and data.Coworker.TimePasses.size == 0 and data.Coworker.ExtraServices.size == 0 and data.Coworker.BookingCredits.size == 0 %}
             <h5>
               {% T You are not signed up for a price plan or your price plan doesn't include any allowances %}
             </h5>
             <hr/>
             {% endif %}
-            
+
             {% if data.Local.TariffTimePasses.size > 0 or data.Local.TariffExtraServices.size > 0 %}
             <table class="table">
               <thead>
@@ -76,13 +76,13 @@
                   <td>{{ tp.PassesIncluded }} {% T every %} {% T tp.PassRenewalTime %}</td>
                   <td>
                     <p class="text-right">
-                      
+
                       {% if tp.RemainingHours > 0 %}
                       {{ tp.RemainingHours }} {% T hours %}
                       {% elseif tp.RemainingMinutes > 0 %}
                       {{ tp.RemainingMinutes }} {% T minutes %}
                       {% else %}
-                      {{ tp.Remaining }} 
+                      {{ tp.Remaining }}
                       {% endif %}
                     </p>
                   </td>
@@ -97,7 +97,7 @@
                   <td>{{ xs.UsesIncluded }} {% T every %} {% T xs.ServiceRenewalTime %}</td>
                   <td>
                     <p class="text-right">
-                    {{ xs.Remaining }} 
+                    {{ xs.Remaining }}
                     </p>
                   </td>
                 </tr>
@@ -105,7 +105,7 @@
               </tbody>
             </table>
             {% endif %}
-            
+
             {% if data.Local.TariffProducts.size > 0 %}
             <table class="table">
               <thead>
@@ -119,7 +119,7 @@
                 </tr>
               </thead>
               <tbody>
-                
+
                 <!-- PRODUCTS -->
                 {% for p in data.Local.TariffProducts %}
                 <tr>
@@ -128,16 +128,16 @@
                   </td>
                   <td>
                     <p class="text-right">
-                      {{ p.Currency.Code }} {{ p.Price | FormatDecimal format: '0.00' }}
+                      {{ p.Currency.Code }} {{ p.Price | FormatDecimal format: 'N2' }}
                     </p>
                   </td>
                 </tr>
-                {% endfor %}     
+                {% endfor %}
               </tbody>
             </table>
             {% endif %}
-            
-            {% if data.Local.OtherTimePasses.size > 0 or data.Local.OtherExtraServices.size > 0 or data.Coworker.TotalRemainingBookingCredit > 0 %} 
+
+            {% if data.Local.OtherTimePasses.size > 0 or data.Local.OtherExtraServices.size > 0 or data.Coworker.TotalRemainingBookingCredit > 0 %}
             <table class="table">
               <thead>
                 <tr>
@@ -148,7 +148,7 @@
                 </tr>
               </thead>
               <tbody>
-                
+
                 <!-- OTHER TIME PASSES -->
                 {% for p in data.Local.OtherTimePasses %}
                 <tr>
@@ -162,13 +162,13 @@
                       {% elseif p.RemainingUses > 0 %}
                       {{ p.RemainingUses }} {% T minutes %}
                       {% else %}
-                      {{ p.Remaining }} 
+                      {{ p.Remaining }}
                       {% endif %}
                     </p>
                   </td>
                 </tr>
                 {% endfor %}
-                
+
                 <!-- OTHER EXTRA SERVICECS -->
                 {% for p in data.Local.OtherExtraServices %}
                 <tr>
@@ -182,15 +182,15 @@
                   </td>
                 </tr>
                 {% endfor %}
-                
+
                 {% if data.Coworker.TotalRemainingBookingCredit > 0 %}
                 <tr>
                   <td>
-                    {{ data.Coworker.TotalTotalBookingCredit | FormatDecimal format: '0.00' }} {% T Booking Credit %}
+                    {{ data.Coworker.TotalTotalBookingCredit | FormatDecimal format: 'N2' }} {% T Booking Credit %}
                   </td>
                   <td>
                     <p class="text-right">
-                      {{ data.Business.Currency.Code }} {{ data.Coworker.TotalRemainingBookingCredit | FormatDecimal format: '0.00' }}
+                      {{ data.Business.Currency.Code }} {{ data.Coworker.TotalRemainingBookingCredit | FormatDecimal format: 'N2' }}
                     </p>
                   </td>
                 </tr>
@@ -204,33 +204,33 @@
             </p>
           </div>
           <!-- END SUMMARY TAB -->
-          
+
           {% if data.Local.TariffHasLimits or data.Coworker.TimePasses.size > 0 %}
           <div class="tab-pane" id="timepasses">
-            
+
             {% if data.Coworker.Tariff.CheckinPricePlanLimit > 0 %}
             <span>
               {% T Used {0} check-ins out of {1} || data.Local.CheckinsPlan || data.Coworker.Tariff.CheckinPricePlanLimit }} %}
             </span>
             <div class="progress progress-striped">
-              <div class="bar" style="width: {{ data.Local.CheckinsLeftPlan }}%;"></div>  
+              <div class="bar" style="width: {{ data.Local.CheckinsLeftPlan }}%;"></div>
             </div>
             {% endif %}
-            
+
             {% if data.Coworker.Tariff.HoursPricePlanLimit > 0 %}
             {% T Used {0} minutes out of {1} hours || data.Local.MinutesPlan || data.Coworker.Tariff.HoursPricePlanLimit }} %}
             <div class="progress progress-striped">
               <div class="bar" style="width: {{ data.Local.MinutesLeftPlan }}%;"></div>
             </div>
             {% endif %}
-            
+
             {% if data.Coworker.Tariff.CheckinWeekLimit > 0 %}
             {% T Used {0} check-ins out of {1} this week || data.Local.CheckinsThisWeek || data.Coworker.Tariff.CheckinWeekLimit }} %}
             <div class="progress progress-striped">
               <div class="bar" style="width: {{ data.Local.CheckinsLeftWeek }}%;"></div>
             </div>
             {% endif %}
-            
+
             {% if data.Coworker.Tariff.HoursWeekLimit > 0 %}
             {% T Used {0} minutes out of {1} hours this week || data.Local.MinutesThisWeek || data.Coworker.Tariff.HoursWeekLimit }} %}
             <div class="progress progress-striped">
@@ -249,14 +249,14 @@
               <div class="bar" style="width: {{ data.Local.MinutesLeftMonth }}%;"></div>
             </div>
             {% endif %}
-            
+
             {% endif %}
-            
+
             {% if data.Coworker.TimePasses.size > 0 %}
             <div class="alert alert-info">
               {% T The tokens below give you access to {0} during a particular time of the day. No matter how many times you go in and out of the space, only one token will be used,  as long as that time pass is valid for the times you went in and out. || data.Business.Name %}
             </div>
-            
+
             <small>{% T You may need to scroll to see the entire list %}</small>
             <div style="overflow:auto; max-height: 200px">
               <table class="table table-hover invoices">
@@ -274,13 +274,13 @@
                     </td>
 <td>
                     <p class="text-right">
-                      
+
                       {% if timepass.RemainingHours > 0 %}
                       {{ timepass.RemainingHours }} {% T hours %}
                       {% elseif timepass.RemainingMinutes > 0 %}
                       {{ timepass.RemainingMinutes }} {% T minutes %}
                       {% else %}
-                      {{ timepass.Remaining }} 
+                      {{ timepass.Remaining }}
                       {% endif %}
                     </p>
                   </td>
@@ -293,7 +293,7 @@
                     <td style="width: 20px"><span aria-hidden="true" class="icon i-16 icon-close"></span></td>
                     <td>
                       {{ timepass.TimePass.Name }}
-                      {% assign usedDate = timepass.UsedDate | Date: 'D'  %} - 
+                      {% assign usedDate = timepass.UsedDate | Date: 'D'  %} -
                       {% T used on {0} || usedDate %}
                       {% if timepass.IsFromTariff %}*{% endif %}
                     </td>
@@ -336,7 +336,7 @@
                   </tr>
                   {% endif %}
                   {% endfor %}
-                  
+
                   {% for xs in data.Coworker.ExtraServices %}
                   {% if xs.RemainingUses == 0 %}
                   <tr class="muted">
@@ -354,28 +354,28 @@
                 </tbody>
               </table>
             </div>
-            
+
             <p class="pull-right">
               <a href="{% Url Bookings, Index %}" class="btn btn-orange">{% T Make a booking %}</a>
             </p>
-            
+
             <!-- EXTRA SERVICES END -->
-            
+
             <p>
               <small>(<strong>*</strong>) {% T Included in your price plan %}</small>
             </p>
           </div>
           {% endif %}
         </div>
-        
+
       </section>
       <!-- END CONTENT -->
-      
+
     </div>
   </div>
   <!-- END CONTAINER -->
-  
-  
+
+
 </div>
 {% endblock %}
 {% block script %}
