@@ -14,6 +14,11 @@
     {% assign HasEnteredPaymentDetails = true %}
     {% endif %}
 
+    {% assign hasBillingDetails = false %}
+    {% if data.Coworker.BillingName != null or data.Coworker.BillingAddress != null or data.Coworker.BillingPostCode != null or data.Coworker.BillingCityName != null or data.Coworker.BillingState != null or data.Coworker.TaxIDNumber != null %}
+    {% assign hasBillingDetails = true %}
+    {% endif %}
+
     {% if data.Coworker.Active == false and data.Coworker.Tariff != null and RegularPaymentOption and HasEnteredPaymentDetails == false %}
     <div class="progress progress-striped">
 
@@ -22,8 +27,8 @@
       <div class="bar bar-success" style="width: 20%;">3. {% T Additional Products %}</div>
       <div class="bar" style="width: 20%;">4. {% T Submit Payment Details %}</div>
     </div>
-    {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails %}
-    <div class="progress progress-striped active">
+    {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and (HasEnteredPaymentDetails or data.Coworker.PaysInvoicesViaTeam) %}
+    <div class="progress progress-striped">
 
       <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
       <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
@@ -32,7 +37,7 @@
       <div class="bar bar-warning" style="width: 15%;">5. {% T Validating your account %}</div>
     </div>
     {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and data.Local.KeepNewAccountsOnHold %}
-    <div class="progress progress-striped active">
+    <div class="progress progress-striped">
 
       <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
       <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
@@ -60,7 +65,7 @@
 
     <div class="row">
 
-      {% if RegularPaymentOption and data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails == false %}
+      {% if RegularPaymentOption and data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails == false and data.Coworker.PaysInvoicesViaTeam == false %}
       <section id="content" class="span12">
         <div class="text-center">
           <div class="alert alert-info text-center">
@@ -79,7 +84,7 @@
         </div>
         <hr />
       </section>
-      {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and data.Local.KeepNewAccountsOnHold  %}
+      {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null  %}
       <section id="content" class="span12">
         <div class="text-center">
           <div class="alert alert-info text-center">
@@ -115,6 +120,11 @@
           {% else %}
           {% T Your price plan will be cancelled on {0} || renewDateFormated %}
           {% endif %}
+        </div>
+        {% elseif data.Coworker.CancellationDate != null %}
+        <div class="alert alert-warning text-center">
+          <h4>{% T Your price plan is about to change. %}</h4>
+          {% T Your price plan will be cancelled on {0:D} || data.Coworker.CancellationDate %}
         </div>
         {% elseif data.Coworker.Tariff != null and data.Coworker.Active %}
         <div class="alert alert-info text-center">
@@ -196,8 +206,8 @@
               </div>
               {% elseif field.FieldType == 'Boolean' %}
               <div class="span12">
-                <label for="Coworker_{ customFieldName }}" class="checkbox">
-                  <input {% if field.Required %}required="required"{% endif %} id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" type="checkbox" {% if data.coworker[customfieldname]= ='true' %}checked="checked" {% endif %} value="true">
+                <label for="Coworker_{{ customFieldName }}" class="checkbox">
+                  <input {% if field.Required %}required="required"{% endif %} id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" type="checkbox" {% if data.Coworker[customFieldName] == 'true' %}checked="checked" {% endif %} value="true">
                   <input id="Coworker_{{ customFieldName }}_Hidden" name="Coworker.{{ customFieldName }}" type="hidden" value="false">
                   {% T field.Name %}
                   {% if field.Required %}<span class="text-error">*</span>{% endif %}
@@ -273,12 +283,19 @@
                 <input value="{{ data.Coworker.State }}" type="text" name="Coworker.State" id="Coworker_State" class="span12">
               </div>
             </div>
+            <div class="row-fluid">
+              <label for="Same_Billing_Details" class="checkbox">
+                <input onclick="$(this).is(':checked') ? $('#billing-details, #billing-details-form, #billing-details-button').hide(): $('#billing-details, #billing-details-form, #billing-details-button').show()" id="Same_Billing_Details" type="checkbox" {% if hasBillingDetails == false %}checked="checked"{% endif %} />
+                  {% T My billing details are the same as my contact details %}
+                </label>
+            </div>
           </div>
+
           <div class="row-fluid">
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
           </div>
-          <h3 id="billing-details">{% T Billing Details %}</h3>
-          <div class="well">
+          <h3 id="billing-details" {% if hasBillingDetails == false %}style="display: none"{% endif %}>{% T Billing Details %}</h3>
+          <div class="well" id="billing-details-form" {% if hasBillingDetails == false %}style="display: none"{% endif %}>
             <div class="row-fluid">
               <div class="span12">
                 <label for="Coworker_BillingName">{% T Company Name %}</label>
@@ -306,8 +323,14 @@
                 <input value="{{ data.Coworker.BillingPostCode }}" type="text" name="Coworker.BillingPostCode" id="Coworker_BillingPostCode" class="span12">
               </div>
             </div>
+            <div class="row-fluid">
+              <div class="span4">
+                <label for="Coworker_TaxIDNumber">{% T TAX/VAT Number %}</label>
+                <input value="{{ data.Coworker.TaxIDNumber }}" type="text" name="Coworker.TaxIDNumber" id="Coworker_TaxIDNumber" class="span12">
+              </div>
+            </div>
           </div>
-          <div class="row-fluid">
+          <div class="row-fluid" id="billing-details-button" {% if hasBillingDetails == false %}style="display: none"{% endif %}>
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
           </div>
           <h3 id="location">{% T Your location %}</h3>
@@ -352,24 +375,7 @@
                 <textarea rows="5" id="Coworker_ProfileSummary" name="Coworker.ProfileSummary" class="span12" type="text">{{ data.Coworker.ProfileSummary }}</textarea>
               </div>
             </div>
-            <div class="row-fluid">
-              <div class="span3">
-                <label for="Coworker_Twitter">Twitter</label>
-                <input value="{{ data.Coworker.Twitter }}" type="text" name="Coworker.Twitter" id="Coworker_Twitter" class="span12" placeholder="@twitter">
-              </div>
-              <div class="span3">
-                <label for="Coworker_Facebook">Facebook</label>
-                <input value="{{ data.Coworker.Facebook }}" type="text" name="Coworker.Facebook" id="Coworker_Facebook" class="span12" placeholder="https://www.facebook.com/zuck">
-              </div>
-              <div class="span3">
-                <label for="Coworker_Linkedin">Linkedin</label>
-                <input value="{{ data.Coworker.Linkedin }}" type="text" name="Coworker.Linkedin" id="Coworker_Linkedin" class="span12" placeholder="http://www.linkedin.com/in/jeffweiner08">
-              </div>
-              <div class="span3">
-                <label for="Coworker_Skype">Skype</label>
-                <input value="{{ data.Coworker.Skype }}" type="text" name="Coworker.Skype" id="Coworker_Skype" class="span12" placeholder="skype">
-              </div>
-            </div>
+
             <div class="row-fluid">
               <div class="span12">
                 <label for="Coworker_ProfileTags">{% T Skills (separate by commas) %}</label>
@@ -390,6 +396,64 @@
                 <small>{% T Max: 254 characters. Keep it relevant, less is more... %}</small>
               </div>
             </div>
+
+            <div class="row-fluid">
+              <div class="span3">
+                <label for="Coworker_Twitter">Twitter</label>
+                <input value="{{ data.Coworker.Twitter }}" type="text" name="Coworker.Twitter" id="Coworker_Twitter" class="span12" placeholder="@twitter">
+              </div>
+              <div class="span3">
+                <label for="Coworker_Facebook">Facebook</label>
+                <input value="{{ data.Coworker.Facebook }}" type="text" name="Coworker.Facebook" id="Coworker_Facebook" class="span12" placeholder="https://www.facebook.com/zuck">
+              </div>
+              <div class="span3">
+                <label for="Coworker_Linkedin">Linkedin</label>
+                <input value="{{ data.Coworker.Linkedin }}" type="text" name="Coworker.Linkedin" id="Coworker_Linkedin" class="span12" placeholder="http://www.linkedin.com/in/jeffweiner08">
+              </div>
+              <div class="span3">
+                <label for="Coworker_Skype">Skype</label>
+                <input value="{{ data.Coworker.Skype }}" type="text" name="Coworker.Skype" id="Coworker_Skype" class="span12" placeholder="skype">
+              </div>
+            </div>
+
+            <div class="row-fluid">
+              <div class="span3">
+                <label for="Coworker_Twitter">Google</label>
+                <input value="{{ data.Coworker.Google }}" type="text" name="Coworker.Google" id="Coworker_Google" class="span12" placeholder="https://profiles.google.com/google">
+              </div>
+              <div class="span3">
+                <label for="Coworker_Github">Github</label>
+                <input value="{{ data.Coworker.Github }}" type="text" name="Coworker.Github" id="Coworker_Github" class="span12" placeholder="https://github.com/github">
+              </div>
+              <div class="span3">
+                <label for="Coworker_Pinterest">Pinterest</label>
+                <input value="{{ data.Coworker.Pinterest }}" type="text" name="Coworker.Pinterest" id="Coworker_Pinterest" class="span12" placeholder="https://www.pinterest.com/pinterest">
+              </div>
+              <div class="span3">
+                <label for="Coworker_Flickr">Flickr</label>
+                <input value="{{ data.Coworker.Flickr }}" type="text" name="Coworker.Flickr" id="Coworker_Flickr" class="span12" placeholder="skype">
+              </div>
+            </div>
+
+            <div class="row-fluid">
+              <div class="span3">
+                <label for="Coworker_Instagram">Instagram</label>
+                <input value="{{ data.Coworker.Instagram }}" type="text" name="Coworker.Instagram" id="Coworker_Instagram" class="span12" placeholder="https://instagram.com/instagram/">
+              </div>
+              <div class="span3">
+                <label for="Coworker_Vimeo">Vimeo</label>
+                <input value="{{ data.Coworker.Vimeo }}" type="text" name="Coworker.Vimeo" id="Coworker_Vimeo" class="span12" placeholder="https://vimeo.com/vimeo">
+              </div>
+              <div class="span3">
+                <label for="Coworker_Tumblr">Tumblr</label>
+                <input value="{{ data.Coworker.Tumblr }}" type="text" name="Coworker.Tumblr" id="Coworker_Tumblr" class="span12" placeholder="https://www.tumblr.com/tumblr">
+              </div>
+              <div class="span3">
+                <label for="Coworker_Blogger">Blogger</label>
+                <input value="{{ data.Coworker.Blogger }}" type="text" name="Coworker.Blogger" id="Coworker_Blogger" class="span12" placeholder="https://www.blogger.com/blogger">
+              </div>
+            </div>
+
             <div class="row-fluid">
               <div class="span12">
                 <label for="Coworker_ProfileIsPublic" class="checkbox">
@@ -411,7 +475,7 @@
           <h3 id="notifications">{% T Notifications %}</h3>
           <div class="well">
             <div class="row-fluid">
-              <p>{% T Select when would you like to receive notifications: %}</p>
+              <p><b>{% T Select when would you like to receive notifications: %}</b></p>
               <label for="User_OnHelpDeskMsg" class="checkbox">
                 <input id="User_OnHelpDeskMsg" name="User.OnHelpDeskMsg" type="checkbox" value="true" {% if !data.Coworker.User.OnHelpDeskMsg %} checked="checked" {% endif %} />
                 <input id="User_OnHelpDeskMsg_Hidden" name="User.OnHelpDeskMsg" type="hidden" value="false" />
