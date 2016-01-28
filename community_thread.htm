@@ -50,11 +50,11 @@
       <div style="margin-bottom: 15px">
         <strong>{% T Heads Up! %}</strong> {% T This conversation is private and can only be seen by the following people: %}
       </div>
-      <div class="row">
+      <div class="row" style="max-height: 110px; overflow: auto;">
         <div class="span3">
           <img class="img-circle" height="20" width="20"src="{% Url Coworker, GetAvatar, id: data.Local.Thread.CoworkerId, h:20, w:20 %}" alt="{{ data.Local.Thread.FullName }}" title="{{ data.Local.Thread.FullName }}">
           <a href="{% Url Directory, Profile, Id: data.Local.Thread.CoworkerId, name: data.Local.Thread.FullName | Clean %}">
-            {{ data.Local.Thread.FullName }}
+            {{ data.Local.Thread.FullName }} (admin)
           </a>
         </div>
         {% for member in data.Local.Guests %}
