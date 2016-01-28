@@ -730,6 +730,10 @@ footer .block .well.no-content p {
     margin-bottom: 5px !important;
 }
 
+.profile-link {
+	color: black;
+}
+
 #directoy-search .accordion-body ul {
 	list-style: none;
 	margin: 0;
@@ -844,7 +848,7 @@ footer .block .well.no-content p {
     transition: all 200ms ease-in;
 }
 
-.fc-event:hover {
+.fc-event:hover, .fc-slats td.fc-widget-content:hover {
     background: #666;
     border-color: #666;
 }
@@ -857,6 +861,14 @@ footer .block .well.no-content p {
 .fc-day-grid-event .fc-content {
 	overflow: visible;
 	white-space: normal;
+}
+
+.fc-scroller table {
+	min-width: 600px;
+}
+
+.fc-scroller {
+	overflow-x: scroll !important;
 }
 
 /* -----------------------------------------
@@ -924,9 +936,6 @@ footer .block .well.no-content p {
     padding-bottom: 15px;
 }
 
-.invoices td .btn-orange {
-    margin: -5px 0;
-}
 
 /* media queries */
 
