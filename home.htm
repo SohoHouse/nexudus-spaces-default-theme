@@ -42,12 +42,12 @@
           {% for post in data.Local.BannerBlogPosts %}
           <div class="item {% if loop == 0 %}active{% endif %}">
             <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">
-              <img src="{% Url Blog, GetImage, id: post.Id, w: 1170, h: 450%}" alt="{{ post.Name}}">
+              <img src="{% Url Blog, GetImage, id: post.Id, w: 1170, h: 350 %}" alt="{{ post.Name}}">
             </a>
             <div class="carousel-caption">
               <h4>{{ post.Title }}</h4>
               <p>
-                {{ post.SummaryText | StripHtml | MarkDown | TruncateWords words: 15 }}
+                {{ post.SummaryText | StripHtml | TruncateWords words: 15 }}
                 | <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">{% T Read more %}</a>
               </p>
 
@@ -59,7 +59,7 @@
           {% for event in data.Local.BannerEvents %}
           <div class="item {% if loop == 0 %}active{% endif %}">
             <a href="{% Url Events, View, Id: event.Id, title: event.Name | Clean %}">
-              <img src="{% Url Events, GetLargeImage, id: event.Id, w: 1170, h: 450 %}" alt="{{ event.Name }}">
+              <img src="{% Url Events, GetLargeImage, id: event.Id, w: 1170, h: 350 %}" alt="{{ event.Name }}">
             </a>
             <div class="carousel-caption">
               <h4>{{ event.Name }}</h4>
@@ -74,7 +74,7 @@
 
           {% for image in data.Local.Gallery %}
           <div class="item {% if loop == 0 %}active{% endif %}">
-			<img src="{% Url Content, Images, name: image.Name, w: 1170, h: 450, quality: 100 %}" alt="">
+			<img src="{% Url Content, Images, name: image.Name, w: 1170, h: 350, quality: 100 %}" alt="">
           </div>
           {% assign loop = loop | Plus: 1 %}
           {% endfor %}
@@ -383,7 +383,7 @@
                     {{ service.Description }}
                     <br/>
                     <small>
-                      {% assign servicePrice = service.Price | FormatDecimal: '0.00' %}
+                      {% assign servicePrice = service.Price | FormatDecimal: 'N2' %}
                       {% T From {0} {1} || servicePrice || service.Currency.Code %}
                       -
                       <a href="{% Url Bookings, Index %}">{% T Book %}</a>
@@ -435,7 +435,7 @@
                         {{ service.Description }}
                         <br/>
                         <small>
-                          {% assign servicePrice = service.Price | FormatDecimal: '0.00' %}
+                          {% assign servicePrice = service.Price | FormatDecimal: 'N2' %}
                           {{ servicePrice }} {{ service.Currency.Code }}
                           -
                           <a href="{% Url Store, Products, productId: service.Id %}">{% T Buy %}</a>
@@ -472,11 +472,7 @@
         <!-- member -->
         <div class="member_block span3 text-center">
           <a href="{% Url Directory, Profile, Id: member.Id, name: member.FullName | Clean %}" class="user_avatar">
-            {% if member.HasAvatar %}
             <img class="img-circle" height="140" width="140" src="{% Url Coworker, GetAvatar, id: member.Id, h:140, w:140 %}" alt="{{ member.FullName | Capitalize }}" >
-            {% else %}
-            <img class="img-circle" height="140" width="140" src="/content/themes/public/clean/images/comment-avatar.jpg" alt="{{ member.FullName | Capitalize }}" >
-            {% endif %}
           </a>
           <h4 class="subheader">
             {{ member.FullName  | Capitalize }}
