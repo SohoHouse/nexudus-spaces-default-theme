@@ -473,6 +473,12 @@ textarea {
 ----------------------------------------- */
 
 /* header */
+
+.in-iframe header {
+	display: none;
+}
+
+
 header {
 }
 
@@ -544,6 +550,11 @@ header.navbar-static-top .nav>li>a:focus,
 
 
 /* footer */
+
+.in-iframe footer {
+	display: none;
+}
+
 footer {
     background: #666;
     padding: 40px 0;
