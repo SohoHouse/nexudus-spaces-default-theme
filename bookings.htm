@@ -172,7 +172,7 @@
              {% assign resourceGroupName = 'Resources' %}
              {% endif %}
              {% if type == resourceGroupKey or type == '' %}
-             {'id':{{ resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ resource.Name | Replace: "'", "\'" }}')},
+             {'id':{{ resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':"{{ resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ resource.Name | Replace: "'", "\'" }}')},
              {% endif %}
              {% endfor %}
              {% else %}
