@@ -151,7 +151,7 @@
               <td>
                 <div class=" pull-right">
 
-                  {% if invoice.CustomData == null %}
+                  {% if invoice.CustomData == null or invoice.CustomData contains 'tok_' %}
 
                   {% if data.Local.ForteEnabled and data.Coworker.HasSetupRegularPayments == false %}
                   <a class="btn btn-orange" api_login_id="{{ data.Local.ForteApiLoginId }}" allowed_methods="echeck" billing_name_attr="edit" billing_name="{{ invoice.BillToName }}" billing_company_name_attr="edit" billing_company_name="{{ invoice.Coworker.CompanyName }}" billing_street_line1_attr="edit" billing_street_line1="{{ invoice.BillToAddress }}" billing_locality_attr="edit" billing_locality="{{ invoice.BillToCity }}" billing_postal_code_attr="edit" billing_postal_code="{{ invoice.BillToPostCode }}" billing_region_attr="edit" billing_region="{{ invoice.Coworker.StateForInvoice }}" billing_email_address_attr="edit" billing_email_address="{{ invoice.Coworker.Email }}" save_token="true" method="sale" callback="forteCallback" version_number="1.0" total_amount="{{ invoice.TransactionTotalAmount | FormatDecimal: '0.00' }}" utc_time="{{ data.Local.UtcTimeTicks }}" order_number="{{ invoice.InvoiceNumber }}" signature="{{ invoice.ForteSignature }}"><span aria-hidden="true" class="icon i-16 icon-library"></span> {% T Pay by Bank Transfer %}</a>
