@@ -102,6 +102,9 @@
       <section id="content" class="span12">
         <ul class="nav nav-pills">
           <li><a href="#personal-details"><i class="icon-user"></i>&nbsp;{% T Personal Details %}</a></li>
+          {% if data.Coworker.PaysForTeam != null %}
+          <li><a href="#team-details"><i class="icon-users"></i>&nbsp;{% T My Team %}</a></li>
+          {% endif %}
           {% for group in data.Local.CustomFieldGroups %}
           <li><a href="#group-{{ group | Clean }}"><i class="icon-list"></i>&nbsp;{% T group %}</a></li>
           {% endfor %}
@@ -183,8 +186,48 @@
 
           </div>
           <div class="row-fluid">
+
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
+            <a href="#wrapper" class="btn pull-right btn-link">{% T Back %}</a>
           </div>
+
+          {% if data.Coworker.PaysForTeam != null %}
+
+          <h3 id="team-details" >{% T My Team %}</h3>
+
+          <div class="well" id="team-details-form">
+
+            <div class="row-fluid">
+              <div class="span12">
+                <label for="Team_Name">{% T Team Name %}</label>
+                <input readonly="readonly" type="text" id="Team_Name" name="Team.Name" value="{{ data.Coworker.PaysForTeam.Name }}" class="span12">
+              </div>
+            </div>
+
+            <div class="row-fluid">
+              <div class="span12">
+                <label for="Team_SignupLink">{% T Invite Link %}</label>
+                <input readonly="readonly" type="text" id="Team_SignupLink" value="https://{{ data.Business.WebAddress }}.{{ data.PublicSiteSubDomain }}/{{ data.Language }}/signup/{{ data.Coworker.PaysForTeam.UniqueId }}" class="span12">
+                <small>
+                  {% T You can send this link to anyone who you want to add to your team %}
+                </small>
+              </div>
+            </div>
+            <h4>{% T Team Members %}</h4>
+            {% DivRow member in data.Coworker.PaysForTeam.AllTeamMembers cols:3, colClass: 'span4', rowClass: 'row-fluid' %}
+            <img class="img-circle" src="{% Url Coworker, GetAvatar, id: member.Id, h:20, w:20 %}" style="width: 20px; height: 20px"/>
+            <a href="{% Url Directory, Profile, Id: member.Id, name: member.FullName | Clean %}">
+            {{ member.FullName }}
+            </a>
+            {% if member.Id != data.Coworker.Id %}
+            <a class="btn btn-mini btn-link" href="/en/user/login?t={{ member.User.AccessToken }}&returnurl={% Url Profile, Index %}">{% T Access Account %}</a>
+            {% endif %}
+            {% endDivRow %}
+
+          </div>
+
+          {% endif %}
+
           {% if data.Local.HasCustomFields %}
           {% for group in data.Local.CustomFieldGroups %}
 
@@ -257,6 +300,7 @@
           </div>
           <div class="row-fluid">
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
+            <a href="#wrapper" class="btn pull-right btn-link">{% T Back %}</a>
           </div>
           {% endfor %}
           {% endif %}
@@ -293,6 +337,7 @@
 
           <div class="row-fluid">
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
+            <a href="#wrapper" class="btn pull-right btn-link">{% T Back %}</a>
           </div>
           <h3 id="billing-details" {% if hasBillingDetails == false %}style="display: none"{% endif %}>{% T Billing Details %}</h3>
           <div class="well" id="billing-details-form" {% if hasBillingDetails == false %}style="display: none"{% endif %}>
@@ -332,6 +377,7 @@
           </div>
           <div class="row-fluid" id="billing-details-button" {% if hasBillingDetails == false %}style="display: none"{% endif %}>
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
+            <a href="#wrapper" class="btn pull-right btn-link">{% T Back %}</a>
           </div>
           <h3 id="location">{% T Your location %}</h3>
           <div class="well">
@@ -348,6 +394,7 @@
           </div>
           <div class="row-fluid">
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
+            <a href="#content" class="btn pull-right btn-link">{% T Back %}</a>
           </div>
           <h3 id="public-profile">{% T Public profile %}</h3>
           <div class="well">
@@ -471,6 +518,7 @@
           </div>
           <div class="row-fluid">
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
+            <a href="#wrapper" class="btn pull-right btn-link">{% T Back %}</a>
           </div>
           <h3 id="notifications">{% T Notifications %}</h3>
           <div class="well">
@@ -518,6 +566,7 @@
           {% endif %}
           <div class="row-fluid">
             <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
+            <a href="#wrapper" class="btn pull-right btn-link">{% T Back %}</a>
           </div>
 
         </form>
