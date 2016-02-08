@@ -215,6 +215,9 @@
         <br />
         {% endif %}
 
+        <button class="btn btn-orange pull-right" onclick="$(this).attr('disabled', 'disabled'); window.location='{% Url Invoices, Draft %}'"><span aria-hidden="true" class="icon i-16 icon-file"></span> {% T View My Next Invoice %}</button>
+        <br />
+        <br />
         {% if data.Coworker.CardNumber.size > 0 %}
         <p class="text-right">
           <small>
@@ -222,6 +225,8 @@
           </small>
         </p>
         {% endif %}
+
+		<div class="clearfix"/>
 
         {% if data.Coworker.Active %}
         <h3>{% T Completed payments %}</h3>
