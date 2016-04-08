@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-autoprefixer": "*",
+    "gulp-load-plugins": "*",
+    "gulp-clean-css": "*",
+    "gulp-if": "*",
+    "gulp-notify": "*",
+    "gulp-plumber": "*",
+    "gulp-sass": "*",
+    "yargs": "*"
+  }
+}

@@ -1,22 +1,14 @@
-Nexudus Spaces - Default Theme
-============================
+#Soho Works x Nexudus
+ 
+This repo contains our adjustments to the views and styles of Nexudus' front end portal.
 
-These are the original files for the default theme in [Nexudus Spaces](http://coworking.nexudus.com/ "Nexudus Spaces").
+##Development
+In order to keep things a little DRYer, we've used [gulp](gulpjs.com) to process SASS into CSS.
 
+* Run `npm install` to setup
+* Run `gulp` to make gulp watch your SASS files and process them when you save them.
+* Run `gulp build:sass` to build SASS files once
+* Use an `-m` flag with either gulp task to minify the CSS
 
-Nexudus Spaces is a service built to help you with the day to day tasks of managing your coworking space. 
-From a single dashboard, you can control all activity and resources in your space, 
-as well as keep a close link with your coworkers.
-
-Nexudus Spaces is loaded with tools to help you make the most of your time. Manage resources, promote your space and grow your community.
-
-- AUTOMATIC INVOICING
-- WIRELESS CHECKIN
-- ONLINE PAYMENTS
-- FLEXIBLE PRICE PLAN SYSTEM.
-- WEBSITE AND CMS FOR YOUR SPACE
-- CALENDAR AND BOOKING SYSTEM
-- BLOG AND NEWSLETTER
-- HELPDESK
-- API ACCESS
-- 24/7 REAL TECHNICAL SUPPORT
+##Deploy
+Visit [https://spaces.nexudus.com/Templates#](https://spaces.nexudus.com/Templates#) and stick your code in the appropriate hole.
