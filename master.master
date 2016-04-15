@@ -17,7 +17,6 @@
     <!-- CSS -->
     <link rel="stylesheet" type="text/css" href="/content/themes/public/default/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/content/themes/public/default/css/bootstrap-responsive.min.css"/>
-    <link href='//fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,700,600' rel='stylesheet' type='text/css'>
 
     <link rel="stylesheet" type="text/css" href="/content/themes/public/default/libs/fullcalendar-scheduler/lib/fullcalendar.min.css"/>
     <link rel="stylesheet" type="text/css" href="/content/themes/public/default/libs/fullcalendar-scheduler/scheduler.min.css"/>
@@ -27,6 +26,8 @@
     <link rel="stylesheet" type="text/css" href="/content/themes/public/default/css/icons.css"/>
     <link rel="stylesheet" type="text/css" href="/content/themes/public/default/js/chosen/chosen.min.css"/>
     <link rel="stylesheet" type="text/css" href="/content/themes/public/default/js/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="https://cloud.typography.com/6329652/720126/css/fonts.css" />
 
     {% assign GA = data.Setting_Google_Analytics %}
     {% if GA.size > 0 %}

@@ -1,0 +1,30 @@
+.accordion-group
+  border: 1px solid #ddd
+  margin-bottom: 10px
+
+.accordion-heading
+  .accordion-toggle
+    background: #f1f1f1
+    color: #333
+    font-size: 18px
+    font-weight: bold
+    text-decoration: none
+    -webkit-border-radius: 4px
+    -moz-border-radius: 4px
+    border-radius: 4px
+    &:hover
+      background: #fff
+  .active
+    background: #fff
+    -webkit-border-radius: 4px 4px 0 0
+    -moz-border-radius: 4px 4px 0 0
+    border-radius: 4px 4px 0 0
+    .icon-plus
+      display: none
+  .accordion-toggle .icon-minus
+    display: none
+  .active .icon-minus
+    display: inline-block
+
+.accordion-body p
+  margin-left: 40px

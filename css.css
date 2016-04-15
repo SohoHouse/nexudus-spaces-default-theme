@@ -1,58 +1,21 @@
-/*
- *  --------------------------------------------------
- *    Nexudus Bootstrap theme
- *  --------------------------------------------------
- *  Table of Contents
- *
- *    1. UX
- *
- *      :: html, body
- *      :: typography
- *      :: icons
- *      :: buttons
- *      :: forms
- *      :: carousel
- *      :: accordion
- *      :: navbar
- *      :: generics
- *
- *    2. Layout
- *      :: regions
- *        :: header
- *        :: wrapper
- *        :: footer
- *      :: home
- *        :: intro
- *      :: components
- *        :: comments
- *        :: members
- *        :: filter
- *      :: widgets
- *        :: widget-skills
- *        :: widget-flickr
- *        :: widget-menu
- *      :: fullcalendar
- *      :: content-types
- *        :: contact
- *            :: Utils
- *
- *  -------------------------------------------------- */
-/* -----------------------------------------------------------------------
- *  1. UX
- *------------------------------------------------------------------------ */
-/* -----------------------------------------
- *  html, body
- *----------------------------------------- */
 body {
-  background: #fff;
-  font-family: 'Open Sans', sans-serif; }
+  background: #F7F7FA; }
 
-input, textarea {
-  font-family: 'Open Sans', sans-serif; }
+body {
+  font-family: "Gotham Rounded SSm A", "Gotham Rounded SSm B";
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase; }
 
-/* -----------------------------------------
- *  typography
- *----------------------------------------- */
+input,
+textarea {
+  font-family: "Gotham Rounded SSm A", "Gotham Rounded SSm B";
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-transform: uppercase; }
+
 h1, h2, h3, h4, h5, h6 {
   color: #444;
   margin: 0 0 20px; }
@@ -79,9 +42,6 @@ a.thumbnail:hover, a.thumbnail:focus {
   border-color: rgba(248, 171, 3, 0.8);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6); }
 
-/* -----------------------------------------
- *  buttons
- *----------------------------------------- */
 .btn {
   border-color: transparent;
   box-shadow: 0 0 0;
@@ -111,9 +71,6 @@ a.thumbnail:hover, a.thumbnail:focus {
     border-color: #666;
     color: #fff; }
 
-/* -----------------------------------------
- *  icons
- *----------------------------------------- */
 .icon {
   display: inline-block; }
 
@@ -173,9 +130,6 @@ a .icon {
 abbr {
   border: none !important; }
 
-/* -----------------------------------------
- *  forms
- *----------------------------------------- */
 form {
   margin: 0; }
 
@@ -204,9 +158,6 @@ textarea {
 #wrapper [class*="span"] > input, #wrapper [class*="span"] > textarea, #wrapper [class*="span"] > select {
   margin-bottom: 0; }
 
-/* -----------------------------------------
- *  carousel
- *----------------------------------------- */
 #carousel {
   margin: 0;
   width: 100%; }
@@ -228,9 +179,6 @@ textarea {
 .carousel-inner > .item > img, .carousel-inner > .item > a > img {
   width: 100%; }
 
-/* -----------------------------------------
- *  accordion
- *----------------------------------------- */
 .accordion-group {
   border: 1px solid #ddd;
   margin-bottom: 10px; }
@@ -260,9 +208,6 @@ textarea {
 .accordion-body p {
   margin-left: 40px; }
 
-/* -----------------------------------------
- *  navbar
- *----------------------------------------- */
 .navbar .nav > li > a {
   color: #333; }
 
@@ -348,28 +293,22 @@ textarea {
     background-repeat: repeat-x;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#primarycolorcc', endColorstr='#primarycolorb3', GradientType=0); }
 
-/* -----------------------------------------
- *  generics
- *----------------------------------------- */
+@media (max-width: 480px) {
+  .navbar h1 img {
+    height: 40px; }
+  .navbar .btn-navbar {
+    margin-top: 15px; } }
+
 .well {
   background: #f1f1f1;
   border: 1px solid #ccc;
   box-shadow: 0 0 0; }
 
-/* -----------------------------------------------------------------------
- *  2. Layout
- *------------------------------------------------------------------------ */
-/* -----------------------------------------
- *  regions
- *----------------------------------------- */
 /* header */
 .in-iframe header {
   display: none; }
 
 header.navbar-static-top .navbar-inner {
-  background: #f1f1f1;
-  border-bottom: 1px solid #ccc;
-  border-top: 3px solid #primarycolor;
   border-radius: 0;
   box-shadow: 0 0 0;
   margin-bottom: 30px; }
@@ -432,9 +371,6 @@ footer {
         color: #aaa;
         margin-top: 10px; }
 
-/* -----------------------------------------
- *  home
- *----------------------------------------- */
 /* intro */
 #intro h2 {
   margin: 0 0 50px; }
@@ -445,6 +381,9 @@ footer {
     transition: all 200ms ease-in; }
   #intro .wellcome_block p {
     min-height: 55px; }
+    @media (max-width: 767px) {
+      #intro .wellcome_block p {
+        min-height: initial; } }
 
 /*#intro .wellcome_block:before{
  *  content: '';
@@ -459,9 +398,6 @@ footer {
 #prices h3 {
   color: #000; }
 
-/* -----------------------------------------
- *  Components
- *----------------------------------------- */
 /* comments */
 .comment {
   position: relative; }
@@ -573,9 +509,6 @@ footer {
   .filter .btn {
     margin-bottom: 5px; }
 
-/* -----------------------------------------
- *  widget
- *----------------------------------------- */
 .widget {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -610,9 +543,6 @@ footer {
   margin-left: -10px;
   margin-right: -10px; }
 
-/* -----------------------------------------
- *  fullcalendar
- *----------------------------------------- */
 .fc-view-container {
   background: #fff; }
 
@@ -652,9 +582,6 @@ footer {
   .fc-scroller table {
     min-width: 600px; }
 
-/* -----------------------------------------
- *  content-types
- *----------------------------------------- */
 /* pages */
 .page-title {
   border-bottom: 1px solid #ccc;
@@ -700,22 +627,6 @@ footer {
   padding-top: 15px;
   padding-bottom: 15px; }
 
-/* media queries */
-/* Large desktop */
-/* Portrait tablet to landscape and desktop */
-/* Landscape phone to portrait tablet */
-@media (max-width: 767px) {
-  #intro .wellcome_block p {
-    min-height: initial; } }
-
-/* Landscape phones and down */
-@media (max-width: 480px) {
-  .navbar h1 img {
-    height: 40px; }
-  .navbar .btn-navbar {
-    margin-top: 15px; } }
-
-/* Utils */
 /*    !
  * * Datepicker for Bootstrap
  * *
@@ -1027,6 +938,10 @@ footer {
   -webkit-filter: grayscale(100%);
   /* Chrome 19+, Safari 6+, Safari 6+ iOS */ }
 
+@media (max-width: 767px) {
+  .threads-footer > div {
+    text-align: center !important; } }
+
 .message-link {
   color: black; }
 
@@ -1078,7 +993,6 @@ table .btn {
 .form-search .input-append .btn {
   border: 1px solid #cccccc; }
 
-/* Add This Event */
 .addthisevent-drop {
   display: inline-block;
   position: relative;
@@ -1168,8 +1082,3 @@ table .btn {
 
 .addthisevent {
   visibility: hidden; }
-
-/* Landscape phone to portrait tablet */
-@media (max-width: 767px) {
-  .threads-footer > div {
-    text-align: center !important; } }
