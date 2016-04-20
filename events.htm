@@ -1,5 +1,5 @@
 {% extends master.master %}
-{% block title %}{% if data.Local.Category != null %}{{  data.Local.Category.Title | Capitalize }} | {% endif %}{% T Events %} | {{ data.Business.Name }} {% endblock %}
+{% block title %}{% if data.Local.Category != null %}{{  data.Local.Category.Title | Capitalize }} | {% endif %}{% T Events %} {% endblock %}
 {% block content %}
 <div id="wrapper">
   <!-- CONTAINER -->

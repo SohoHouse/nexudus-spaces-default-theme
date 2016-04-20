@@ -1,5 +1,5 @@
 {% extends master.master %}
-{% block title %}{{ data.Local.Query | StripHtml | TruncateWords: 10 }} | {{ data.Business.Name }} {% endblock %}
+{% block title %}{{ data.Local.Query | StripHtml | TruncateWords: 10 }} {% endblock %}
 {% block content %}
 {% if data.Local.ShowCheckInMembers and data.Local.CheckedIn == false  %}
 <style>

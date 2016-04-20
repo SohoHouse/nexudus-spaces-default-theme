@@ -1,5 +1,5 @@
 {% extends master.master %}
-{% block title %}{{ data.Local.Thread.Subject | StripHtml | StripNewlines | TruncateWords: 10 }} | {% T Community %} | {{ data.Business.Name }} {% endblock %}
+{% block title %}{{ data.Local.Thread.Subject | StripHtml | StripNewlines | TruncateWords: 10 }} | {% T Community %} {% endblock %}
 {% block script %}
 <link rel="stylesheet" type="text/css" href="/content/themes/public/js/libs/jquery.mentionsInput/jquery.mentionsInput.css" />
 <script src="/content/themes/public/js/libs/jquery.elastic/jquery.elastic.source.js"></script>

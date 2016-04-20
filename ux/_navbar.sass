@@ -1,108 +1,78 @@
-.navbar .nav >
-  li > a
-    color: #333
-  .active > a
-    color: #333
-    text-decoration: none
-    background-color: #primarycolor
-    -webkit-box-shadow: 0 0 0
-    -moz-box-shadow: 0 0 0
-    box-shadow: 0 0 0
-    text-shadow: none
-    color: white
-    &:hover, &:focus
-      color: #333
-      text-decoration: none
-      background-color: #primarycolor
-      -webkit-box-shadow: 0 0 0
-      -moz-box-shadow: 0 0 0
-      box-shadow: 0 0 0
-      text-shadow: none
-      color: white
+.navbar .nav > li
+  margin: 40px 20px
 
-.nav-pills > .active > a
-  color: #333
-  text-decoration: none
-  background-color: #primarycolor
-  -webkit-box-shadow: 0 0 0
-  -moz-box-shadow: 0 0 0
-  box-shadow: 0 0 0
-  text-shadow: none
-  color: white
-  &:hover, &:focus
-    color: #333
-    text-decoration: none
-    background-color: #primarycolor
-    -webkit-box-shadow: 0 0 0
-    -moz-box-shadow: 0 0 0
-    box-shadow: 0 0 0
-    text-shadow: none
-    color: white
+  &:last-child
+    margin-right: 0
 
-.navbar .nav .dropdown-toggle .caret
-  margin-top: 5px
+  & > a
+    background-position: 0 0
+    background-repeat: no-repeat
+    background-size: 200%
+    font-size: 0
+    height: 50px
+    margin: 0 !important
+    padding: 0 !important
+    width: 50px
+    box-shadow: none !important
+    background-color: transparent !important
 
-.dropdown-menu > li > a
-  &:hover, &:focus
-    background: #primarycolor
+  &.active > a
+    background-position: 100% 0px
 
-.dropdown-submenu
-  &:hover > a, &:focus > a
-    background: #primarycolor
-
-.nav > li > a
-  &:hover, &:focus
-    background-color: #e5e5e5
+  $pages: events contact settings meeting-rooms dashboard
+  @each $page in $pages
+    &[id=#{$page}] > a
+      background-image: image-url('icon_#{$page}_dark.png')
 
 .nav-list >
   li > a
     color: #333
   .active > a
     text-shadow: none
-    background-color: #primarycolor
-    &:hover, &:focus
+
+    &:hover,
+    &:focus
       text-shadow: none
-      background-color: #primarycolor
 
 .navbar .btn-navbar
-  margin-top: 35px
-  color: #333
-  text-shadow: 0 0
+  box-shadow: 0 0 0
   background: none
   border: none
-  -webkit-box-shadow: 0 0 0
-  -moz-box-shadow: 0 0 0
   box-shadow: 0 0 0
+  color: #333
+  margin-top: 35px
+  text-shadow: 0 0
+
   .icon
     margin: 0
+
+.navbar-inner
+  background: transparent
+  border: 0
+  margin: 0 !important
 
 .home .navbar-inner
   margin-bottom: 0px !important
 
-.dropdown-menu > .active > a
-  color: #ffffff
-  text-decoration: none
-  outline: 0
-  background-color: #primarycolor
-  background-image: -moz-linear-gradient(top, #primarycolor, #primarycolor)
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#primarycolor), to(#primarycolor))
-  background-image: -webkit-linear-gradient(top, #primarycolor, #primarycolor)
-  background-image: -o-linear-gradient(top, #primarycolor, #primarycolor)
-  background-image: linear-gradient(to bottom, #primarycolor, #primarycolor)
-  background-repeat: repeat-x
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#primarycolorcc', endColorstr='#primarycolorb3', GradientType=0)
-  &:hover, &:focus
-    color: #ffffff
-    text-decoration: none
-    outline: 0
-    background-color: #primarycolor
-    background-image: -moz-linear-gradient(top, #primarycolor, #primarycolor)
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#primarycolor), to(#primarycolor))
-    background-image: -webkit-linear-gradient(top, #primarycolor, #primarycolor)
-    background-image: -o-linear-gradient(top, #primarycolor, #primarycolor)
-    background-image: linear-gradient(to bottom, #primarycolor, #primarycolor)
-    background-repeat: repeat-x
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#primarycolorcc', endColorstr='#primarycolorb3', GradientType=0)
+.navbar
+  .dropdown-menu
+    border: 0 !important
+
+    li a
+      padding: 30px 30px !important
+      text-align: right
+      color: $secondary
+
+      &:hover
+        background-color: $pale
+        background-image: none
+
+    li.active a
+      background-color: $pale
+      background-image: none
+      color: $accent
+      font-weight: bold
+
 
 @media (max-width: 480px)
   .navbar

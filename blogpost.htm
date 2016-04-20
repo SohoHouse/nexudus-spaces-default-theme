@@ -1,6 +1,6 @@
 {% extends master.master %}
 {% block htmlTag %}itemscope itemtype="http://schema.org/Article"{% endblock %}
-{% block title %}{{ data.Local.BlogPost.Title }} | {{ data.Business.Name }} {% endblock %}
+{% block title %}{{ data.Local.BlogPost.Title }} {% endblock %}
 {% block meta %}
 
 <meta itemprop="name" content="{{ data.Local.BlogPost.Title | StripHtml }}" />

@@ -2,13 +2,12 @@
 <header class="navbar navbar-static-top">
   <div class="navbar-inner">
     <div class="container" style="min-height:100px">
-
       <!-- LOGO OR SPACE NAME -->
-      {% if data.Business.HasLogo %}
-      <h1 class="pull-left"><a href="/"><img src="{% Url Business, GetLogo, h:60 %}" alt="logo"></a></h1>
-      {% else %}
-      <h1 style="margin-top:40px; margin-bottom:30px" class="pull-left">{{ data.Business.Name }}</h1>
-      {% endif %}
+      <h1 style="margin-top:40px; margin-bottom:30px" class="pull-left">
+        <a href="{% Url PublicHome, Index %}">{{ data.Business.Name }}</a>
+        |
+        <span>{% T {{data.Controller}} %}
+      </h1>
       <!-- END LOGO OR SPACE NAME -->
 
       <!-- COLLAPSE BUTTON -->
@@ -20,75 +19,42 @@
       <!-- MAIN NAVIGATION -->
       <nav class="nav-collapse collapse navbar-responsive-collapse">
         <ul class="nav nav-pills pull-right">
-          <li class="{%if data.Controller == 'publichome'%}active{%endif%}"><a href="{% Url PublicHome, Index %}">{% T Home %}</a></li>
-          <li class="dropdown {%if data.Controller == 'about' or data.Controller == 'conversations' or data.Controller == 'support' or data.Controller == 'bookings' or data.Controller == 'directory'%}active{%endif%}">
-            <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">{{ data.Business.Name }} <b class="caret"></b></a>
-            <ul class="dropdown-menu" role="menu">
-              <li class="{%if data.Controller == 'about'%}active{%endif%}"><a role="menuitem" tabindex="-1"  href="{% Url About, Index %}">{% T About us %}</a></li>
-              {% if data.Setting_PublicWebSite_Help %}
-              <li class="{%if data.Controller == 'support'%}active{%endif%}" ><a role="menuitem" tabindex="-1" href="{% Url Support, Index %}">{% T Help %}</a></li>
-              {% endif %}
-              <li class="{%if data.Controller == 'events'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Events, Index %}">{% T Events %}</a></li>
-              <li class="{%if data.Controller == 'bookings'  and data.Local.ShowAll %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index %}">{% T Bookings %}</a></li>
-              <li class="{%if data.Controller == 'directory'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Directory, Index %}">{% T Directory %}</a></li>
-              {% if data.Setting_PublicWebSite_CommunityBoard %}
-              <li class="{%if data.Controller == 'conversations'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Conversations, Index %}">{% T Community Board %}</a></li>
-              {% endif %}
-              {% if data.Resources.size > 0 %}
-              <li class="divider"></li>
-              <li class=""><a role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Space resources %}</a></li>
-              {% endif %}
-              {% if data.CustomTemplates.size > 0 %}
-              <li class="divider"></li>
-              {% for t in data.CustomTemplates %}
-              <li class="{%if data.Controller == 'page' and data.URL contains t.Permalink %}active{%endif%}">
-                <a role="menuitem" tabindex="-1" href="{% Url Page, Index, name: t.Permalink %}">
-                  {% if t.IsPasswordProtected %}
-                  <span aria-hidden="true" class="icon i-16 icon-lock"></span>
-                  {% endif %}
-                  {{ t.Name | Replace: '.htm', '' }}
-                </a>
-              </li>
-              {% endfor %}
-              {% endif %}
-            </ul>
-          </li>
-          {% if data.Setting_Blog_Enabled %}
-          <li class="{%if data.Controller == 'blog'%}active{%endif%}"><a href="{% Url Blog, Index %}">{% T Blog %}</a></li>
-          {% endif %}
+          <li id='dashboard' class="{%if data.Controller == 'publichome'%}active{%endif%}"><a href="{% Url PublicHome, Index %}">{% T Home %}</a></li>
+          <li id='events' class="{%if data.Controller == 'events'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Events, Index %}">{% T Events %}</a></li>
+          <li id='meeting-rooms' class="{%if data.Controller == 'publicresources'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Space resources %}</a></li>
           {% if data.Setting_PublicWebSite_Contact %}
-          <li class="{%if data.Controller == 'contact'%}active{%endif%}"><a href="{% Url Contact, Index %}">{% T Contact %}</a></li>
+          <li id="contact" class="{%if data.Controller == 'contact'%}active{%endif%}"><a href="{% Url Contact, Index %}">{% T Contact %}</a></li>
           {% endif %}
           {% if data.Setting_PublicWebSite_MyAccount %}
-          {% if data.UserIsLoggedIn %}
-          <li class="dropdown {%if data.Controller == 'profile' or data.Controller == 'invoices' or data.Controller == 'allowances' or data.Controller == 'store' %}active{%endif%}">
-            <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">{{ data.Coworker.FullName }} <b class="caret"></b></a>
-            <ul class="dropdown-menu" role="menu">
-              <li class="{%if data.Controller == 'profile' and data.Action == 'index'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Index %}">{% T My profile %}</a></li>
-              <li class="{%if data.Controller == 'invoices'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Invoices, Index %}">{% T Payments %}</a></li>
-              <li class="{%if data.Controller == 'bookings'  and data.Local.ShowAll == false %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li>
-              <li class="{%if data.Action == 'tariff'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Tariff %}">{% T Price plans %}</a></li>
-              <li class="{%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Allowances %}</a></li>
+            {% if data.UserIsLoggedIn %}
+            <li id='settings' class="dropdown {%if data.Controller == 'profile' or data.Controller == 'invoices' or data.Controller == 'allowances' or data.Controller == 'store' %}active{%endif%}">
+              <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">{% T Account %}</a>
+              <ul class="dropdown-menu" role="menu">
+                <li class="{%if data.Controller == 'profile' and data.Action == 'index'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Index %}">{% T My profile %}</a></li>
+                <li class="{%if data.Controller == 'invoices'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Invoices, Index %}">{% T Payments %}</a></li>
+                <li class="{%if data.Controller == 'bookings'  and data.Local.ShowAll == false %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li>
+                <li class="{%if data.Action == 'tariff'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Tariff %}">{% T Price plans %}</a></li>
+                <li class="{%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Allowances %}</a></li>
 
-              <li class="{%if data.Controller == 'store'%}active{%endif%} {% if data.ProductTags.size > 0 %} dropdown-submenu {% endif %}">
-                <a role="menuitem" tabindex="-1" href="{% Url Store, Products %}">{% T Additional Products %}</a>
-                {% if data.ProductTags.size > 0 %}
-              	<ul class="dropdown-menu" role="menu">
-                  {% for tag in data.ProductTags %}
-                  <li><a role="menuitem" tabindex="-1" href="{% Url Store, Products %}?tag={{ tag }}">{{ tag }}</a></li>
-                  {% endfor %}
-                </ul>
-                {% endif %}
-              </li>
+                <li class="{%if data.Controller == 'store'%}active{%endif%} {% if data.ProductTags.size > 0 %} dropdown-submenu {% endif %}">
+                  <a role="menuitem" tabindex="-1" href="{% Url Store, Products %}">{% T Additional Products %}</a>
+                  {% if data.ProductTags.size > 0 %}
+                	<ul class="dropdown-menu" role="menu">
+                    {% for tag in data.ProductTags %}
+                    <li><a role="menuitem" tabindex="-1" href="{% Url Store, Products %}?tag={{ tag }}">{{ tag }}</a></li>
+                    {% endfor %}
+                  </ul>
+                  {% endif %}
+                </li>
 
-              <li><a role="menuitem" tabindex="-1" href="{% Url Login, Logout %}">{% T Logout %}</a></li>
-            </ul>
-          </li>
-          {% else %}
-          <li><a href="https://{{ data.Business.WebAddress }}.{{ data.PublicSiteSubDomain }}/{{ data.Language }}/profile">{% T My Account %}</a></li>
+                <li><a role="menuitem" tabindex="-1" href="{% Url Login, Logout %}">{% T Logout %}</a></li>
+              </ul>
+            </li>
+            {% else %}
+            <li><a href="https://{{ data.Business.WebAddress }}.{{ data.PublicSiteSubDomain }}/{{ data.Language }}/profile">{% T My Account %}</a></li>
+            {% endif %}
           {% endif %}
-          {% endif %}
-          {% if data.Languages.size > 1 %}
+         <!--  {% if data.Languages.size > 1 %}
 
           <li class="dropdown">
             <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span aria-hidden="true" class="icon i-16 icon-earth"></span> <b class="caret"></b></a>
@@ -98,11 +64,10 @@
               {% endfor %}
             </ul>
           </li>
-          {% endif %}
+          {% endif %} -->
         </ul>
       </nav>
       <!-- END MAIN NAVIGATION -->
-
     </div>
   </div>
 </header>

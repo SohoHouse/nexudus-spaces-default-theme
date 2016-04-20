@@ -3,9 +3,28 @@ $primary: #2499E8
 $accent: #A887F2
 $highlight: #FFDB33
 $bg: #F7F7FA
-$pale: #F5FAFF
-$secondary: #D1D4D4
+$weird-blue: #F5FAFF
+$pale: #F8F8F9
+$secondary: #C9CCCC
+
+@function image-url($file)
+  @return url("http://sohoworksDandD.spaces.nexudus.com/images/#{$file}")
 
 
 body
   background: $bg
+  color: $dark
+
+  a, h1, h2, h3, h4, h5, h6, p
+    color: $dark
+    text-decoration: none
+
+  .alert
+    border: 0
+    padding: 20px
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 16px rgba(0, 0, 0, 0.05)
+    margin-bottom: 40px
+
+    &.alert-info
+      background-color: $accent
+      color: white

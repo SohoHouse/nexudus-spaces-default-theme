@@ -1,6 +1,6 @@
 {% extends master.master %}
 {% block htmlTag %}itemscope itemtype="http://schema.org/Article"{% endblock %}
-{% block title %}{% if data.Local.Category != null %}{{  data.Local.Category.Title | Capitalize }} | {% endif %}{% T Blog %} | {{ data.Business.Name }} {% endblock %}
+{% block title %}{% if data.Local.Category != null %}{{  data.Local.Category.Title | Capitalize }} | {% endif %}{% T Blog %} {% endblock %}
 {% block content %}
 <div id="wrapper">
   <!-- CONTAINER -->

@@ -2,27 +2,33 @@
   font-family: "Gotham Rounded SSm A", "Gotham Rounded SSm B"
   font-style: normal
   font-weight: 400
-  letter-spacing: 2px
+  letter-spacing: 4px
   text-transform: uppercase
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: none !important    
 
 body
   +main-font
+  *
+    text-shadow: none !important
 
 input,
 textarea
   +main-font
 
+h1, h2
+  font-size: 16px
+
 h1, h2, h3, h4, h5, h6
-  color: #444
   margin: 0 0 20px
 
 h1.subheader, h2.subheader, h3.subheader, h4.subheader, h5.subheader, h6.subheader
-  color: #333
   font-weight: normal
   margin: 10px 0
 
 a
-  color: #primarycolor
   -webkit-transition: all 200ms ease-in
   -moz-transition: all 200ms ease-in
   -o-transition: all 200ms ease-in
@@ -32,7 +38,6 @@ a
   text-align: justify
 
 a:hover
-  color: black
 
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6
   text-decoration: none

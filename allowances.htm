@@ -27,7 +27,6 @@
       <section id="content" class="span12">
         <div class="alert alert-info text-center">
           {% if data.Coworker.Tariff != null %}
-          <h4>{% T You are in the "{0}" price plan. || data.Coworker.Tariff.Name %}</h4>
           {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
           {% T Your price plan is due for renewal on {0}. || renewDateFormated %}
           {% else %}

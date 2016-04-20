@@ -1,9 +1,6 @@
 {% extends master.master %}
-{% block title %}{% T My account %} | {{ data.Business.Name }}{% endblock %}
+{% block title %}{% T My account %}{% endblock %}
 {% block content %}
-<div id="wrapper">
-  <!-- CONTAINER -->
-  <div id="main" class="container">
 
     {% assign RegularPaymentOption = false %}
     {% if data.Local.SpreedlyEnabled or data.Coworker.EnableGoCardlessPayments %}
@@ -52,18 +49,8 @@
       <div class="bar bar-success" style="width: 20%;">3. {% T Additional Products %}</div>
       <div class="bar" style="width: 20%;">4. {% T Submit Payment Details %}</div>
     </div>
-    {% else %}
-    <!-- BREADCRUMB -->
-    <ul class="breadcrumb">
-      <li><a href="{% Url PublicHome, Index %}">{% T Home %}</a> <span class="divider">/</span></li>
-      <li class="active">{% T My account %}</li>
-    </ul>
-    <!-- END BREADCRUMB -->
     {% endif %}
 
-
-
-    <div class="row">
 
       {% if RegularPaymentOption and data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails == false and data.Coworker.PaysInvoicesViaTeam == false %}
       <section id="content" class="span12">
@@ -95,6 +82,35 @@
       </section>
       {% else %}
 
+      <div class="container" >
+      {% if data.Coworker.Tariff.Id != data.Coworker.NextTariff.Id %}
+        <div class="alert alert-warning text-center">
+          <h4>{% T Your price plan is about to change. %}</h4>
+          {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
+          {% if data.Coworker.NextTariff != null %}
+          {% T Your price plan will change to "{1}" on {0} || renewDateFormated || data.Coworker.NextTariff.Name %}
+          {% else %}
+          {% T Your price plan will be cancelled on {0} || renewDateFormated %}
+          {% endif %}
+        </div>
+        {% elseif data.Coworker.CancellationDate != null %}
+        <div class="alert alert-warning text-center">
+          <h4>{% T Your price plan is about to change. %}</h4>
+          {% T Your price plan will be cancelled on {0:D} || data.Coworker.CancellationDate %}
+        </div>
+        {% elseif data.Coworker.Tariff != null and data.Coworker.Active %}
+        <div class="alert alert-info text-center">
+          {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
+          {% T Your price plan is due for renewal on {0}. || renewDateFormated %}
+        </div>
+      {% endif %}
+      </div>
+
+      <div id="wrapper">
+        <!-- CONTAINER -->
+        <div id="main" class="container">
+          <div class="row">
+
       <h2 class="page-title span12">{% T My account at {0} || data.Business.Name %}</h2>
 
 
@@ -114,28 +130,6 @@
           <li><a href="#notifications"><i class="icon-bullhorn"></i>&nbsp;{% T Notifications %}</a></li>
         </ul>
         <hr />
-        {% if data.Coworker.Tariff.Id != data.Coworker.NextTariff.Id %}
-        <div class="alert alert-warning text-center">
-          <h4>{% T Your price plan is about to change. %}</h4>
-          {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
-          {% if data.Coworker.NextTariff != null %}
-          {% T Your price plan will change to "{1}" on {0} || renewDateFormated || data.Coworker.NextTariff.Name %}
-          {% else %}
-          {% T Your price plan will be cancelled on {0} || renewDateFormated %}
-          {% endif %}
-        </div>
-        {% elseif data.Coworker.CancellationDate != null %}
-        <div class="alert alert-warning text-center">
-          <h4>{% T Your price plan is about to change. %}</h4>
-          {% T Your price plan will be cancelled on {0:D} || data.Coworker.CancellationDate %}
-        </div>
-        {% elseif data.Coworker.Tariff != null and data.Coworker.Active %}
-        <div class="alert alert-info text-center">
-          <h4>{% T You are in the "{0}" price plan. || data.Coworker.Tariff.Name %}</h4>
-          {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
-          {% T Your price plan is due for renewal on {0}. || renewDateFormated %}
-        </div>
-        {% endif %}
         <form action="{% Url Profile, Index %}" method="POST" enctype="multipart/form-data" id="profile-form">
           <h3 id="personal-details">{% T Personal Details %}</h3>
           <div class="well">
