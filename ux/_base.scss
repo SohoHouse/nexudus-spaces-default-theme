@@ -8,7 +8,7 @@ $pale: #F8F8F9;
 $secondary: #C9CCCC;
 
 @function image-url($file) {
-  @return url("http://sohoworksDandD.spaces.nexudus.com/images/#{$file}");
+  @return url("/images/#{$file}.png");
 }
 
 body {

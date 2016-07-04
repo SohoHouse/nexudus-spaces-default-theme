@@ -1,0 +1,58 @@
+table {
+  border: 0 !important;
+  td, th {
+    padding: 30px 0 !important;
+    border-top: 0 !important;
+    background-color: transparent !important;
+  }
+
+  td {
+    &:not(:last-child) .text-right, 
+    &.text-right:not(:last-child) {
+      padding-right: 20px;
+    }
+  }
+
+  th {
+    &:not(:last-child) .text-right, 
+    &.text-right:not(:last-child) {
+      padding-right: 20px;
+    }
+    font-weight: bold !important;
+    color: rgba($dark, 0.4);
+    border-bottom: 1px solid $secondary !important;
+  }
+
+  td {
+    border-bottom: 1px solid rgba($secondary, 0.2) !important;
+    font-weight: normal !important;
+    &.minor, small {
+      color: rgba($dark, 0.4);
+    }
+    &:first-child {
+      padding-left: 0;
+    }
+  }
+
+  th:first-child {
+    padding-left: 0;
+  }
+
+  td:last-child, th:last-child {
+    padding-right: 0;
+  }
+
+  tr:last-child td {
+    border-bottom: 1px solid $secondary;
+  }
+  
+  &.invoices {
+    tr:nth-child(even) td {
+      border-top-color: rgba($secondary, 0.2) !important;
+    }
+    td {
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+  }
+}

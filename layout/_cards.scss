@@ -1,0 +1,132 @@
+article.card {
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  box-shadow: 0 3px 25px rgba(black, 0.1), 0 3px 6px rgba(black, 0.1);
+  background-color: white;
+  position: relative;
+  position: relative;
+  transition: .2s all ease;
+
+  .card-wrapper--grid & {
+    height: 440px;
+    width: 30.6%;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background-image: linear-gradient(to top, white 5%, rgba(white, 0));
+      transition: .2s opacity ease;
+      border-radius: 0 0 5px 5px;
+    }
+    .card-image {
+      height: 220px;
+      border-radius: 5px 5px 0 0;
+      margin: -20px -20px 20px -20px;
+    }
+  }
+
+  .card-wrapper--list & {
+    padding-left: 40%;
+    width: 97.5%;
+    .card-content {
+      padding: 20px 20px 20px 40px;
+    }
+    .card-image {
+      height: 100%;
+      width: 40%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 4px 0 0 4px;
+    }
+    .card-hover {
+      left: 40%;
+      margin: 0 40px 40px;
+      text-align: left;
+      .btn {
+        margin: 0 10px;
+      }
+    }
+    &:first-of-type {
+      padding-left: 60%;
+      min-height: 380px;
+      .card-image {
+        width: 60%;
+      }
+      .card-title {
+        font-size: 2em;
+        margin: 40px 0;
+      }
+      .card-hover {
+        left: 60%;
+        text-align: center;
+        .btn-orange {
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+
+  &:hover {
+    box-shadow: 0 15px 25px rgba(black, 0.3), 0 7px 10px rgba(black, 0.1);
+    .card-description {
+      opacity: 0;
+    }
+    .card-hover {
+      opacity: 1;
+      bottom: 0;
+      pointer-events: auto;
+    }
+  }
+  .resource_features {
+    padding: 0;
+    margin: 0 0 20px 0;
+    li {
+      display: inline-block;
+      color: rgba($dark, 0.4);
+    }
+  }
+}
+
+.card-image {
+  background: $bg center/cover no-repeat;
+}
+
+.card-title {
+  font-weight: normal;
+}
+
+.card-meta {
+  color: $primary;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.card-description {
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 20px;
+  font-size: 13px;
+  opacity: 1;
+  transition: .2s opacity ease;
+  * {
+    color: rgba($dark, 0.4);
+  }
+}
+
+.card-hover {
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transition: .2s all ease;
+  pointer-events: none;
+  text-align: center;
+  padding-bottom: 15px;
+  box-sizing: border-box;
+}

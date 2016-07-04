@@ -3,32 +3,24 @@ form {
 }
 
 textarea:focus {
-  border-color: rgba(248, 171, 3, 0.8);
+  border-color: $secondary;
   outline: 0;
-  outline: thin dotted 9;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6);
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6);
 }
 
 input {
   &[type="text"]:focus, &[type="password"]:focus, &[type="datetime"]:focus, &[type="datetime-local"]:focus, &[type="date"]:focus, &[type="month"]:focus, &[type="time"]:focus, &[type="week"]:focus, &[type="number"]:focus, &[type="email"]:focus, &[type="url"]:focus, &[type="search"]:focus, &[type="tel"]:focus, &[type="color"]:focus {
-    border-color: rgba(248, 171, 3, 0.8);
+    box-shadow: none !important;
     outline: 0;
-    outline: thin dotted 9;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6);
-    -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6);
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6);
+    padding: 22px 20px;
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 20px;
   }
 }
 
 .uneditable-input:focus {
-  border-color: rgba(248, 171, 3, 0.8);
+  border-color: $secondary;
   outline: 0;
-  outline: thin dotted 9;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6);
-  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6);
 }
 
 textarea {
@@ -36,8 +28,159 @@ textarea {
   resize: vertical;
 }
 
-#wrapper [class*="span"] > {
-  input, textarea, select {
+.form-section {
+  padding-bottom: 30px;
+  border-bottom: 1px solid $secondary;
+  margin: 0 -37px 30px -30px;
+  padding: 0 37px 30px 30px; 
+}
+  .form-section:last-of-type {
     margin-bottom: 0;
+    border-bottom: 0; 
+  }
+
+.input-group {
+  border-radius: 4px;
+  border: 1px solid $secondary;
+  padding: 15px 20px;
+  box-sizing: border-box;
+  width: 100%;
+  display: block;
+  overflow-x: hidden;
+  white-space: nowrap;
+  margin-bottom: 20px;
+  position: relative; 
+
+  &.select::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    right: 24px;
+    top: 22px;
+    margin-top: -5px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border-right: 1px solid $secondary;
+    border-bottom: 1px solid $secondary; 
+  }
+
+  &.select::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    right: 0;
+    top: 0;
+    width: 56px;
+    border-left: 1px solid $secondary;
+    background-color: white;
+    pointer-events: none; 
+  }
+  label {
+    display: inline-block;
+    margin-bottom: 0;
+    @include main-font;
+    text-shadow: none !important;
+    color: #172433; 
+
+    &::after {
+      content: ':';
+      font-weight: bold; 
+    }
+
+    &.checkbox, &.radio {
+      color: black;
+      padding: 0;
+      font-size: 10px; 
+    }
+  }
+
+  textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    box-shadow: none;
+    padding: 10px 0 0;
+    font-weight: bold; 
+  }
+
+  select {
+    font-weight: bold;
+    margin: 0;
+    width: 85%;
+    border: 0;
+    box-shadow: none;
+    outline: none;
+    height: 1.6em; 
+  }
+
+  input {
+    border: 0 !important;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    @include main-font;
+    font-weight: bold; 
+
+    &[type=checkbox] {
+      float: right;
+      margin: 3px 0 0 10px; 
+    }
+    &[type=file] {
+      width: 78px;
+      margin: -5px 0; 
+    }
+    &[readonly] {
+      color: $secondary;
+      background-color: transparent; 
+    }
+  }
+}
+
+label.checkbox {
+  padding-left: 30px; 
+
+  & input {
+    margin-left: -30px !important; 
+  }
+  
+  & + & {
+    margin-top: 20px; 
+  }
+}
+
+select.select--number {
+  width: 35px;
+  border: 0;
+  background-image: url('/images/asset_select-arrows.png');
+  background-position: right bottom 4px;
+  appearance: none;
+  color: $primary;
+  background-repeat: no-repeat;
+  background-size: auto 21px;
+  outline: none;
+  font-size: 12px;
+  margin-top: -5px;
+  padding: 0 5px; 
+}
+
+.input-append {
+  margin: 50px;
+  white-space: normal;
+  font-size: inherit;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 45px; 
+
+  & input,
+  & .btn {
+    border-radius: 4px !important; 
+  }
+
+  & input {
+    flex: 1 1 auto;
+    margin-right: 20px; 
   }
 }

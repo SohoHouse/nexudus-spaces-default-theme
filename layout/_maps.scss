@@ -1,0 +1,48 @@
+#map-canvas {
+  margin: 0;
+  padding: 0;
+  height: 400px;
+  margin-bottom: 50px;
+}
+
+.map-box {
+  background-color: $primary;
+  width: 300px;
+  margin-top: -7px;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px rgba(black, 0.16), 0 3px 16px rgba(black, 0.05);
+  padding: 20px;
+  -webkit-transform: translate3d(30px, -50%, 0);
+  transform: translate3d(30px, -50%, 0);
+  position: relative;
+  @include main-font;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -16px;
+    border: 8px solid transparent;
+    border-right-color: $primary;
+    margin-top: -8px;
+  }
+
+  h1 {
+    opacity: .5;
+    color: white;
+  }
+
+  p {
+    color: white;
+    text-transform: none;
+    letter-spacing: 0;
+    line-height: 20px;
+    font-size: 13px;
+
+    span {
+      opacity: .5;
+      @include main-font;
+      color: white;
+    }
+  }
+}

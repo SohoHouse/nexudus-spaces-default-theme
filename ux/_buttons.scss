@@ -1,43 +1,67 @@
 .btn {
+  @include main-font;
   border-color: transparent;
-  -webkit-box-shadow: 0 0 0;
-  -moz-box-shadow: 0 0 0;
   box-shadow: 0 0 0;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  -webkit-transition: all 200ms ease-in;
-  -moz-transition: all 200ms ease-in;
-  -o-transition: all 200ms ease-in;
   transition: all 200ms ease-in;
+  box-sizing: border-box;
+  max-width: 100%;
+  background-image: none !important; 
+
+  .btn[disabled] {
+    background-color: initial;
+    color: initial;
+    opacity: .5; 
+  }
+
+  .btn.active {
+    box-shadow: none;
+  }
+}
+
+.btn-spacer {
+  margin: 0 20px; 
 }
 
 .btn-link {
-  color: #primarycolor;
+  color: $primary;
+  width: auto;
+  padding: 10px 0;
+  background-color: transparent !important;
+
+  &.btn-toggle {
+    color: rgba(23, 36, 51, 0.4); 
+  }
 
   &:hover, &:focus {
-    color: #primarycolor;
+    color: $primary;
+  }
+
+  &.active {
+    box-shadow: none;
+    color: $primary; 
   }
 }
 
 .btn-orange {
-  background: #primarycolor;
-  border-color: #primarycolor;
+  background: $primary;
+  border-color: $primary;
   color: #fff;
 
   &:hover, &:focus {
-    background: black;
-    border-color: $dark;
+    background-color: darken($primary, 0.5%);
     color: #fff;
   }
 }
 
 .btn-grey {
-  background: #a1a1a1;
-  border-color: #a1a1a1;
-  color: #fff;
+  background: transparent;
+  border-color: $primary;
+  color: $primary;
 
   &:hover, &:focus {
-    background: #666;
-    border-color: #666;
-    color: #fff;
+    background: transparent;
+    border-color: darken($primary, 0.5%);
+    color: darken($primary, 0.5%);
   }
 }
