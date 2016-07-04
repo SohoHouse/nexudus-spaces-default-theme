@@ -1,0 +1,46 @@
+.widget {
+  border: 1px solid #ccc;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  margin-bottom: 30px;
+  padding: 10px;
+}
+
+.widget-title * {
+  font-size: 14px;
+  line-height: 14px;
+  margin: 0 0 15px;
+}
+
+/* widget-skills */
+.widget-skills .btn, .skills .btn {
+  margin-bottom: 5px;
+}
+
+/* widget-flickr */
+.widget-flickr ul {
+  list-style: none;
+  margin: 0;
+  text-align: center;
+
+  li {
+    display: inline-block;
+    margin-bottom: 5px;
+    width: 31%;
+
+    a {
+      display: inline-block;
+
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+  }
+}
+
+/* widget-menu */
+.widget-menu .widget-body {
+  margin-left: -10px;
+  margin-right: -10px;
+}

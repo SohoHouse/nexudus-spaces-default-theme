@@ -3,8 +3,8 @@ var gulp          = require('gulp'),
   $               = gulpLoadPlugins(),
   argv            = require('yargs').argv;
 
-gulp.task('build:sass', function () {
-  gulp.src('css.sass')
+gulp.task('build:scss', function () {
+  gulp.src('css.scss')
     .pipe($.plumber({
       errorHandler: $.notify.onError("<%= error.message %>")}))
     .pipe($.sass({
@@ -18,6 +18,6 @@ gulp.task('build:sass', function () {
     .pipe(gulp.dest('./'));
 });
 
-gulp.task('default', ['build:sass'], function () {
-  gulp.watch('**/*.sass', ['build:sass']);
+gulp.task('default', ['build:scss'], function () {
+  gulp.watch('**/*.scss', ['build:scss']);
 });

@@ -1,23 +1,31 @@
-/* line 14, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_base.sass */
+@charset "UTF-8";
+/* line 14, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_base.scss */
 body {
   background: #F7F7FA;
   color: #172433; }
-  /* line 18, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_base.sass */
+  /* line 18, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_base.scss */
   body a, body h1, body h2, body h3, body h4, body h5, body h6, body p {
     color: #172433;
     text-decoration: none; }
-  /* line 22, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_base.sass */
-  body .alert {
-    border: 0;
-    padding: 20px;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 16px rgba(0, 0, 0, 0.05);
-    margin-bottom: 40px; }
-    /* line 28, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_base.sass */
-    body .alert.alert-info {
-      background-color: #A887F2;
-      color: white; }
 
-/* line 12, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.sass */
+/* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_base.scss */
+.alert {
+  border: 0;
+  padding: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 16px rgba(0, 0, 0, 0.05);
+  margin-bottom: 40px; }
+  /* line 30, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_base.scss */
+  #main.container .alert {
+    padding: 0;
+    box-shadow: none;
+    background-color: transparent;
+    color: #172433; }
+  /* line 37, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_base.scss */
+  .alert.alert-info {
+    background-color: #A887F2;
+    color: white; }
+
+/* line 16, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.scss */
 body {
   font-family: "Gotham Rounded SSm A", "Gotham Rounded SSm B";
   font-style: normal;
@@ -27,14 +35,20 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-shadow: none !important; }
-  /* line 14, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.sass */
+  text-shadow: none !important;
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  color: #172433; }
+  /* line 19, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.scss */
   body * {
     text-shadow: none !important; }
 
-/* line 17, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.sass */
+/* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.scss */
 input,
-textarea {
+textarea,
+label,
+button,
+select {
   font-family: "Gotham Rounded SSm A", "Gotham Rounded SSm B";
   font-style: normal;
   font-weight: 400;
@@ -43,217 +57,227 @@ textarea {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-shadow: none !important; }
+  text-shadow: none !important;
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  color: #172433; }
 
-/* line 21, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.sass */
+/* line 32, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.scss */
 h1, h2 {
   font-size: 16px; }
 
-/* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.sass */
+/* line 36, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.scss */
 h1, h2, h3, h4, h5, h6 {
-  margin: 0 0 20px; }
+  margin: 0 0 20px;
+  line-height: inherit;
+  font-weight: normal; }
 
-/* line 27, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.sass */
+/* line 42, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.scss */
 h1.subheader, h2.subheader, h3.subheader, h4.subheader, h5.subheader, h6.subheader {
   font-weight: normal;
   margin: 10px 0; }
 
-/* line 31, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.sass */
+/* line 47, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.scss */
+h3 {
+  color: rgba(23, 36, 51, 0.4);
+  font-size: 0.9em; }
+
+/* line 52, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.scss */
 a {
   transition: all 200ms ease-in; }
 
-/* line 37, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.sass */
+/* line 59, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.scss */
 .text-justify {
   text-align: justify; }
 
-/* line 42, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.sass */
+/* line 65, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.scss */
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 {
   text-decoration: none; }
 
-/* line 46, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.sass */
+/* line 70, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_typography.scss */
 a.thumbnail:hover, a.thumbnail:focus {
   border-color: rgba(248, 171, 3, 0.8);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6); }
 
-/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.sass */
+/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.scss */
 .btn {
   border-color: transparent;
   box-shadow: 0 0 0;
   text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
   transition: all 200ms ease-in; }
 
-/* line 12, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.sass */
+/* line 13, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.scss */
 .btn-link {
   color: #primarycolor; }
-  /* line 14, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.sass */
+  /* line 16, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.scss */
   .btn-link:hover, .btn-link:focus {
     color: #primarycolor; }
 
-/* line 17, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.sass */
+/* line 21, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.scss */
 .btn-orange {
   background: #primarycolor;
   border-color: #primarycolor;
   color: #fff; }
-  /* line 21, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.sass */
+  /* line 26, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.scss */
   .btn-orange:hover, .btn-orange:focus {
     background: black;
     border-color: #172433;
     color: #fff; }
 
-/* line 26, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.sass */
+/* line 33, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.scss */
 .btn-grey {
   background: #a1a1a1;
   border-color: #a1a1a1;
   color: #fff; }
-  /* line 30, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.sass */
+  /* line 38, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_buttons.scss */
   .btn-grey:hover, .btn-grey:focus {
     background: #666;
     border-color: #666;
     color: #fff; }
 
-/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .icon {
   display: inline-block; }
 
-/* line 4, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 5, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .i-16 {
   font-size: 16px; }
 
-/* line 7, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 9, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .i-24 {
   font-size: 24px; }
 
-/* line 10, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 13, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .i-32 {
   font-size: 32px; }
 
-/* line 13, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 17, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .i-48 {
   font-size: 48px; }
 
-/* line 16, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 21, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .i-64 {
   font-size: 64px; }
 
-/* line 19, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 25, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .icon.circle {
   border-radius: 500px; }
 
-/* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 31, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .i-16.circle {
   padding: 8px; }
 
-/* line 27, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 35, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .i-24.circle {
   padding: 12px; }
 
-/* line 30, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 39, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .i-32.circle {
   padding: 16px; }
 
-/* line 33, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 43, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .i-48.circle {
   padding: 24px; }
 
-/* line 36, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 47, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .i-64.circle {
   padding: 32px; }
 
-/* line 40, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 52, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .circle.orange {
   background: #fff;
   border: 5px solid #primarycolor;
   color: #primarycolor; }
 
-/* line 44, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 58, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .circle.white {
   background: #primarycolor;
   color: #fff; }
 
-/* line 49, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 65, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 a:hover .circle.orange {
   background: black;
   color: #fff;
   border-color: #172433; }
 
-/* line 53, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 71, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 a .icon {
   vertical-align: -20%; }
 
-/* line 56, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 76, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 .btn .icon {
   margin-right: 5px; }
 
-/* line 59, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.sass */
+/* line 80, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_icons.scss */
 abbr {
   border: none !important; }
 
-/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.sass */
+/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.scss */
 form {
   margin: 0; }
 
-/* line 4, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.sass */
+/* line 5, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.scss */
 textarea:focus {
   border-color: rgba(248, 171, 3, 0.8);
   outline: 0;
   outline: thin dotted 9;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6); }
 
-/* line 13, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.sass */
+/* line 15, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.scss */
 input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus {
   border-color: rgba(248, 171, 3, 0.8);
   outline: 0;
   outline: thin dotted 9;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6); }
 
-/* line 21, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.sass */
+/* line 25, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.scss */
 .uneditable-input:focus {
   border-color: rgba(248, 171, 3, 0.8);
   outline: 0;
   outline: thin dotted 9;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6); }
 
-/* line 29, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.sass */
+/* line 34, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.scss */
 textarea {
   min-height: 70px !important;
   resize: vertical; }
 
-/* line 34, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.sass */
+/* line 40, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_forms.scss */
 #wrapper [class*="span"] > input, #wrapper [class*="span"] > textarea, #wrapper [class*="span"] > select {
   margin-bottom: 0; }
 
-/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_carousel.sass */
+/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_carousel.scss */
 #carousel {
   margin: 0;
   width: 100%; }
 
-/* line 5, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_carousel.sass */
+/* line 6, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_carousel.scss */
 .carousel-control {
   font-size: 48px;
   font-weight: bold;
   top: 50%; }
 
-/* line 10, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_carousel.sass */
+/* line 12, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_carousel.scss */
 .carousel-indicators {
   bottom: 10px;
   right: 10px;
   top: auto; }
-  /* line 14, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_carousel.sass */
+  /* line 17, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_carousel.scss */
   .carousel-indicators li {
     border-radius: 8px;
     height: 16px;
     width: 16px; }
 
-/* line 22, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_carousel.sass */
+/* line 27, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_carousel.scss */
 .carousel-inner > .item > img, .carousel-inner > .item > a > img {
   width: 100%; }
 
-/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.sass */
+/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.scss */
 .accordion-group {
   border: 1px solid #ddd;
   margin-bottom: 10px; }
 
-/* line 6, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.sass */
+/* line 7, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.scss */
 .accordion-heading .accordion-toggle {
   background: #f1f1f1;
   color: #333;
@@ -261,37 +285,37 @@ textarea {
   font-weight: bold;
   text-decoration: none;
   border-radius: 4px; }
-  /* line 15, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.sass */
+  /* line 17, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.scss */
   .accordion-heading .accordion-toggle:hover {
     background: #fff; }
 
-/* line 17, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.sass */
+/* line 22, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.scss */
 .accordion-heading .active {
   background: #fff;
   border-radius: 4px 4px 0 0; }
-  /* line 22, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.sass */
+  /* line 28, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.scss */
   .accordion-heading .active .icon-plus {
     display: none; }
 
-/* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.sass */
+/* line 33, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.scss */
 .accordion-heading .accordion-toggle .icon-minus {
   display: none; }
 
-/* line 26, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.sass */
+/* line 37, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.scss */
 .accordion-heading .active .icon-minus {
   display: inline-block; }
 
-/* line 29, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.sass */
+/* line 42, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_accordion.scss */
 .accordion-body p {
   margin-left: 40px; }
 
-/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
 .navbar .nav > li {
   margin: 40px 20px; }
-  /* line 4, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 4, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .nav > li:last-child {
     margin-right: 0; }
-  /* line 7, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 8, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .nav > li > a {
     background-position: 0 0;
     background-repeat: no-repeat;
@@ -303,37 +327,37 @@ textarea {
     width: 50px;
     box-shadow: none !important;
     background-color: transparent !important; }
-  /* line 19, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 21, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .nav > li.active > a {
     background-position: 100% 0px; }
-  /* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 28, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .nav > li[id=events] > a {
     background-image: url("http://sohoworksDandD.spaces.nexudus.com/images/icon_events_dark.png"); }
-  /* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 28, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .nav > li[id=contact] > a {
     background-image: url("http://sohoworksDandD.spaces.nexudus.com/images/icon_contact_dark.png"); }
-  /* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 28, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .nav > li[id=settings] > a {
     background-image: url("http://sohoworksDandD.spaces.nexudus.com/images/icon_settings_dark.png"); }
-  /* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 28, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .nav > li[id=meeting-rooms] > a {
     background-image: url("http://sohoworksDandD.spaces.nexudus.com/images/icon_meeting-rooms_dark.png"); }
-  /* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 28, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .nav > li[id=dashboard] > a {
     background-image: url("http://sohoworksDandD.spaces.nexudus.com/images/icon_dashboard_dark.png"); }
 
-/* line 28, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+/* line 35, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
 .nav-list > li > a {
   color: #333; }
 
-/* line 30, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+/* line 39, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
 .nav-list > .active > a {
   text-shadow: none; }
-  /* line 33, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 42, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .nav-list > .active > a:hover, .nav-list > .active > a:focus {
     text-shadow: none; }
 
-/* line 37, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+/* line 49, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
 .navbar .btn-navbar {
   box-shadow: 0 0 0;
   background: none;
@@ -342,33 +366,33 @@ textarea {
   color: #333;
   margin-top: 35px;
   text-shadow: 0 0; }
-  /* line 46, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 58, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .btn-navbar .icon {
     margin: 0; }
 
-/* line 49, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+/* line 63, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
 .navbar-inner {
   background: transparent;
   border: 0;
   margin: 0 !important; }
 
-/* line 54, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+/* line 69, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
 .home .navbar-inner {
   margin-bottom: 0px !important; }
 
-/* line 58, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+/* line 74, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
 .navbar .dropdown-menu {
   border: 0 !important; }
-  /* line 61, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 77, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .dropdown-menu li a {
     padding: 30px 30px !important;
     text-align: right;
     color: #C9CCCC; }
-    /* line 66, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+    /* line 82, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
     .navbar .dropdown-menu li a:hover {
       background-color: #F8F8F9;
       background-image: none; }
-  /* line 70, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 88, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .dropdown-menu li.active a {
     background-color: #F8F8F9;
     background-image: none;
@@ -376,72 +400,72 @@ textarea {
     font-weight: bold; }
 
 @media (max-width: 480px) {
-  /* line 79, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 99, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar h1 img {
     height: 40px; }
-  /* line 81, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.sass */
+  /* line 103, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_navbar.scss */
   .navbar .btn-navbar {
     margin-top: 15px; } }
 
-/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_generics.sass */
+/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/ux/_generics.scss */
 .well {
   background: #f1f1f1;
   border: 1px solid #ccc;
   box-shadow: 0 0 0; }
 
 /* header */
-/* line 3, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 3, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 .in-iframe header {
   display: none; }
 
-/* line 7, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 8, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 header.navbar-static-top .navbar-inner {
   border-radius: 0;
   box-shadow: 0 0 0;
   margin-bottom: 30px; }
 
-/* line 15, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 18, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 header .navbar-inner h1 {
   margin: 20px 0;
   color: rgba(23, 36, 51, 0.4);
   font-weight: normal; }
-  /* line 20, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+  /* line 23, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
   header .navbar-inner h1 a {
     color: #172433;
     font-weight: bold;
     margin-right: 5px; }
-  /* line 25, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+  /* line 29, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
   header .navbar-inner h1 span {
     margin-left: 5px; }
 
-/* line 31, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 36, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 header.navbar-static-top .nav > li > .dropdown-menu:before, header.navbar-static-top .nav > li > .dropdown-menu:after {
   display: none; }
 
-/* line 34, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 42, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 header.navbar-static-top .nav li.dropdown.open > .dropdown-toggle, header.navbar-static-top .nav li.dropdown.active > .dropdown-toggle, header.navbar-static-top .nav li.dropdown.open.active > .dropdown-toggle {
   background-color: #ddd;
   color: #333; }
 
-/* line 38, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 49, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 header.navbar-static-top .nav > li > a:focus, header.navbar-static-top .nav > li > a:hover {
   background-color: #e5e5e5; }
 
 /* wrapper */
-/* line 44, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 59, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 #wrapper section {
   border-bottom: 1px solid #ccc;
   margin-bottom: 40px;
   padding-bottom: 40px; }
-  /* line 48, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+  /* line 64, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
   #wrapper section#content {
     border: none; }
-  /* line 50, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+  /* line 68, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
   #wrapper section:last-child {
     border-bottom: none;
     margin-bottom: 0; }
 
-/* line 53, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 74, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 #wrapper .container {
   padding: 30px;
   background-color: white;
@@ -449,70 +473,70 @@ header.navbar-static-top .nav > li > a:focus, header.navbar-static-top .nav > li
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 16px rgba(0, 0, 0, 0.05);
   margin-bottom: 36px;
   box-sizing: border-box; }
-  /* line 61, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+  /* line 82, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
   #wrapper .container .span12 {
     width: 97.5% !important; }
-  /* line 64, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+  /* line 86, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
   #wrapper .container .span3 {
     width: 22.2% !important; }
-  /* line 67, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+  /* line 90, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
   #wrapper .container:last-child {
     margin-bottom: 0; }
 
-/* line 69, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 95, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 #wrapper #main {
   margin-bottom: 36px; }
 
-/* line 71, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 99, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 #wrapper [class*="span"] {
   margin-bottom: 20px; }
 
 /* footer */
-/* line 76, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 106, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 .in-iframe footer {
   display: none; }
 
-/* line 79, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+/* line 110, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
 footer {
   background: #666;
   padding: 40px 0; }
-  /* line 82, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+  /* line 114, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
   footer .block {
     margin-bottom: 20px; }
-    /* line 84, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+    /* line 117, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
     footer .block h3 {
       color: #fff;
       font-size: 18px;
       line-height: 18px; }
-    /* line 88, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+    /* line 123, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
     footer .block p {
       color: #d0d0d0; }
-    /* line 90, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+    /* line 127, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
     footer .block .well.no-content {
       background: #858585;
       border: 1px solid #858585;
       color: #aaa; }
-      /* line 94, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.sass */
+      /* line 132, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_regions.scss */
       footer .block .well.no-content p {
         color: #aaa;
         margin-top: 10px; }
 
 /* intro */
-/* line 4, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.sass */
+/* line 4, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.scss */
 #intro h2 {
   margin: 0 0 50px; }
 
-/* line 6, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.sass */
+/* line 8, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.scss */
 #intro .wellcome_block {
   position: relative; }
-  /* line 8, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.sass */
+  /* line 11, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.scss */
   #intro .wellcome_block .circle {
     transition: all 200ms ease-in; }
-  /* line 13, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.sass */
+  /* line 18, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.scss */
   #intro .wellcome_block p {
     min-height: 55px; }
     @media (max-width: 767px) {
-      /* line 13, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.sass */
+      /* line 18, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.scss */
       #intro .wellcome_block p {
         min-height: initial; } }
 
@@ -526,59 +550,59 @@ footer {
  *  right: 0;
  *  z-index: 0;
  *} */
-/* line 30, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.sass */
+/* line 39, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_home.scss */
 #prices h3 {
   color: #000; }
 
 /* comments */
-/* line 3, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 3, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .comment {
   position: relative; }
-  /* line 5, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+  /* line 6, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
   .comment > .pull-left {
     margin-right: 20px; }
-    /* line 7, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+    /* line 9, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
     .comment > .pull-left:hover {
       opacity: 0.6; }
 
-/* line 10, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 15, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .media > .pull-left .img-circle {
   border: 3px solid #primarycolor; }
 
-/* line 13, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 19, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .comment .media-body {
   background: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 20px; }
 
-/* line 22, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 30, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .comment-form .media-body {
   background: #f1f1f1;
   border-radius: 4px;
   padding: 20px; }
 
-/* line 30, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 39, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .comment .media-body:before, .comment .media-body:after {
-  content: '';
+  content: "";
   display: inline-block;
   position: absolute; }
 
-/* line 35, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 46, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .comment-form .media-body form {
   margin: 0; }
 
 /* members */
-/* line 40, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 52, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .member_block {
   position: relative;
   min-height: 290px; }
-  /* line 43, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+  /* line 56, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
   .member_block img {
     background-color: white; }
-  /* line 45, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+  /* line 60, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
   .member_block:before {
-    content: '';
+    content: "";
     display: inline-block;
     border-bottom: 1px solid #ccc;
     position: absolute;
@@ -586,142 +610,142 @@ footer {
     left: 0;
     right: 0;
     z-index: 0; }
-  /* line 54, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+  /* line 71, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
   .member_block .user_avatar {
     display: inline-block;
     min-height: 180px; }
-    /* line 57, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+    /* line 75, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
     .member_block .user_avatar:hover {
       transform: scale(1.1);
       -moz-transform: scale(1.1);
       -webkit-transform: scale(1.1);
       -o-transform: scale(1.1); }
-  /* line 62, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+  /* line 83, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
   .member_block .img-circle {
     border: 5px solid #fff;
     position: relative;
     z-index: 1;
     transition: all 200ms ease-in; }
 
-/* line 71, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 94, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .team_block .img-circle {
   border: 5px solid #fff;
   position: relative;
   z-index: 1;
   border-color: #primarycolor; }
 
-/* line 78, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 102, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .member_block a:hover .img-circle {
   border-color: #primarycolor; }
 
-/* line 80, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 106, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .member_block .btn-grey {
   margin-bottom: 5px; }
 
-/* line 82, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 110, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .member_block .btn .icon {
   margin-right: 0; }
 
-/* line 85, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 115, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .skills .btn .icon {
   margin-right: 0; }
 
-/* line 89, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 120, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .resource_features .btn .icon {
   margin-right: 0; }
 
-/* line 91, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 124, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .resource_features > span {
   margin-bottom: 5px !important; }
 
-/* line 94, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 129, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .profile-link {
   color: #172433; }
 
-/* line 98, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 134, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 #directoy-search .accordion-body ul {
   list-style: none;
   margin: 0; }
-  /* line 101, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+  /* line 138, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
   #directoy-search .accordion-body ul a {
     display: inline-table; }
-    /* line 103, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+    /* line 141, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
     #directoy-search .accordion-body ul a.tag-checkbox-link {
       width: 85%; }
 
-/* line 105, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 147, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 #directoy-search .accordion-body label {
   margin: 0;
   margin-left: 20px; }
 
-/* line 108, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 152, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 #directoy-search .accordion-body input {
   margin: 0;
   margin-left: -20px; }
 
-/* line 111, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 157, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 #directoy-search .accordion-body li.selected a {
   font-weight: bold; }
 
 /* filter */
-/* line 116, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+/* line 164, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
 .filter {
   margin-bottom: 30px; }
-  /* line 118, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.sass */
+  /* line 167, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_Components.scss */
   .filter .btn {
     margin-bottom: 5px; }
 
-/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.sass */
+/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.scss */
 .widget {
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 30px;
   padding: 10px; }
 
-/* line 9, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.sass */
+/* line 10, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.scss */
 .widget-title * {
   font-size: 14px;
   line-height: 14px;
   margin: 0 0 15px; }
 
 /* widget-skills */
-/* line 16, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.sass */
+/* line 17, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.scss */
 .widget-skills .btn, .skills .btn {
   margin-bottom: 5px; }
 
 /* widget-flickr */
-/* line 21, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.sass */
+/* line 22, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.scss */
 .widget-flickr ul {
   list-style: none;
   margin: 0;
   text-align: center; }
-  /* line 25, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.sass */
+  /* line 27, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.scss */
   .widget-flickr ul li {
     display: inline-block;
     margin-bottom: 5px;
     width: 31%; }
-    /* line 29, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.sass */
+    /* line 32, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.scss */
     .widget-flickr ul li a {
       display: inline-block; }
-      /* line 31, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.sass */
+      /* line 35, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.scss */
       .widget-flickr ul li a:hover {
         opacity: 0.6; }
 
 /* widget-menu */
-/* line 36, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.sass */
+/* line 43, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_widget.scss */
 .widget-menu .widget-body {
   margin-left: -10px;
   margin-right: -10px; }
 
-/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.sass */
+/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.scss */
 .fc-view-container {
   background: #fff; }
 
-/* line 4, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.sass */
+/* line 5, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.scss */
 .fc-basic-view .fc-body .fc-row {
   min-height: 128px !important; }
 
-/* line 7, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.sass */
+/* line 9, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.scss */
 .fc-header-title h2 {
   background-color: #primarycolor;
   border-radius: 4px;
@@ -730,91 +754,91 @@ footer {
   line-height: 18px;
   padding: 5px 10px; }
 
-/* line 17, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.sass */
+/* line 20, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.scss */
 .fc-event {
   border: 1px solid #a1a1a1;
   background-color: #a1a1a1;
   color: #fff !important;
   transition: all 200ms ease-in; }
-  /* line 25, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.sass */
+  /* line 29, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.scss */
   .fc-event:hover {
     background: #666;
     border-color: #666; }
 
-/* line 29, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.sass */
+/* line 35, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.scss */
 .fc-slats td.fc-widget-content:hover {
   background: #666;
   border-color: #666; }
 
-/* line 33, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.sass */
+/* line 40, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.scss */
 .fc-day, .fc-event, .fc-rows {
   cursor: pointer !important; }
 
-/* line 36, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.sass */
+/* line 44, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.scss */
 .fc-day-grid-event .fc-content {
   overflow: visible;
   white-space: normal; }
 
-/* line 40, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.sass */
+/* line 49, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.scss */
 .fc-scroller {
   overflow-x: scroll !important; }
-  /* line 41, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.sass */
+  /* line 50, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_fullcalendar.scss */
   .fc-scroller table {
     min-width: 600px; }
 
 /* pages */
-/* line 3, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+/* line 3, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
 .page-title {
   border-bottom: 1px solid #ccc;
   margin-bottom: 30px;
   padding-bottom: 10px; }
 
-/* line 8, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+/* line 9, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
 .body-content {
   min-height: 160px; }
-  /* line 11, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+  /* line 13, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
   .body-content > .thumbnail.pull-left {
     margin: 0 20px 20px 0; }
-  /* line 13, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+  /* line 17, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
   .body-content > .thumbnail.pull-right {
     margin: 0 0 20px 20px; }
 
 /* contact */
-/* line 18, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+/* line 25, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
 #map-canvas {
   margin: 0;
   padding: 0;
   height: 400px; }
 
-/* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+/* line 32, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
 .contact-form h3 {
   font-size: 18px;
   line-height: 18px; }
 
-/* line 27, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+/* line 37, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
 .contact-form .media {
   border-bottom: 1px solid #ccc; }
 
 /* Blog */
-/* line 32, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+/* line 44, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
 .post {
   border-bottom: 1px solid #ccc;
   margin-bottom: 30px; }
-  /* line 35, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+  /* line 48, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
   .post .page-title {
     margin-bottom: 20px; }
-  /* line 37, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+  /* line 52, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
   .post .post-info {
     list-style: none;
     margin: 0 0 20px; }
-    /* line 40, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+    /* line 56, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
     .post .post-info li {
       display: inline;
       margin-right: 10px;
       margin-bottom: 5px; }
 
 /* invoices */
-/* line 47, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.sass */
+/* line 66, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/layout/_content-types.scss */
 .invoices td {
   padding-top: 15px;
   padding-bottom: 15px; }
@@ -825,38 +849,38 @@ footer {
  * * Copyright 2012 Stefan Petre
  * * Licensed under the Apache License v2.0
  * * http://www.apache.org/licenses/LICENSE-2.0
- * * */
-/* line 9, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+ * */
+/* line 9, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
 .clearfix {
   *zoom: 1; }
-  /* line 11, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 12, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .clearfix:before {
     display: table;
     content: "";
     line-height: 0; }
-  /* line 15, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 18, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .clearfix:after {
     display: table;
     content: "";
     line-height: 0;
     clear: both; }
 
-/* line 21, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+/* line 26, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
 .hide-text {
-  font: 0/0 a;
+  font: 0 / 0 a;
   color: transparent;
   text-shadow: none;
   background-color: transparent;
   border: 0; }
 
-/* line 28, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+/* line 34, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
 .input-block-level {
   display: block;
   width: 100%;
   min-height: 30px;
   box-sizing: border-box; }
 
-/* line 36, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+/* line 43, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
 .bootstrap-datetimepicker-widget {
   top: 0;
   left: 0;
@@ -865,9 +889,9 @@ footer {
   margin-top: 1px;
   z-index: 3000;
   border-radius: 4px; }
-  /* line 46, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 54, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget:before {
-    content: '';
+    content: "";
     display: inline-block;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
@@ -876,9 +900,9 @@ footer {
     position: absolute;
     top: -7px;
     left: 6px; }
-  /* line 56, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 66, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget:after {
-    content: '';
+    content: "";
     display: inline-block;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
@@ -886,52 +910,52 @@ footer {
     position: absolute;
     top: -6px;
     left: 7px; }
-  /* line 66, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 78, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget.pull-right:before {
     left: auto;
     right: 6px; }
-  /* line 69, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 83, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget.pull-right:after {
     left: auto;
     right: 7px; }
-  /* line 72, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 89, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget > ul {
     list-style-type: none;
     margin: 0; }
-  /* line 75, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 94, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget .timepicker-hour, .bootstrap-datetimepicker-widget .timepicker-minute, .bootstrap-datetimepicker-widget .timepicker-second {
     width: 100%;
     font-weight: bold;
     font-size: 1.2em; }
-  /* line 79, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 100, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget table[data-hour-format="12"] .separator {
     width: 4px;
     padding: 0;
     margin: 0; }
-  /* line 83, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 106, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget .datepicker > div {
     display: none; }
-  /* line 85, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 110, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget .picker-switch {
     text-align: center; }
-  /* line 87, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 114, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget table {
     width: 100%;
     margin: 0; }
-  /* line 90, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 119, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget td, .bootstrap-datetimepicker-widget th {
     text-align: center;
     width: 20px;
     height: 20px;
     border-radius: 4px; }
-  /* line 98, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 129, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget td.day:hover, .bootstrap-datetimepicker-widget td.hour:hover, .bootstrap-datetimepicker-widget td.minute:hover, .bootstrap-datetimepicker-widget td.second:hover {
     background: #eee;
     cursor: pointer; }
-  /* line 101, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 134, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget td.old, .bootstrap-datetimepicker-widget td.new {
     color: #999; }
-  /* line 103, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 138, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget td.active {
     color: #fff;
     background-color: #006dcc;
@@ -944,7 +968,7 @@ footer {
     filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
     color: #fff;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25); }
-    /* line 119, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+    /* line 155, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
     .bootstrap-datetimepicker-widget td.active:hover {
       color: #fff;
       background-color: #006dcc;
@@ -960,25 +984,25 @@ footer {
       color: #fff;
       background-color: #04c;
       *background-color: #003bb3; }
-    /* line 138, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+    /* line 176, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
     .bootstrap-datetimepicker-widget td.active:active, .bootstrap-datetimepicker-widget td.active:hover:active, .bootstrap-datetimepicker-widget td.active.active, .bootstrap-datetimepicker-widget td.active:hover.active, .bootstrap-datetimepicker-widget td.active.disabled, .bootstrap-datetimepicker-widget td.active:hover.disabled, .bootstrap-datetimepicker-widget td.active[disabled], .bootstrap-datetimepicker-widget td.active:hover[disabled] {
       color: #fff;
       background-color: #04c;
       *background-color: #003bb3; }
-    /* line 142, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+    /* line 182, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
     .bootstrap-datetimepicker-widget td.active:active, .bootstrap-datetimepicker-widget td.active:hover:active, .bootstrap-datetimepicker-widget td.active.active, .bootstrap-datetimepicker-widget td.active:hover.active {
       background-color: #039 \9; }
-  /* line 144, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 187, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget td.disabled {
     background: 0;
     color: #999;
     cursor: not-allowed; }
-    /* line 148, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+    /* line 192, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
     .bootstrap-datetimepicker-widget td.disabled:hover {
       background: 0;
       color: #999;
       cursor: not-allowed; }
-  /* line 152, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 199, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget td span {
     display: block;
     width: 47px;
@@ -988,10 +1012,10 @@ footer {
     margin: 2px;
     cursor: pointer;
     border-radius: 4px; }
-    /* line 163, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+    /* line 211, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
     .bootstrap-datetimepicker-widget td span:hover {
       background: #eee; }
-    /* line 165, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+    /* line 215, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
     .bootstrap-datetimepicker-widget td span.active {
       color: #fff;
       background-color: #006dcc;
@@ -1004,63 +1028,63 @@ footer {
       filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
       color: #fff;
       text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25); }
-      /* line 181, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+      /* line 232, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
       .bootstrap-datetimepicker-widget td span.active:hover, .bootstrap-datetimepicker-widget td span.active:active, .bootstrap-datetimepicker-widget td span.active.active, .bootstrap-datetimepicker-widget td span.active.disabled, .bootstrap-datetimepicker-widget td span.active[disabled] {
         color: #fff;
         background-color: #04c;
         *background-color: #003bb3; }
-      /* line 185, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+      /* line 238, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
       .bootstrap-datetimepicker-widget td span.active:active, .bootstrap-datetimepicker-widget td span.active.active {
         background-color: #039 \9; }
-    /* line 187, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+    /* line 243, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
     .bootstrap-datetimepicker-widget td span.old {
       color: #999; }
-    /* line 189, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+    /* line 247, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
     .bootstrap-datetimepicker-widget td span.disabled {
       background: 0;
       color: #999;
       cursor: not-allowed; }
-      /* line 193, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+      /* line 252, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
       .bootstrap-datetimepicker-widget td span.disabled:hover {
         background: 0;
         color: #999;
         cursor: not-allowed; }
-  /* line 198, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 262, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget th.switch {
     width: 145px; }
-  /* line 200, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 266, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget th.next, .bootstrap-datetimepicker-widget th.prev {
     font-size: 21px; }
-  /* line 202, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 270, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget th.disabled {
     background: 0;
     color: #999;
     cursor: not-allowed; }
-    /* line 206, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+    /* line 275, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
     .bootstrap-datetimepicker-widget th.disabled:hover {
       background: 0;
       color: #999;
       cursor: not-allowed; }
-  /* line 210, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+  /* line 283, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
   .bootstrap-datetimepicker-widget thead tr:first-child th {
     cursor: pointer; }
-    /* line 212, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+    /* line 286, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
     .bootstrap-datetimepicker-widget thead tr:first-child th:hover {
       background: #eee; }
 
-/* line 215, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+/* line 292, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
 .input-append.date .add-on i, .input-prepend.date .add-on i {
   display: block;
   cursor: pointer;
   width: 16px;
   height: 16px; }
 
-/* line 222, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+/* line 300, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
 .bootstrap-datetimepicker-widget.left-oriented:before {
   left: auto;
   right: 6px; }
 
-/* line 225, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.sass */
+/* line 305, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_datepicker.scss */
 .bootstrap-datetimepicker-widget.left-oriented:after {
   left: auto;
   right: 7px; }
@@ -1068,8 +1092,8 @@ footer {
 /*                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        !
  * * bootstrap-lightbox.css v0.6.1
  * * Copyright 2013 Jason Butz
- * * http: */
-/* line 6, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.sass */
+ * * http://www.apache.org/licenses/LICENSE-2.0.txt */
+/* line 6, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.scss */
 .lightbox {
   position: relative;
   top: 70px;
@@ -1078,14 +1102,14 @@ footer {
   text-align: center;
   background-color: transparent;
   outline: 0; }
-  /* line 14, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.sass */
+  /* line 15, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.scss */
   .lightbox .hide {
     display: none; }
-  /* line 16, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.sass */
+  /* line 19, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.scss */
   .lightbox .in {
     display: block; }
 
-/* line 19, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.sass */
+/* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.scss */
 .lightbox-content {
   display: inline-block;
   padding: 10px;
@@ -1096,7 +1120,7 @@ footer {
   border-radius: 6px;
   box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
   background-clip: padding-box; }
-  /* line 35, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.sass */
+  /* line 41, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.scss */
   .lightbox-content .lightbox-caption {
     position: absolute;
     right: 12px;
@@ -1112,22 +1136,22 @@ footer {
     background: #000;
     background: rgba(0, 0, 0, 0.6); }
 
-/* line 50, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.sass */
+/* line 58, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.scss */
 .lightbox-header .close {
   margin-top: -16px;
   margin-right: -16px;
   font-size: 2em;
   color: white;
-  opacity: .8;
+  opacity: 0.8;
   filter: alpha(opacity=80); }
-  /* line 57, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.sass */
-  .lightbox-header .close \:hover {
-    opacity: .4;
+  /* line 66, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.scss */
+  .lightbox-header .close :hover {
+    opacity: 0.4;
     filter: alpha(opacity=40); }
 
-/* line 61, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.sass */
+/* line 72, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.scss */
 .icon-time, .icon-chevron-up, .icon-chevron-down {
-  font-family: 'icomoon';
+  font-family: "icomoon";
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -1136,54 +1160,54 @@ footer {
   line-height: 1;
   -webkit-font-smoothing: antialiased; }
 
-/* line 71, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.sass */
+/* line 83, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.scss */
 .icon-time:before {
-  content: "\e0f5" !important; }
+  content: "" !important; }
 
-/* line 74, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.sass */
+/* line 87, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.scss */
 .icon-chevron-up:before {
-  content: "\e1cc" !important; }
+  content: "" !important; }
 
-/* line 77, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.sass */
+/* line 91, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_lightbox.scss */
 .icon-chevron-down:before {
-  content: "\e1d0" !important; }
+  content: "" !important; }
 
 /* Community */
-/* line 4, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 3, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .nav-tabs a {
   color: #333; }
 
-/* line 8, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 8, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .threads .page-title h3 {
   margin-bottom: 0px; }
 
-/* line 10, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 12, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .threads abbr {
   font-size: 13px;
   border: none; }
 
-/* line 13, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 17, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .threads hr {
   margin: 5px 0 10px 0; }
 
-/* line 15, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 21, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .threads .breadcrumb .btn {
   margin-top: -3px;
   margin-right: -8px; }
 
-/* line 18, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 26, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .threads .pagination {
   margin: 0; }
 
-/* line 20, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 30, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .threads .author-rail img {
   border: 3px solid #FBA927; }
 
-/* line 24, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 36, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .muted-thread * {
   color: lightgray; }
 
-/* line 26, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 40, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .muted-thread img {
   filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale");
   /* Firefox 10+, Firefox on Android */
@@ -1193,77 +1217,77 @@ footer {
   /* Chrome 19+, Safari 6+, Safari 6+ iOS */ }
 
 @media (max-width: 767px) {
-  /* line 36, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+  /* line 55, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
   .threads-footer > div {
     text-align: center !important; } }
 
-/* line 39, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 60, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .message-link {
   color: #172433; }
 
-/* line 42, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 64, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .btn-danger.btn-link {
   color: #da4f49; }
 
-/* line 45, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 68, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .message-avatars img {
   margin-bottom: 2px; }
 
-/* line 48, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 72, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .message-thread h4 {
   margin-bottom: 3px; }
 
-/* line 51, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 76, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .message-stats, .message-author, .message-body {
   margin-bottom: 5px; }
 
-/* line 54, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 80, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .post-commands {
   margin-top: 5px; }
 
-/* line 57, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 84, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .mentions-input-box textarea {
   width: 100%;
   margin-bottom: 3px; }
 
-/* line 61, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 89, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .message-actions .btn {
   padding: 0; }
 
-/* line 65, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 94, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .nav .dropdown-toggle .caret {
   border-top-color: #172433 !important;
   border-bottom-color: #172433 !important;
   margin-top: 6px; }
-  /* line 69, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+  /* line 99, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
   .nav .dropdown-toggle .caret:hover, .nav .dropdown-toggle .caret:focus {
     border-top-color: #172433 !important;
     border-bottom-color: #172433 !important;
     margin-top: 6px; }
 
-/* line 73, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 106, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .nav .dropdown-toggle:hover .caret, .nav .dropdown-toggle:focus .caret {
   border-top-color: #172433 !important;
   border-bottom-color: #172433 !important; }
 
 /* Directory Search */
-/* line 79, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 114, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 table .btn {
   margin-bottom: 5px; }
 
-/* line 82, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 118, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .coworkers-table td {
   line-height: 35px; }
 
-/* line 85, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 122, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .typeahead * {
   text-align: left; }
 
-/* line 88, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.sass */
+/* line 126, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_community.scss */
 .form-search .input-append .btn {
   border: 1px solid #cccccc; }
 
-/* line 2, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+/* line 1, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
 .addthisevent-drop {
   display: inline-block;
   position: relative;
@@ -1273,13 +1297,13 @@ table .btn {
   text-decoration: none;
   font-size: 14px;
   text-decoration: none; }
-  /* line 11, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+  /* line 11, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
   .addthisevent-drop:hover {
     color: white;
     font-size: 14px;
     text-decoration: none; }
 
-/* line 18, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+/* line 20, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
 .addthisevent_dropdown {
   width: 200px;
   position: absolute;
@@ -1297,7 +1321,7 @@ table .btn {
   -moz-border-radius: 2px;
   -webkit-border-radius: 2px;
   box-shadow: 1px 3px 6px rgba(0, 0, 0, 0.15); }
-  /* line 37, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+  /* line 40, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
   .addthisevent_dropdown span {
     width: 175px;
     display: block;
@@ -1307,22 +1331,22 @@ table .btn {
     font-size: 12px;
     color: #172433;
     padding: 8px 10px 9px 15px; }
-    /* line 46, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+    /* line 50, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
     .addthisevent_dropdown span:hover {
       background: #f4f4f4;
       color: #172433;
       text-decoration: none;
       font-size: 12px; }
 
-/* line 52, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+/* line 59, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
 .addthisevent span {
   display: none !important; }
 
-/* line 56, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+/* line 64, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
 .addthisevent-drop ._url, .addthisevent-drop ._start, .addthisevent-drop ._end, .addthisevent-drop ._summary, .addthisevent-drop ._description, .addthisevent-drop ._location, .addthisevent-drop ._organizer, .addthisevent-drop ._organizer_email, .addthisevent-drop ._facebook_event, .addthisevent-drop ._all_day_event {
   display: none !important; }
 
-/* line 60, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+/* line 70, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
 .addthisevent_dropdown .copyx {
   width: 200px;
   height: 21px;
@@ -1330,7 +1354,7 @@ table .btn {
   position: relative;
   cursor: default; }
 
-/* line 66, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+/* line 78, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
 .addthisevent_dropdown .brx {
   width: 180px;
   height: 1px;
@@ -1341,7 +1365,7 @@ table .btn {
   left: 10px;
   top: 9px; }
 
-/* line 75, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+/* line 89, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
 .addthisevent_dropdown .frs {
   position: absolute;
   top: 5px;
@@ -1357,10 +1381,10 @@ table .btn {
   text-decoration: none;
   font-size: 9px;
   color: #cacaca; }
-  /* line 90, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+  /* line 105, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
   .addthisevent_dropdown .frs:hover {
     color: #6d84b4; }
 
-/* line 93, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.sass */
+/* line 111, /Users/sam.garson/Projects/soho_house/nexudus-spaces-default-theme/utils/_addthisevent.scss */
 .addthisevent {
   visibility: hidden; }

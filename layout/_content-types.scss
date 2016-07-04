@@ -1,0 +1,69 @@
+/* pages */
+
+.page-title {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
+}
+
+.body-content {
+  min-height: 160px;
+
+  > .thumbnail {
+    &.pull-left {
+      margin: 0 20px 20px 0;
+    }
+
+    &.pull-right {
+      margin: 0 0 20px 20px;
+    }
+  }
+}
+
+/* contact */
+
+#map-canvas {
+  margin: 0;
+  padding: 0;
+  height: 400px;
+}
+
+.contact-form {
+  h3 {
+    font-size: 18px;
+    line-height: 18px;
+  }
+
+  .media {
+    border-bottom: 1px solid #ccc;
+  }
+}
+
+/* Blog */
+
+.post {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 30px;
+
+  .page-title {
+    margin-bottom: 20px;
+  }
+
+  .post-info {
+    list-style: none;
+    margin: 0 0 20px;
+
+    li {
+      display: inline;
+      margin-right: 10px;
+      margin-bottom: 5px;
+    }
+  }
+}
+
+/* invoices */
+
+.invoices td {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
