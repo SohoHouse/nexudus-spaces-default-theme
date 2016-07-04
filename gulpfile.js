@@ -15,7 +15,7 @@ gulp.task('build:scss', function () {
       cascade: false
     }))
     .pipe($.if(argv.m, $.cleanCss()))
-    .pipe(gulp.dest('./'));
+    .pipe(gulp.dest('/Users/sam.garson/Dropbox/Apps/Nexudus\ Spaces/Nexudus\ Spaces/Soho Works\ -\ Shoreditch'));
 });
 
 gulp.task('default', ['build:scss'], function () {
