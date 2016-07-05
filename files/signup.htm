@@ -1,0 +1,337 @@
+{% extends master.master %}
+{% block title %}{% T Join us %} | {{ data.Business.Name }}{% endblock %}
+{% block content %}
+<div id="wrapper">
+  <!-- CONTAINER -->
+  <div id="main" class="container">
+    <div class="progress progress-striped">
+      <div class="bar" style="width: 20%;">1. {% T Personal Details %}</div>
+    </div>
+
+    <div class="row">
+
+      <!-- CONTENT -->
+      <section id="content" class="span12">
+        {% if data.Local.Team != null %}
+        <div class="alert">
+          <div>
+            <strong>{% T Heads Up! %}</strong> {% T Your are joining the follow team: %}
+            <strong>{{ data.Local.Team.Name }}</strong>.
+            {% T if this is not right, please do not complete this form and get in touch with us %}.
+          </div>
+        </div>
+        {% endif %}
+
+        <form action="{% Url Signup, Index %}" method="POST" enctype="multipart/form-data" id="profile-form">
+          <input type="hidden" name="PricePlanId" value="{{ data.Local.PricePlanId }}" />
+          <input type="hidden" name="teamGuid" value="{{ data.Local.TeamGuid }}" />
+          <input type="hidden" name="tariffGuid" value="{{ data.Local.TariffGuid }}" />
+          <input type="hidden" name="ReturnUrl" value="{{ data.Local.ReturnUrl }}" />
+
+          <h3>{% T Personal Details %}</h3>
+          <div class="well">
+            <div class="row-fluid">
+              <div class="span4">
+                <label for="Coworker_FullName">{% T Fullname %} <span class="text-error">*</span></label>
+                <input type="text" id="Coworker_FullName" name="Coworker.FullName" value="{{ data.Coworker.FullName }}" required="required" class="span12">
+              </div>
+              <div class="span4">
+                <label for="Coworker_Salutation">{% T What should we call you? %} <span class="text-error">*</span></label>
+                <input class="span12" type="text" id="Coworker_Salutation" name="Coworker.Salutation" value="{{ data.Coworker.Salutation }}" required="required" class="span12">
+              </div>
+              <div class="span4">
+                <label for="Coworker_LandLine">{% T Phone %}<span class="text-error">*</span></label>
+                <input class="span12" type="text" id="Coworker_LandLine" name="Coworker.LandLine" value="{{ data.Coworker.LandLine }}" required="required" class="span12">
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span4">
+                <label for="Coworker_Email">{% T Email %}<span class="text-error">*</span></label>
+                <input type="text" id="Coworker_Email" name="Coworker.Email" value="{{ data.Coworker.Email }}" class="span12">
+              </div>
+              <div class="span4">
+                <label for="Coworker_Gender">{% T Gender %}</label>
+                <select id="Coworker_Gender" name="Coworker.Gender">
+                  <option value="1">-</option>
+                  <option value="2" {% if (data.Coworker.Gender == 'Male' %} selected="selected" {% endif %}>{% T Male %}</option>
+                  <option value="3" {% if (data.Coworker.Gender == 'Female' %} selected="selected" {% endif %}>{% T Female %}</option>
+                </select>
+              </div>
+              <div class="span3">
+                <label>{% T Avatar %}</label>
+                <input type="file" name="Coworker_Avatar" />
+              </div>
+
+            </div>
+            {% if data.Local.Team == null %}
+            <div class="row-fluid">
+              <label for="Team_Details" class="checkbox">
+                <input onclick="$(this).is(':checked') ? $('#team-details, #team-details-form').show() : $('#team-details, #team-details-form').hide()" id="Team_Details" type="checkbox" value="true" />
+                {% T I'm joining as part of a team and I'll be managing the billing of everyone in the team. %}
+              </label>
+            </div>
+            {% endif %}
+          </div>
+
+          <h3 id="team-details" style="display: none">{% T My Team %}</h3>
+
+          <div class="well" id="team-details-form" style="display: none">
+
+            <div class="row-fluid">
+              <div class="span12">
+                <label for="Team_Name">{% T Team Name %} <span class="text-error">*</span></label>
+                <input type="text" id="Team_Name" name="Team.Name" value="{{ data.Team.Name }}" class="span12">
+              </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <label for="Coworker_Description">{% T About my team %} <span class="text-error">*</span></label>
+                    <input type="text" id="Team_Description" name="Team.Description" value="{{ data.Team.Description }}" class="span12">
+                </div>
+            </div>
+
+          </div>
+
+          {% if data.Setting_Signup_AskForPassword == "true" %}
+          <h3>{% T Your Password %}</h3>
+          <div class="well">
+            <div class="row-fluid">
+              <div class="span12">
+                <p>
+                  {% T To keep your account secure your password must have at least one uppercase letter, one lowercase letter and a number. %}
+                </p>
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span3">
+                <label for="Coworker_Password">{% T Password %}<span class="text-error">*</span></label>
+                <input required="required" type="password" id="Coworker_Password" name="Coworker.Password" value="" class="span12">
+              </div>
+              <div class="span3">
+                <label for="Coworker_User_NewPassword">{% T Confirm Password %} <span class="text-error">*</span></label>
+                <input required="required" type="password" id="Coworker_PasswordConfirm" name="Coworker.PasswordConfirm" value="" class="span12">
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          {% if data.Local.HasCustomFields %}
+          {% for group in data.Local.CustomFieldGroups %}
+
+          <h3>{% T group %}</h3>
+          <div class="well">
+            {% for field in data.Local.CustomFields %}
+            {% if field.GroupName == group or field.GroupName == null and group == "Other Details" %}
+            <div class="row-fluid">
+              {% capture customFieldName %}Custom{{ field.CustomFieldIndex}}{%endcapture%}
+              {% if field.FieldType == 'Text'  %}
+              <div class="span12">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %} {% if field.Required %}<span class="text-error">*</span>{% endif %}</label>
+                <input {% if field.Required %}required="required"{% endif %}  type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}" class="span12">
+              </div>
+              {% elseif field.FieldType == 'LongText' %}
+              <div class="span12">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %} {% if field.Required %}<span class="text-error">*</span>{% endif %}</label>
+                <textarea {% if field.Required %}required="required"{% endif %} id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">{{data.Coworker[customFieldName]}}</textarea>
+              </div>
+              {% elseif field.FieldType == 'Boolean' %}
+              <div class="span12">
+                <label for="Coworker_{{ customFieldName }}" class="checkbox">
+                  <input {% if field.Required %}required="required"{% endif %} id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" type="checkbox" {% if data.coworker[customfieldname] == 'true' %}checked="checked" {% endif %} value="true">
+                  <input id="Hidden_Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" type="hidden" value="false">
+                  {% T field.Name %}
+                  {% if field.Required %}<span class="text-error">*</span>{% endif %}
+                </label>
+              </div>
+              {% elseif field.FieldType == 'Dropdown' %}
+              <div class="span12">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %} {% if field.Required %}<span class="text-error">*</span>{% endif %}</label>
+                {% if field.AllowMultipleOptions %}
+                <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}"  class="span12 multiple_select" style="display: none">
+                <select {% if field.Required %}required="required"{% endif %}  multiple="multiple" id="Coworker_{{ customFieldName }}_Select" class="span12">
+                  {% for opt in field.AvailableOptionArray %}
+                  <option {% if {{data.Coworker[customFieldName]}} != null and opt contains {{data.Coworker[customFieldName]}} %}selected="selected"{% endif %}>{{opt}}</option>
+                  {% endfor %}
+                </select>
+                {% else %}
+                <select {% if field.Required %}required="required"{% endif %}  id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" class="span12">
+                  <option></option>
+                  {% for opt in field.AvailableOptionArray %}
+                  {% if opt == {{data.Coworker[customFieldName]}} %}
+                  <option selected="selected">{{opt}}</option>
+                  {% else %}
+                  <option>{{opt}}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+                {% endif %}
+              </div>
+              {% elseif field.FieldType == 'Date' %}
+              <div class="span12">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %} {% if field.Required %}<span class="text-error">*</span>{% endif %}</label>
+                <div class="input-append date">
+                  <input {% if field.Required %}required="required"{% endif %}  type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" />
+                  <span class="add-on"><i class="icon-th icon-calendar"></i></span>
+                </div>
+              </div>
+              {% else %}
+              <div class="span12">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %} {% if field.Required %}<span class="text-error">*</span>{% endif %}</label>
+                <input {% if field.Required %}required="required"{% endif %}  type="text" id="Coworker_{{ field.CustomFieldIndex }}" name="Coworker.Custom{{ field.CustomFieldIndex }}" value="{{data.Coworker[customFieldName]}}" class="span2">
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% endfor %}
+          {% endif %}
+          <h3>{% T Account details %}</h3>
+        <div class="well">
+            <div class="row-fluid">
+                <div class="span8">
+                    <label for="Coworker_BillingName">{% T Company Name %}</label>
+                    <input value="{{ data.Coworker.BillingName }}" type="text" name="Coworker.BillingName" id="Coworker_BillingName" class="span12"/>
+                </div>
+
+                  <div class="span4">
+                    <label for="Coworker_TaxIDNumber">{% T TAX/VAT Number %}</label>
+                    <input value="{{ data.Coworker.TaxIDNumber }}" type="text" name="Coworker.TaxIDNumber" id="Coworker_TaxIDNumber" class="span12">
+                  </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <label for="Coworker_Address">{% T Address %} <span class="text-error">*</span></label>
+                    <textarea required="required" rows="5" id="Coworker_Address" name="Coworker.Address" type="text" class="span12">{{ data.Coworker.Address }}</textarea>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span4">
+                    <label for="Coworker_State">{% T State / Province %} <span class="text-error">*</span></label>
+                    <input value="{{ data.Coworker.State }}" required="required" type="text" name="Coworker.State" id="Coworker_State" class="span12">
+                </div>
+                <div class="span4">
+                    <label for="Coworker_CityName">{% T Town %} <span class="text-error">*</span></label>
+                    <input value="{{ data.Coworker.CityName }}" required="required" type="text" name="Coworker.CityName" id="Coworker_CityName" class="span12">
+                </div>
+                <div class="span4">
+                    <label for="Coworker_PostCode">{% T Postcode / Zip code %} <span class="text-error">*</span></label>
+                    <input value="{{ data.Coworker.PostCode }}" required="required" type="text" name="Coworker.PostCode" id="Coworker_PostCode" class="span12">
+                </div>
+            </div>
+            <div class="row-fluid">
+                <label for="Same_Billing_Details" class="checkbox">
+                    <input onclick="$(this).is(':checked') ? $('#billing-details, #billing-details-form').hide() : $('#billing-details, #billing-details-form').show()" id="Same_Billing_Details" type="checkbox" value="true" checked="checked"/>
+                    {% T My billing details are the same as my contact details %}
+                </label>
+            </div>
+        </div>
+
+          <h3 id="billing-details" style="display: none">{% T Billing Details %}</h3>
+
+          <div class="well" id="billing-details-form" style="display: none">
+
+            <div class="row-fluid">
+              <div class="span12">
+                <label for="Coworker_BillingAddress">{% T Address %}</label>
+                <textarea rows="5" id="Coworker_BillingAddress" name="Coworker.BillingAddress" type="text" class="span12">{{ data.Coworker.BillingAddress }}</textarea>
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span3">
+                <label for="Coworker_BillingCityName">{% T Town %}</label>
+                <input value="{{ data.Coworker.BillingCityName }}" type="text" name="Coworker.BillingCityName" id="Coworker_BillingCityName" class="span12">
+              </div>
+              <div class="span3">
+                <label for="Coworker_BillingState">{% T State / Province %}</label>
+                <input value="{{ data.Coworker.BillingState }}" type="text" name="Coworker.BillingState" id="Coworker_BillingState" class="span12">
+              </div>
+              <div class="span3">
+                <label for="Coworker_BillingPostCode">{% T Postcode / Zip code %}</label>
+                <input value="{{ data.Coworker.BillingPostCode }}" type="text" name="Coworker.BillingPostCode" id="Coworker_BillingPostCode" class="span12">
+              </div>
+            </div>
+
+          </div>
+
+          <h3>{% T Your location %}</h3>
+          <div class="well">
+            <div class="row-fluid">
+              <div class="span6">
+                <label for="Coworker_Country">{% T Country %}</label>
+                {% CountriesDropdown data.Coworker.Country.Id, Coworker.Country %}
+              </div>
+              <div class="span6">
+                <label for="Coworker_Timezone">{% T Timezone %}</label>
+                {% TimeZonesDropdown data.Coworker.SimpleTimeZone.Id, Coworker.SimpleTimeZone %}
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row-fluid">
+            <button type="submit" class="btn pull-right btn-orange">{% T Signup %}</button>
+          </div>
+
+        </form>
+
+      </section>
+      <!-- END CONTENT -->
+    </div>
+  </div>
+  <!-- END CONTAINER -->
+</div>
+
+{% endblock %}
+{% block script %}
+<script>
+  $(function () {
+    $('#profile-form').h5Validate();
+
+    $('#profile-form button[type="submit"]').on('click', function () {
+        var result = $('#profile-form').h5Validate('allValid');
+        if (result == true) {
+            $('#profile-form button[type="submit"]').text('{% T Please wait... %}');
+            return true;
+        }
+        else {
+         	showErrorMessage('{% T Please complete all the required fields %}');
+         	return false;
+        }
+    });
+    $(".date").datetimepicker({ language: '{{ data.Language }}', format: "dd MM yyyy", minuteStep: 15, showMeridian: true, autoclose: true, minView: 2, startView: 4 });
+
+    for (var i = 1; i <= 30; i++)
+      $('input[name="Coworker.Custom' + i + '"]').parent().closest('.span12').appendTo('#ph-custom' + i);
+
+    var salutChanged = false;
+    $('#Coworker_Salutation').keyup(function () {
+      salutChanged = true;
+    });
+    $('#Coworker_FullName').keyup(function () {
+      var fn = $('#Coworker_FullName').val();
+      if (!salutChanged) {
+        var chinese = fn.match(/[\u3400-\u9FBF]/);
+        if (chinese)
+          $('#Coworker_Salutation').val(fn[fn.length - 1]);
+        else
+          $('#Coworker_Salutation').val(fn.split(' ')[0]);
+      }
+    });
+
+    $('.multiple_select').each(function(i, el){
+      var sel = $(el).siblings('select');
+      var tags = $(el).val();
+      sel.val(tags.split(','));
+
+      sel.chosen();
+      $(sel).change(function(){
+        var tags = sel.val().join();
+        $(el).val(tags);
+      });
+    });
+
+  });
+
+</script>
+{% endblock %}

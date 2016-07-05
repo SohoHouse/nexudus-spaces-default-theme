@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="{{ data.Language }}" {% block htmlTag %}{% endblock %}>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>{% block title %}{{ data.Business.Name }}{% endblock %} | {{ data.Business.Name }}</title>
+    <link rel="icon" type="image/png" href="/images/favicon.png" />
+
+    <!-- META -->
+    <meta name="description" content="{% block description %}{{ data.Business.Name }}{% endblock %}"/>
+    <meta name="keywords" content="{% block keywords %}coworking space booking meeting rooms events desks hot-desks{% endblock %}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block meta %}{% endblock %}
+
+
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="/content/themes/public/default/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/content/themes/public/default/css/bootstrap-responsive.min.css"/>
+
+    <link rel="stylesheet" type="text/css" href="/content/themes/public/default/libs/fullcalendar-scheduler/lib/fullcalendar.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/content/themes/public/default/libs/fullcalendar-scheduler/scheduler.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/content/themes/public/default/libs/fullcalendar-scheduler/views/list.css"/>
+    <link rel="stylesheet" type="text/css" href="{% Url Css, Index %}"/>
+    <link rel="stylesheet" type="text/css" href="/content/themes/public/default/css/icons.css"/>
+    <link rel="stylesheet" type="text/css" href="/content/themes/public/default/js/chosen/chosen.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/content/themes/public/default/js/datetimepicker/css/bootstrap-datetimepicker.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="https://cloud.typography.com/6329652/720126/css/fonts.css" />
+
+    {% assign GA = data.Setting_Google_Analytics %}
+    {% if GA.size > 0 %}
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      ga('create', '{{ GA }}', 'auto');
+      ga('send', 'pageview');
+
+    </script>
+    {% endif %}
+  </head>
+
+  <body class="{% block bodyClass%}{% endblock%}">
+    {% include header.htm %}
+    {% block content %}{% endblock %}
+    {% include footer.htm %}
+
+    <!-- JS -->
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="/content/themes/public/default/js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script type="text/javascript" src="/content/themes/public/default/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="/content/themes/public/default/libs/fullcalendar-scheduler/lib/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="/content/themes/public/default/libs/fullcalendar-scheduler/lib/lang-all.js"></script>
+    <script type="text/javascript" src="/content/themes/public/default/libs/fullcalendar-scheduler/lib/gcal.js"></script>
+    <script type="text/javascript" src="/content/themes/public/default/libs/fullcalendar-scheduler/scheduler.js"></script>
+    <script type="text/javascript" src="/content/themes/public/default/libs/fullcalendar-scheduler/views/listView.js"></script>
+
+    <script type="text/javascript" src="/content/themes/public/default/js/app_v2.js"></script>
+    <script type="text/javascript" src="/content/themes/public/default/libs/jquery.h5validate.js"></script>
+    <script type="text/javascript" src="//maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script type="text/javascript" src="/content/themes/public/default/js/chosen/chosen.jquery.min.js"></script>
+    <script type="text/javascript" src="/content/themes/public/default/js/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+    {% if data.Language != 'en' %}
+    <script type="text/javascript" src="/content/themes/public/default/js/datetimepicker/js/locales/bootstrap-datetimepicker.{{ data.Language }}.js" charset="UTF-8"></script>
+    {% endif %}
+    <!--[if lte IE 7]><script src="js/lte-ie7.js"></script><![endif]-->
+    <script type="text/javascript" src="/content/themes/public/default/js/knockout-2.3.0.js"></script>
+    <script type="text/javascript" src="/content/themes/public/default/js/knockout.mapping-latest.js"></script>
+    <script type="text/javascript" src="{% Url JS, Index %}"></script>
+    <script>
+        var flickrID = '{% Setting Social.Flickr %}';
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+
+        $(function(){
+            {% if data.InfoMessage != "" %}
+            showInfoMessage("{{data.InfoMessage | Replace: '"' : '\"'}}");
+            {% endif %}
+            {% if data.ErrorMessage != "" %}
+            showErrorMessage("{{data.ErrorMessage | Replace: '"' : '\"'}}");
+            {% endif %}
+            {% if data.SuccessMessage != "" %}
+            showSuccessMessage("{{data.SuccessMessage | Replace: '"' : '\"'}}");
+            {% endif %}
+
+            $('#modal_unpaidbooking').modal('show');
+        });
+
+        function showErrorMessage(message){
+            var $el = $('#modal_messages .alert');
+            showMessage(message, 'error');
+        }
+
+        function showInfoMessage(message){
+            showMessage(message, 'info');
+        }
+
+        function showWarningMessage(message){
+            showMessage(message, 'warning');
+        }
+
+        function showSuccessMessage(message){
+            showMessage(message, 'success');
+        }
+
+        function showMessage(message, cssClass){
+            var $el = $('#modal_messages .alert');
+            $el.removeClass().addClass('alert');
+            $el.addClass('alert-' + cssClass);
+            $el.html(message);
+            $('#modal_messages').modal('show');
+        }
+        if (top !== self) {
+            $('body').addClass('in-iframe');
+        }
+    </script>
+    {% block script %}
+    {% endblock %}
+
+
+    <!-- MODAL -->
+    <div id="modal_messages" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+      <!-- MODAL HEADER-->
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#215;</button>
+        <h3>{% T Message %}</h3>
+      </div>
+      <!-- END MODAL HEADER-->
+
+      <!-- MODAL BODY-->
+      <div class="modal-body">
+        <div class="alert">
+        </div>
+      </div>
+      <!-- END MODAL BODY-->
+
+      <!-- MODAL FOOTER-->
+      <div class="modal-footer">
+        <button class="btn btn-link" data-dismiss="modal" aria-hidden="true">{% T Close %}</button>
+      </div>
+      <!-- END MODAL FOOTER-->
+
+    </div>
+    <!-- END MODAL -->
+
+
+    <!-- UNPAID BOOKING MODAL -->
+    {% if data.UnpaidBookings.size > 0 %}
+    <!-- MODAL -->
+    <div id="modal_unpaidbooking" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+
+        <form class="row-fluid" action="{% Url Bookings, Pay %}" method="post">
+            <!-- MODAL HEADER-->
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&#215;</button>
+                <h3>{% T Booking payment %}</h3>
+            </div>
+            <!-- END MODAL HEADER-->
+            <!-- MODAL BODY-->
+            <div class="modal-body">
+                <h5>
+                    {% T The following bookings require payment before they are confirmed: %}
+                </h5>
+                <table class="table">
+                    <thead>
+                    <th>{% T Resource %}</th>
+                    <th>{% T From %}</th>
+                    </thead>
+                    <tbody>
+                        {% for booking in data.UnpaidBookings %}
+                        <tr>
+                            <td>{{ booking.Resource.Name }}</td>
+                            <td>{{ booking.FromTime | FormatDate: 'g' }} </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="alert alert-info">
+                    {% T Please pay the bookings above within the next 15 minutes to make sure the booking slot is not made available to other members %}
+                </div>
+            </div>
+            <!-- END MODAL BODY-->
+            <!-- MODAL FOOTER-->
+            <div class="modal-footer">
+                <button class="btn btn-link" data-dismiss="modal" aria-hidden="true">{% T Go back %}</button>
+                <button type="submit" class="btn btn-orange">{% T Pay these bookings %}</button>
+            </div>
+        </form>
+        <!-- END MODAL FOOTER-->
+    </div>
+    <!-- END MODAL -->
+    {% endif %}
+    <!-- END UNPAID BOOKING MODAL -->
+
+  </body>
+</html>

@@ -1,0 +1,200 @@
+{% extends master.master %}
+{% block title %}{% T Space resources %} | {{ data.Business.Name }}{% endblock %}
+{% block content %}
+<div id="wrapper">
+  <!-- CONTAINER -->
+  <div id="main" class="container basic">
+    <div class="row card-wrapper--grid">
+      
+      <!-- CONTENT -->
+        {% for resource in data.Resources %}
+        <article class="card span" style="min-height: 285px">          
+          <!-- POST CONTENT -->
+          <div class="card-image" {% if resource.HasImage %} style="background-image: url({% Url PublicResources, GetImage, id: resource.Id, h: 800, w: 800 %})" {% endif %} ></div>
+          <ul class="resource_features">
+            {% if resource.Allocation > 0 %}
+            <li class="btn btn-grey">
+              <strong>{{resource.Allocation}}</strong>
+              <span aria-hidden="true" class="icon i-16 icon-user"></span>
+            </li>
+            {% endif %}
+            {% if resource.Projector %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Projector %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-camera-2"></span></li>
+            {% endif %}
+            {% if resource.Internet %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Internet %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-globe"></span></li>
+            {% endif %}
+            {% if resource.ConferencePhone %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Conference phone %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-tree"></span></li>
+            {% endif %}
+            {% if resource.StandardPhone %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Phone %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-phone"></span></li>
+            {% endif %}
+            {% if resource.WhiteBoard %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Whiteboard / flipboard %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-signup"></span></li>
+            {% endif %}
+            {% if resource.LargeDisplay %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Large display %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-screen"></span></li>
+            {% endif %}
+            {% if resource.Catering %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Catering %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-food"></span></li>
+            {% endif %}
+            {% if resource.TeaAndCoffee %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Tea and coffee %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-mug"></span></li>
+            {% endif %}
+            {% if resource.Drinks %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Drinks %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-glass"></span></li>
+            {% endif %}
+            {% if resource.SecurityLock %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Lock %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-lock"></span></li>
+            {% endif %}
+            {% if resource.CCTV %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T CCTV %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-camera-2"></span></li>
+            {% endif %}
+            {% if resource.VoiceRecorder %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Voice recorder %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-radio-checked"></span></li>
+            {% endif %}
+            {% if resource.AirConditioning %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Air conditioning %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-dashboard"></span></li>
+            {% endif %}
+            {% if resource.Heating %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Heating %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-dashboard"></span></li>
+            {% endif %}
+            {% if resource.NaturalLight %}
+            <li><span data-toggle="popover" data-placement="top" data-content="{% T Natural light %}" data-trigger="hover" aria-hidden="true" class="icon i-16 icon-brightness-medium"></span></li>
+            {% endif %}
+          </ul>
+          <h2 class="card-title">{{ resource.Name }}</h2>
+          <div class="card-description">{{ resource.Description }}</div>
+          <div class="card-hover">
+            {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
+              <a href="#" onclick="$('#Booking_Resource').val({{ resource.Id }});createBooking(new Date());return false;" class="btn btn-orange">{% T Make a booking %}</a>
+            {% else %}
+              <a href="{% Url Login, Index, lang: data.Language %}&returnUrl={% Url PublicResources, Details, id: resource.Id, name: resource.Name | Clean %}" class="btn btn-orange">{% T Login to make a booking %}</a>
+            {% endif %}
+            <a class="btn btn-link" href="javascript: window.prompt('{{ resource.Name }}. Calendar URL:','http://{{ data.Domain }}{% Url Feeds, ResourceBookings, guid: resource.UniqueId %}');">{% T Calendar Feed %}</a>
+          </div>
+          <!-- END POST CONTENT -->
+        </article>
+        
+        {% endfor %}
+      <!-- END CONTENT -->
+    </div>
+  </div>
+  <!-- END CONTAINER -->
+</div>
+{% include booking.htm %}
+{% endblock %}
+{% block script %}
+<script>
+    $(function () {
+        //init popovers
+        $('.resource_features span').popover();
+
+        var coeff = 1000 * 60 * 15;
+        var originalToDate;
+        var originalFromDate;
+
+        //Initialize timepickers
+        $("#Booking_From").datetimepicker({ viewSelect: 'year', pickerPosition: 'bottom-left', language: '{{ data.Language }}', format: "dd MM yyyy - HH:ii P", minuteStep: 15, showMeridian: true, autoclose: true, todayBtn: true, startDate: '+0d', startView: 1 });
+        $("#Booking_To").datetimepicker({ viewSelect: 'year', pickerPosition: 'bottom-left', language: '{{ data.Language }}', format: "dd MM yyyy - HH:ii P", minuteStep: 15, showMeridian: true, autoclose: true, todayBtn: true, startDate: '+0d', startView: 1 });
+
+        $("#Booking_From input").attr('readonly', 'readonly');
+        $("#Booking_To input").attr('readonly', 'readonly');
+
+        //If todate is > from date, move to date ahead
+        $('#Booking_From').on('changeDate', function () {
+            var fromDate = $('#Booking_From').datetimepicker('getDate');
+            var toDate = $('#Booking_To').datetimepicker('getDate');
+            //Round the date
+            fromDate = new Date(Math.round(fromDate.getTime() / coeff) * coeff);
+            $('#Booking_From').datetimepicker('setDate', fromDate);
+
+            var diffInMinutes = moment.duration(moment(originalToDate).diff(originalFromDate)).asMinutes();
+            if (diffInMinutes < 60) diffInMinutes = 60;
+
+            var later = moment(fromDate).add(diffInMinutes, 'minutes').toDate();
+            $('#Booking_To').datetimepicker('setDate', later);
+
+            originalFromDate = fromDate;
+            originalToDate = later;
+
+            checkBooking();
+        });
+
+        //If todate is > from date, move from date back
+        $('#Booking_To').on('changeDate', function () {
+            var fromDate = $('#Booking_From').datetimepicker('getDate');
+            var toDate = $('#Booking_To').datetimepicker('getDate');
+
+            //Round the date
+            toDate = new Date(Math.round(toDate.getTime() / coeff) * coeff);
+            $('#Booking_To').datetimepicker('setDate', toDate);
+
+            if (fromDate > toDate) {
+                $('#Booking_From').datetimepicker('setDate', toDate);
+            }
+
+            originalFromDate = fromDate;
+            originalToDate = toDate;
+
+            checkBooking();
+        });
+
+        $('#modal_booking form').on("submit", function (event) {
+            var id = $('#booking_id').val();
+            var url;
+            if (id > 0)
+                url = '{% Url Bookings, BookingJson %}';
+            else
+                url = '{% Url Bookings, NewBookingJson %}';
+
+            var data = getBookingData();
+            postAndClose(url, data);
+            event.preventDefault();
+        });
+
+        $('#delete-button').click(function () {
+            if (confirm('{% T Cancel this booking? %}')) {
+                var url = '{% Url Bookings, DeleteJson %}';
+                var id = $('#booking_id').val();
+                postAndClose(url, { id: id });
+            }
+            return false;
+        });
+
+        $('#Booking_Resource').attr('data-bind', 'event: { change: updateProducts }');
+
+        var loadProducts = function () {
+            var bid = $('#booking_id').val();
+            if (bid && bid > 0)
+                return $.post('/en/bookings/GetResourceProducts?bookingId=' + bid + '&resourceId=' + $('#Booking_Resource').val());
+            else
+                return $.post('/en/bookings/GetResourceProducts?resourceId=' + $('#Booking_Resource').val());
+        }
+        var mapData = function (data) {
+            return vm.bookingProducts = ko.mapping.fromJS(data);
+        }
+        var updateData = function (data) {
+            return vm.bookingProducts = ko.mapping.fromJS(data, vm.bookingProducts);
+        }
+        var applyBindings = function () {
+            return ko.applyBindings(vm);
+        }
+        var updateProducts = function () {
+            $.when(loadProducts())
+             .then(updateData)
+             .then(checkBooking);
+        }
+        vm = {
+            bookingProducts: ko.observableArray(),
+            updateProducts: updateProducts,
+            checkBooking: checkBooking
+        };
+
+        $.when(loadProducts())
+         .then(mapData)
+         .then(applyBindings);
+    });
+</script>
+{% endblock %}

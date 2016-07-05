@@ -1,0 +1,70 @@
+<div id="dashboard-header" class="wrapper--dark">
+  <div class="container basic">
+    <div class="row">
+      <div class="dashboard__section span4">
+        <h3>{% T Shortcuts %}</h3>
+        <ul>
+          <li><a href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li>
+          <li><a href="{% Url Invoices, Index %}">{% T Payments %}</a></li>
+          <li><a href="{% Url Profile, Index %}">{% T Settings %}</a></li>
+        </ul>
+      </div>  
+      <div class="dashboard__section span8">
+        <div id="mini-calendar">
+          <div class="dashboard__cal">
+            <h3 v-text="currentMoment | moment 'MMMM YYYY'"></h3>
+            <div class="dashboard__arrows">
+              <a class="dashboard__prev" @click="currentMoment = currentMoment.subtract(1, 'month')">Prev</a>
+              <a class="dashboard__next" @click="currentMoment = currentMoment.add(1, 'month')">Next</a>
+            </div>
+            <table id="mini-calendar-table">
+              <thead>
+                <th v-for="dayHeader in dayHeaders" v-text="dayHeader"></th>
+              </thead>
+              <tbody>
+                <tr v-for="week in weeks">
+                  <td v-for="day in week" :class="classFor(day)" @click="activeMoment = day">
+                    {% raw %}{{ day.date() }}{% endraw %}
+                    <div class="dashboard__dots" v-if="eventsOn(day)">
+                      <span v-for="event in eventsOn(day)" class="dashboard__dot"></span>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="dashboard__list">
+            <h3 v-text="activeMoment | moment 'dddd Do MMMM'"></h3>
+            <a class="dashboard__link" href="{% Url Bookings, Index, ShowAll: false %}">{% T See All %}</a>
+            <p v-if="!eventsOn(activeMoment)">{% T No bookings on this day %}</p>
+            <ul v-else class="dashboard__events-list">
+              <li class="events-list__item" v-for="event in eventsOn(activeMoment) | orderBy sortEvents">
+                <span class="dashboard__dot"></span>
+                <p>{% raw %}
+                  {{ event.FromTime | moment 'HH:mm' }} - {{ event.ToTime | moment 'HH:mm' }}
+                {% endraw %}</p>
+                <h3 v-text="event.ResourceName"></h3>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="map-canvas"></div>
+<div id="wrapper">
+  <div id="main" class="container basic">
+    <h3>{% T Upcoming Events %}</h3>
+    <div class="row card-wrapper--grid">
+      {% for ev in data.CalendarEvents limit:3 %}
+        {% include 'event_card.htm' %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var eventsJson = {{ data.CalendarEvents | Json | StripHtml | StripNewlines }};
+  var bookingsJson = {{ data.NextBookings | Json | StripHtml | StripNewlines }};
+</script>

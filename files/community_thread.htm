@@ -1,0 +1,270 @@
+{% extends master.master %}
+{% block title %}{{ data.Local.Thread.Subject | StripHtml | StripNewlines | TruncateWords: 10 }} | {% T Community %} {% endblock %}
+{% block script %}
+<link rel="stylesheet" type="text/css" href="/content/themes/public/js/libs/jquery.mentionsInput/jquery.mentionsInput.css" />
+<script src="/content/themes/public/js/libs/jquery.elastic/jquery.elastic.source.js"></script>
+<script src="/content/themes/public/js/libs/underscore/underscore-min.js"></script>
+<script src="/content/themes/public/js/libs/jquery.mentionsInput/jquery.mentionsInput.js"></script>
+<script src="/content/themes/public/default/js/community.js"></script>
+<script src="/scripts/jquery.timeago.js"></script>
+<script src="/scripts/jquery.timeago.{{ data.Language }}.js"></script>
+
+{% endblock %}
+{% block content %}
+<div id="wrapper">
+  <!-- CONTAINER -->
+  <div id="main" class="container threads">
+
+    <ul class="nav nav-tabs visible-desktop">
+
+      <li class=""><a href="{% Url Community, Index, query: data.Local.Query %}">{% T Community %}</a></li>
+      <li class=""><a href="{% Url Community, Me, query: data.Local.Query %}">{% T My Conversations %}</a></li>
+      <li class=""><a href="{% Url Community, Private, query: data.Local.Query %}"><i aria-hidden="true" class="icon i-8 icon-lock"></i> {% T Private %}</a></li>
+      <li class="active"><a href="{% Url Community, Index, query: data.Local.Query %}">{{ data.Local.Thread.Subject | StripHtml }}</a></li>
+    </ul>
+
+    <div class="pull-right  visible-desktop">
+      {% if data.Local.Threads.size > 0 %}
+      {% if data.Coworker != null %}
+      <a href="#modal_thread" data-toggle="modal" class="start-conversation btn btn-orange btn-small">
+        <i aria-hidden="true" class="icon i-8 icon-plus"></i>
+        {% T Start a Conversation %}</a>
+      {% else %}
+      <a href="{% Url Login, Index %}?returnUrl={% Url Community, Index %}" class="start-conversation btn btn-orange btn-small">
+        <i aria-hidden="true" class="icon i-8 icon-user"></i>
+        {% T Login to start a Conversation %}</a>
+      {% endif %}
+      {% endif %}
+    </div>
+
+    <select class="visible-phone visible-tablet span12" onchange="window.location = $(this).val()" class="span12">
+      <option value="{% Url Community, Index, query: data.Local.Query %}">{% T Community %}</option>
+      <option value="{% Url Community, Me, query: data.Local.Query %}">{% T My Conversations %}</option>
+      <option value="{% Url Community, Private, query: data.Local.Query %}">{% T Private %}</option>
+      <option selected="selected" value="{% Url Community, Private, query: data.Local.Query %}">{{ data.Local.Thread.Subject | StripHtml }}</option>
+    </select>
+
+    {% if data.Local.Thread.Private %}
+    <div class="alert">
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+      <div style="margin-bottom: 15px">
+        <strong>{% T Heads Up! %}</strong> {% T This conversation is private and can only be seen by the following people: %}
+      </div>
+      <div class="row" style="max-height: 110px; overflow: auto;">
+        <div class="span3">
+          <img class="img-circle" height="20" width="20"src="{% Url Coworker, GetAvatar, id: data.Local.Thread.CoworkerId, h:20, w:20 %}" alt="{{ data.Local.Thread.FullName }}" title="{{ data.Local.Thread.FullName }}">
+          <a href="{% Url Directory, Profile, Id: data.Local.Thread.CoworkerId, name: data.Local.Thread.FullName | Clean %}">
+            {{ data.Local.Thread.FullName }} (admin)
+          </a>
+        </div>
+        {% for member in data.Local.Guests %}
+        <div class="span3">
+          <img class="img-circle" height="20" width="20" src="{% Url Coworker, GetAvatar, id: member.Id, h:20, w:20 %}" alt="{{ member.CoworkerFullName }}" title="{{ member.CoworkerFullName }}">
+          <a href="{% Url Directory, Profile, Id: member.Coworker.Id, name: member.Coworker.FullName | Clean %}">
+            {{ member.FullName }}
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    <div class="row {% if data.Local.Thread.MutedForUser %}muted-thread{% endif %}">
+      <div class="span1 author-rail hidden-phone">
+          <a href="{% Url Directory, Profile, Id: data.Local.Thread.CoworkerId, name: data.Local.Thread.FullName | Clean %}">
+            <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: data.Local.Thread.CoworkerId, h:64, w:64 %}" alt="{{ data.Local.Thread.FullName }}" title="{{ data.Local.Thread.FullName }}">
+          </a>
+      </div>
+      <div class="span8">
+        <div class="message-thread">
+          <h4>
+            <a href="{% Url conversations, thread, id: data.Local.Thread.Id, name: data.Local.Thread.Subject | Clean %}">
+              {{ data.Local.Thread.Subject | StripHtml }}
+            </a>
+            <small class="muted">
+              <abbr class="timeago" title="{{ data.Local.Thread.CreatedOn | FormatDate: 'yyyy-MM-ddTHH:mm:ssZ' }}">{% T Posted by {0} || data.Local.Thread.FullName %}</abbr>
+              <abbr><a href="{% Url Directory, Profile, Id: data.Local.Thread.CoworkerId, name: data.Local.Thread.FullName | Clean %}">{% T by {0} || data.Local.Thread.FullName %}</a></abbr>
+            </small>
+          </h4>
+          <div class="message-body">
+            {{ data.Local.Thread.Message | MarkDown }}
+          </div>
+          <div class="message-actions">
+            {% for tag in data.Local.Thread.Tags %}
+            <a href="{% Url Conversations, Index, query: tag %}" class="label label-info">#{{ tag }}</a>
+            {% endfor %}
+            {% if data.Local.Thread.Tags.size > 0 %} | {% endif %}
+            {% if data.Local.Thread.GroupId > 0 %}
+            <a href="{% Url Conversations, Group, id: data.Local.Thread.GroupId, name: data.Local.Thread.GroupName %}" class="label label-info label-inverse">{{ data.Local.Thread.GroupName }}</a>
+            |
+            {% endif %}
+            <a href="{% Url conversations, thread, id: data.Local.Thread.Id %}#reply" class="btn btn-small btn-link">{% T Comment %}</a>
+            {% if data.Coworker != null %}
+            &bull;
+            {% if data.Local.Thread.LikedByUser %}
+            <a href="#" data-on="Like" data-off="Unlike" data-thread="{{ data.Local.Thread.Id }}" class="btn-unlike-thread btn btn-small btn-link">{% T Unlike %}</a>
+            {% else %}
+            <a href="#" data-on="Like" data-off="Unlike" data-thread="{{ data.Local.Thread.Id }}" class="btn-like-thread btn btn-small btn-link">{% T Like %}</a>
+            {% endif %}
+            &bull;
+            {% if data.Local.Thread.FollowedByUser %}
+            <a href="#" title="{% T Stop receiving notifications about this thread, unless you are mentioned %}" data-on="Follow" data-off="Unfollow" id="follow-thread-{{ data.Local.Thread.Id }}" data-thread="{{ data.Local.Thread.Id }}" class="muted btn-unfollow-thread btn btn-small btn-link">{% T Unfollow %}</a>
+            {% else %}
+            <a href="#" title="{% T Start receiving notifications about this thread %}" data-on="Follow" data-off="Unfollow" id="A1" data-thread="{{ data.Local.Thread.Id }}" class="muted btn-follow-thread btn btn-small btn-link">{% T Follow %}</a>
+            {% endif %}
+            &bull;
+            {% if data.Local.Thread.MutedForUser %}
+            <a href="#" data-on="Mute" data-off="Unmute" id="mute-thread-{{ data.Local.Thread.Id }}" data-thread="{{ data.Local.Thread.Id }}" class="muted btn-unmute-thread btn btn-small btn-link">{% T Unmute %}</a>
+            {% else %}
+            <a href="#" title="{% T Stop receiving notifications about this thread %}" data-on="Mute" data-off="Unmute" id="A2" data-thread="{{ data.Local.Thread.Id }}" class="muted btn-mute-thread btn btn-small btn-link">{% T Mute %}</a>
+            {% endif %}
+
+            {% if data.Local.Thread.UserId == data.User.Id %}
+            |
+            <a href="#" onclick="if(confirm('{% T Delete this thread? %}')) window.location = '{% Url Conversations, DeleteThread, id: data.Local.Thread.Id %}'; return false;" class="btn btn-mini btn-danger btn-link">{% T Delete %}</a>
+            {% endif %}
+            {% if data.Local.Thread.Private %}
+            |
+            <i aria-hidden="true" class="icon i-8 icon-lock"></i>
+            {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <div class="span3 text-right">
+        <div class="message-avatars">
+          {% for participantId in data.Local.Thread.Participants %}
+          <a href="{% Url Directory, Profile, Id: participantId %}"><img class="img-circle" height="38" width="38" src="/en/coworker/getavatar?id={{ participantId }}&h=38&w=38" title="{{ data.Local.Thread.FullNames[forloop.index0] }}" alt="{{ data.Local.Thread.FullNames[forloop.index0] }}"></a>
+          {% endfor %}
+
+        </div>
+        {% if data.Local.Thread.LastMessageCoworkerId > 0 %}
+        <div class="message-latest">
+          <small><a href="{% Url Directory, Profile, Id: data.Local.Thread.LastMessageCoworkerId, name: data.Local.Thread.LastMessageUserFullName | Clean %}">{{ data.Local.Thread.LastMessageUserFullName }}</a>
+            <abbr class="timeago" title="{{ data.Local.Thread.LastMessage | FormatDate: 'yyyy-MM-ddTHH:mm:ssZ' }}">{% T The time the last message was posted by {0} || data.Local.Thread.LastMessageUserFullName %}</abbr>
+          </small>
+        </div>
+        {% endif %}
+        <div class="message-stats">
+          <a href="#" style="{% if data.Local.Thread.FollowedByUser == false %}display: none;{% endif %}" id="following-thread-{{ data.Local.Thread.Id }}" class="label label-success">{% T Following %}</a>
+          <a href="#" style="{% if data.Local.Thread.MutedForUser == false %}display: none;{% endif %}" id="muted-thread-{{ data.Local.Thread.Id }}" class="label label-important">{% T Muted %}</a>
+          <a href="#" class="label">
+            {% if data.Local.Thread.MessageCount == 1 %} 1 {% T reply %}{% else %}{{ data.Local.Thread.MessageCount }} {% T replies %}{% endif %}
+          </a>
+          {% if data.Local.Thread.LikeCount > 0 %}
+          <a href="#" class="label">
+          	{% if data.Local.Thread.LikeCount == 1 %} 1 {% T like %}{% else %}{{ data.Local.Thread.LikeCount }} {% T likes %}{% endif %}
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="row" id="reply">
+      {% if data.Coworker == null %}
+      <div class="span12 text-center">
+        <a href="{% Url Login, Index %}?returnUrl={% Url Community, Thread, id: data.Local.Thread.Id %}" class="start-conversation btn btn-orange btn-large">
+          <i aria-hidden="true" class="icon i-16 icon-user"></i>
+          {% T Login to join this conversation %}
+        </a>
+      </div>
+      {% else %}
+      <div class="media comment comment-form span12">
+        <a class="media-object pull-left" href="{% Url Directory, Profile, id: data.Coworker.Id, name: data.Coworker.FullName | Clean %}">
+          <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: data.Coworker.Id, h:64, w:64 %}" alt="{{ data.Coworker.FullName }}" title="{{ data.Coworker.FullName }}">
+        </a>
+        <div class="media-body">
+          <form action="{% Url Conversations, PostMessage, id: data.Local.Thread.Id %}" method="POST">
+            {% AntiforgeryToken %}
+            {{ data.Local.CommunityMessage.Message }}
+            <textarea required="required" id="reply-box">{{ data.Local.CommunityMessage.Message }}</textarea>
+          	<textarea style="display: none" name="CommunityMessage.Message" id="reply-box-server"></textarea>
+          	<small>{% T Invite other people to this conversation by mentioning them: type the '@' symbol followed by their name. %}</small>
+            <div class="post-commands">
+              <button type="submit" class="btn btn-small btn-orange">{% T Post Reply %}</button>
+          </div>
+          </form>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if data.Local.Page > 1 %}
+    <hr style="border: 1px dotted; color: lightgray; " id="jump"/>
+    <div class="row">
+      <div class="span12 text-center">
+        <a class="btn btn-mini btn-link" href="{% Url conversations, thread, id: data.Local.Thread.Id %}#jump">{% T View earlier messages %}</a>
+      </div>
+    </div>
+    <hr style="border: 1px dotted; color: lightgray; "/>
+    {% endif %}
+
+    {% for message in data.Local.Messages %}
+
+    <div class="row" id="message-{{ message.Id }}">
+      <div class="media comment span12">
+      <a class="media-object pull-left" href="{% Url Directory, Profile, id: message.CoworkerId, name: message.CoworkerFullName | Clean %}">
+        <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: message.CoworkerId, h:64, w:64 %}" alt="{{ message.CoworkerFullName }}" title="{{ message.CoworkerFullName }}">
+      </a>
+      <div class="media-body">
+        <div class="message-author">
+          <a href="{% Url Directory, Profile, id: message.CoworkerId, name: message.CoworkerFullName | Clean %}#">{{ message.CoworkerFullName }} </a> -
+          <small class="muted">
+            <abbr class="timeago" title="{{ message.CreatedOn | FormatDate: 'yyyy-MM-ddTHH:mm:ssZ' }}">{% T Posted by {0} || data.Local.Thread.FullName %}</abbr>
+          </small>
+
+        </div>
+        <div class="message-body">
+          {{ message.Message | MarkDown  }}
+        </div>
+        <div class="message-actions">
+          {% if message.MessageLikeCount > 0 %}
+          <span class="label">{{ message.MessageLikeCount }} {% if message.MessageLikeCount == 1 %}like{% else %}likes{% endif %}</span>
+          |
+          {% endif %}
+          <a href="{% Url Conversations, Thread, id: data.Local.Thread.Id %}#reply" class="btn btn-small btn-link">{% T Comment %}</a>
+          {% if data.Coworker != null %}
+          &bull;
+          {% if message.LikedByUser %}
+          <a href="#" data-on="Like" data-off="Unlike" data-message="{{ message.Id }}" class="btn-unlike-message btn btn-small btn-link">{% T Unlike %}</a>
+          {% else %}
+          <a href="#" data-on="Like" data-off="Unlike" data-message="{{ message.Id }}" class="btn-like-message btn btn-small btn-link">{% T Like %}</a>
+          {% endif %}
+          {% if message.UserId == data.User.Id %}
+          |
+          <a href="#" onclick="if(confirm('{% T Delete this message? %}')) window.location = '{% Url Conversations, DeleteMessage, id: message.Id %}'; return false;" class="btn btn-mini btn-danger btn-link">{% T Delete %}</a>
+          {% endif %}
+          {% endif %}
+          <a title="{% T Direct link to this message %}" class="pull-right message-link" href="{% Url conversations, thread, id: data.Local.Thread.Id, page: data.Local.Page, limit: data.Local.Limit %}#message-{{ message.Id }}">
+          	<i class="icon i-8 icon-link"></i>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  	</div>
+
+    {% endfor %}
+
+
+
+    <div class="row">
+      <div class="span12 text-right">
+        <div class="pagination">
+          <ul>
+            <li class="{% if data.Local.Page == 1 %}disabled{% endif %}"><a href="{% if data.Local.Page > 1 %}{% Url Conversations, Thread, id: data.Local.Thread.Id, limit: data.Local.Limit, query: data.Local.Query, Page: data.Local.Page | Plus: -1 %}#jump{% else %}#{% endif %}">&#8249; {% T Newer %}</a></li>
+            {% if (data.Local.Page > 2 %}
+            <li><a href="{% Url Conversations, Thread, id: data.Local.Thread.Id, limit: data.Local.Limit, query: data.Local.Query, Page: 1 %}#jump">1</a></li>
+            <li class="disabled"><a href="#">...</a></li>
+            {% endif %}
+            <li class="active"><a href="#">{{ data.Local.Page }}</a></li>
+            <li class="{% if data.Local.Messages.size < data.Local.Limit %}disabled{% endif %}"><a href="{% if data.Local.Messages.size > 0 %}{% Url Conversations, Thread, id: data.Local.Thread.Id, limit: data.Local.Limit, query: data.Local.Query, Page: data.Local.Page | Plus: 1 %}#jump{% else %}#{% endif %}">{% T Older %} &#8250;</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <!-- END CONTAINER -->
+</div>
+{% endblock %}

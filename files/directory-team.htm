@@ -1,0 +1,159 @@
+{% extends master.master %}
+{% block title %}{{ data.Local.Team.Name | StripHtml }} {% endblock %}
+{% block content %}
+
+<div id="wrapper">
+  <!-- CONTAINER -->
+  <div id="main" class="container">
+    <div class="row">
+      <!-- CONTENT -->
+      <section id="content" class="span12">
+
+        <div class="row">
+          <div class="span12 text-center team_block">
+            <img class="img-circle" style="height: 200px; width: 200px;" height="200" width="200" src="{% Url Team, GetAvatar, id: data.Local.Team.Id, h:200, w:200, mode: 'Pad' %}" alt="{{ data.Local.Team.Name | Capitalize }}" >
+            <br/>
+            <h3>{{ data.Local.Team.Name | StripHtml }}</h3>
+            {% if data.Local.Team.ProfileWebsite.size > 0 %}
+            <a target="_blank" href="{{ data.Local.Team.ProfileWebsite }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-earth"></span></a>
+            {% endif %}
+            {% if data.Local.Team.Twitter.size > 0 %}
+            <a target="_blank" href="http://twitter.com/{{ data.Local.Team.Twitter }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-twitter"></span></a>
+            {% endif %}
+            {% if data.Local.Team.Linkedin.size > 0 %}
+            <a target="_blank" href="{{ data.Local.Team.Linkedin }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-linkedin"></span></a>
+            {% endif %}
+            {% if data.Local.Team.Facebook.size > 0 %}
+            <a target="_blank" href="{{ data.Local.Team.Facebook }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-facebook"></span></a>
+            {% endif %}
+            {% if data.Local.Team.Skype.size > 0 %}
+            <a href="callto://{{ data.Local.Team.Skype }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-skype"></span></a>
+            {% endif %}
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="span8 offset2 text-justify">
+
+            {{ data.Local.Team.ProfileSummary }}
+
+            {% if data.Local.Team.HasImages %}
+            <hr/>
+            <div class="text-center">
+              {% if data.Local.Team.HasImage1 %}
+              <a data-toggle="lightbox" href="#team-image-1"><img class="img-polaroid" style="height: 150px; width: 150px;" height="150" width="150" src="{% Url Team, GetImage1, id: data.Local.Team.Id, h:150, w:150 %}" alt="{{ data.Local.Team.Name | Capitalize }}" /></a>
+              <div id="team-image-1" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
+                <div class='lightbox-content'>
+                  <img src="{% Url Team, GetImage1, id: data.Local.Team.Id, w:800 %}">
+                  <div class="lightbox-caption"><p>{{ data.Local.Team.Name }}</p></div>
+                </div>
+              </div>
+              {% endif %}
+              {% if data.Local.Team.HasImage1 %}
+              <a data-toggle="lightbox" href="#team-image-2"><img class="img-polaroid" style="height: 150px; width: 150px;" height="150" width="150" src="{% Url Team, GetImage2, id: data.Local.Team.Id, h:150, w:150 %}" alt="{{ data.Local.Team.Name | Capitalize }}"/></a>
+              <div id="team-image-2" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
+                <div class='lightbox-content'>
+                  <img src="{% Url Team, GetImage2, id: data.Local.Team.Id, w:800 %}">
+                  <div class="lightbox-caption"><p>{{ data.Local.Team.Name }}</p></div>
+                </div>
+              </div>
+              {% endif %}
+              {% if data.Local.Team.HasImage3 %}
+              <a data-toggle="lightbox" href="#team-image-3"><img class="img-polaroid" style="height: 150px; width: 150px;" height="150" width="150" src="{% Url Team, GetImage3, id: data.Local.Team.Id, h:150, w:150 %}" alt="{{ data.Local.Team.Name | Capitalize }}" /></a>
+              <div id="team-image-3" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true">
+                <div class='lightbox-content'>
+                  <img src="{% Url Team, GetImage3, id: data.Local.Team.Id, w:800 %}">
+                  <div class="lightbox-caption"><p>{{ data.Local.Team.Name }}</p></div>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}
+
+            {% if data.Local.Team.ProfileTagsList.size > 0 %}
+            <hr/>
+            <div class="text-center">
+              {% for tag in data.Local.Team.ProfileTagsList %}
+              <a href="{% Url Directory, Index, tag: tag %}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-tag"></span> {{ tag }}</a>
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% if data.Local.Team.GoogleMapsLink.size > 0 %}
+            <hr/>
+            <h3>{% T Find us %}</h3>
+
+            <div class="text-center">
+              <iframe src="{{ data.Local.Team.GoogleMapsLink }}" style="border:0" width="100%" frameborder="0" height="400"></iframe>
+            </div>
+
+            {% endif %}
+          </div>
+        </div>
+
+
+        {% if data.Local.Team.TeamMembers.size > 0 %}
+        <hr/>
+        <h3>{% T Meet {0} || data.Local.Team.Name %}</h3>
+        <div class="row">
+          <div class="span12">
+            {% DivRow member in data.Local.Team.TeamMembers cols:4 %}
+            <!-- member -->
+            <div class="member_block span3 text-center {% if member.CheckedIn %}checkedin{% endif %}">
+              <a href="{% Url Directory, Profile, Id: member.Id, name: member.FullName | Clean %}" class="user_avatar">
+                <img class="img-circle" style="height: 140px; width: 140px;" height="140" width="140" src="{% Url Coworker, GetAvatar, id: member.Id, h:140, w:140 %}" alt="{{ member.FullName | Capitalize }}" >
+              </a>
+              {% if member.CheckedIn %}
+              <br/>
+              <span class="label label-success">{% T checked in %}</span>
+              {% endif %}
+              <h4 class="subheader">{{ member.FullName | Capitalize }}</h4>
+              {% if member.CompanyName != null %}
+              <p>
+                <a title="{{ member.CompanyName }}" href="/en/directory/search?company={{ member.CompanyName }}">{{ member.CompanyName | TruncateWords: 3 }}</a>
+                &nbsp;
+              </p>
+              {% endif %}
+              {% if member.ProfileWebsite.size > 0 %}
+              <a target="_blank" href="{{ member.ProfileWebsite }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-earth"></span></a>
+              {% else %}
+              <a href="{% Url Directory, Profile, Id: member.Id, name: member.FullName | Clean %}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-earth"></span></a>
+              {% endif %}
+              {% if member.Twitter.size > 0 %}
+              <a target="_blank" href="http://twitter.com/{{ member.Twitter }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-twitter"></span></a>
+              {% endif %}
+              {% if member.Linkedin.size > 0 %}
+              <a target="_blank" href="{{ member.Linkedin }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-linkedin"></span></a>
+              {% endif %}
+              {% if member.Facebook.size > 0 %}
+              <a target="_blank" href="{{ member.Facebook }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-facebook"></span></a>
+              {% endif %}
+              {% if member.Skype.size > 0 %}
+              <a href="callto://{{ member.Skype }}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-skype"></span></a>
+              {% endif %}
+            </div>
+            <!-- END member -->
+            {% endDivRow %}
+          </div>
+        </div>
+
+        {% if data.Local.MemberTags.size > 0 %}
+        <hr/>
+        <div class="row">
+          <div class="span8 offset2 text-center">
+            {% for tag in data.Local.MemberTags %}
+            <a style="margin-bottom: 10px" href="{% Url Directory, Index, tag: tag %}" class="btn btn-grey"><span aria-hidden="true" class="icon i-16 icon-tag"></span> {{ tag }}</a>
+            {% endfor %}
+          </div>
+        </div>
+        <br/>
+        {% endif %}
+        {% endif %}
+
+      </section>
+      <!-- END CONTENT -->
+
+    </div>
+  </div>
+  <!-- END CONTAINER -->
+</div>
+{% endblock %}

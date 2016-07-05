@@ -1,0 +1,47 @@
+<div class="container footer-above">
+  <div class="row">
+    <div class="span12">
+      <div class="well text-center">
+        <p>{% T Keep up to date with soho works — sign up for our newsletter and follow us on social media %}</p>
+        <form action="{% Url Newsletter, SignUp %}" method="post">
+          {% AntiforgeryToken %}
+          <div class="input-append">
+            <input autocomplete="off" required="required" type="email" id="name" class="full-width" name="email" placeholder="{% T Your email %}" />
+            <button class="btn btn-orange" type="submit">{% T Signup %}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="block span4">
+        <p>
+          <strong>{{ data.Business.Name }}</strong><br />
+          {{ data.Business.Address | NewlineToBr }}
+        </p>
+        <p>{{ data.Business.TermsAndConditions }}</p>
+      </div>
+
+      <div class="block span4">
+        <p>
+          <strong>General Manager</strong><br />
+          {{ data.Business.BillingName }}<br />
+          {{ data.Business.Email }}<br />
+          {{ data.Business.Phone}}
+        </p>
+      </div>
+
+      <div class="block span4">
+        <p>
+          Terms & Conditions<br />
+          Privacy Policy and Cookies
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- END FOOTER -->

@@ -1,0 +1,100 @@
+{% extends master.master %}
+{% block title %}{% if data.Local.Category != null %}{{  data.Local.Category.Title | Capitalize }} | {% endif %}{% T Events %} {% endblock %}
+{% block content %}
+<div id="wrapper">
+  <!-- CONTAINER -->
+  <div id="main" class="container basic">
+    <div class="row card-wrapper--list">
+
+      <!-- CONTENT -->
+        {% if data.Local.CalendarEvents.size == 0 %}
+          <article class="card span12 text-center">
+            {% T There are no more events. %}
+            {% if data.Local.Page > 1 %}
+              <br /><br /><a class="btn btn-orange" href="{% Url Events, Index, page: data.Local.Page | Minus: 1 %}">{% T Go back %}</a>
+            {% endif %}
+          </article>
+          <aside class="span12">
+            <!-- WIDGET SKILLS -->
+            <div class="widget widget-skills">
+                <div class="widget-body">
+                  <h3>{% T Categories %}</h3>
+                  <a href="{% Url Events, Index, categoryId: null, page: 1 %}" class="btn {% if data.Local.Category.Id == null %}active{%endif%}">{% T All Events %}</a>
+                  <a href="{% Url Events, Index, categoryId: null, pastEvents: true %}" class="btn {% if data.Local.PastEvents %}active{%endif%}">{% T Past Events %}</a>
+                  {% for cat in data.Local.Categories %}
+                    <a href="{% Url Events, Index, title: cat.Title | Clean, categoryId: cat.Id, page: 1 %}" class="btn {% if data.Local.Category.Id == cat.Id %}active{%endif%}">{{ cat.Title }}</a>
+                  {% endfor %}
+                </div>
+            </div>
+            <!-- END WIDGET SKILLS -->
+          </aside>
+
+        {% endif %}
+        {% for ev in data.Local.CalendarEvents %}
+        {% include 'event_card.htm' format=list %}
+
+        {% if forloop.index == 1 %}
+          <!-- {% include "_categories.htm" %} -->
+          <aside class="span12">
+            <!-- WIDGET SKILLS -->
+            <div class="widget widget-skills">
+                <div class="widget-body">
+                  <h3>{% T Categories %}</h3>
+                  <a href="{% Url Events, Index, categoryId: null, page: 1 %}" class="btn {% if data.Local.Category.Id == null %}active{%endif%}">{% T All Events %}</a>
+                  <a href="{% Url Events, Index, categoryId: null, pastEvents: true %}" class="btn {% if data.Local.PastEvents %}active{%endif%}">{% T Past Events %}</a>
+                  {% for cat in data.Local.Categories %}
+                    <a href="{% Url Events, Index, title: cat.Title | Clean, categoryId: cat.Id, page: 1 %}" class="btn {% if data.Local.Category.Id == cat.Id %}active{%endif%}">{{ cat.Title }}</a>
+                  {% endfor %}
+                </div>
+            </div>
+            <!-- END WIDGET SKILLS -->
+          </aside>
+
+        {% endif %}
+
+        {% endfor %}
+
+        <!-- PAGINATION -->
+        <div class="pagination pagination-centered">
+          <ul>
+            {% if(data.Local.Page == 1 %}
+            <li class="disabled"><a href="#">&#8249;</a></li>
+            {% else %}
+            <li><a href="{% Url Events, Index, pastEvents: data.Local.PastEvents, page: data.Local.Page | Minus: 1 %}">&#8249;</a></li>
+            <li><a href="{% Url Events, Index, pastEvents: data.Local.PastEvents, page: data.Local.Page | Minus: 1 %}">{{ data.Local.Page | Minus: 1 }}</a></li>
+            {% endif %}
+            <li class="active"><a href="#">{{ data.Local.Page }}</a></li>
+            {% if data.Local.CalendarEvents.size == 0 %}
+            <li class="disabled"><a href="#">&#8250;</a></li>
+            {% else %}
+            <li><a href="{% Url Events, Index, pastEvents: data.Local.PastEvents, page: data.Local.Page | Plus: 1 %}">{{ data.Local.Page | Plus: 1 }}</a></li>
+            <li><a href="{% Url Events, Index, pastEvents: data.Local.PastEvents, page: data.Local.Page | Plus: 1 %}" class="next">&#8250;</a></li>
+            {% endif %}
+          </ul>
+        </div>
+        <!-- END PAGINATION -->
+
+      </section>
+      <!-- END CONTENT -->
+    </div>
+  </div>
+  <!-- END CONTAINER -->
+</div>
+{% endblock %}
+{% block script %}
+<script type="text/javascript" src="https://addthisevent.com/libs/1.5.8/ate.min.js"></script>
+<script type="text/javascript">
+addthisevent.settings({
+    license   : "a405mv4wfzncermbtmjd",
+    mouse     : false,
+    css       : false,
+    outlook   : {show:true, text:"Outlook Calendar"},
+    google    : {show:true, text:"Google Calendar"},
+    yahoo     : {show:true, text:"Yahoo Calendar"},
+    hotmail   : {show:true, text:"Hotmail Calendar"},
+    ical      : {show:true, text:"iCal Calendar"},
+    facebook  : {show:true, text:"Facebook Event"},
+    callback  : ""
+});
+</script>
+{% endblock %}

@@ -1,0 +1,494 @@
+{% extends master.master %}
+{% block title %}{% T My account %}{% endblock %}
+{% block content %}
+
+    {% assign RegularPaymentOption = false %}
+    {% if data.Local.SpreedlyEnabled or data.Coworker.EnableGoCardlessPayments %}
+    {% assign RegularPaymentOption = true %}
+    {% endif %}
+    {% assign HasEnteredPaymentDetails = false %}
+    {% if data.Coworker.HasSetupRegularPayments or data.Coworker.HasGoCardlessContractNumber %}
+    {% assign HasEnteredPaymentDetails = true %}
+    {% endif %}
+
+    {% assign hasBillingDetails = false %}
+    {% if data.Coworker.BillingName != null or data.Coworker.BillingAddress != null or data.Coworker.BillingPostCode != null or data.Coworker.BillingCityName != null or data.Coworker.BillingState != null or data.Coworker.TaxIDNumber != null %}
+    {% assign hasBillingDetails = true %}
+    {% endif %}
+
+    {% if data.Coworker.Active == false and data.Coworker.Tariff != null and RegularPaymentOption and HasEnteredPaymentDetails == false %}
+    <div class="progress progress-striped">
+
+      <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
+      <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
+      <div class="bar bar-success" style="width: 20%;">3. {% T Additional Products %}</div>
+      <div class="bar" style="width: 20%;">4. {% T Submit Payment Details %}</div>
+    </div>
+    {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and (HasEnteredPaymentDetails or data.Coworker.PaysInvoicesViaTeam) %}
+    <div class="progress progress-striped">
+
+      <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
+      <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
+      <div class="bar bar-success" style="width: 20%;">3. {% T Additional Products %}</div>
+      <div class="bar bar-success" style="width: 20%;">4. {% T Submit Payment Details %}</div>
+      <div class="bar bar-warning" style="width: 15%;">5. {% T Validating your account %}</div>
+    </div>
+    {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and data.Local.KeepNewAccountsOnHold %}
+    <div class="progress progress-striped">
+
+      <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
+      <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
+      <div class="bar bar-success" style="width: 20%;">3. {% T Additional Products %}</div>
+      <div class="bar bar-warning" style="width: 35%;">4. {% T Validating your account %}</div>
+    </div>
+    {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null and data.Local.KeepNewAccountsOnHold == false %}
+    <div class="progress progress-striped">
+
+      <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
+      <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
+      <div class="bar bar-success" style="width: 20%;">3. {% T Additional Products %}</div>
+      <div class="bar" style="width: 20%;">4. {% T Submit Payment Details %}</div>
+    </div>
+    {% endif %}
+
+
+      {% if RegularPaymentOption and data.Coworker.Active == false and data.Coworker.Tariff != null and HasEnteredPaymentDetails == false and data.Coworker.PaysInvoicesViaTeam == false %}
+      <section id="content" class="span12">
+        <div class="text-center">
+          <div class="alert alert-info text-center">
+            {% if data.Local.KeepNewAccountsOnHold %}
+            <h4>{% T We need your payment details to complete your application. No payment will be taken before your account is validated. %}</h4>
+            {% else %}
+            <h4>{% T We need your payment details to complete your application. %}</h4>
+            {% endif %}
+          </div>
+          {% if data.Local.SpreedlyEnabled %}
+          <a class="btn btn-orange spreedlyButton btn-large" data-paybuttontext="{% T Submit Payment Details %}" data-payurl="https://{{ data.Domain }}/{{ data.Language }}/payments/SpreedlyPaymentToken/0" href="#"><span aria-hidden="true" class="icon i-24 icon-credit"></span> {% T Submit Payment Details %}</a>
+          {% endif %}
+          {% if data.Coworker.EnableGoCardlessPayments and data.Coworker.HasGoCardlessContractNumber == false %}
+          <a class="btn btn-orange btn-large" href="https://spaces.nexudus.com/Callbacks/GoCardlessPre/{{ data.Coworker.Id }}"><span aria-hidden="true" class="icon i-24 icon-library"></span> {% T Setup Direct Debit  %}</a>
+          {% endif %}
+        </div>
+        <hr />
+      </section>
+      {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null  %}
+      <section id="content" class="span12">
+        <div class="text-center">
+          <div class="alert alert-info text-center">
+            <h4>{% T We are validating your account, we will be in touch shortly. %}</h4>
+          </div>
+        </div>
+        <hr />
+      </section>
+      {% else %}
+
+      <div class="container" >
+      {% if data.Coworker.Tariff.Id != data.Coworker.NextTariff.Id %}
+        <div class="alert alert-warning text-center">
+          <h4>{% T Your price plan is about to change. %}</h4>
+          {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
+          {% if data.Coworker.NextTariff != null %}
+          {% T Your price plan will change to "{1}" on {0} || renewDateFormated || data.Coworker.NextTariff.Name %}
+          {% else %}
+          {% T Your price plan will be cancelled on {0} || renewDateFormated %}
+          {% endif %}
+        </div>
+        {% elseif data.Coworker.CancellationDate != null %}
+        <div class="alert alert-warning text-center">
+          <h4>{% T Your price plan is about to change. %}</h4>
+          {% T Your price plan will be cancelled on {0:D} || data.Coworker.CancellationDate %}
+        </div>
+        {% elseif data.Coworker.Tariff != null and data.Coworker.Active %}
+        <div class="alert alert-info text-center">
+          {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
+          {% T Your price plan is due for renewal on {0}. || renewDateFormated %}
+        </div>
+      {% endif %}
+      </div>
+
+      <div id="wrapper">
+        <!-- CONTAINER -->
+        <div id="main" class="container">
+          <div class="row">
+
+      <!-- CONTENT -->
+      <section id="content">
+        <div class="profile-section span4">
+          <h3>Your Profile</h3>
+          {% if data.Coworker.HasAvatar %}
+            <img class="img-circle" src="{% Url Coworker, GetAvatar, id: data.Coworker.Id, h:140, w:140 %}" />
+          {% endif %}
+          <h1>{{ data.Coworker.FullName }}</h1>
+          <h3>{{ data.Coworker.Tariff.Name }} Member</h3>
+          <h3>{{ data.Coworker.CompanyName }}</h3>
+          <a class="btn btn-grey" href="{% Url Profile, Tariff %}">{% T Change price plan %}</a><br /><br />
+          <a target="_blank" href="/Login/ResetPassword?lang={{ data.Language }}&email={{ data.Coworker.User.Email }}" class="btn btn-grey">{% T Change password %}</a>
+        </div>
+        <form action="{% Url Profile, Index %}" method="POST" enctype="multipart/form-data" id="profile-form" class="span8">
+          <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
+          <div class="form-section">
+            <h3 id="personal-details">{% T Personal Details %}</h3>
+            <div class="input-group">
+              <label for="Coworker_FullName">{% T Fullname %}</label>
+              <input type="text" id="Coworker_FullName" name="Coworker.FullName" value="{{ data.Coworker.FullName }}" required="required">
+            </div>
+            <div class="input-group">
+              <label for="Coworker_Salutation">{% T What should we call you? %}</label>
+              <input type="text" id="Coworker_Salutation" name="Coworker.Salutation" value="{{ data.Coworker.Salutation }}" required="required">
+            </div>
+            <div class="input-group">
+              <label for="Coworker_Email">{% T Email %}</label>
+              <input type="text" readonly="readonly" id="Coworker_Email" name="Coworker.Email" value="{{ data.Coworker.Email }}">
+            </div>
+            <div class="input-group">
+              <label for="Coworker_Avatar">{% T Photo %}</label>
+              
+              <input type="file" name="Coworker_Avatar" id="Coworker_Avatar" />
+              <small>{% T Max 10Mb. %}</small>
+            </div>
+          </div>
+
+          {% if data.Coworker.PaysForTeam != null %}
+
+          <div class="form-section" id="team-details-form">
+            <h3 id="team-details" >{% T My Team %}</h3>
+            <div class="input-group">
+              <label for="Team_Name">{% T Team Name %}</label>
+              <input readonly="readonly" type="text" id="Team_Name" name="Team.Name" value="{{ data.Coworker.PaysForTeam.Name }}">
+            </div>
+
+            <div class="input-group">
+              <label for="Team_SignupLink">{% T Invite Link %}</label>
+              <input readonly="readonly" type="text" id="Team_SignupLink" value="https://{{ data.Business.WebAddress }}.{{ data.PublicSiteSubDomain }}/{{ data.Language }}/signup/{{ data.Coworker.PaysForTeam.UniqueId }}">
+              <small>
+                {% T You can send this link to anyone who you want to add to your team %}
+              </small>
+            </div>
+
+            <h3>{% T Team Members %}</h3>
+            {% DivRow member in data.Coworker.PaysForTeam.AllTeamMembers cols:3, colClass: 'span4', rowClass: 'row-fluid' %}
+            <img class="img-circle" src="{% Url Coworker, GetAvatar, id: member.Id, h:20, w:20 %}" style="width: 20px; height: 20px"/>
+            <a href="{% Url Directory, Profile, Id: member.Id, name: member.FullName | Clean %}">
+            {{ member.FullName }}
+            </a>
+            {% if member.Id != data.Coworker.Id %}
+            <a class="btn btn-mini btn-link" href="/en/user/login?t={{ member.User.AccessToken }}&returnurl={% Url Profile, Index %}">{% T Access Account %}</a>
+            {% endif %}
+            {% endDivRow %}
+
+          </div>
+
+          {% endif %}
+
+          {% if data.Local.HasCustomFields %}
+          {% for group in data.Local.CustomFieldGroups %}
+
+          <div class="form-section">
+            <h3 id="group-{{ group | Clean }}">{% T group %}</h3>
+            {% for field in data.Local.CustomFields %}
+            {% if field.GroupName == group or field.GroupName == null and group == "Other Details" %}
+            {% capture customFieldName %}Custom{{ field.CustomFieldIndex}}{%endcapture%}
+              {% if field.FieldType == 'Text' %}
+              <div class="input-group">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
+                <input {% if field.Required %}required="required"{% endif %}  type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}">
+              </div>
+              {% elseif field.FieldType == 'LongText' %}
+              <div class="input-group">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
+                <textarea {% if field.Required %}required="required"{% endif %}  id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}">{{data.Coworker[customFieldName]}}</textarea>
+              </div>
+              {% elseif field.FieldType == 'Boolean' %}
+              <label for="Coworker_{{ customFieldName }}" class="checkbox">
+                <input {% if field.Required %}required="required"{% endif %} id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" type="checkbox" {% if data.Coworker[customFieldName] == 'true' %}checked="checked" {% endif %} value="true">
+                <input id="Coworker_{{ customFieldName }}_Hidden" name="Coworker.{{ customFieldName }}" type="hidden" value="false">
+                {% T field.Name %}
+              </label>
+              {% elseif field.FieldType == 'Dropdown' %}
+              <div class="input-group select">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
+
+                {% if field.AllowMultipleOptions %}
+                <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}"  class="span12 multiple_select" style="display: none">
+                <select {% if field.Required %}required="required"{% endif %}  multiple="multiple" id="Coworker_{{ customFieldName }}_Select">
+                  {% for opt in field.AvailableOptionArray %}
+                  <option {% if {{data.Coworker[customFieldName]}} != null and opt contains {{data.Coworker[customFieldName]}} %}selected="selected"{% endif %}>{{opt}}</option>
+                  {% endfor %}
+                </select>
+                {% else %}
+                <select {% if field.Required %}required="required"{% endif %}  id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}">
+                  <option></option>
+                  {% for opt in field.AvailableOptionArray %}
+                  {% if opt == {{data.Coworker[customFieldName]}} %}
+                  <option selected="selected">{{opt}}</option>
+                  {% else %}
+                  <option>{{opt}}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+                {% endif %}
+              </div>
+              {% elseif field.FieldType == 'Date' %}
+              <div class="input-group">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
+                <div class="input-append date">
+                  <input {% if field.Required %}required="required"{% endif %}  type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" />
+                  <span class="add-on"><i class="icon-th icon-calendar"></i></span>
+                </div>
+              </div>
+              {% else %}
+              <div class="input-group">
+                <label for="Coworker_{{ customFieldName }}">{% T field.Name %}</label>
+                <input {% if field.Required %}required="required"{% endif %}  type="text" id="Coworker_{{ field.CustomFieldIndex }}" name="Coworker.Custom{{ field.CustomFieldIndex }}" value="{{data.Coworker[customFieldName]}}" class="span2">
+              </div>
+              {% endif %}
+            {% endif %}
+            {% endfor %}
+          </div>
+          <div class="row-fluid">
+            <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
+          </div>
+          {% endfor %}
+          {% endif %}
+
+          <div class="form-section">
+            <h3 id="account-details">{% T Contact Details %}</h3>
+            <div class="input-group">
+              <label for="Coworker_Address">{% T Address %}</label>
+              <textarea rows="5" id="Coworker_Address" name="Coworker.Address" type="text">{{ data.Coworker.Address }}</textarea>
+            </div>
+            <div class="input-group">
+              <label for="Coworker_PostCode">{% T Postcode / Zip code %}</label>
+              <input value="{{ data.Coworker.PostCode }}" type="text" name="Coworker.PostCode" id="Coworker_PostCode">
+            </div>
+            <div class="input-group">
+              <label for="Coworker_CityName">{% T Town %}</label>
+              <input value="{{ data.Coworker.CityName }}" type="text" name="Coworker.CityName" id="Coworker_CityName">
+            </div>
+            <div class="input-group">
+              <label for="Coworker_State">{% T State / Province %}</label>
+              <input value="{{ data.Coworker.State }}" type="text" name="Coworker.State" id="Coworker_State">
+            </div>
+            <label for="Same_Billing_Details" class="checkbox">
+              <input onclick="$(this).is(':checked') ? $('#billing-details, #billing-details-form, #billing-details-button').hide(): $('#billing-details, #billing-details-form, #billing-details-button').show()" id="Same_Billing_Details" type="checkbox" {% if hasBillingDetails == false %}checked="checked"{% endif %} />
+                {% T My billing details are the same as my contact details %}
+            </label>
+          </div>
+
+          <h3 id="billing-details" {% if hasBillingDetails == false %}style="display: none"{% endif %}>{% T Billing Details %}</h3>
+          <div class="form-section" id="billing-details-form" {% if hasBillingDetails == false %}style="display: none"{% endif %}>
+            <div class="input-group">
+              <label for="Coworker_BillingName">{% T Company Name %}</label>
+              <input value="{{ data.Coworker.BillingName }}" type="text" name="Coworker.BillingName" id="Coworker_BillingName" />
+            </div>
+            <div class="input-group">
+              <label for="Coworker_BillingAddress">{% T Address %}</label>
+              <textarea rows="5" id="Coworker_BillingAddress" name="Coworker.BillingAddress" type="text">{{ data.Coworker.BillingAddress }}</textarea>
+            </div>
+            <div class="input-group">
+              <label for="Coworker_BillingCityName">{% T Town %}</label>
+              <input value="{{ data.Coworker.BillingCityName }}" type="text" name="Coworker.BillingCityName" id="Coworker_BillingCityName">
+            </div>
+            <div class="input-group">
+              <label for="Coworker_BillingState">{% T State / Province %}</label>
+              <input value="{{ data.Coworker.BillingState }}" type="text" name="Coworker.BillingState" id="Coworker_BillingState">
+            </div>
+            <div class="input-group">
+              <label for="Coworker_BillingPostCode">{% T Postcode / Zip code %}</label>
+              <input value="{{ data.Coworker.BillingPostCode }}" type="text" name="Coworker.BillingPostCode" id="Coworker_BillingPostCode">
+            </div>
+            <div class="input-group">
+              <label for="Coworker_TaxIDNumber">{% T TAX/VAT Number %}</label>
+              <input value="{{ data.Coworker.TaxIDNumber }}" type="text" name="Coworker.TaxIDNumber" id="Coworker_TaxIDNumber">
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 id="location">{% T Your location %}</h3>
+            <div class="input-group select">
+              <label>{% T Country %}</label>
+              {% CountriesDropdown data.Coworker.Country.Id, Coworker.Country %}
+            </div>
+            <div class="input-group select">
+              <label>{% T Timezone %}</label>
+              {% TimeZonesDropdown data.Coworker.SimpleTimeZone.Id, Coworker.SimpleTimeZone %}
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h3 id="notifications">{% T Notifications %}</h3>
+            <label for="User_OnHelpDeskMsg" class="checkbox">
+              <input id="User_OnHelpDeskMsg" name="User.OnHelpDeskMsg" type="checkbox" value="true" {% if !data.Coworker.User.OnHelpDeskMsg %} checked="checked" {% endif %} />
+              <input id="User_OnHelpDeskMsg_Hidden" name="User.OnHelpDeskMsg" type="hidden" value="false" />
+              {% T When a new message is posted in the help desk message board %}
+            </label>
+            <label for="User_OnNewWallPost" class="checkbox">
+              <input id="User_OnNewWallPost" name="User.OnNewWallPost" type="checkbox" value="true" {% if !data.Coworker.User.OnNewWallPost %} checked="checked" {% endif %}/>
+              <input id="User_OnNewWallPost_Hidden" name="User.OnNewWallPost" type="hidden" value="false" />
+              {% T When a new message is posted in the home page wall %}
+            </label>
+            <label for="User_OnNewBlogComment" class="checkbox">
+              <input id="User_OnNewBlogComment" name="User.OnNewBlogComment" type="checkbox" value="true" {% if !data.Coworker.User.OnNewBlogComment %} checked="checked" {% endif %} />
+              <input id="User_OnNewBlogComment_Hidden" name="User.OnNewBlogComment" type="hidden" value="false" />
+              {% T When a new message is posted in the blog %}
+            </label>
+            <label for="User_OnNewEventComment" class="checkbox">
+              <input id="User_OnNewEventComment" name="User.OnNewEventComment" type="checkbox" value="true" {% if !data.Coworker.User.OnNewEventComment %} checked="checked" {% endif %} />
+              <input id="User_OnNewEventComment_Hidden" name="User.OnNewEventComment" type="hidden" value="false" />
+              {% T When a new message is posted in an event %}
+            </label>
+          </div>
+        </form>
+
+      </section>
+      <!-- END CONTENT -->
+      {% endif %}
+    </div>
+  </div>
+  <!-- END CONTAINER -->
+</div>
+
+<style>
+  #ccdialog, #spreedly {
+    width: 300px;
+    margin-left: -150px;
+  }
+
+  #ccdialog .modal-header,
+  #spreedly .modal-header {
+    background: #f1f4f6;
+    padding: 25px;
+  }
+
+  #ccdialog .controls label,
+  #spreedly .controls label {
+    margin-bottom: 0;
+  }
+
+  #ccdialog h4,
+  #spreedly h4 {
+    margin-bottom: 5px;
+  }
+
+  .invoiceNumber {
+    color: #929496;
+  }
+
+  table form {
+    display: inline;
+  }
+</style>
+
+<!-- SPREEDLY CREDIT CARD DETAILS -->
+<div id="spreedly" class="modal hide fade row-fluid" tabindex="-1" role="dialog" aria-hidden="true">
+  <form method="post" action="https://core.spreedly.com/v1/payment_methods" id="spreedly-ccform">
+    <input name="redirect_url" id="spreedly-redirect-url" type="hidden" value="" />
+    <input name="environment_key" type="hidden" value="{{ data.Local.SpreedlyEnvironmentKey }}" />
+    <div class="modal-header">
+      <a href="#" class="close" data-dismiss="modal">&times;</a>
+      <h4>{{ data.Business.Name }}</h4>
+      <span class="invoiceNumber"></span>
+    </div>
+    <div class="modal-body">
+
+
+      <div class="controls controls-row">
+        <label class="span7">{% T Card Number %}</label>
+        <label class="span5">{% T Expires %}</label>
+      </div>
+      <div class="controls controls-row">
+        <input class="span7" autocomplete="off" id="credit_card_number" name="credit_card[number]" type="text" placeholder="???? ???? ???? ????" />
+        <input class="span2" id="credit_card_month" name="credit_card[month]" type="text" placeholder="MM" />
+        <input class="span3" id="credit_card_year" name="credit_card[year]" type="text" placeholder="YYYY" />
+      </div>
+      <div class="controls controls-row">
+        <label class="span9">{% T Name on Card %}</label>
+        <label class="span3">{% T CVC %}</label>
+      </div>
+      <div class="controls controls-row">
+        <input class="span4" id="credit_card_first_name" name="credit_card[first_name]" type="text" placeholder="{% T First name %}" />
+        <input class="span5" id="credit_card_last_name" name="credit_card[last_name]" type="text" placeholder="{% T Last name %}" />
+        <input class="span3" autocomplete="off" id="credit_card_verification_value" name="credit_card[verification_value]" type="text" />
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <a class="btn  btn-grey" data-dismiss="modal" aria-hidden="true">{% T Close %}</a>
+      <a href="#" id="spreedly-ccpay-button" class="btn btn-orange">{% T Pay by Card %}</a>
+    </div>
+  </form>
+</div>
+<!-- END CREDIT CARD DETAILS -->
+{% endblock %}
+{% block script %}
+
+<script>
+  $(function () {
+    $('.ccPayButton').click(function () {
+      var el = $('#ccdialog');
+      var invoiceNumber = $(this).attr('data-description');
+      var url = $(this).attr('data-payUrl');
+      $('#ccform').attr('action', url);
+      $('.invoiceNumber').text(invoiceNumber);
+      el.modal();
+    });
+
+    $('.spreedlyButton').click(function () {
+      var el = $('#spreedly');
+      var invoiceNumber = $(this).attr('data-description');
+      var url = $(this).attr('data-payUrl');
+      var txt = $(this).attr('data-payButtonText') || '{% T Pay by Card %}';
+      $('#spreedly-redirect-url').val(url);
+      $('#spreedly-ccpay-button').text(txt);
+      $('.invoiceNumber').text(invoiceNumber);
+      el.modal();
+    });
+
+    $('#spreedly-ccpay-button').click(function () {
+      if ($('#spreedly-ccpay-button').attr('disabled')) return;
+      $('#spreedly-ccpay-button').attr('disabled', 'disabled');
+      $('#spreedly-ccpay-button').text('{% T Please wait... %}');
+      $('#spreedly-ccform').submit();
+    });
+
+    $('#ccpay-button').click(function () {
+      if ($('#ccpay-button').attr('disabled')) return;
+      $('#ccpay-button').attr('disabled', 'disabled');
+      $('#ccform').submit();
+    });
+  });
+</script>
+
+<script>
+  $(function () {
+
+    $(".date").datetimepicker({ language: '{{ data.Language }}', format: "dd MM yyyy", minuteStep: 15, showMeridian: true, autoclose: true, minView: 2, startView: 4 });
+    $('#profile-form').h5Validate();
+
+    $('#profile-form button[type="submit"]').on('click', function () {
+        var result = $('#profile-form').h5Validate('allValid');
+        if (result == true) {
+            $('#profile-form button[type="submit"]').text('{% T Please wait... %}');
+            return true;
+        }
+        else {
+         	showErrorMessage('{% T Please complete all the required fields %}');
+         	return false;
+        }
+    });
+
+    $('.multiple_select').each(function(i, el){
+      var sel = $(el).siblings('select');
+      var tags = $(el).val();
+      sel.val(tags.split(','));
+
+      sel.chosen();
+      $(sel).change(function(){
+        var tags = sel.val().join();
+        $(el).val(tags);
+      });
+    });
+
+  });
+</script>
+{% endblock %}

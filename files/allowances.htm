@@ -1,0 +1,374 @@
+{% extends master.master %}
+{% block content %}
+<style>
+  table tbody tr td { background-color: #f9f9f9; }
+  @media (max-width: 768px) {
+    .nav-tabs > li {
+      float:none;
+    }
+    .nav-tabs > li a {
+    border:1px solid #ddd !important;
+    }
+}
+</style>
+      <!-- CONTENT -->
+<section class="container">
+  <div class="alert alert-info text-center">
+    {% if data.Coworker.Tariff != null %}
+    {% assign renewDateFormated =  data.Coworker.NextInvoice | Date: 'D' %}
+    {% T Your price plan is due for renewal on {0}. || renewDateFormated %}
+    {% else %}
+    <h4>{% T You are not in a price plan. %}</h4>
+    {% endif %}
+  </div>
+</section>
+
+<div id="wrapper">
+  <!-- CONTAINER -->
+  <div id="main" class="container">
+    <div class="row">        
+      <section id="content" class="span12">
+        <ul class="nav nav-tabs">
+          {% if data.Local.TariffProducts.size > 0 or data.Local.TariffTimePasses.size > 0 or data.Local.TariffExtraServices.size > 0 or data.Local.OtherTimePasses.size > 0 or data.Local.OtherExtraServices.size > 0 or data.Coworker.TotalRemainingBookingCredit > 0 %}
+          <li ><a href="#summary" data-toggle="tab">{% T Summary %}</a></li>
+          {% endif %}
+          {% if data.Local.TariffHasLimits or data.Coworker.TimePasses.size > 0 %}
+          <li><a href="#timepasses" data-toggle="tab">{% T Access to {0} || data.Business.Name %}</a></li>
+          {% endif %}
+          {% if data.Coworker.ExtraServices.size > 0 %}
+          <li><a href="#extraservices" data-toggle="tab">{% T Access to resources at {0} || data.Business.Name %}</a></li>
+          {% endif %}
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane active" id="summary">
+            {% if data.Local.TariffHasLimits == false and data.Coworker.TimePasses.size == 0 and data.Coworker.ExtraServices.size == 0 and data.Coworker.BookingCredits.size == 0 %}
+            <h5>
+              {% T You are not signed up for a price plan or your price plan doesn't include any allowances %}
+            </h5>
+            <hr/>
+            {% endif %}
+
+            {% if data.Local.TariffTimePasses.size > 0 or data.Local.TariffExtraServices.size > 0 %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="span9">{% T Included in your Price Plan %}</th>
+                  <th class="span2">{% T Qty. %}</th>
+                  <th class="span1">
+                    <span class="pull-right">{% T Remaining %}</span>
+                   </th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- TARIFF TIME PASSES -->
+                {% for tp in data.Local.TariffTimePasses %}
+                <tr>
+                  <td>
+                    {{ tp.TimePass.Name }}<br/><small>{{ tp.TimePass.Description }}</small>
+                  </td>
+                  <td>{{ tp.PassesIncluded }} {% T every %} {% T tp.PassRenewalTime %}</td>
+                  <td>
+                    <p class="text-right">
+
+                      {% if tp.RemainingHours > 0 %}
+                      {{ tp.RemainingHours }} {% T hours %}
+                      {% elseif tp.RemainingMinutes > 0 %}
+                      {{ tp.RemainingMinutes }} {% T minutes %}
+                      {% else %}
+                      {{ tp.Remaining }}
+                      {% endif %}
+                    </p>
+                  </td>
+                </tr>
+                {% endfor %}
+                <!-- TARIFF TIME EXTRA SERVICES -->
+                {% for xs in data.Local.TariffExtraServices %}
+                <tr>
+                  <td>
+                    {{ xs.ExtraService.Name }}<br/><small>{{ xs.ExtraService.Description }}</small>
+                  </td>
+                  <td>{{ xs.UsesIncluded }} {% T every %} {% T xs.ServiceRenewalTime %}</td>
+                  <td class="text-right">
+                    {{ xs.Remaining }}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% endif %}
+
+            {% if data.Local.TariffProducts.size > 0 %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="span11">{% T Price Plan add-ons %}</th>
+                  <th class="span1">
+                    <p class="text-right">
+                    {% T Price %}
+                    </p>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <!-- PRODUCTS -->
+                {% for p in data.Local.TariffProducts %}
+                <tr>
+                  <td>
+                    {{ p.Name }}<br/><small>{{ p.Description }}</small>
+                  </td>
+                  <td>
+                    <p class="text-right">
+                      {{ p.Currency.Code }} {{ p.Price | FormatDecimal format: 'N2' }}
+                    </p>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% endif %}
+
+            {% if data.Local.OtherTimePasses.size > 0 or data.Local.OtherExtraServices.size > 0 or data.Coworker.TotalRemainingBookingCredit > 0 %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="span11">{% T Other Allowances %}</th>
+                  <th class="span1">
+                    <span class="pull-right">{% T Remaining %}</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <!-- OTHER TIME PASSES -->
+                {% for p in data.Local.OtherTimePasses %}
+                <tr>
+                  <td>
+                    {{ p.TimePass.Name }}<br/><small>{{ p.TimePass.Description }}</small>
+                  </td>
+                  <td>
+                    <p class="text-right">
+                      {% if p.RemainingHours > 0 %}
+                      {{ p.RemainingHours }} {% T hours %}
+                      {% elseif p.RemainingUses > 0 %}
+                      {{ p.RemainingUses }} {% T minutes %}
+                      {% else %}
+                      {{ p.Remaining }}
+                      {% endif %}
+                    </p>
+                  </td>
+                </tr>
+                {% endfor %}
+
+                <!-- OTHER EXTRA SERVICECS -->
+                {% for p in data.Local.OtherExtraServices %}
+                <tr>
+                  <td>
+                    {{ p.ExtraService.Name }}<br/><small>{{ p.ExtraService.Description }}</small>
+                  </td>
+                  <td>
+                    <p class="text-right">
+                      {{ p.Remaining }}
+                    </p>
+                  </td>
+                </tr>
+                {% endfor %}
+
+                {% if data.Coworker.TotalRemainingBookingCredit > 0 %}
+                <tr>
+                  <td>
+                    {{ data.Coworker.TotalTotalBookingCredit | FormatDecimal format: 'N2' }} {% T Booking Credit %}
+                  </td>
+                  <td>
+                    <p class="text-right">
+                      {{ data.Business.Currency.Code }} {{ data.Coworker.TotalRemainingBookingCredit | FormatDecimal format: 'N2' }}
+                    </p>
+                  </td>
+                </tr>
+                {% endif %}
+              </tbody>
+            </table>
+            {% endif %}
+            <p class="pull-right">
+              <a class="btn btn-grey" href="{% Url Profile, Tariff %}">{% T Change your price plan %}</a>
+              <a class="btn btn-orange"  href="{% Url Store, Products %}">{% T Buy Additional Services %}</a>
+            </p>
+          </div>
+          <!-- END SUMMARY TAB -->
+
+          {% if data.Local.TariffHasLimits or data.Coworker.TimePasses.size > 0 %}
+          <div class="tab-pane" id="timepasses">
+
+            {% if data.Coworker.Tariff.CheckinPricePlanLimit > 0 %}
+            <span>
+              {% T Used {0} check-ins out of {1} || data.Local.CheckinsPlan || data.Coworker.Tariff.CheckinPricePlanLimit }} %}
+            </span>
+            <div class="progress progress-striped">
+              <div class="bar" style="width: {{ data.Local.CheckinsLeftPlan }}%;"></div>
+            </div>
+            {% endif %}
+
+            {% if data.Coworker.Tariff.HoursPricePlanLimit > 0 %}
+            {% T Used {0} minutes out of {1} hours || data.Local.MinutesPlan || data.Coworker.Tariff.HoursPricePlanLimit }} %}
+            <div class="progress progress-striped">
+              <div class="bar" style="width: {{ data.Local.MinutesLeftPlan }}%;"></div>
+            </div>
+            {% endif %}
+
+            {% if data.Coworker.Tariff.CheckinWeekLimit > 0 %}
+            {% T Used {0} check-ins out of {1} this week || data.Local.CheckinsThisWeek || data.Coworker.Tariff.CheckinWeekLimit }} %}
+            <div class="progress progress-striped">
+              <div class="bar" style="width: {{ data.Local.CheckinsLeftWeek }}%;"></div>
+            </div>
+            {% endif %}
+
+            {% if data.Coworker.Tariff.HoursWeekLimit > 0 %}
+            {% T Used {0} minutes out of {1} hours this week || data.Local.MinutesThisWeek || data.Coworker.Tariff.HoursWeekLimit }} %}
+            <div class="progress progress-striped">
+              <div class="bar" style="width: {{ data.Local.MinutesLeftWeek }}%;"></div>
+            </div>
+            {% endif %}
+            {% if data.Coworker.Tariff.CheckinMonthLimit > 0 %}
+            {% T Used {0} check-ins out of {1} this month || data.Local.CheckinsThisMonth || data.Coworker.Tariff.CheckinMonthLimit }} %}
+            <div class="progress progress-striped">
+              <div class="bar" style="width: {{ data.Local.CheckinsLeftMonth }}%;"></div>
+            </div>
+            {% endif %}
+            {% if data.Coworker.Tariff.HoursMonthLimit > 0 %}
+            {% T Used {0} minutes out of {1} hours this month || data.Local.MinutesThisMonth || data.Coworker.Tariff.HoursMonthLimit }} %}
+            <div class="progress progress-striped">
+              <div class="bar" style="width: {{ data.Local.MinutesLeftMonth }}%;"></div>
+            </div>
+            {% endif %}
+
+            {% endif %}
+
+            {% if data.Coworker.TimePasses.size > 0 %}
+            <div class="alert alert-info">
+              {% T The tokens below give you access to {0} during a particular time of the day. No matter how many times you go in and out of the space, only one token will be used,  as long as that time pass is valid for the times you went in and out. || data.Business.Name %}
+            </div>
+
+            <small>{% T You may need to scroll to see the entire list %}</small>
+            <div style="overflow:auto; max-height: 200px">
+              <table class="table table-hover invoices">
+                <tbody>
+                  {% for timepass in data.Coworker.TimePasses %}
+                  {% if timepass.Used == false %}
+                  <tr>
+                    <td style="width: 20px"><span aria-hidden="true" class="icon i-16 icon-checkmark"></span></td>
+                    <td>
+                      {{ timepass.TimePass.Name }}{% if timepass.IsFromTariff %}*{% endif %}
+                      {% if timepass.ExpireDate != null %}
+                      {% assign expireDate = timepass.ExpireDate | Date: 'D'  %}
+                      - <i>{% T Expires on {0} || expireDate %} </i>
+                      {% endif %}
+                    </td>
+<td>
+                    <p class="text-right">
+
+                      {% if timepass.RemainingHours > 0 %}
+                      {{ timepass.RemainingHours }} {% T hours %}
+                      {% elseif timepass.RemainingMinutes > 0 %}
+                      {{ timepass.RemainingMinutes }} {% T minutes %}
+                      {% else %}
+                      {{ timepass.Remaining }}
+                      {% endif %}
+                    </p>
+                  </td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                  {% for timepass in data.Coworker.TimePasses %}
+                  {% if timepass.Used %}
+                  <tr class="muted">
+                    <td style="width: 20px"><span aria-hidden="true" class="icon i-16 icon-close"></span></td>
+                    <td>
+                      {{ timepass.TimePass.Name }}
+                      {% assign usedDate = timepass.UsedDate | Date: 'D'  %} -
+                      {% T used on {0} || usedDate %}
+                      {% if timepass.IsFromTariff %}*{% endif %}
+                    </td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <p class="pull-right" style="margin-top:10px">
+              <a class="btn btn-orange"  href="{% Url Store, Products %}">{% T Buy Additional Services %}</a>
+            </p>
+          </div>
+          <!-- TIME PASSES TAB END -->
+          {% endif %}
+          {% if data.Coworker.ExtraServices.size > 0 %}
+          <div class="tab-pane" id="extraservices">
+            <div class="alert alert-info">
+              {% T The tokens below give you access to book a resource in the space. Some resources are charged  based on the time you used them, some based on the times you used them. %}
+            </div>
+            <small>{% T You may need to scroll to see the entire list %}</small>
+            <div style="overflow:auto; max-height: 200px">
+              <table class="table table-hover invoices">
+                <tbody>
+                  {% for xs in data.Coworker.ExtraServices %}
+                  {% if xs.RemainingUses > 0 %}
+                  <tr>
+                    <td style="width: 20px"><span aria-hidden="true" class="icon i-16 icon-checkmark"></span></td>
+                    <td>
+                      {% if xs.InvoiceInMinutes %}
+                      {% T Available {0} minutes out of {1} of {2}. || xs.RemainingUses || xs.TotalUses || xs.ExtraService.Name %} {% if xs.IsFromTariff %}*{% endif %}
+                      {% else %}
+                      {% T {0} out of {1} uses of {2}. || xs.RemainingUses || xs.TotalUses || xs.ExtraService.Name %} {% if xs.IsFromTariff %}*{% endif %}
+                      {% endif %}
+                      {% if xs.ExpireDate != null %}
+                      {% assign expireDate = xs.ExpireDate | Date: 'D'  %}
+                      - <i>{% T Expires on {0} || expireDate %} </i>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+
+                  {% for xs in data.Coworker.ExtraServices %}
+                  {% if xs.RemainingUses == 0 %}
+                  <tr class="muted">
+                    <td style="width: 20px"><span aria-hidden="true" class="icon i-16 icon-close"></span></td>
+                    <td>
+                      {% if xs.InvoiceInMinutes %}
+                      {% T Used all {0} minutes of {1}. || xs.TotalUses || xs.ExtraService.Name %} {% if xs.IsFromTariff %}*{% endif %}
+                      {% else %}
+                      {% T Used all {0} uses of {1}. || xs.TotalUses || xs.ExtraService.Name %} {% if xs.IsFromTariff %}*{% endif %}
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <p class="pull-right">
+              <a href="{% Url Bookings, Index %}" class="btn btn-orange">{% T Make a booking %}</a>
+            </p>
+
+            <!-- EXTRA SERVICES END -->
+
+            <p>
+              <small>(<strong>*</strong>) {% T Included in your price plan %}</small>
+            </p>
+          </div>
+          {% endif %}
+        </div>
+
+      </section>
+      <!-- END CONTENT -->
+
+    </div>
+  </div>
+  <!-- END CONTAINER -->
+
+
+</div>
+{% endblock %}
+{% block script %}
+<script>$('a[data-toggle="tab"]:first').tab('show');</script>
+{% endblock %}

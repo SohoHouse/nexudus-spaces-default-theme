@@ -4,6 +4,7 @@ var gulp          = require('gulp'),
   argv            = require('yargs').argv;
 
 gulp.task('build:scss', function () {
+  var dest = argv.out || './';
   gulp.src('css.scss')
     .pipe($.plumber({
       errorHandler: $.notify.onError("<%= error.message %>")}))
@@ -14,10 +15,19 @@ gulp.task('build:scss', function () {
       browsers: ['last 2 versions'],
       cascade: false
     }))
-    .pipe($.if(argv.m, $.cleanCss()))
-    .pipe(gulp.dest('/Users/sam.garson/Dropbox/Apps/Nexudus\ Spaces/Nexudus\ Spaces/Soho Works\ -\ Shoreditch'));
+    .pipe($.if(argv.production, $.cleanCss()))
+    .pipe(gulp.dest(dest));
+  console.log('Built CSS to ' + dest)
 });
 
-gulp.task('default', ['build:scss'], function () {
+gulp.task('build:files', function () {
+  var dest = argv.out || './';
+  gulp.src('files/**/*')
+    .pipe(gulp.dest(dest))
+  console.log('Built Files to ' + dest)
+})
+
+gulp.task('default', ['build:scss', 'build:files'], function () {
   gulp.watch('**/*.scss', ['build:scss']);
+  gulp.watch('files/**/*', ['build:files']);
 });

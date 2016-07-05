@@ -1,0 +1,54 @@
+{% extends master.master %}
+{% block title %}{% T Contact %} {% endblock %}
+{% block content %}
+<div id="wrapper">
+  <div id="map-canvas"></div>
+  <!-- CONTAINER -->
+  <div id="main" class="container">
+    <form id="contact-form" method="post" action="{% Url Contact, NewUserMessage %}" class="row-fluid">
+      <div>
+        <div class="span8">
+          <h3>{% T Send us an email %}</h3>
+          <div class="input-group">
+            <label>{% T Your email address%}</label>
+            <input type="text" id="UserMessage_FromName" name="UserMessage.FromName" required="required" class="required" value="{{data.Local.FromName}}">
+          </div>
+          <div class="input-group">
+            <label>{% T Subject %}</label>
+            <input type="text" id="UserMessage_Header" name="UserMessage.Header" value="{{data.Local.Header}}">
+          </div>
+        </div>
+        <div class="span4">
+          <button type="submit" class="btn btn-orange pull-right">{% T Send %}</button>
+        </div>
+      </div>
+      <div>
+        <div class="span12">
+          <div class="input-group">
+            <label>{% T Message %}</label>
+            <textarea type="text" name="UserMessage.Body" id="UserMessage_Body" class="required">{{data.Local.Body}}</textarea>
+          </div>
+
+          {% if data.User.IsAuthenticated == false %}
+          <p class="textarea-block">
+            <label>{% T Text in the image: %}</label>
+            {% Captcha %}
+          </p>
+          {% else %}
+          <input type="hidden" value="disabled" name="recaptcha_challenge_field" />
+          <input type="hidden" value="disabled" name="recaptcha_response_field" />
+          {% endif %}
+        </div>
+      </div>
+    </form>
+      <!-- END CONTACT FORM -->
+    </div>
+
+  </div>
+  <!-- END CONTAINER -->
+</div>
+
+{% endblock %}
+{% block script %}
+  {% include 'space_map.htm' %}
+{% endblock %}

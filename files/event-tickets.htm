@@ -1,0 +1,338 @@
+{% extends master.master %}
+{% block title %}{{ data.Local.Event.Name }} | {% T Tickets %} | {{ data.Business.Name }}{% endblock %}
+{% block content %}
+<div id="wrapper">
+  <!-- CONTAINER -->
+  <div id="main" class="container">
+    <div class="row">
+
+      <!-- CONTENT -->
+      <section id="content" class="span12">
+        <article class="post">
+          <h2 class="page-title"><a href="{% Url events, view, id: data.Local.Event.Id, title: data.Local.Event.Name | Clean %}">{{ data.Local.Event.Name }}</a></h2>
+          <ul class="post-info">
+            <li>
+              <span aria-hidden="true" class="icon i-16 icon-calendar"></span> <a href="#">{{ data.Local.Event.StartDate | Date: 'D' }} @ {{ data.Local.Event.StartDate | Date: 'hh:mm tt' }}</a>
+            </li>
+          </ul>
+
+          <div class="row">
+            {% if data.Local.Event.HasSmallImage %}
+            <div class="span2">
+              <a href="{% Url Events, View, Id: data.Local.Event.Id, title: data.Local.Event.Name | Clean %}" class="thumbnail pull-left">
+                <img style="width:100%" src="{% Url Events, GetSmallImage, id: data.Local.Event.Id, h: 200, w: 200 %}" alt="{{ data.Local.Event.Title | StripHtml }}" class="entry-image" />
+              </a>
+              <div class="clearfix"></div>
+            </div>
+            {% endif %}
+            <div class="{% if data.Local.Event.HasSmallImage %}span10{%else%}span12{%endif%}">
+              {{ data.Local.Event.ShortDescription | StripHtml | MarkDown }}
+            </div>
+          </div>
+        </article>
+
+        <div class="body-content" id="tickets">
+
+          {% if data.Coworker == null %}
+          <div class="row">
+            <div class="span6">
+              <h3>{% T Enter your details... %}</h3>
+              <div class="well">
+                <div class="row-fluid">
+                  <div class="span6">
+                    <label for="Coworker_FullName">{% T Fullname %}</label>
+                    <input type="text" id="Coworker_FullName" name="Coworker.FullName" data-bind="value: coworker.fullName" required="required" class="span12">
+                  </div>
+                  <div class="span6">
+                    <label for="Coworker_Salutation">{% T What should we call you? %}</label>
+                    <input class="span12" type="text" id="Coworker_Salutation" name="Coworker.salutation" data-bind="value: coworker.salutation" required="required" class="span12">
+                  </div>
+                </div>
+                <div class="row-fluid">
+                  <div class="span12">
+                    <label for="Coworker_Email">{% T Email %}</label>
+                    <input type="text" id="Coworker_Email" name="Coworker.Email" data-bind="value: coworker.email" class="span12">
+                  </div>
+                </div>
+                <!--
+<div class="row-fluid">
+<div class="span12">
+<label for="Coworker_CreateUser" class="checkbox">
+<input id="Coworker_CreateUser" name="Coworker.CreateUser" type="checkbox" value="true" data-bind="checked: coworker.createUser"/>
+<input id="Coworker_CreateUser_Hidden" name="Coworker.CreateUser" type="hidden" value="false" />
+{% T Remember my details %}
+<br/>
+<small>{% T We will send you an email with your access details so you can quickly sign up to other events. %}</small>
+</label>
+</div>
+</div>
+-->
+              </div>
+              {% if data.Local.Event.AskBuyerAddress %}
+              <h3>{% T Account details %}</h3>
+              <div class="well">
+                <div class="row-fluid">
+                  <div class="span12">
+                    <label for="Coworker_Address">{% T Address %}</label>
+                    <textarea rows="5" id="Coworker_Address" name="Coworker.Address" type="text" class="span12" data-bind="value: coworker.address">{{ data.Coworker.Address }}</textarea>
+                  </div>
+                </div>
+                <div class="row-fluid">
+                  <div class="span4">
+                    <label for="Coworker_State">{% T State / Province %}</label>
+                    <input value="{{ data.Coworker.State }}" type="text" name="Coworker.State" id="Coworker_State" class="span12" data-bind="value: coworker.state">
+                  </div>
+                  <div class="span4">
+                    <label for="Coworker_CityName">{% T Town %}</label>
+                    <input value="{{ data.Coworker.CityName }}" type="text" name="Coworker.CityName" id="Coworker_CityName" class="span12" data-bind="value: coworker.cityName">
+                  </div>
+                  <div class="span4">
+                    <label for="Coworker_PostCode">{% T Postcode / Zip code %}</label>
+                    <input value="{{ data.Coworker.PostCode }}" type="text" name="Coworker.PostCode" id="Coworker_PostCode" class="span12" data-bind="value: coworker.postCode">
+                  </div>
+                </div>
+              </div>
+              <h3>{% T Billing details %}</h3>
+              <div class="well">
+                <div class="row-fluid">
+                  <div class="span12">
+                    <label for="Coworker_BillingAddress">{% T Address %}</label>
+                    <textarea rows="5" id="Coworker_BillingAddress" name="Coworker.BillingAddress" type="text" class="span12" data-bind="value: coworker.billingAddress">{{ data.Coworker.BillingAddress }}</textarea>
+                  </div>
+                </div>
+                <div class="row-fluid">
+                  <div class="span4">
+                    <label for="Coworker_BillingState">{% T State / Province %}</label>
+                    <input value="{{ data.Coworker.BillingState }}" type="text" name="Coworker.BillingState" id="Coworker_BillingState" class="span12" data-bind="value: coworker.billingState">
+                  </div>
+                  <div class="span4">
+                    <label for="Coworker_BillingCityName">{% T Town %}</label>
+                    <input value="{{ data.Coworker.BillingCityName }}" type="text" name="Coworker.BillingCityName" id="Coworker_BillingCityName" class="span12" data-bind="value: coworker.billingCityName">
+                  </div>
+                  <div class="span4">
+                    <label for="Coworker_BillingPostCode">{% T Postcode / Zip code %}</label>
+                    <input value="{{ data.Coworker.BillingPostCode }}" type="text" name="Coworker.BillingPostCode" id="Coworker_BillingPostCode" class="span12" data-bind="value: coworker.billingPostCode">
+                  </div>
+                </div>
+                <div class="row-fluid">
+                  <div class="span4">
+                    <label for="Coworker_TaxIDNumber">{% T TAX/VAT Number %}</label>
+                    <input value="{{ data.Coworker.TaxIDNumber }}" type="text" name="Coworker.TaxIDNumber" id="Coworker_TaxIDNumber" class="span12" data-bind="value: coworker.taxIDNumber">
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            </div>
+            <div class="span6">
+              <h3>{% T ... or log in %}</h3>
+              <a href="{% Url Login, Index %}?returnUrl={{ data.URL }}" class="btn btn-orange btn-large">{% T Log in %}</a>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="row" data-bind="{% if data.Coworker==null %}visible: coworker.fullName{% endif %}" style="{% if data.Coworker==null %}display: none{% endif %}">
+            <div class="span12">
+              <h3>{% T Choose your tickets %}</h3>
+              <p class="alert alert-info" data-bind="visible: products().length == 0">
+                {% T There are no products available %}
+              </p>
+              <table class="table table-striped" data-bind="visible: products().length > 0">
+                <thead>
+                  <tr>
+                    <th class="span8">{% T Product %}</th>
+                    <th class="span1 hidden-phone">{% T Price %}</th>
+                    <th class="span1 hidden-phone">{% T Qty. %}</th>
+                  </tr>
+                </thead>
+                <tbody data-bind="foreach: products, visible: products().length > 0" style="display: none">
+                  <tr>
+                    <td>
+                      <span data-bind="text: Name"></span>
+                      <i data-bind="visible: SoldOut"> - <span style="color: red;">{% T Sold out! %}</span></i>
+                      <i data-bind="visible: LastFew() && !SoldOut()"> - <span style="color: red;">{% T Last few tickets! %}</span></i>
+
+                      <br />
+                      <small>
+
+                        <span data-bind="text: Description, visible: Description"></span>
+
+                        <br data-bind="visible: Description" />
+                        <i>
+                          <span data-bind="visible: !IsAvailableNow() && !Expired()">{% T Available From %}:</span>
+                          <span data-bind="text: StartDateFormatted, visible: !IsAvailableNow() && !Expired()"></span>
+                          <span data-bind="visible: IsAvailableNow() || Expired()">{% T Available until %}:</span>
+                          <span data-bind="text: EndDateFormatted, visible: IsAvailableNow() || Expired()"></span>
+
+                        </i>
+                      </small>
+                      <div class="visible-phone">
+                        <br />
+                        <select style="width:50px" data-bind="value: Quantity, optionsCaption: '', options: qtys, visible: IsAvailableNow() && !SoldOut()"></select>
+                        <select data-bind="visible: !IsAvailableNow() || SoldOut()" disabled="disabled" style="width:50px"><option>0</option></select>
+                        x
+                        <span data-bind="text: PriceFormatted"></span>
+
+                      </div>
+                    </td>
+                    <td class="hidden-phone"><span data-bind="text: PriceFormatted"></span></td>
+                    <td class="hidden-phone">
+                      <select style="width:50px" data-bind="value: Quantity, optionsCaption: '', options: qtys, visible: IsAvailableNow() && !SoldOut()"></select>
+                      <select data-bind="visible: !IsAvailableNow() || SoldOut()" disabled="disabled" style="width:50px"><option>0</option></select>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+              <table class="table" style="border-top: 1px solid black">
+                <tbody>
+                  <tr data-bind="visible: availableCredit() > 0">
+                    <th class="span10"><p class="text-right">{% T Event Credit: %}</p></th>
+                    <th class="span2">
+                      {{ data.Business.Currency.Code }}
+                      <span data-bind="text: availableCredit().toFixed(2)"></span>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th class="span10 hidden-phone"><p class="text-right">{% T One-off Payment: %}</p></th>
+                    <th class="span2">
+                      {{ data.Business.Currency.Code }}
+                      <span data-bind="text: totalOneOff"></span>
+                    </th>
+                  </tr>
+                </tbody>
+
+              </table>
+
+
+            </div>
+          </div>
+          <div class="row-fluid" style="display: none" data-bind="visible: attendees().length > 0">
+            <div class="span12">
+              <h3>{% T Attendees %}</h3>
+              <p>
+                {% T Please type the name and email address of each person attending this event. They will receive a notification and their ticket by email %}
+              </p>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th class="span3">{% T Ticket %}</th>
+                    <th class="span6 hidden-phone">{% T Fullname %}</th>
+                    <th class="span3 hidden-phone">{% T Email %}</th>
+                  </tr>
+                </thead>
+                <tbody data-bind="foreach: attendees">
+                  <tr>
+                    <td>
+                      <strong><span data-bind="text: productName"></span></strong><br /><br />
+                      <div class="visible-phone row-fluid">
+                        {% T Fullname %}<br />
+                        <input class="span12" data-bind="value: fullName" type="text" />
+                        <br />
+                        {% T Email %}<br />
+                        <input class="span12" data-bind="value: email" type="email" /><br />
+                      </div>
+                    </td>
+                    <td class="hidden-phone">
+                      <input class="span12" data-bind="value: fullName" type="text" /><br />
+                    </td>
+                    <td class="hidden-phone">
+                      <input class="span12" data-bind="value: email" type="email" /><br />
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+
+              <div class="pull-right">
+                <button class="btn btn-orange" data-bind="click: function () { selectedProducts().length == 0 ? doPurchase() : confirmPurchase() }">{% T Continue %}</button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- CONFIRM PURCHASE MODAL -->
+      <div class="modal hide fade" data-bind="showModal: showConfirmation">
+        <div class="modal-header">
+          <button type="button" class="close" aria-hidden="true" data-bind="click: closeConfirmation">&times;</button>
+          <h3>{% T Confirm your Purchase %}</h3>
+        </div>
+        <div class="modal-body">
+          <form action="#">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="span10">{% T Product %}</th>
+                  <th class="span2">{% T Price %}</th>
+                </tr>
+              </thead>
+              <tbody data-bind="foreach: selectedProducts">
+                <tr>
+                  <td><span data-bind="text: Name"></span></td>
+                  <td>
+                    <span data-bind="text: Quantity"></span>x
+                    <span data-bind="text: PriceFormatted"></span>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+            <table class="table" style="border-top: 1px solid black">
+              <tbody>
+                <tr data-bind="visible: availableCredit() > 0">
+                  <th class="span10"><p class="text-right">{% T Event Credit: %}</p></th>
+                  <th class="span2">
+                    {{ data.Business.Currency.Code }}
+                    <span data-bind="text: availableCredit().toFixed(2)"></span>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="span10"><p class="text-right">{% T One-off Payment: %}</p></th>
+                  <th class="span2">
+                    {{ data.Business.Currency.Code }}
+                    <span data-bind="text: totalOneOff"></span>
+                  </th>
+                </tr>
+
+              </tbody>
+
+            </table>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-link" data-bind="click: closeConfirmation">{% T Back %}</button>
+          <button class="btn btn-orange" data-bind="click: doPurchase, enable: doPurchaseEnabled, text: doPurchaseEnabled() ? '{% T Continue %}' : '{% T Please wait... %}'">{% T Continue %}</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- END CONTAINER -->
+</div>
+{% endblock %}
+{% block script %}
+<script>
+
+  var salutChanged = false;
+  $('#Coworker_Salutation').keyup(function () {
+    salutChanged = true;
+  });
+  $('#Coworker_FullName').keyup(function () {
+    var fn = $('#Coworker_FullName').val();
+    if (!salutChanged) {
+      $('#Coworker_Salutation').val(fn.split(' ')[0]);
+    }
+  });
+
+  var lang = '{{ data.Language }}';
+  var eventId = '{{ data.Local.Event.Id }}';
+  var productId = '{{ data.Local.ProductId }}';
+  var fullName = '{{ data.Coworker.FullName }}';
+  var email = '{{ data.Coworker.Email }}';
+  var eventCredit = {{ data.Local.EventCredit }};
+  var maxQty = 10;
+</script>
+<script type="text/javascript" src="/content/themes/public/default/js/ticket-store.js"></script>
+{% endblock %}

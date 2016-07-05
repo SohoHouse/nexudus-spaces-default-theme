@@ -1,0 +1,37 @@
+<article class="card span">
+  <div class="card-image" {% if resource.HasImage %} style="background-image: url({% Url Events, GetLargeImage, id: ev.Id, w: 870 %})" {% endif %} ></div>
+  <div class="card-content">
+    <a class="card-meta" href="{% Url Events, ICal, Id: ev.Id %}">{{ ev.StartDate | Date: 'dd MMMM - h:mmtt' }}</a>
+    <h2 class="card-title"><a href="{% Url Events, View, Id: ev.Id, title: ev.Name | Clean %}">{{ ev.Name | StripHtml }}</a></h2>
+    <!-- POST INFO -->
+    {% if data.Local.Event.Resource != null %}
+      <p>
+        {{ data.Local.Event.Resource.Name }}
+      </p>
+    {% endif %}
+    <div class="card-description">
+      {{ ev.ShortDescription | StripHtml | MarkDown }}
+    </div>
+    <!-- END POST INFO -->
+    <!-- POST CONTENT -->
+    <div class="card-hover">
+      {% if ev.TicketsPage != null %}
+        <a href="{{ev.TicketsPage}}" class="btn btn-orange">
+          <i class="icon-ticket"></i>
+          {% T Book Now %}
+        </a><br />
+      {% endif %}
+      {% if ev.WebAddress != null %}
+      <a href="{{ev.WebAddress}}" class="btn btn-link">
+        <i class="icon-earth"></i>
+        {% T Website %}</a>
+      {% endif %}
+      {% if ev.FacebookPage != null %}
+      <a href="{{ev.FacebookPage}}" class="btn btn-link">
+        <i class="icon-facebook"></i>
+        {% T Facebook %}</a>
+      {% endif %}
+    </div>
+  </div>
+  <!-- END POST CONTENT -->
+</article>

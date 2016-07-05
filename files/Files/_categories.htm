@@ -1,0 +1,14 @@
+<aside class="span12">
+  <!-- WIDGET SKILLS -->
+  <div class="widget widget-skills">
+      <div class="widget-body">
+        <h3>{% T Categories %}</h3>
+        <a href="{% Url Events, Index, categoryId: null, page: 1 %}" class="btn {% if data.Local.Category.Id == null %}active{%endif%}">{% T All Events %}</a>
+        <a href="{% Url Events, Index, categoryId: null, pastEvents: true %}" class="btn {% if data.Local.PastEvents %}active{%endif%}">{% T Past Events %}</a>
+        {% for cat in data.Local.Categories %}
+          <a href="{% Url Events, Index, title: cat.Title | Clean, categoryId: cat.Id, page: 1 %}" class="btn {% if data.Local.Category.Id == cat.Id %}active{%endif%}">{{ cat.Title }}</a>
+        {% endfor %}
+      </div>
+  </div>
+  <!-- END WIDGET SKILLS -->
+</aside>

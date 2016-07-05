@@ -1,0 +1,114 @@
+{% extends master.master %}
+{% block htmlTag %}itemscope itemtype="http://schema.org/Article"{% endblock %}
+{% block title %}{% if data.Local.Category != null %}{{  data.Local.Category.Title | Capitalize }} | {% endif %}{% T Blog %} {% endblock %}
+{% block content %}
+<div id="wrapper">
+  <!-- CONTAINER -->
+  <div id="main" class="container">
+    <div class="row">
+      
+      <!-- CONTENT -->
+      <section id="content" class="span9">
+        {% if data.Local.BlogPosts.size == 0 %}
+        <h3 class="well">{% T There are no more blog posts. %}</h3>
+        <a class="btn btn-orange" href="{% Url Blog, Index, page: data.Local.Page | Minus: 1 %}">{% T Go back %}</a>
+        {% endif %}
+        {% for post in data.Local.BlogPosts %}
+        <article class="post">
+          <h2 class="page-title" itemprop="name"><a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">{{ post.Title | StripHtml }}</a></h2>
+          <!-- POST INFO -->
+          <ul class="post-info">
+            <li>
+              <span aria-hidden="true" class="icon i-16 icon-calendar"></span> <a href="#">{{ post.PublishDate | Date: 'd MMMM' }}</a>
+            </li>
+            <li>
+              <span aria-hidden="true" class="icon i-16 icon-bubble"></span> <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}#comments">{% T {0} Comment(s) || post.Comments.size %}</a>
+            </li>
+            {% for cat in post.BlogCategories %}
+            <li>
+              <span aria-hidden="true" class="icon i-16 icon-tag"></span> <a href="{% Url Blog, Index, title: cat.Title | Clean, categoryId: cat.Id, page: 1 %}">{{ cat.Title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          <!-- END POST INFO -->
+          <!-- POST CONTENT -->
+          <div class="body-content">
+            <div class="row">
+              {% if post.HasImage %}
+              <div class="span2">
+                <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}" class="thumbnail pull-left">
+                    <img itemprop="image" style="width:100%" src="{% Url Blog, GetImage, id: post.Id, h: 200, w: 200 %}" alt="{{ post.Title | StripHtml }}" class="entry-image" />
+                </a>
+                <div class="clearfix"></div>
+              </div>
+              {% endif %}    
+              <div itemprop="description" class="{% if post.HasImage %}span7{%else%}span9{%endif%}">
+                {{ post.SummaryText | StripHtml | MarkDown }}
+                <p>
+                  <a href="{% Url Blog, Read, Id: post.Id, title: post.Title | Clean %}">{% T Read more %}</a>
+                </p>    
+              </div>
+            </div>                   
+          </div>
+          <!-- END POST CONTENT -->
+        </article>
+        
+          {% endfor %}
+          
+          <!-- PAGINATION -->
+          <div class="pagination pagination-centered">
+            <ul>
+              {% if(data.Local.Page == 1 %}
+              <li class="disabled"><a href="#">&#8249;</a></li>
+              {% else %}
+              <li><a href="{% Url Blog, Index, page: data.Local.Page | Minus: 1 %}">&#8249;</a></li>
+              <li><a href="{% Url Blog, Index, page: data.Local.Page | Minus: 1 %}">{{ data.Local.Page | Minus: 1 }}</a></li>
+              {% endif %}
+              <li class="active"><a href="#">{{ data.Local.Page }}</a></li>
+              {% if data.Local.BlogPosts.size == 0 %}
+              <li class="disabled"><a href="#">&#8250;</a></li>
+              {% else %}
+              <li><a href="{% Url Blog, Index, page: data.Local.Page | Plus: 1 %}">{{ data.Local.Page | Plus: 1 }}</a></li>
+              <li><a href="{% Url Blog, Index, page: data.Local.Page | Plus: 1 %}" class="next">&#8250;</a></li>
+              {% endif %}
+            </ul>
+          </div>
+          <!-- END PAGINATION -->
+          
+      </section>
+      <!-- END CONTENT -->
+      
+      <!-- SIDEBAR -->
+      <aside id="sidebar-right" class="span3">
+        <!-- WIDGET SKILLS -->
+        <div class="widget widget-skills">
+          <div class="widget-title">
+            <h3>{% T Blog Categories %}</h3>
+          </div>
+          <div class="widget-body">
+            {% for cat in data.Local.Categories %}
+            <a href="{% Url Blog, Index, title: cat.Title | Clean, categoryId: cat.Id, page: 1 %}" class="btn btn-{% if data.Local.Category.Id == cat.Id %}orange{%else%}grey{%endif%}"><span aria-hidden="true" class="icon i-16 icon-tag"></span> {{ cat.Title | Capitalize }}</a>
+            {% endfor %}
+          </div>
+        </div>
+        <!-- END WIDGET SKILLS -->
+        {% if data.Setting_Social_Flickr != "" %}
+        <!-- WIDGET FLICKR -->
+        <div class="widget widget-flickr">
+          <div class="widget-title">
+            <h3>{% T Flickr Feed %}</h3>
+          </div>
+          <div class="widget-body">
+            <ul>
+            </ul>
+          </div>
+        </div>
+        <!-- END WIDGET FLICKR -->
+        {% endif %}
+      </aside>
+      <!-- END SIDEBAR -->
+    </div>
+  </div>
+  <!-- END CONTAINER -->
+</div>
+{% endblock %}

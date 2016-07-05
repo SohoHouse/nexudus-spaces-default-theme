@@ -1,0 +1,61 @@
+{% extends master.master %}
+{% block bodyClass %}home {% if data.UserIsLoggedIn %} dark {% endif %} {% endblock %}
+{% block content %}
+  {% if data.UserIsLoggedIn %}
+    {% include 'dashboard.htm' %}
+  {% else %}
+    {% include 'public_home.htm' %}
+  {% endif %}
+{% endblock %}
+
+{% block script %}
+  {% if data.UserIsLoggedIn %}
+    {% include 'space_map.htm' %}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/vue/1.0.21/vue.min.js"></script>
+    <script type="text/javascript" src="https://npmcdn.com/vue-moment@1.0.7/vue-moment.min.js"></script>
+    <script type="text/javascript">
+      moment.fn.isISO = true;
+
+      moment.fn.dayISO = function () {
+        var self = this.clone();
+        return self.day() === 0 ? 6 : self.day() - 1;
+      };
+
+      moment.fn.trueWeek = function () {
+        var self = this.clone(),
+          day = self.isISO ? self.dayISO() : self.day();
+        return {
+          begin: self.subtract(day, 'days').clone(),
+          end: self.add(6, 'days').clone()
+        };
+      };
+      
+      moment.fn.monthWeeks = function () {
+        var self = this.clone(),
+          first = self.startOf('month');
+        first = self.isISO ? self.dayISO() : self.day();
+
+        var day = 7 - first,
+          last = self.daysInMonth(),
+          count = (last - day) / 7;
+
+        var weeks = [];
+        weeks.push({
+          begin: 1,
+          end: day
+        });
+        for (var i = 0; i < count; i++) {
+          weeks.push({
+            begin: day + 1,
+            end: Math.min(day += 7, last),
+          });
+        }
+        return weeks;
+      };
+
+    {% include 'mini_calendar.js' %}
+    </script>
+  {% else %}
+
+  {% endif %}
+{% endblock %}

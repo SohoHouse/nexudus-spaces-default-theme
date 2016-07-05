@@ -1,0 +1,488 @@
+{% extends master.master %}
+{% block title %}{% if data.Local.Resource != null %} {{ data.Local.Resource.Name }} | {% endif %}{% T Events and bookings %} | {{ data.Business.Name }}{% endblock %}
+{% block content %}
+
+{% assign type = '' %}
+{% assign qsType = data.QueryString["type"] %}
+{% if qsType != null %}{% assign type = qsType %}{% endif %}
+
+{% assign showMemberDetails = data.Setting_Calendars_ShowMemberDetailsInFeed %}
+{% assign defaultView = data.Setting_Calendars_DefaultView %}
+{% assign resourceInAgendaView = 4 %}
+{% if defaultView == 1 and data.Resources.size > resourceInAgendaView %}{% assign defaultView = 'timelineDay' %}{% endif %}
+{% if defaultView == 1 and data.Resources.size <= resourceInAgendaView %}{% assign defaultView = 'agendaDay' %}{% endif %}
+{% if defaultView == 2 %}{% assign defaultView = 'agendaWeek' %}{% endif %}
+{% if defaultView == 3 %}{% assign defaultView = 'month' %}{% endif %}
+{% if defaultView == 4 %}{% assign defaultView = 'list' %}{% endif %}
+{% if data.Local.ShowAll == false %}{% assign defaultView = 'list' %}{% endif %}
+
+{% assign qsView = data.QueryString["view"] %}
+{% if qsView != null %}{% assign defaultView = qsView %}{% endif %}
+
+
+
+<div id="wrapper">
+  <!-- CONTAINER -->
+  <div id="main" class="container">
+    <div class="row">
+
+      <!-- CONTENT -->
+      <section id="content" class="span12">
+    		{% if data.Resources.size > 0 %}
+          <div class="nav">
+            <a class="btn btn-link btn-toggle {% if type == '' and data.Local.Resource == null %}active{% endif %}" data-url="{% Url Bookings, Index %}" href="{% Url Bookings, Index %}">{% T All Bookings %}</a>
+            {% if data.Local.Resource != null %}
+            <a class="btn btn-link btn-toggle active" href="#">{{ data.Local.Resource.Name | TruncateWords: 3 }}</a>
+            {% else %}
+            {% for group in data.ResourceGroups %}
+            {% assign groupKey = group | Clean %}
+            <a class="btn btn-link btn-toggle {% if type == groupKey %}active{% endif %}" data-url="{% Url Bookings, Index, type: groupKey, showAll: data.Local.ShowAll  %}" href="{% Url Bookings, Index, type: groupKey, showAll: data.Local.ShowAll  %}">{{ group }}</a>
+            {% endfor %}
+            {% endif %}
+
+            <div class="clearfix pull-right">
+              <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  {% if data.Local.Resource != null %}
+                  {{ data.Local.Resource.Name | TruncateWords: 3 }}
+                  {% else %}
+                  {% T Resources %}
+                  {% endif %}
+                  <b class="caret" style="margin-top: 8px"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{% Url Bookings, Index %}">{% T Show all resources %}</a></li>
+                  {% for resource in data.Resources %}
+                  <li class="{% if data.Local.Resource.Id == resource.Id %}active{% endif %}"><a data-url="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}" href="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}">{{ resource.Name }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+
+              {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
+              <a class="btn btn-orange" href="#" onclick="createBooking(new Date())"><strong>{% T Make a booking %}</strong></a>
+              {% else %}
+              <a class="btn btn-grey" href="{% Url Login, Index, lang: data.Language %}&returnUrl=/{{ data.Language }}/bookings">{% T Log in %}</a>
+              {% endif %}
+            </div>
+          </div>
+    		{% endif %}
+
+        <div id="calendar"></div>
+        <div class="row">
+          <div class="span9">
+            <a href="{% Url Bookings, Index, showAll: false %}"><span class="label"><span class="label-colour" style="background: black"></span>{% T Your bookings %}</span></a>
+            <a href="{% Url Bookings, Index, showAll: false %}"><span class="label"><span class="label-colour" style="background: #484848"></span>{% T Your team %}</span></a>
+
+
+            <span class="label"><span class="label-colour" style="background: #a1a1a1"></span>{% T Events %}</span>
+            <br />
+            {% for resource in data.Resources %}
+            <a data-url="{% Url Bookings, Index, resourceId: resource.Id, showAll: data.Local.ShowAll %}" href="{% Url Bookings, Index, resourceId: resource.Id, showAll: data.Local.ShowAll %}">
+              <span class="label resource"><span id="legend-resource-{{ resource.Id }}" class="label-colour" style="background: lightgray"></span>{{ resource.Name }}</span>
+            </a>
+            {% endfor %}
+          </div>
+          {% if data.Resources.size > 0 %}
+          <div class="span3">
+            {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
+            <a onclick="createBooking(new Date())" class="btn btn-orange pull-right">{% T Make a booking %}</a>
+            {% else %}
+            <a class="btn btn-orange pull-right" href="{% Url Login, Index, lang: data.Language %}&returnUrl=/{{ data.Language }}/bookings">{% T Login to make a booking %}</a>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+      </section>
+      <!-- END CONTENT -->
+    </div>
+  </div>
+  <!-- END CONTAINER -->
+  {% include booking.htm %}
+</div>
+
+{% endblock %}
+{% block script %}
+
+<script>
+    {% for resource in data.Resources %}
+    $('#legend-resource-{{ resource.Id }}').css('background-color', getColurFromName('{{ resource.Name | Replace: "'", "\'" }}'));
+    {% endfor %}
+    $('#modal_unpaidbooking').modal();
+    $('#Booking_Resource').prepend('<option></option>');
+
+    var vm;
+    var fc = $('#calendar').fullCalendar({
+        schedulerLicenseKey: '0011856468-fcs-1444557994',
+        lang: '{{ data.Language }}',
+        allDaySlot: false, titleFormat: $(window).width() >= 768 ? 'ddd, MMM Do YYYY' : 'ddd, MMM DD',
+      	scrollTime: '06:00',
+      	minTime:'06:00',
+        aspectRatio: 1.8,
+      	height: 'auto',
+        firstDay: 1,
+      	editable: false,
+      	resourceLabelText: '{{ data.Business.Name | Replace: "'", "\'" }}',
+      	resourceGroupField: 'groupName',
+     	viewRender: function (view) {
+        	var date = view.intervalStart.format('YYYY-MM-DD');
+          	$('a[data-url]').each(function(){
+          	  var url = $(this).attr('data-url');
+              $(this).attr('href', url + (url.indexOf('?') > -1 ? '&' : '?') +'date=' + date + '&view=' + view.name);
+          	});
+    	},
+        resources: [
+          {% if data.Local.Resource == null %}
+             {% for resource in data.Resources %}
+             {% assign resourceGroupKey = resource.GroupName | Clean %}
+             {% assign resourceGroupName = resource.GroupName %}
+             {% if resourceGroupKey == '' %}
+             {% assign resourceGroupKey = 'resources' %}
+             {% assign resourceGroupName = 'Resources' %}
+             {% endif %}
+             {% if type == resourceGroupKey or type == '' %}
+             {'id':{{ resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ resource.Name | Replace: "'", "\'" }}')},
+             {% endif %}
+             {% endfor %}
+             {% else %}
+             {'id':{{ data.Local.Resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ data.Local.Resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ data.Local.Resource.Name | Replace: "'", "\'" }}')}
+             {% endif %}
+        ],
+        eventClick: function(calEvent, jsEvent, view) {
+            if(calEvent.url)
+                window.location = calEvent.url;
+            else if(calEvent.private) {
+                showWarningMessage("{% T This is a booking made by another member of {0} ||  data.Business.Name %}");
+                return false;
+            }
+            else
+            {
+                showBooking(calEvent);
+                return false;
+            }
+        },
+        dayClick: function(date, evData, jsEvent, resourceObj ) {
+            if(resourceObj)
+                $('#Booking_Resource').val(resourceObj.id);
+            else
+                $('#Booking_Resource').val(null);
+            {% if data.Coworker != null %}
+            createBooking(date.local().toDate());
+            {% elseif data.Setting_Bookings_EnableGuestBookings %}
+            createBooking(date.local().toDate());
+            {% else %}
+            showWarningMessage('{% T Login to make a booking %}');
+            {% endif %}
+        },
+        defaultView: $(window).width() < 768 ? 'list' : '{% if data.Local.Resource.Id > 0 %}agendaDay{% else %}{{defaultView}}{% endif %}',
+        editable: true,
+        displayEventEnd: true,
+        defaultDate: moment('{{ data.Local.CurrentDate | FormatDate: 'yyyy-MM-dd' }}'),
+        header: {
+            left:   'title',
+            center: $(window).width() < 768 ? null : 'month,agendaWeek,{% if data.Local.Resource.Id > 0 or data.Resources.size <= resourceInAgendaView %}agendaDay{% else %}timelineDay{% endif %},list',
+            right:  'today prev,next'
+        },
+        resourceRender: function(resourceObj, dataTds, eventTd) {
+          {% for resource in data.Resources %}
+          {% if resource.HasImage %}
+            if(resourceObj.id == {{ resource.Id }}){
+              dataTds.find('.fc-cell-text').prepend('<img data-toggle="lightbox" href="#resource-image-{{resource.Id}}"  style="cursor: pointer; display: inline; margin-right: 10px; border: 1px solid rgb(51, 51, 51)" src="{% Url PublicResources, GetImage, id: resource.Id, h: 20, w: 20 %}" />');
+              $('#calendar').append('<div id="resource-image-{{resource.Id}}" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true"><div class="lightbox-content"><img src="{% Url PublicResources, GetImage, id: resource.Id, h: 600, w: 800 %}"/><div class="lightbox-caption"><p>{{ resource.Name }}</p></div></div></div>');
+            }
+          {% endif %}
+          {% endfor %}
+
+        },
+        eventSources: [
+        {
+            events: [
+              {% for event in data.Local.Bookings %}
+              {% assign groupKey = event.Resource.GroupName | Clean %}
+              {% if groupKey == '' %}
+              {% assign groupKey = 'resources' %}
+              {% endif %}
+              {% if groupKey == type or data.Local.Resource != null or type == '' %}
+              {
+              id: {{ event.Id }},
+              resourceId: '{{ event.Resource.Id }}',
+              title  : '{{ event.Resource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
+              startDate: '{{event.FromTime | Date: 'd'}}',
+              endDate: '{{event.ToTime | Date: 'd'}}',
+              startTime: '{{event.FromTime | Date: 't'}}',
+              endTime: '{{event.ToTime | Date: 't'}}',
+              start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+              end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+              allDay : false,
+              editable: false,
+              ignoreTimezone: true,
+              color: 'black'
+              },
+              {% for linkedResource in event.Resource.LinkedResources %}
+              {
+              id: {{ event.Id }},
+              resourceId: '{{ linkedResource.Id }}',
+              title  : '{{ linkedResource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
+              startDate: '{{event.FromTime | Date: 'd'}}',
+              endDate: '{{event.ToTime | Date: 'd'}}',
+              startTime: '{{event.FromTime | Date: 't'}}',
+              endTime: '{{event.ToTime | Date: 't'}}',
+              start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+              end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+              allDay : false,
+              editable: false,
+              ignoreTimezone: true,
+              color: getColurFromName('{{ linkedResource.Name | Replace: "'", "\'" }}')
+              },
+              {% endfor %}
+              {% endif %}
+              {% endfor %}
+
+              // {% for event in data.Local.TeamBookings %}
+              // {% assign groupKey = event.Resource.GroupName | Clean %}
+              // {% if groupKey == '' %}
+              // {% assign groupKey = 'resources' %}
+              // {% endif %}
+              // {% if groupKey == type or data.Local.Resource != null or type == '' %}
+              // {
+              // id: {{ event.Id }},
+              // resourceId: '{{ event.Resource.Id }}',
+              // title  : '{{ event.Resource.Name | Replace: "'", "\'" }}{% if true %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
+              // startDate: '{{event.FromTime | Date: 'd'}}',
+              // endDate: '{{event.ToTime | Date: 'd'}}',
+              // startTime: '{{event.FromTime | Date: 't'}}',
+              // endTime: '{{event.ToTime | Date: 't'}}',
+              // start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+              // end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+              // allDay : false,
+              // private: true,
+              // editable: false,
+              // ignoreTimezone: true,
+              // color: '#484848'
+              // },
+              // {% endif %}
+              // {% endfor %}
+
+              // {% if data.Local.ShowAll and data.Local.ShowAllBookings %}
+              // {% for event in data.Local.AllBookings %}
+              // {% assign groupKey = event.Resource.GroupName | Clean %}
+              // {% if groupKey == '' %}
+              // {% assign groupKey = 'resources' %}
+              // {% endif %}
+              // {% if groupKey == type or data.Local.Resource != null or type == '' %}
+              // {
+              //     private: true,
+              //     resourceId: {{ event.Resource.Id }},
+              //     title  : '{{ event.Resource.Name | Replace: "'", "\'" }} {% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
+              //     start  : '{{ event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+              //     end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+              //     allDay : false,
+              //     editable: false,
+              //     ignoreTimezone: true,
+              //     color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')
+              // },
+              // {% for linkedResource in event.Resource.LinkedResources %}
+              // {
+              // private: true,
+              // resourceId: {{ linkedResource.Id }},
+              // title  : '{{ linkedResource.Name | Replace: "'", "\'" }} {% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
+              // start  : '{{ event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+              // end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+              // allDay : false,
+              // editable: false,
+              // ignoreTimezone: true,
+              // color: getColurFromName('{{ linkedResource.Name | Replace: "'", "\'" }}')
+              // },
+              // {% endfor %}
+              // {% endif %}
+              // {% endfor %}
+
+              // {% if data.Local.ShowAll %}
+              // {% for event in data.Local.Events %}
+              // {% if data.Local.Resource == null or event.Resource.Id == data.Local.Resource.Id %}
+              // {
+              // private: true,
+              // {% if event.HasResource %}
+              // resourceId: {{ event.Resource.Id }},
+              // {% endif %}
+              // url: '{% Url events, view, id: event.Id, title: event.Name | Clean %}',{% if event.Resource != null %}resources: {{ event.Resource.Id }},{% endif %}
+              // title  : '{{ event.Name | Replace: "'", "\'" }}',
+              // start  : '{{ event.StartDate | Date: 'yyyy' }}-{{ event.StartDate | Date: 'MM' }}-{{ event.StartDate | Date: 'dd' }}T{{ event.StartDate | Date: 'HH' }}:{{ event.StartDate | Date: 'mm' }}Z',
+              // end  : '{{ event.EndDate | Date: 'yyyy' }}-{{ event.EndDate | Date: 'MM' }}-{{ event.EndDate | Date: 'dd' }}T{{ event.EndDate | Date: 'HH' }}:{{ event.EndDate | Date: 'mm' }}Z',
+              // allDay : false,
+              // editable: false,
+              // ignoreTimezone: true,
+              // {% if event.Resource != null %}
+              // color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')
+              // {% endif %}
+              // },
+              // {% endif %}
+              // {% endfor %}
+              // {% endif %}
+              // {% endif %}
+              // {
+              //     title  : 'BOT',
+              //     start  : '1950-01-01T00:00:00',
+              //     allDay : false // will make the time show
+              // }
+              ]},
+
+            ]
+          });
+
+    $(function () {
+
+        var coeff = 1000 * 60 * 15;
+        var originalToDate;
+        var originalFromDate;
+
+        //Resource filter
+        $('#resource-filter').change(function(){
+            var resourceId = $(this).val();
+            window.location = '{% Url Bookings, Index %}?showAll={{data.Local.ShowAll}}&resourceid=' + resourceId;
+        });
+
+        //Initialize timepickers
+        $("#Booking_From").datetimepicker({ viewSelect: 'year', pickerPosition: 'bottom-left', language: '{{ data.Language }}', format: "dd MM yyyy - HH:ii P", minuteStep: 15, showMeridian: true, autoclose: true, todayBtn: true, startDate: '+0d', startView: 1 });
+        $("#Booking_To").datetimepicker({ viewSelect: 'year', pickerPosition: 'bottom-left', language: '{{ data.Language }}', format: "dd MM yyyy - HH:ii P", minuteStep: 15, showMeridian: true, autoclose: true, todayBtn: true, startDate: '+0d', startView: 1 });
+
+        $("#Booking_From input").attr('readonly','readonly');
+        $("#Booking_To input").attr('readonly','readonly');
+
+        //If todate is > from date, move to date ahead
+        $('#Booking_From').on('changeDate', function(){
+            var fromDate = $('#Booking_From').datetimepicker('getDate');
+            var toDate = $('#Booking_To').datetimepicker('getDate');
+
+            //Round the date
+            fromDate = new Date(Math.round(fromDate.getTime() / coeff) * coeff);
+            $('#Booking_From').datetimepicker('setDate', fromDate);
+
+            var diffInMinutes = moment.duration(moment(originalToDate).diff(originalFromDate)).asMinutes();
+            if(diffInMinutes < 60) diffInMinutes = 60;
+
+            var later = moment(fromDate).add(diffInMinutes, 'minutes').toDate();
+            $('#Booking_To').datetimepicker('setDate',later);
+
+            originalFromDate = fromDate;
+            originalToDate = later;
+
+            checkBooking();
+        });
+
+        //If todate is > from date, move from date back
+        $('#Booking_To').on('changeDate', function(){
+            var fromDate = $('#Booking_From').datetimepicker('getDate');
+            var toDate = $('#Booking_To').datetimepicker('getDate');
+
+            //Round the date
+            toDate = new Date(Math.round(toDate.getTime() / coeff) * coeff);
+            $('#Booking_To').datetimepicker('setDate',toDate);
+
+            if(fromDate > toDate){
+                $('#Booking_From').datetimepicker('setDate',toDate);
+            }
+
+            originalFromDate = fromDate;
+            originalToDate = toDate;
+
+            checkBooking();
+        });
+
+        $('#modal_booking form').on("submit", function(event) {
+            var id = $('#booking_id').val();
+            var url;
+            if(id > 0)
+                url = '{% Url Bookings, BookingJson %}';
+            else
+                url = '{% Url Bookings, NewBookingJson %}';
+
+            var fromDateFormatted = moment($('#Booking_From').datetimepicker('getDate')).format('YYYY-MM-DD');
+            var data = getBookingData();
+            postAndClose(url, data, function(){ window.location = '{% Url Bookings, Index %}?type={{ type }}&date=' + fromDateFormatted; });
+            event.preventDefault();
+        });
+
+        $('#delete-button').click(function () {
+            if (confirm('{% T Cancel this booking? %}'))
+            {
+                var url = '{% Url Bookings, DeleteJson %}';
+                var id = $('#booking_id').val();
+                var fromDateFormatted = moment($('#Booking_From').datetimepicker('getDate')).format('YYYY-MM-DD');
+                postAndClose(url, {id: id}, function(){ window.location = '{% Url Bookings, Index %}?date=' + fromDateFormatted; });
+            }
+            return false;
+        });
+
+        $('#Booking_Resource').attr('data-bind','event: { change: updateProducts }');
+
+        var loadProducts = function(){
+            var bid = $('#booking_id').val();
+            var rid = $('#Booking_Resource').val();
+            if(bid && bid > 0 && rid && rid > 0)
+                return $.post('/en/bookings/GetResourceProducts?bookingId=' + bid + '&resourceId=' + rid);
+            else
+                return $.post('/en/bookings/GetResourceProducts?resourceId=' + $('#Booking_Resource').val());
+        }
+        var mapData = function(data){
+            return vm.bookingProducts = ko.mapping.fromJS(data);
+        }
+        var updateData = function(data){
+            return vm.bookingProducts = ko.mapping.fromJS(data, vm.bookingProducts);
+        }
+        var applyBindings = function() {
+            return ko.applyBindings(vm);
+        }
+        var updateProducts = function(){
+            $.when(loadProducts())
+             .then(updateData)
+             .then(checkBooking);
+        }
+        vm = {
+            bookingProducts: ko.observableArray(),
+            updateProducts: updateProducts,
+            checkBooking: checkBooking
+        };
+
+        $.when(loadProducts())
+         .then(mapData)
+         .then(applyBindings)
+    });
+
+    function getColurFromName(str){
+        // Generate a Hash for the String
+        var hash = function(word) {
+            var h = 0;
+            for (var i = 0; i < word.length; i++) {
+                h = word.charCodeAt(i) + ((h << 5) - h);
+            }
+            return h;
+        };
+
+        // Change the darkness or lightness
+        var shade = function(color, prc) {
+            var num = parseInt(color, 16),
+                amt = Math.round(2.55 * prc),
+                R = (num >> 16) + amt,
+                G = (num >> 8 & 0x00FF) + amt,
+                B = (num & 0x0000FF) + amt;
+            return (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+                    (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+                    (B < 255 ? B < 1 ? 0 : B : 255))
+              .toString(16)
+              .slice(1);
+
+        };
+        // Convert init to an RGBA
+        var int_to_rgba = function(i) {
+            var color = ((i >> 24) & 0xFF).toString(16) +
+                ((i >> 16) & 0xFF).toString(16) +
+                ((i >> 8) & 0xFF).toString(16) +
+                (i & 0xFF).toString(16);
+            return color;
+        };
+
+        return '#' + shade(int_to_rgba(hash(str)), -10);
+    }
+
+</script>
+{% endblock %}

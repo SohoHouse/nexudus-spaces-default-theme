@@ -1,0 +1,146 @@
+{% extends master.master %}
+{% block title %}{% T Additional Products %} | {{ data.Business.Name }}{% endblock %}
+{% block content %}
+<section class="container">
+  <div class="text-center">
+    <p class="alert alert-info" data-bind="visible: products().length == 0">
+      {% T There are no products available %}
+    </p>
+  </div>
+</section>
+<div id="wrapper">
+  <!-- CONTAINER -->
+  <div id="main" class="container">
+    {% if data.Coworker.Tariff != null and data.Coworker.Active == false %}
+    <div class="progress progress-striped">
+      <div class="bar bar-success" style="width: 20%;">1. {% T Personal Details %}</div>
+      <div class="bar bar-success" style="width: 20%;">2. {% T Choose a price plan %}</div>
+    </div>
+    {% else %}
+    {% endif %}
+    <div class="row">
+      <!-- CONTENT -->
+      <section id="content" class="span12">
+        <div class="body-content">
+          <table class="table" data-bind="visible: products().length > 0">
+            <thead>
+              <tr>
+                <th class="span8">{% T Product %}</th>
+                <th class="span1 minor">{% T Price %}</th>
+                <th class="span1 minor">{% T Qty. %}</th>
+                <th class="span2 minor" style="white-space: nowrap;">{% T Add to my plan %}</th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: products">
+              <tr>
+                <td>
+                  <span data-bind="text: Name"></span><br />
+                  <small data-bind="text: Description"></small>
+                </td>
+                <td class="minor"><span data-bind="text: PriceFormatted"></span></td>
+                <td class="minor">
+                  <select class="select--number" data-bind="value: Quantity, optionsCaption: '', options: $root.qtys">
+                  </select>
+                </td>
+                <td class="text-center minor">
+                  <input data-bind="checked: RegularCharge, visible: Quantity() > 0, disable: AlwaysRecurrent() || AlwaysOneOff()" type="checkbox" {% if data.coworker.tariff= =null %}disabled="disabled" {% endif %} />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table class="table" style="border-top: 1px solid black">
+            <tbody>
+              <tr>
+                <td class="span9">
+                  <p class="text-right">{% T One-off Payment: %}</p>
+                </td>
+                <td class="span3">
+                  {{ data.Business.Currency.Code }}
+                  <span data-bind="text: totalOneOff"></span>
+                </td>
+              </tr>
+              <tr>
+                <td class="span9 text-right">
+                  <p class="text-right">{% T Added to your price plan: %}</p>
+                </td>
+                <td class="span3">
+                  {{ data.Business.Currency.Code }}
+                  <span data-bind="text: totalTariff"></span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pull-right">
+            <button class="btn btn-orange" data-bind="click: function () { selectedProducts().length == 0 ? doPurchase() : confirmPurchase() }, text: doPurchaseEnabled() ? '{% T Continue %}' : '{% T Please wait... %}'">{% T Continue %}</button>
+          </div>
+        </div>
+      </section>
+      <!-- END CONTENT -->
+      <!-- CONFIRM PURCHASE MODAL -->
+      <div class="modal hide fade" data-bind="showModal: showConfirmation">
+        <div class="modal-header">
+          <button type="button" class="close" aria-hidden="true" data-bind="click: closeConfirmation">&times;</button>
+          <h3>{% T Confirm your Purchase %}</h3>
+        </div>
+        <div class="modal-body">
+          <form action="#">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="span10">{% T Product %}</th>
+                  <th class="span2">{% T Price %}</th>
+                </tr>
+              </thead>
+              <tbody data-bind="foreach: selectedProducts">
+                <tr>
+                  <td><span data-bind="text: Name"></span></td>
+                  <td>
+                    <span data-bind="text: Quantity"></span>x
+                    <span data-bind="text: PriceFormatted"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="table" style="border-top: 1px solid black">
+              <tbody>
+                <tr>
+                  <th class="span10">
+                    <p class="text-right">{% T One-off Payment: %}</p>
+                  </th>
+                  <th class="span2">
+                    {{ data.Business.Currency.Code }}
+                    <span data-bind="text: totalOneOff"></span>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="span10 text-right">
+                    <p class="text-right">{% T Added to your price plan: %}</p>
+                  </th>
+                  <th class="span2">
+                    {{ data.Business.Currency.Code }}
+                    <span data-bind="text: totalTariff"></span>
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a href="#" class="btn btn-link" data-bind="click: closeConfirmation">{% T Cancel %}</a>
+          <a href="#" class="btn btn-orange" data-bind="click: doPurchase, enable: doPurchaseEnabled, text: doPurchaseEnabled() ? '{% T Continue %}' : '{% T Please wait... %}'">{% T Continue %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END CONTAINER -->
+</div>
+{% endblock %}
+{% block script %}
+<script>
+  var lang = '{{ data.Language }}';
+  var onlyTimePasses = '{{ data.Local.OnlyTimePasses }}';
+  var productId = '{{ data.Local.ProductId }}';
+  var tag = '{{ data.Local.Tag }}';
+</script>
+<script type="text/javascript" src="/content/themes/public/default/js/store.js"></script>
+{% endblock %}
