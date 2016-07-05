@@ -16,7 +16,6 @@ header {
 
     a {
       color: $dark;
-      font-weight: bold;
       margin-right: 5px;
     }
 
@@ -143,9 +142,11 @@ footer {
   .block {
     margin-bottom: 20px;
     p {
+      @include body-font;
       color: #C9CCCC;
       margin-bottom: 20px;
       strong {
+        @include main-font;
         color: #172433;
         font-weight: normal;
       }

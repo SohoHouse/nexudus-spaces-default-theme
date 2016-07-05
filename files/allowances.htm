@@ -28,23 +28,12 @@
   <div id="main" class="container">
     <div class="row">        
       <section id="content" class="span12">
-        <ul class="nav nav-tabs">
-          {% if data.Local.TariffProducts.size > 0 or data.Local.TariffTimePasses.size > 0 or data.Local.TariffExtraServices.size > 0 or data.Local.OtherTimePasses.size > 0 or data.Local.OtherExtraServices.size > 0 or data.Coworker.TotalRemainingBookingCredit > 0 %}
-          <li ><a href="#summary" data-toggle="tab">{% T Summary %}</a></li>
-          {% endif %}
-          {% if data.Local.TariffHasLimits or data.Coworker.TimePasses.size > 0 %}
-          <li><a href="#timepasses" data-toggle="tab">{% T Access to {0} || data.Business.Name %}</a></li>
-          {% endif %}
-          {% if data.Coworker.ExtraServices.size > 0 %}
-          <li><a href="#extraservices" data-toggle="tab">{% T Access to resources at {0} || data.Business.Name %}</a></li>
-          {% endif %}
-        </ul>
         <div class="tab-content">
           <div class="tab-pane active" id="summary">
             {% if data.Local.TariffHasLimits == false and data.Coworker.TimePasses.size == 0 and data.Coworker.ExtraServices.size == 0 and data.Coworker.BookingCredits.size == 0 %}
-            <h5>
+            <div class="alert">
               {% T You are not signed up for a price plan or your price plan doesn't include any allowances %}
-            </h5>
+            </div>
             <hr/>
             {% endif %}
 
@@ -263,7 +252,7 @@
                       - <i>{% T Expires on {0} || expireDate %} </i>
                       {% endif %}
                     </td>
-<td>
+                    <td>
                     <p class="text-right">
 
                       {% if timepass.RemainingHours > 0 %}

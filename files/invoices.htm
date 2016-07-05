@@ -140,7 +140,7 @@
               <td>
                 <strong>{% T Invoice %} #{{invoice.InvoiceNumber}}</strong>
                 <h2 class="pull-right">{{ invoice.TotalAmount | FormatDecimal format: 'N2' }} {{ data.Business.Currency.Code }}</h2>
-                <br /><span>{{invoice.CreatedOn | Date: 'D'}}</span>
+                <br /><span class="body-font">{{invoice.CreatedOn | Date: 'D'}}</span>
               </td>
             </tr>
             <tr>
@@ -221,7 +221,7 @@
               <td>
                 <strong>{% T Invoice %} #{{invoice.InvoiceNumber}}</strong>
                 <h2 class="pull-right">{{ invoice.TotalAmount | FormatDecimal format: 'N2' }} {{ data.Business.Currency.Code }}</h2>
-                <br /><span>{{invoice.CreatedOn | Date: 'D'}}</span>
+                <br /><span class="body-font">{{invoice.CreatedOn | Date: 'D'}}</span>
               </td>
             </tr>
             {% if data.Setting_Members_PrintInvoices == "true" %}

@@ -27,6 +27,7 @@ table {
     border-bottom: 1px solid rgba($secondary, 0.2) !important;
     font-weight: normal !important;
     &.minor, small {
+      @include body-font;
       color: rgba($dark, 0.4);
     }
     &:first-child {

@@ -11,12 +11,24 @@
   color: $dark;
 }
 
+@mixin body-font {
+  @include main-font;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 20px;
+  font-size: 13px;
+}
+
 body {
   @include main-font;
 
   * {
     text-shadow: none !important;
   }
+}
+
+.body-font {
+  @include body-font;
 }
 
 input,

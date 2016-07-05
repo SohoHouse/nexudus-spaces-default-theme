@@ -121,7 +121,6 @@
           <h1>{{ data.Coworker.FullName }}</h1>
           <h3>{{ data.Coworker.Tariff.Name }} Member</h3>
           <h3>{{ data.Coworker.CompanyName }}</h3>
-          <a class="btn btn-grey" href="{% Url Profile, Tariff %}">{% T Change price plan %}</a><br /><br />
           <a target="_blank" href="/Login/ResetPassword?lang={{ data.Language }}&email={{ data.Coworker.User.Email }}" class="btn btn-grey">{% T Change password %}</a>
         </div>
         <form action="{% Url Profile, Index %}" method="POST" enctype="multipart/form-data" id="profile-form" class="span8">
@@ -313,30 +312,6 @@
               <label>{% T Timezone %}</label>
               {% TimeZonesDropdown data.Coworker.SimpleTimeZone.Id, Coworker.SimpleTimeZone %}
             </div>
-          </div>
-
-          <div class="form-section">
-            <h3 id="notifications">{% T Notifications %}</h3>
-            <label for="User_OnHelpDeskMsg" class="checkbox">
-              <input id="User_OnHelpDeskMsg" name="User.OnHelpDeskMsg" type="checkbox" value="true" {% if !data.Coworker.User.OnHelpDeskMsg %} checked="checked" {% endif %} />
-              <input id="User_OnHelpDeskMsg_Hidden" name="User.OnHelpDeskMsg" type="hidden" value="false" />
-              {% T When a new message is posted in the help desk message board %}
-            </label>
-            <label for="User_OnNewWallPost" class="checkbox">
-              <input id="User_OnNewWallPost" name="User.OnNewWallPost" type="checkbox" value="true" {% if !data.Coworker.User.OnNewWallPost %} checked="checked" {% endif %}/>
-              <input id="User_OnNewWallPost_Hidden" name="User.OnNewWallPost" type="hidden" value="false" />
-              {% T When a new message is posted in the home page wall %}
-            </label>
-            <label for="User_OnNewBlogComment" class="checkbox">
-              <input id="User_OnNewBlogComment" name="User.OnNewBlogComment" type="checkbox" value="true" {% if !data.Coworker.User.OnNewBlogComment %} checked="checked" {% endif %} />
-              <input id="User_OnNewBlogComment_Hidden" name="User.OnNewBlogComment" type="hidden" value="false" />
-              {% T When a new message is posted in the blog %}
-            </label>
-            <label for="User_OnNewEventComment" class="checkbox">
-              <input id="User_OnNewEventComment" name="User.OnNewEventComment" type="checkbox" value="true" {% if !data.Coworker.User.OnNewEventComment %} checked="checked" {% endif %} />
-              <input id="User_OnNewEventComment_Hidden" name="User.OnNewEventComment" type="hidden" value="false" />
-              {% T When a new message is posted in an event %}
-            </label>
           </div>
         </form>
 

@@ -20,22 +20,3 @@ body {
     text-decoration: none;
   }
 }
-
-.alert {
-  border: 0;
-  padding: 20px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 16px rgba(0, 0, 0, 0.05);
-  margin-bottom: 40px;
-
-  #main.container & {
-    padding: 0;
-    box-shadow: none;
-    background-color: transparent;
-    color: #172433;
-  }
-
-  &.alert-info {
-    background-color: $accent;
-    color: white;
-  }
-}

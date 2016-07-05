@@ -23,3 +23,26 @@ span.label {
     transform: translateY(-2px);
   }
 }
+
+
+.alert {
+  border: 0;
+  padding: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 16px rgba(0, 0, 0, 0.05);
+  background-color: white;
+  margin-bottom: 40px;
+  color: $dark;
+
+  #main.container & {
+    @include body-font;
+    padding: 0;
+    box-shadow: none;
+    background-color: transparent;
+    color: $dark;
+  }
+
+  &.alert-info {
+    background-color: $accent;
+    color: white;
+  }
+}

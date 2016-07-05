@@ -107,10 +107,7 @@ article.card {
 }
 
 .card-description {
-  text-transform: none;
-  letter-spacing: 0;
-  line-height: 20px;
-  font-size: 13px;
+  @include body-font;
   opacity: 1;
   transition: .2s opacity ease;
   * {

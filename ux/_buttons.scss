@@ -7,14 +7,20 @@
   box-sizing: border-box;
   max-width: 100%;
   background-image: none !important; 
+  border-color: transparent;
+  box-shadow: 0 0 0;
+  outline: none !important;
+  padding: 10px 30px;
+  transition: all 200ms ease-in;
+  width: 250px;
 
-  .btn[disabled] {
+  &[disabled] {
     background-color: initial;
     color: initial;
     opacity: .5; 
   }
 
-  .btn.active {
+  &.active {
     box-shadow: none;
   }
 }
