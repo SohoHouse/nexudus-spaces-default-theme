@@ -45,4 +45,9 @@ span.label {
     background-color: $accent;
     color: white;
   }
+
+  &.alert-success {
+    background-color: $primary;
+    color: white;
+  }
 }

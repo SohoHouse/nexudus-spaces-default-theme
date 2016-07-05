@@ -1,0 +1,120 @@
+.modal-backdrop {
+  background-color: $dark;
+
+  &.fade.in {
+    opacity: 0.95 !important
+  }
+}
+
+.modal {
+  box-shadow: none;
+  background-color: transparent;
+  color: white;
+  border: 0;
+  position: absolute;
+
+  .close {
+    font-weight: normal;
+    color: white;
+    opacity: .5;
+  }
+}
+
+.modal-header {
+  text-align: center;
+  border-bottom: 0;
+
+  h3 {
+    color: white;
+    font-size: initial;
+  }
+}
+
+.modal-body {
+  max-height: none;
+
+  label {
+    color: white;
+  }
+
+  .body-label {
+    @include body-font;
+    color: white;
+  }
+
+  table {
+    width: 100%;
+    margin: 20px 0;
+    border-top: 1px solid rgba($secondary, 0.2) !important;
+    border-bottom: 1px solid rgba($secondary, 0.2) !important;
+  }
+
+  td {
+    padding: 20px 0 !important;
+
+    &:last-child {
+      text-align: right;
+
+      select {
+        appearance: none;
+        background-color: transparent;
+        background-image: url('/images/asset_select-arrows.png');
+        background-position: right bottom 4px;
+        background-repeat: no-repeat;
+        background-size: auto 21px;
+        border: 0;
+        color: $primary;
+        outline: none;
+        padding-right: 30px;
+        padding-left: 0;
+        width: 100%;
+        font-size: 12px;
+      }
+
+      .input-append {
+        margin: 0;
+
+        input {
+          margin-right: 0;
+          padding-left: 0;
+          background-color: transparent;
+          border: 0;
+          color: $primary;
+          font-size: 12px;
+        }
+
+        > span {
+          background: transparent;
+          border: 0;
+
+          i {
+            background: transparent url('/images/asset_date-picker.png') center/contain no-repeat;
+            width: 22px;
+            height: 30px;
+
+            &::before {
+              content: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.modal-footer {
+  background: transparent;
+  border: 0;
+  text-align: center;
+  box-shadow: none;
+
+  .btn {
+    color: white;
+    display: block;
+    margin: 10px auto !important;
+  }
+
+  .btn-grey {
+    border-color: white;
+  }
+}

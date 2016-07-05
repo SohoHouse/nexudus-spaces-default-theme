@@ -13,6 +13,7 @@
 
 @mixin body-font {
   @include main-font;
+  color: inherit;
   text-transform: none;
   letter-spacing: 0;
   line-height: 20px;

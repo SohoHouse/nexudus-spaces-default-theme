@@ -108,7 +108,6 @@
     $('#legend-resource-{{ resource.Id }}').css('background-color', getColurFromName('{{ resource.Name | Replace: "'", "\'" }}'));
     {% endfor %}
     $('#modal_unpaidbooking').modal();
-    $('#Booking_Resource').prepend('<option></option>');
 
     var vm;
     var fc = $('#calendar').fullCalendar({

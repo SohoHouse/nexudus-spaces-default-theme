@@ -4,7 +4,8 @@ var gulp          = require('gulp'),
   argv            = require('yargs').argv;
 
 gulp.task('build:scss', function () {
-  var dest = argv.out || './';
+  var dest = argv.out;
+  if (!dest) throw 'Destination required'
   gulp.src('css.scss')
     .pipe($.plumber({
       errorHandler: $.notify.onError("<%= error.message %>")}))
@@ -21,7 +22,9 @@ gulp.task('build:scss', function () {
 });
 
 gulp.task('build:files', function () {
-  var dest = argv.out || './';
+  var dest = argv.out;
+  if (!dest) throw 'Destination required'
+    
   gulp.src('files/**/*')
     .pipe(gulp.dest(dest))
   console.log('Built Files to ' + dest)
