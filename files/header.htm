@@ -32,7 +32,7 @@
               <ul class="dropdown-menu" role="menu">
                 <li class="{%if data.Controller == 'profile' and data.Action == 'index'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Index %}">{% T My profile %}</a></li>
                 <li class="{%if data.Controller == 'invoices'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Invoices, Index %}">{% T Payments %}</a></li>
-                <li class="{%if data.Controller == 'bookings' %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li>
+                <li class="{%if data.Controller == 'bookings' %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index %}">{% T My Bookings %}</a></li>
                 <!-- <li class="{%if data.Action == 'tariff'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Tariff %}">{% T Price plans %}</a></li> -->
                 <li class="{%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Allowances %}</a></li>
 
