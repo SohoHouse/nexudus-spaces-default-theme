@@ -263,41 +263,13 @@
     </div>
   </div>
   <!-- END CONTAINER -->
-  <style>
-    #ccdialog, #spreedly {
-      width: 300px;
-    }
-
-    #ccdialog .modal-header,
-    #spreedly .modal-header {
-      background: #f1f4f6;
-      padding: 25px;
-    }
-
-    #ccdialog .controls label,
-    #spreedly .controls label {
-      margin-bottom: 0;
-    }
-
-    #ccdialog h4,
-    #spreedly h4 {
-      margin-bottom: 5px;
-    }
-
-    .invoiceNumber {
-      color: #929496;
-    }
-
-    table form {
-      display: inline;
-    }
-  </style>
+  
   <!-- CREDIT CARD DETAILS -->
   <div id="ccdialog" class="modal hide fade row-fluid" tabindex="-1" role="dialog" aria-hidden="true">
     <form method="post" id="ccform">
       <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h4>{{ data.Business.Name }}</h4>
+        <h3>{{ data.Business.Name }}</h3>
         <span class="invoiceNumber"></span>
       </div>
       <div class="modal-body">
@@ -361,7 +333,7 @@
       <input type="hidden" name="token" id="payment_method_token" value="" />
       <div class="modal-header">
         <a href="#" class="close" data-dismiss="modal">&times;</a>
-        <h4>{{ data.Business.Name }}</h4>
+        <h3>{{ data.Business.Name }}</h3>
         <span class="invoiceNumber"></span>
       </div>
       <div class="modal-body">
@@ -406,11 +378,15 @@
 
           <div class="controls">
             <label class="span6" for="credit_card_address1">{% T City %}</label>
+          </div>
+          <div class="controls">
+            <input class="span12" id="city" name="credit_card[city]" type="text" value="{{ data.Coworker.CityForInvoice }}" />
+          </div>
+          <div class="controls">
             <label class="span6" for="credit_card_address1">{% T State %}</label>
           </div>
           <div class="controls">
-            <input class="span6" id="city" name="credit_card[city]" type="text" value="{{ data.Coworker.CityForInvoice }}" />
-            <input class="span6" id="state" name="credit_card[state]" type="text" value="{{ data.Coworker.StateForInvoice }}" />
+            <input class="span12" id="state" name="credit_card[state]" type="text" value="{{ data.Coworker.StateForInvoice }}" />
           </div>
           <div class="controls">
             <label class="span6" for="zip">{% T Zip %}</label>
@@ -425,8 +401,8 @@
 
       </div>
       <div class="modal-footer">
-        <a class="btn  btn-grey" data-dismiss="modal" aria-hidden="true">{% T Close %}</a>
         <a href="#" id="spreedly-ccpay-button" class="btn btn-orange">{% T Pay by Card %}</a>
+        <a class="btn  btn-grey" data-dismiss="modal" aria-hidden="true">{% T Close %}</a>
       </div>
     </form>
   </div>
@@ -443,6 +419,24 @@
     color: #fff !important;
     padding: 4px 12px !important;
   }
+</style>
+<style>
+#ccdialog, #spreedly {
+  width: 300px;
+}
+
+#ccdialog .controls label,
+#spreedly .controls label {
+  margin-bottom: 0;
+}
+
+.invoiceNumber {
+  color: #929496;
+}
+
+table form {
+  display: inline;
+}
 </style>
 <script type="text/javascript" src="https://checkout.forte.net/v1/js"></script>
 
@@ -481,7 +475,7 @@
     spreedlyPaymentFrame.on('config', function(frame) {
       //Style
       frame.setStyle('body', 'margin: 0px;');
-      frame.setStyle('input', 'display: inline-block;height: 20px;padding: 4px 6px;margin-bottom: 10px;font-size: 14px;line-height: 20px;color: #555555;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;vertical-align: middle; background-color: #ffffff;border: 1px solid #cccccc;-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);-webkit-transition: border linear .2s, box-shadow linear .2s;-moz-transition: border linear .2s, box-shadow linear .2s;-o-transition: border linear .2s, box-shadow linear .2s;transition: border linear .2s, box-shadow linear .2s;');
+      frame.setStyle('input', 'padding: 22px 20px 22px 0;border:0;border-bottom: 1px solid white; margin:0 0 20px 0;font-family:sans-serif; font-style: normal; font-weight: 400;text-transform:uppercase; min-height:30px;height:20px;line-height:20px;background:transparent;box-sizing:border-box;color:white;font-size:13px;outline:none;letter-spacing:0.25em');
       frame.setStyle('#spf-number','width:70.358974%; margin-right: 7px');
       frame.setStyle('#spf-verification_value','width:19.676923%');
 

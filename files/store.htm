@@ -99,10 +99,6 @@
                     <span data-bind="text: PriceFormatted"></span>
                   </td>
                 </tr>
-              </tbody>
-            </table>
-            <table class="table" style="border-top: 1px solid black">
-              <tbody>
                 <tr>
                   <th class="span10">
                     <p class="text-right">{% T One-off Payment: %}</p>
@@ -126,8 +122,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <a href="#" class="btn btn-link" data-bind="click: closeConfirmation">{% T Cancel %}</a>
           <a href="#" class="btn btn-orange" data-bind="click: doPurchase, enable: doPurchaseEnabled, text: doPurchaseEnabled() ? '{% T Continue %}' : '{% T Please wait... %}'">{% T Continue %}</a>
+          <a href="#" class="btn btn-link" data-bind="click: closeConfirmation">{% T Cancel %}</a>
         </div>
       </div>
     </div>

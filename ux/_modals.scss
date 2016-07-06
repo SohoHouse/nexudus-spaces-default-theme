@@ -33,7 +33,7 @@
 .modal-body {
   max-height: none;
 
-  label {
+  label, p {
     color: white;
   }
 
@@ -42,11 +42,47 @@
     color: white;
   }
 
+  input {
+    background-color: transparent;
+    margin-right: 0;
+    background-color: transparent;
+    border: 0;
+    color: white;
+    padding-left: 0;
+    border-radius: 0;
+  }
+
+  .controls {
+    margin-bottom: 10px;
+
+    &:nth-child(even) {
+      margin-bottom: 40px;
+    }
+
+    input {
+      border-bottom: 1px solid white;
+    }
+
+    textarea {
+      border-radius: 0;
+      border-width: 0 0 1px 0;
+      border-color: white;
+      background: transparent;
+      box-shadow: none !important;
+      color: white;
+      padding: 10px 0;
+    }
+  }
+
   table {
     width: 100%;
     margin: 20px 0;
     border-top: 1px solid rgba($secondary, 0.2) !important;
     border-bottom: 1px solid rgba($secondary, 0.2) !important;
+  }
+
+  th {
+    color: rgba(white, 0.4);
   }
 
   td {
@@ -75,10 +111,6 @@
         margin: 0;
 
         input {
-          margin-right: 0;
-          padding-left: 0;
-          background-color: transparent;
-          border: 0;
           color: $primary;
           font-size: 12px;
         }
