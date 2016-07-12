@@ -6,18 +6,15 @@
       <h1 style="margin-top:40px; margin-bottom:30px" class="pull-left">
         <a href="{% Url PublicHome, Index %}">{{ data.Business.Name }}</a>
         |
-        <span>{% T {{data.Controller}} %}
+        <span>{% T {{data.Controller}} %}</span>
       </h1>
       <!-- END LOGO OR SPACE NAME -->
 
-      <!-- COLLAPSE BUTTON -->
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-        <span aria-hidden="true" class="icon i-32 icon-menu-2"></span>
-      </a>
-      <!-- END COLLAPSE BUTTON -->
+      <input type="checkbox" id="sw-collapse" />
+      <label for="sw-collapse"></label>
 
       <!-- MAIN NAVIGATION -->
-      <nav class="nav-collapse collapse navbar-responsive-collapse">
+      <nav class="sw-collapse">
         <ul class="nav nav-pills pull-right">
           <li id='dashboard' class="{%if data.Controller == 'publichome'%}active{%endif%}"><a href="{% Url PublicHome, Index %}">{% T Home %}</a></li>
           <li id='events' class="{%if data.Controller == 'events'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Events, Index %}">{% T Events %}</a></li>
