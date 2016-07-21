@@ -63,13 +63,14 @@ textarea {
 .form-section {
   padding-bottom: 30px;
   border-bottom: 1px solid $secondary;
-  margin: 0 -37px 30px -30px;
-  padding: 0 37px 30px 30px; 
-}
-  .form-section:last-of-type {
+  margin: 0 -30px 30px -30px;
+  padding: 0 30px 30px 30px; 
+
+  &:last-of-type {
     margin-bottom: 0;
     border-bottom: 0; 
   }
+}
 
 .input-group {
   border-radius: 4px;
@@ -128,18 +129,21 @@ textarea {
   }
 
   textarea {
+    @include body-font;
+    font-size: 12px;
     display: block;
     width: 100%;
     box-sizing: border-box;
     border: 0;
     box-shadow: none;
     padding: 10px 0 0;
-    font-weight: bold; 
   }
 
   select {
-    font-weight: bold;
-    margin: 0;
+    @include body-font;
+    font-style: 12px;
+    margin: -3px 0 0;
+    padding: 0;
     width: 85%;
     border: 0;
     box-shadow: none;
@@ -148,11 +152,12 @@ textarea {
   }
 
   input {
+    @include body-font;
     border: 0 !important;
-    margin: 0;
+    margin: -3px 0 0;
     padding: 0;
     display: inline-block;
-    font-weight: bold; 
+    font-size: 12px;
 
     &[type=checkbox] {
       float: right;
@@ -171,6 +176,7 @@ textarea {
 
 label.checkbox {
   padding-left: 30px; 
+  @include body-font;
 
   & input {
     margin-left: -30px !important; 

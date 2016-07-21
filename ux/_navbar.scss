@@ -84,6 +84,7 @@ header {
       }
     }
   }
+
 }
 
 .navbar {
@@ -178,7 +179,8 @@ label[for=sw-collapse] {
       padding: 30px 30px !important;
       text-align: right;
       color: $secondary;
-      &:hover {
+      &:hover, 
+      &:focus {
         background-color: $pale !important;
         background-image: none !important;
         color: #172433 !important;
@@ -202,6 +204,14 @@ label[for=sw-collapse] {
     max-width: 320px;
     max-height: 510px;
     width: 85%;
+
+    li {
+      width: 100%;
+
+      a {
+        text-align: center;
+      }
+    }
 
     @at-root {
       .nav li.dropdown.open::before {

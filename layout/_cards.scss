@@ -1,3 +1,31 @@
+@mixin card--mobile {
+  height: 440px;
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background-image: linear-gradient(to top, white 5%, rgba(white, 0));
+    transition: .2s opacity ease;
+    border-radius: 0 0 5px 5px;
+  }
+  .card-image {
+    height: 220px;
+    border-radius: 5px 5px 0 0;
+    margin: -20px -20px 20px -20px;
+  }
+
+  .card-description {
+    max-height: 100px;
+    overflow: hidden;
+  }
+
+  width: 100%;
+  margin-right: 0;
+}
+
 article.card {
   padding: 20px;
   box-sizing: border-box;
@@ -8,64 +36,57 @@ article.card {
   position: relative;
   transition: .2s all ease;
 
-  .card-wrapper--grid & {
-    height: 440px;
-    width: 30.6%;
-    &::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 40px;
-      background-image: linear-gradient(to top, white 5%, rgba(white, 0));
-      transition: .2s opacity ease;
-      border-radius: 0 0 5px 5px;
-    }
-    .card-image {
-      height: 220px;
-      border-radius: 5px 5px 0 0;
-      margin: -20px -20px 20px -20px;
-    }
-  }
+  @include card--mobile;
 
-  .card-wrapper--list & {
-    padding-left: 40%;
-    width: 97.5%;
-    .card-content {
-      padding: 20px 20px 20px 40px;
+  @media (min-width: $medium) {
+    .card-wrapper--grid & {
+      width: 30.6%;
     }
-    .card-image {
-      height: 100%;
-      width: 40%;
-      position: absolute;
-      left: 0;
-      top: 0;
-      border-radius: 4px 0 0 4px;
-    }
-    .card-hover {
-      left: 40%;
-      margin: 0 40px 40px;
-      text-align: left;
-      .btn {
-        margin: 0 10px;
+
+    .card-wrapper--list & {
+      padding-left: 40%;
+      width: 97.5%;
+
+      &::after {
+        content: none;
       }
-    }
-    &:first-of-type {
-      padding-left: 60%;
-      min-height: 380px;
+      
+      .card-content {
+        padding: 20px 20px 20px 40px;
+      }
       .card-image {
-        width: 60%;
-      }
-      .card-title {
-        font-size: 2em;
-        margin: 40px 0;
+        height: 100%;
+        width: 40%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        border-radius: 4px 0 0 4px;
+        margin: 0;
       }
       .card-hover {
-        left: 60%;
-        text-align: center;
-        .btn-orange {
-          margin-bottom: 20px;
+        left: 40%;
+        margin: 0 40px 40px;
+        text-align: left;
+        .btn {
+          margin: 0 10px;
+        }
+      }
+      &:first-of-type {
+        padding-left: 60%;
+        min-height: 380px;
+        .card-image {
+          width: 60%;
+        }
+        .card-title {
+          font-size: 2em;
+          margin: 40px 0;
+        }
+        .card-hover {
+          left: 60%;
+          text-align: center;
+          .btn-orange {
+            margin-bottom: 20px;
+          }
         }
       }
     }
