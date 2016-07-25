@@ -29,7 +29,7 @@
       <!-- CONTENT -->
       <section id="content" class="span12">
     		{% if data.Resources.size > 0 %}
-          <div class="nav">
+          <div class="nav nav--calendar">
             <a class="btn btn-link btn-toggle {% if type == '' and data.Local.Resource == null %}active{% endif %}" data-url="{% Url Bookings, Index %}" href="{% Url Bookings, Index %}">{% T All Bookings %}</a>
             {% if data.Local.Resource != null %}
             <a class="btn btn-link btn-toggle active" href="#">{{ data.Local.Resource.Name | TruncateWords: 3 }}</a>
@@ -131,7 +131,7 @@
     	},
       eventAfterAllRender: function(view) {
         if (view.el.find('.fc-event-container').length == 0 && view.type == 'list') {
-          view.el.find('tbody').append('<tr id="fc-empty-message"><td class="text-center">No events for these dates.</td></tr>')
+          view.el.find('tbody').append('<tr id="fc-empty-message"><td class="text-center"><span>No events for these dates.</span></td></tr>')
         } else {
           view.el.find('#fc-empty-message').remove();
         }

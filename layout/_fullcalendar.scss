@@ -49,9 +49,25 @@
 .fc-scroller {
   table {
     min-width: 600px;
+
+    @media (max-width: $medium) {
+      #fc-empty-message span {
+        display: block;
+        max-width: 50vw;
+        text-align: left;
+      }
+    }
   }
 
   overflow-x: scroll !important;
+}
+
+@media (max-width: $medium) {
+  .nav--calendar {
+    .dropdown {
+      display: none !important;
+    }
+  }
 }
 
 
@@ -170,8 +186,31 @@
       color: #2499E8;
     }
   }
-  .fc-toolbar h2 {
-    font-size: 1em;
+  .fc-toolbar {
+    h2 {
+      font-size: 1em;
+    }
+
+    @media (max-width: $medium) {
+      .fc-left, 
+      .fc-right {
+        display: block;
+        width: 100%;
+        float: none;
+        text-align: center;
+        margin-bottom: 20px;
+
+        h2 {
+          float: none;
+        }
+
+        button,
+        .fc-button-group {
+          float: none;
+          vertical-align: middle;
+        }
+      }
+    }
   }
   .fc-slats {
     td {
