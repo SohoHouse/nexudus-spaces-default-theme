@@ -36,148 +36,149 @@
             </div>
             <hr/>
             {% endif %}
+            <div class="table-responsive">
+              {% if data.Local.TariffTimePasses.size > 0 or data.Local.TariffExtraServices.size > 0 %}
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="span9">{% T Included in your Price Plan %}</th>
+                      <th class="span2">{% T Qty. %}</th>
+                      <th class="span1">
+                        <span class="pull-right">{% T Remaining %}</span>
+                       </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- TARIFF TIME PASSES -->
+                    {% for tp in data.Local.TariffTimePasses %}
+                    <tr>
+                      <td>
+                        {{ tp.TimePass.Name }}<br/><small>{{ tp.TimePass.Description }}</small>
+                      </td>
+                      <td>{{ tp.PassesIncluded }} {% T every %} {% T tp.PassRenewalTime %}</td>
+                      <td>
+                        <p class="text-right">
 
-            {% if data.Local.TariffTimePasses.size > 0 or data.Local.TariffExtraServices.size > 0 %}
-            <table class="table">
-              <thead>
-                <tr>
-                  <th class="span9">{% T Included in your Price Plan %}</th>
-                  <th class="span2">{% T Qty. %}</th>
-                  <th class="span1">
-                    <span class="pull-right">{% T Remaining %}</span>
-                   </th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- TARIFF TIME PASSES -->
-                {% for tp in data.Local.TariffTimePasses %}
-                <tr>
-                  <td>
-                    {{ tp.TimePass.Name }}<br/><small>{{ tp.TimePass.Description }}</small>
-                  </td>
-                  <td>{{ tp.PassesIncluded }} {% T every %} {% T tp.PassRenewalTime %}</td>
-                  <td>
-                    <p class="text-right">
-
-                      {% if tp.RemainingHours > 0 %}
-                      {{ tp.RemainingHours }} {% T hours %}
-                      {% elseif tp.RemainingMinutes > 0 %}
-                      {{ tp.RemainingMinutes }} {% T minutes %}
-                      {% else %}
-                      {{ tp.Remaining }}
-                      {% endif %}
-                    </p>
-                  </td>
-                </tr>
-                {% endfor %}
-                <!-- TARIFF TIME EXTRA SERVICES -->
-                {% for xs in data.Local.TariffExtraServices %}
-                <tr>
-                  <td>
-                    {{ xs.ExtraService.Name }}<br/><small>{{ xs.ExtraService.Description }}</small>
-                  </td>
-                  <td>{{ xs.UsesIncluded }} {% T every %} {% T xs.ServiceRenewalTime %}</td>
-                  <td class="text-right">
-                    {{ xs.Remaining }}
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-            {% endif %}
-
-            {% if data.Local.TariffProducts.size > 0 %}
-            <table class="table">
-              <thead>
-                <tr>
-                  <th class="span11">{% T Price Plan add-ons %}</th>
-                  <th class="span1">
-                    <p class="text-right">
-                    {% T Price %}
-                    </p>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-
-                <!-- PRODUCTS -->
-                {% for p in data.Local.TariffProducts %}
-                <tr>
-                  <td>
-                    {{ p.Name }}<br/><small>{{ p.Description }}</small>
-                  </td>
-                  <td>
-                    <p class="text-right">
-                      {{ p.Currency.Code }} {{ p.Price | FormatDecimal format: 'N2' }}
-                    </p>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-            {% endif %}
-
-            {% if data.Local.OtherTimePasses.size > 0 or data.Local.OtherExtraServices.size > 0 or data.Coworker.TotalRemainingBookingCredit > 0 %}
-            <table class="table">
-              <thead>
-                <tr>
-                  <th class="span11">{% T Other Allowances %}</th>
-                  <th class="span1">
-                    <span class="pull-right">{% T Remaining %}</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-
-                <!-- OTHER TIME PASSES -->
-                {% for p in data.Local.OtherTimePasses %}
-                <tr>
-                  <td>
-                    {{ p.TimePass.Name }}<br/><small>{{ p.TimePass.Description }}</small>
-                  </td>
-                  <td>
-                    <p class="text-right">
-                      {% if p.RemainingHours > 0 %}
-                      {{ p.RemainingHours }} {% T hours %}
-                      {% elseif p.RemainingUses > 0 %}
-                      {{ p.RemainingUses }} {% T minutes %}
-                      {% else %}
-                      {{ p.Remaining }}
-                      {% endif %}
-                    </p>
-                  </td>
-                </tr>
-                {% endfor %}
-
-                <!-- OTHER EXTRA SERVICECS -->
-                {% for p in data.Local.OtherExtraServices %}
-                <tr>
-                  <td>
-                    {{ p.ExtraService.Name }}<br/><small>{{ p.ExtraService.Description }}</small>
-                  </td>
-                  <td>
-                    <p class="text-right">
-                      {{ p.Remaining }}
-                    </p>
-                  </td>
-                </tr>
-                {% endfor %}
-
-                {% if data.Coworker.TotalRemainingBookingCredit > 0 %}
-                <tr>
-                  <td>
-                    {{ data.Coworker.TotalTotalBookingCredit | FormatDecimal format: 'N2' }} {% T Booking Credit %}
-                  </td>
-                  <td>
-                    <p class="text-right">
-                      {{ data.Business.Currency.Code }} {{ data.Coworker.TotalRemainingBookingCredit | FormatDecimal format: 'N2' }}
-                    </p>
-                  </td>
-                </tr>
+                          {% if tp.RemainingHours > 0 %}
+                          {{ tp.RemainingHours }} {% T hours %}
+                          {% elseif tp.RemainingMinutes > 0 %}
+                          {{ tp.RemainingMinutes }} {% T minutes %}
+                          {% else %}
+                          {{ tp.Remaining }}
+                          {% endif %}
+                        </p>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    <!-- TARIFF TIME EXTRA SERVICES -->
+                    {% for xs in data.Local.TariffExtraServices %}
+                    <tr>
+                      <td>
+                        {{ xs.ExtraService.Name }}<br/><small>{{ xs.ExtraService.Description }}</small>
+                      </td>
+                      <td>{{ xs.UsesIncluded }} {% T every %} {% T xs.ServiceRenewalTime %}</td>
+                      <td class="text-right">
+                        {{ xs.Remaining }}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
                 {% endif %}
-              </tbody>
-            </table>
-            {% endif %}
+
+                {% if data.Local.TariffProducts.size > 0 %}
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="span11">{% T Price Plan add-ons %}</th>
+                      <th class="span1">
+                        <p class="text-right">
+                        {% T Price %}
+                        </p>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <!-- PRODUCTS -->
+                    {% for p in data.Local.TariffProducts %}
+                    <tr>
+                      <td>
+                        {{ p.Name }}<br/><small>{{ p.Description }}</small>
+                      </td>
+                      <td>
+                        <p class="text-right">
+                          {{ p.Currency.Code }} {{ p.Price | FormatDecimal format: 'N2' }}
+                        </p>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+                {% endif %}
+
+                {% if data.Local.OtherTimePasses.size > 0 or data.Local.OtherExtraServices.size > 0 or data.Coworker.TotalRemainingBookingCredit > 0 %}
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th class="span11">{% T Other Allowances %}</th>
+                      <th class="span1">
+                        <span class="pull-right">{% T Remaining %}</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <!-- OTHER TIME PASSES -->
+                    {% for p in data.Local.OtherTimePasses %}
+                    <tr>
+                      <td>
+                        {{ p.TimePass.Name }}<br/><small>{{ p.TimePass.Description }}</small>
+                      </td>
+                      <td>
+                        <p class="text-right">
+                          {% if p.RemainingHours > 0 %}
+                          {{ p.RemainingHours }} {% T hours %}
+                          {% elseif p.RemainingUses > 0 %}
+                          {{ p.RemainingUses }} {% T minutes %}
+                          {% else %}
+                          {{ p.Remaining }}
+                          {% endif %}
+                        </p>
+                      </td>
+                    </tr>
+                    {% endfor %}
+
+                    <!-- OTHER EXTRA SERVICECS -->
+                    {% for p in data.Local.OtherExtraServices %}
+                    <tr>
+                      <td>
+                        {{ p.ExtraService.Name }}<br/><small>{{ p.ExtraService.Description }}</small>
+                      </td>
+                      <td>
+                        <p class="text-right">
+                          {{ p.Remaining }}
+                        </p>
+                      </td>
+                    </tr>
+                    {% endfor %}
+
+                    {% if data.Coworker.TotalRemainingBookingCredit > 0 %}
+                    <tr>
+                      <td>
+                        {{ data.Coworker.TotalTotalBookingCredit | FormatDecimal format: 'N2' }} {% T Booking Credit %}
+                      </td>
+                      <td>
+                        <p class="text-right">
+                          {{ data.Business.Currency.Code }} {{ data.Coworker.TotalRemainingBookingCredit | FormatDecimal format: 'N2' }}
+                        </p>
+                      </td>
+                    </tr>
+                    {% endif %}
+                  </tbody>
+                </table>
+              {% endif %}
+            </div>
             <p class="pull-right">
               <a class="btn btn-orange"  href="{% Url Store, Products %}">{% T Buy Additional Services %}</a>
             </p>

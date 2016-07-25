@@ -1,55 +1,62 @@
-@mixin card--mobile {
-  height: 440px;
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40px;
-    background-image: linear-gradient(to top, white 5%, rgba(white, 0));
-    transition: .2s opacity ease;
-    border-radius: 0 0 5px 5px;
-  }
-  .card-image {
-    height: 220px;
-    border-radius: 5px 5px 0 0;
-    margin: -20px -20px 20px -20px;
-  }
-
-  .card-description {
-    max-height: 100px;
-    overflow: hidden;
-  }
-
-  width: 100%;
-  margin-right: 0;
-}
-
 article.card {
-  padding: 20px;
-  box-sizing: border-box;
+  background-color: white;
   border-radius: 5px;
   box-shadow: 0 3px 25px rgba(black, 0.1), 0 3px 6px rgba(black, 0.1);
-  background-color: white;
-  position: relative;
+  box-sizing: border-box;
+  margin-right: 0;
+  padding: 20px;
   position: relative;
   transition: .2s all ease;
+  width: 100%;
 
-  @include card--mobile;
+  &:hover {
+    box-shadow: 0 15px 25px rgba(black, 0.3), 0 7px 10px rgba(black, 0.1);
+    .card-description {
+      opacity: 0;
+    }
+    .card-hover {
+      opacity: 1;
+      bottom: 0;
+      pointer-events: auto;
+    }
+  }
+
+  @media (max-width: $medium) {
+    margin-left: 0;
+  }
 
   @media (min-width: $medium) {
+    height: 440px;
+    
+    .card-hover {
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      right: 0;
+      opacity: 0;
+      transition: .2s all ease;
+      pointer-events: none;
+    }
+
     .card-wrapper--grid & {
       width: 30.6%;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        background-image: linear-gradient(to top, white 5%, rgba(white, 0));
+        transition: .2s opacity ease;
+        border-radius: 0 0 5px 5px;
+      }
     }
 
     .card-wrapper--list & {
       padding-left: 40%;
       width: 97.5%;
-
-      &::after {
-        content: none;
-      }
       
       .card-content {
         padding: 20px 20px 20px 40px;
@@ -91,29 +98,24 @@ article.card {
       }
     }
   }
+}
 
-  &:hover {
-    box-shadow: 0 15px 25px rgba(black, 0.3), 0 7px 10px rgba(black, 0.1);
-    .card-description {
-      opacity: 0;
-    }
-    .card-hover {
-      opacity: 1;
-      bottom: 0;
-      pointer-events: auto;
-    }
-  }
-  .resource_features {
-    padding: 0;
-    margin: 0 0 20px 0;
-    li {
-      display: inline-block;
-      color: rgba($dark, 0.4);
-    }
+.card-hover {
+  text-align: center;
+  padding: 15px 0;
+  box-sizing: border-box;
+
+  .btn {
+    position: relative;
+    z-index: 1;
+    margin: auto;
   }
 }
 
 .card-image {
+  height: 220px;
+  border-radius: 5px 5px 0 0;
+  margin: -20px -20px 20px -20px;
   background: $bg center/cover no-repeat;
 }
 
@@ -131,20 +133,19 @@ article.card {
   @include body-font;
   opacity: 1;
   transition: .2s opacity ease;
+  max-height: 100px;
+  overflow: hidden;
+
   * {
     color: rgba($dark, 0.4);
   }
 }
 
-.card-hover {
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  right: 0;
-  opacity: 0;
-  transition: .2s all ease;
-  pointer-events: none;
-  text-align: center;
-  padding-bottom: 15px;
-  box-sizing: border-box;
+.resource_features {
+  padding: 0;
+  margin: 0 0 20px 0;
+  li {
+    display: inline-block;
+    color: rgba($dark, 0.4);
+  }
 }

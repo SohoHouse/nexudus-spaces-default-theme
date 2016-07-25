@@ -71,3 +71,11 @@
     color: darken($primary, 0.5%);
   }
 }
+
+@media (max-width: $medium) {
+  .btn-responsive {
+    display: block;
+    float: none;
+    margin: 20px auto;
+  }
+}

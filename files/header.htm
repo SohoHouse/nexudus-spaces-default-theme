@@ -7,8 +7,7 @@
         <a href="{% Url PublicHome, Index %}">{{ data.Business.Name }}</a>
         |
         {% if data.Controller == 'publichome' %}
-          <span>Welcome back, {{data.Coworker.Salutation}}</span>
-          }
+          <span>{% T Welcome back %}, {{data.Coworker.Salutation}}</span>
         {% else %}
           <span>{% T {{data.Controller}} %}</span>
         {% endif %}
