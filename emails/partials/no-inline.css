@@ -1,0 +1,67 @@
+@font-face {
+  font-family: 'Varela Round';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Varela Round'), local('VarelaRound-Regular'), url(https://fonts.gstatic.com/s/varelaround/v7/APH4jr0uSos5wiut5cpjrqRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+}
+
+@media screen and (max-width: 525px) {
+
+  h1 {
+    font-size: 1.2em;
+  }
+
+    /* ALLOWS FOR FLUID TABLES */
+    .wrapper {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    /* USE THESE CLASSES TO HIDE CONTENT ON MOBILE */
+    .mobile-hide {
+      display: none !important;
+    }
+
+    .img-max {
+      max-width: 100% !important;
+      width: 100% !important;
+      height: auto !important;
+    }
+
+    /* FULL-WIDTH TABLES */
+    .responsive-table {
+      width: 100% !important;
+    }
+
+    /* UTILITY CLASSES FOR ADJUSTING PADDING ON MOBILE */
+    .padding {
+      padding: 10px 5% 15px 5% !important;
+    }
+
+    .padding-meta {
+      padding: 30px 5% 0px 5% !important;
+      text-align: center;
+    }
+
+    .no-padding {
+      padding: 0 !important;
+    }
+
+    .section-padding {
+      padding: 50px 15px 50px 15px !important;
+    }
+
+    /* ADJUST BUTTONS ON MOBILE */
+    .mobile-button-container {
+        margin: 0 auto;
+        width: 100% !important;
+    }
+
+    .mobile-button {
+        padding: 15px !important;
+        border: 0 !important;
+        font-size: 16px !important;
+        display: block !important;
+    }
+
+}

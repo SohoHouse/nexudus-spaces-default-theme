@@ -1,0 +1,23 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Account Active' %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Good news {salutation}
+      <br />Your soho works account is ready to use, log-in with the details below</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p><span class="fade">Username:</span> {username}</p>
+      <p><span class="fade">Password:</span> {password}</p>
+      <p><span class="fade">PIN:</span> {accesscardid}</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ button(label='test', href="http://google.com") }}
+    </td>
+  </tr>
+{% endblock %}
