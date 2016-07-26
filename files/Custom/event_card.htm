@@ -1,5 +1,5 @@
 <article class="card span">
-  <div class="card-image" {% if resource.HasImage %} style="background-image: url({% Url Events, GetLargeImage, id: ev.Id, w: 870 %})" {% endif %} ></div>
+  <div class="card-image" style="background-image: url({% Url Events, GetLargeImage, id: ev.Id, w: 870 %})"></div>
   <div class="card-content">
     <a class="card-meta" href="{% Url Events, ICal, Id: ev.Id %}">{{ ev.StartDate | Date: 'dd MMMM - h:mmtt' }}</a>
     <h2 class="card-title"><a href="{% Url Events, View, Id: ev.Id, title: ev.Name | Clean %}">{{ ev.Name | StripHtml }}</a></h2>
