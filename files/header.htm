@@ -5,70 +5,61 @@
       <!-- LOGO OR SPACE NAME -->
       <h1 style="margin-top:40px; margin-bottom:30px" class="pull-left">
         <a href="{% Url PublicHome, Index %}">{{ data.Business.Name }}</a>
-        |
+        | <span>
         {% if data.Controller == 'publichome' %}
-          <span>{% T Welcome back %}, {{data.Coworker.Salutation}}</span>
+          {% T Welcome back %}, {{data.Coworker.Salutation}}
         {% else %}
-          <span>{% T {{data.Controller}} %}</span>
+          {% T {{data.Controller}} %}
         {% endif %}
+        </span>
       </h1>
       <!-- END LOGO OR SPACE NAME -->
+      {% unless hideNav %}
 
-      <input type="checkbox" id="sw-collapse" />
-      <label for="sw-collapse"></label>
-
-      <!-- MAIN NAVIGATION -->
-      <nav class="sw-collapse">
-        <ul class="nav nav-pills pull-right">
-          <li id='dashboard' class="{%if data.Controller == 'publichome'%}active{%endif%}"><a href="{% Url PublicHome, Index %}">{% T Home %}</a></li>
-          <li id='events' class="{%if data.Controller == 'events'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Events, Index %}">{% T Events %}</a></li>
-          <li id='meeting-rooms' class="{%if data.Controller == 'publicresources'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Space resources %}</a></li>
-          {% if data.Setting_PublicWebSite_Contact %}
-          <li id="contact" class="{%if data.Controller == 'contact'%}active{%endif%}"><a href="{% Url Contact, Index %}">{% T Contact %}</a></li>
-          {% endif %}
-          {% if data.Setting_PublicWebSite_MyAccount %}
-            {% if data.UserIsLoggedIn %}
-            <li id='settings' class="dropdown {%if data.Controller == 'profile' or data.Controller == 'invoices' or data.Controller == 'bookings' or data.Controller == 'allowances' or data.Controller == 'store' %}active{%endif%}">
-              <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">{% T Account %}</a>
-              <ul class="dropdown-menu" role="menu">
-                <li class="{%if data.Controller == 'profile' and data.Action == 'index'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Index %}">{% T My profile %}</a></li>
-                <li class="{%if data.Controller == 'invoices'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Invoices, Index %}">{% T Payments %}</a></li>
-                <li class="{%if data.Controller == 'bookings' %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index %}">{% T My Bookings %}</a></li>
-                <!-- <li class="{%if data.Action == 'tariff'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Tariff %}">{% T Price plans %}</a></li> -->
-                <li class="{%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Allowances %}</a></li>
-
-                <li class="{%if data.Controller == 'store'%}active{%endif%} {% if data.ProductTags.size > 0 %} dropdown-submenu {% endif %}">
-                  <a role="menuitem" tabindex="-1" href="{% Url Store, Products %}">{% T Additional Products %}</a>
-                  {% if data.ProductTags.size > 0 %}
-                	<ul class="dropdown-menu" role="menu">
-                    {% for tag in data.ProductTags %}
-                    <li><a role="menuitem" tabindex="-1" href="{% Url Store, Products %}?tag={{ tag }}">{{ tag }}</a></li>
-                    {% endfor %}
-                  </ul>
-                  {% endif %}
-                </li>
-
-                <li><a role="menuitem" tabindex="-1" href="{% Url Login, Logout %}">{% T Logout %}</a></li>
-              </ul>
-            </li>
-            {% else %}
-            <li><a href="https://{{ data.Business.WebAddress }}.{{ data.PublicSiteSubDomain }}/{{ data.Language }}/profile">{% T My Account %}</a></li>
+        <input type="checkbox" id="sw-collapse" />
+        <label for="sw-collapse"></label>
+        <!-- MAIN NAVIGATION -->
+        <nav class="sw-collapse">
+          <ul class="nav nav-pills pull-right">
+            <li id='dashboard' class="{%if data.Controller == 'publichome'%}active{%endif%}"><a href="{% Url PublicHome, Index %}">{% T Home %}</a></li>
+            <li id='events' class="{%if data.Controller == 'events'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Events, Index %}">{% T Events %}</a></li>
+            <li id='meeting-rooms' class="{%if data.Controller == 'publicresources'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Space resources %}</a></li>
+            {% if data.Setting_PublicWebSite_Contact %}
+            <li id="contact" class="{%if data.Controller == 'contact'%}active{%endif%}"><a href="{% Url Contact, Index %}">{% T Contact %}</a></li>
             {% endif %}
-          {% endif %}
-         <!--  {% if data.Languages.size > 1 %}
+            {% if data.Setting_PublicWebSite_MyAccount %}
+              {% if data.UserIsLoggedIn %}
+              <li id='settings' class="dropdown {%if data.Controller == 'profile' or data.Controller == 'invoices' or data.Controller == 'bookings' or data.Controller == 'allowances' or data.Controller == 'store' %}active{%endif%}">
+                <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">{% T Account %}</a>
+                <ul class="dropdown-menu" role="menu">
+                  <li class="{%if data.Controller == 'profile' and data.Action == 'index'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Index %}">{% T My profile %}</a></li>
+                  <li class="{%if data.Controller == 'invoices'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Invoices, Index %}">{% T Payments %}</a></li>
+                  <li class="{%if data.Controller == 'bookings' %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index %}">{% T My Bookings %}</a></li>
+                  <!-- <li class="{%if data.Action == 'tariff'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Tariff %}">{% T Price plans %}</a></li> -->
+                  <li class="{%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Allowances %}</a></li>
 
-          <li class="dropdown">
-            <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#"><span aria-hidden="true" class="icon i-16 icon-earth"></span> <b class="caret"></b></a>
-            <ul class="dropdown-menu" role="menu">
-              {% for lang in data.Languages %}
-              <li><a role="menuitem" tabindex="-1" href="{% Url PublicHome, Index, lang:lang.Culture %}">{{lang.Name}}</a></li>
-              {% endfor %}
-            </ul>
-          </li>
-          {% endif %} -->
-        </ul>
-      </nav>
+                  <li class="{%if data.Controller == 'store'%}active{%endif%} {% if data.ProductTags.size > 0 %} dropdown-submenu {% endif %}">
+                    <a role="menuitem" tabindex="-1" href="{% Url Store, Products %}">{% T Additional Products %}</a>
+                    {% if data.ProductTags.size > 0 %}
+                  	<ul class="dropdown-menu" role="menu">
+                      {% for tag in data.ProductTags %}
+                      <li><a role="menuitem" tabindex="-1" href="{% Url Store, Products %}?tag={{ tag }}">{{ tag }}</a></li>
+                      {% endfor %}
+                    </ul>
+                    {% endif %}
+                  </li>
+
+                  <li><a role="menuitem" tabindex="-1" href="{% Url Login, Logout %}">{% T Logout %}</a></li>
+                </ul>
+              </li>
+              {% else %}
+              <li><a href="https://{{ data.Business.WebAddress }}.{{ data.PublicSiteSubDomain }}/{{ data.Language }}/profile">{% T My Account %}</a></li>
+              {% endif %}
+            {% endif %}
+          </ul>
+        </nav>
       <!-- END MAIN NAVIGATION -->
+      {% endunless %}
     </div>
   </div>
 </header>

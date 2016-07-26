@@ -39,9 +39,18 @@
     {% endif %}
   </head>
 
+  <!-- SETUP GLOBAL FLAGS -->
+  {% assign showPayment = data.QueryString["sp"] %}
+  {% assign hideNav = showPayment %}
+
   <body class="{% block bodyClass%}{% endblock%}">
+
     {% include header.htm %}
-    {% block content %}{% endblock %}
+    {% if showPayment %}
+        {% include 'update_payment.htm' %}
+    {% else %}
+        {% block content %}{% endblock %}
+    {% endif %}
     {% include footer.htm %}
 
     <!-- JS -->

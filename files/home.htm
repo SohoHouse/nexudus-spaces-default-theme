@@ -1,5 +1,5 @@
 {% extends master.master %}
-{% block bodyClass %}home {% if data.UserIsLoggedIn %} dark {% endif %} {% endblock %}
+{% block bodyClass %}home {% if data.UserIsLoggedIn and hideNav == null %} dark {% endif %} {% endblock %}
 {% block content %}
   {% if data.UserIsLoggedIn %}
     {% include 'dashboard.htm' %}
