@@ -50,4 +50,10 @@ span.label {
     background-color: $primary;
     color: white;
   }
+
+  &.alert-error {
+    @include body-font;
+    background-color: #D41C2D;
+    color: white;
+  }
 }

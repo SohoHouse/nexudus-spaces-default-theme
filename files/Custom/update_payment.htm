@@ -11,8 +11,12 @@
         <p>Your Soho Works team</p>
       </div>
       <div class="span12 text-center">
-        <a class="btn btn-orange" />Update Details</a>
+        <a class="btn btn-orange spreedlyButton" data-paybuttontext="{% T Update Payment Details %}" data-payurl="https://{{ data.Domain }}/{{ data.Language }}/payments/SpreedlyPaymentToken/0" />{% T Update Payment Details %}</a>
       </div>
     </div>
   </div>
 </div>
+
+{% block script %}
+  {% include 'spreedly_modal.htm' %}
+{% endblock %}

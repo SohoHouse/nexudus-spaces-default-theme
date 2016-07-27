@@ -4,7 +4,7 @@ var gulp          = require('gulp'),
   argv            = require('yargs').argv,
   DEFAULT_OUT     = './dest';
 
-gulp.task('build:scss', function () {
+var scss = function () {
   var dest = argv.out || DEFAULT_OUT;
   gulp.src('css.scss')
     .pipe($.plumber({
@@ -19,17 +19,17 @@ gulp.task('build:scss', function () {
     .pipe($.if(argv.production, $.cleanCss()))
     .pipe(gulp.dest(dest));
   console.log('Built CSS to ' + dest)
-});
+};
 
-gulp.task('build:files', function () {
+var files = function () {
   var dest = argv.out || DEFAULT_OUT;
     
   gulp.src('files/**/*')
     .pipe(gulp.dest(dest))
   console.log('Built Files to ' + dest)
-})
+};
 
-gulp.task('build:emails', function() {
+var emails = function() {
   return gulp.src('emails/partials/*.nunjucks')
     .pipe($.plumber({
       errorHandler: $.notify.onError("<%= error.message %>")}))
@@ -43,10 +43,19 @@ gulp.task('build:emails', function() {
       applyStyleTags: false
     }))
     .pipe(gulp.dest('emails'))
-});
+};
 
-gulp.task('default', ['build:scss', 'build:files', 'build:emails'], function () {
-  gulp.watch('**/*.scss', ['build:scss']);
-  gulp.watch('files/**/*', ['build:files']);
+gulp.task('build:scss', scss);
+gulp.task('build:files', files);
+gulp.task('build:emails', emails);
+
+gulp.task('default', ['build:emails'], function () {
+  var dest = argv.out
+  if (dest) {
+    scss();
+    files();
+    gulp.watch('**/*.scss', ['build:scss']);
+    gulp.watch('files/**/*', ['build:files']);
+  }
   gulp.watch(['emails/**/*.nunjucks', 'emails/**/*.css'], ['build:emails']);
 });
