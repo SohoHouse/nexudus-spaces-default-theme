@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "dotenv": "^2.0.0",
     "gulp": "*",
     "gulp-autoprefixer": "*",
     "gulp-clean-css": "*",

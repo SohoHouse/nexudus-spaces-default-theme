@@ -2,10 +2,10 @@ var gulp          = require('gulp'),
   gulpLoadPlugins = require('gulp-load-plugins'),
   $               = gulpLoadPlugins(),
   argv            = require('yargs').argv,
-  DEFAULT_OUT     = './dest';
+  dotenv          = require('dotenv').config(),
+  fileDestination     = process.env.FILE_DESTINATION || './dest';
 
 var scss = function () {
-  var dest = argv.out || DEFAULT_OUT;
   gulp.src('css.scss')
     .pipe($.plumber({
       errorHandler: $.notify.onError("<%= error.message %>")}))
@@ -17,16 +17,15 @@ var scss = function () {
       cascade: false
     }))
     .pipe($.if(argv.production, $.cleanCss()))
-    .pipe(gulp.dest(dest));
-  console.log('Built CSS to ' + dest)
+    .pipe(gulp.dest(fileDestination));
+  console.log('Built CSS to ' + fileDestination)
 };
 
 var files = function () {
-  var dest = argv.out || DEFAULT_OUT;
     
   gulp.src('files/**/*')
-    .pipe(gulp.dest(dest))
-  console.log('Built Files to ' + dest)
+    .pipe(gulp.dest(fileDestination))
+  console.log('Built Files to ' + fileDestination)
 };
 
 var emails = function() {
@@ -49,13 +48,8 @@ gulp.task('build:scss', scss);
 gulp.task('build:files', files);
 gulp.task('build:emails', emails);
 
-gulp.task('default', ['build:emails'], function () {
-  var dest = argv.out
-  if (dest) {
-    scss();
-    files();
-    gulp.watch('**/*.scss', ['build:scss']);
-    gulp.watch('files/**/*', ['build:files']);
-  }
+gulp.task('default', ['build:scss', 'build:files', 'build:emails'], function () {
+  gulp.watch('**/*.scss', ['build:scss']);
+  gulp.watch('files/**/*', ['build:files']);
   gulp.watch(['emails/**/*.nunjucks', 'emails/**/*.css'], ['build:emails']);
 });
