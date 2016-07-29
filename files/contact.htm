@@ -13,9 +13,16 @@
             <label>{% T Your email address%}</label>
             <input type="text" id="UserMessage_FromName" name="UserMessage.FromName" required="required" class="required" value="{{data.Local.FromName}}">
           </div>
-          <div class="input-group">
+          <div class="input-group select">
             <label>{% T Subject %}</label>
-            <input type="text" id="UserMessage_Header" name="UserMessage.Header" value="{{data.Local.Header}}">
+            <select id="UserMessage_Header" name="UserMessage.Header" value="{{data.Local.Header}}">
+              <option>My team size is changing</option>
+              <option>I want to change my membership type</option>
+              <option>I want to move to a different desk/study</option> 
+              <option>I want to change my payment method</option>
+              <option>I have a payment query</option>
+              <option>I want to visit another Soho Works location</option>
+            </select>
           </div>
         </div>
         <div class="span4">
