@@ -1,0 +1,43 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Event Booking Confirmation' %}
+
+{% block teaser %}
+  Your ticket for {calendarEventName}
+{% endblock %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+      <br />Thanks for booking {calendarEventName}.</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ field("Your Name", "{attendeeFullName}") }}
+      {{ field("Event", "{calendarEventName}") }}
+      {{ field("Ticket", "{calendarProductName}") }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p class="fade">Dates:</p>
+      <p>{calendarEventStartDate} - {calendarEventEndDate}</p>
+      <p class="fade">Ticket Notes:</p>
+      <p>{calendarProductNotes}</p>
+      <p class="fade">Important Event Notes:</p>
+      <p>{calendarEventNotes}</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p class="fade">Your Ticket</p>
+      <h1>{attendeeId}</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>Please let us know if for whatever reason you are unable to come.</p>
+    </td>
+  </tr>
+{% endblock %}

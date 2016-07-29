@@ -1,0 +1,25 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Direct Debit Setup' %}
+
+{% block teaser %}
+  Setup your direct debit payment
+{% endblock %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+      <br />Looks like you've signed up to pay by Direct Dedit.</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>Please click the button below to set up your Direct Debit agreement.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ button(label='Setup Direct Debit', href="{gocardlesssignupurl}") }}
+    </td>
+  </tr>
+{% endblock %}

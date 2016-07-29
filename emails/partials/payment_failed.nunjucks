@@ -1,0 +1,29 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Something went wrong with your payment' %}
+{% set error = 'Something went wrong with your payment.' %}
+
+{% block teaser %}
+  Payment Failed
+{% endblock %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+      <br />It looks like something went wrong with your invoice payment.</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>Please login to your Soho Works account to settle this invoice as soon as possible, or contact us to arrange another payment method.</p><br />
+      {{ field("Invoice", "{invoicenumber}") }}
+      {{ field("Due on", "{invoicepaydate}") }}
+      {{ field("Amount", "{total}") }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ button(label='View Invoice {invoicenumber}', href="{invoiceurl}") }}
+    </td>
+  </tr>
+{% endblock %}

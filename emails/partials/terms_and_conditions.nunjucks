@@ -1,0 +1,22 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Ts & Cs Agreement' %}
+
+{% block teaser %}
+  Thanks for agreeing to our Ts &amp; Cs.
+{% endblock %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+      <br />Thanks for agreeing to the Terms &amp; Conditions.</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>Please keep this record for reference.</p><br />
+      {{ field('Date', '{date}') }}
+      {{ field('Time', '{time}') }}
+    </td>
+  </tr>
+{% endblock %}

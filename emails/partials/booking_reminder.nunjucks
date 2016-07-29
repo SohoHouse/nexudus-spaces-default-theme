@@ -1,0 +1,41 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Booking Reminder' %}
+
+{% block teaser %}
+  Don't forget your {resourceName} booking
+{% endblock %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+      <br />Don't forget about your booking at Soho Works.</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ field("Requested by", "{fullname}") }}
+      {{ field("Booked in", "{resourceName}") }}
+      {{ field("From", "{fromTime}") }}
+      {{ field("To", "{toTime}") }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p class="fade">Extras:</p>
+      <p>{additionals}</p><br />
+      <p class="fade">Notes:</p>
+      <p>{notes}</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>You can view and edit this and any of your other bookings from the calendar.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ button(label='Go to your calendar', href="{businessurl}/en/bookings") }}
+    </td>
+  </tr>
+{% endblock %}

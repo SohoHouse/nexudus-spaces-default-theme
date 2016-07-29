@@ -1,0 +1,26 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Almost out of credit' %}
+
+{% block teaser %}
+  Almost out of credit
+{% endblock %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+      <br />You're almost out of credit...</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>We noticed you're about to run out of credit.</p>
+      <p>Top up your credit using the button below.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ button(label='Top up my credit', href="{businessurl}/en/store/products") }}
+    </td>
+  </tr>
+{% endblock %}

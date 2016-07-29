@@ -1,6 +1,10 @@
 {% extends "layout.nunjucks" %}
 {% set subject = 'Account Active' %}
 
+{% block teaser %}
+  Your Soho Works account is active.
+{% endblock %}
+
 {% block content %}
   <tr>
     <td>
@@ -17,7 +21,7 @@
   </tr>
   <tr>
     <td>
-      {{ button(label='test', href="http://google.com") }}
+      {{ button(label='Login Now', href="http://google.com") }}
     </td>
   </tr>
 {% endblock %}

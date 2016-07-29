@@ -1,11 +1,25 @@
-body {
-  background: #F5FAFF;
+body, body > table {
+  background: #F8F8F9;
 }
 
 body, body * {
-  font: normal 400 12px/2 'Varela Round', sans-serif;
+  font: normal 400 12px/2 'Varela Round', Sans-Serif;
   color: white;
   letter-spacing: 0.2em;
+}
+
+.footer, .footer * {
+  color: #D1D3D4;
+}
+
+.footer td {
+  padding-top: 30px;
+}
+
+hr {
+  margin: 25px 0;
+  border: 0;
+  border-bottom: 1px solid #91CAF4;
 }
 
 h1, 
@@ -34,13 +48,24 @@ p {
 }
 
 .section-padding {
-  padding: 70px 15px 70px 15px;
+  padding: 70px 15px;
 }
 
 .primary-wrapper {
   background-color: #2499E8;
-  padding: 60px 30px;
+  padding: 40px 30px;
   border-radius: 5px;
+}
+
+.error-wrapper {
+  padding-bottom: 20px;
+}
+
+.error-wrapper td {
+  background-color: #A887F2;
+  padding: 20px 30px;
+  border-radius: 5px;
+  text-align: center;
 }
 
 .primary-wrapper > table > tbody > tr > td,

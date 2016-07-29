@@ -1,0 +1,32 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Payment Received' %}
+
+{% block teaser %}
+  We have received your payment
+{% endblock %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+      <br />Thanks for your payment.</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ field("Invoice", "{invoicenumber}") }}
+      {{ field("Due on", "{invoicepaydate}") }}
+      {{ field("Amount", "{total}") }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>Click the button below to view details of the invoice and download a PDF copy.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ button(label='View Invoice {invoicenumber}', href="{invoiceurl}") }}
+    </td>
+  </tr>
+{% endblock %}

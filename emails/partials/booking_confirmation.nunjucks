@@ -1,0 +1,43 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Booking Confirmation' %}
+{% set footer = '*Please keep in mind that this price does not include any credit you may have available in your account or as part of your price plan. If at the time the booking is charged to your account there is credit available, it will be used towards the price of this booking. You can check your credit at any point in <a href="{businessurl}/en/allowances">your account</a>.' %}
+
+{% block teaser %}
+  We've received your booking request
+{% endblock %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+      <br />Your booking has been successfully created.</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ field("Requested by", "{fullname}") }}
+      {{ field("Booked in", "{resourceName}") }}
+      {{ field("From", "{fromTime}") }}
+      {{ field("To", "{toTime}") }}
+      {{ field("Price*", "{price}") }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p class="fade">Extras:</p>
+      <p>{additionals}</p><br />
+      <p class="fade">Notes:</p>
+      <p>{notes}</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>You can view and edit this and any of your other bookings from the calendar.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ button(label='Go to your calendar', href="{businessurl}/en/bookings") }}
+    </td>
+  </tr>
+{% endblock %}
