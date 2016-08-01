@@ -128,11 +128,10 @@
   .fc-event-container {
     padding: 0 !important;
     .fc-content {
-      padding: 6px;
-      text-overflow: ellipsis;
+      padding: 0 6px;
       font-size: .9em;
       letter-spacing: 1px;
-      overflow: hidden;
+      height: 100%;
       .fc-time {
         font-weight: normal;
         display: none;
@@ -141,6 +140,9 @@
       .fc-title {
         white-space: nowrap;
         font-size: 1.1em;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-height: 100%;
       }
     }
   }
@@ -257,7 +259,7 @@
 
   .fc-time-grid-event {
     margin-top: -30px;
-    margin-bottom: 31px;
+    margin-bottom: 29px;
     border-radius: 0;
     border-width: 0;
     padding: 8px;

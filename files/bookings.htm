@@ -41,6 +41,22 @@
             {% endif %}
 
             <div class="clearfix pull-right">
+              <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  {% if data.Local.Resource != null %}
+                  {{ data.Local.Resource.Name | TruncateWords: 3 }}
+                  {% else %}
+                  {% T Types %}
+                  {% endif %}
+                  <b class="caret" style="margin-top: 8px"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="{% Url Bookings, Index %}">{% T Show all types %}</a></li>
+                  {% for resource in data.Resources %}
+                  <li class="{% if data.Local.Resource.Id == resource.Id %}active{% endif %}"><a data-url="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}" href="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}">{{ resource.Name }}</a></li>
+                  {% endfor %}
+                </ul>
+              </div>
+
               {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
               <a class="btn btn-orange" href="#" onclick="createBooking(new Date())">{% T Make a booking %}</a>
               {% else %}
@@ -109,52 +125,9 @@
          {% else %}
          {'id':{{ data.Local.Resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ data.Local.Resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ data.Local.Resource.Name | Replace: "'", "\'" }}')}
        {% endif %}
-    ], eventSources = [
-        {
-          events: [
-            {% for event in data.Local.Bookings %}
-              {% assign groupKey = event.Resource.GroupName | Clean %}
-              {% if groupKey == '' %}
-                {% assign groupKey = 'resources' %}
-              {% endif %}
-              {% if groupKey == type or data.Local.Resource != null or type == '' %}
-                {
-                  id: {{ event.Id }},
-                  resourceId: '{{ event.Resource.Id }}',
-                  title  : '{{ event.Resource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
-                  startDate: '{{event.FromTime | Date: 'd'}}',
-                  endDate: '{{event.ToTime | Date: 'd'}}',
-                  startTime: '{{event.FromTime | Date: 't'}}',
-                  endTime: '{{event.ToTime | Date: 't'}}',
-                  start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
-                  end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
-                  allDay : false,
-                  editable: false,
-                  ignoreTimezone: true,
-                  color: 'black'
-                },
-                {% for linkedResource in event.Resource.LinkedResources %}
-                  {
-                    id: {{ event.Id }},
-                    resourceId: '{{ linkedResource.Id }}',
-                    title  : '{{ linkedResource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
-                    startDate: '{{event.FromTime | Date: 'd'}}',
-                    endDate: '{{event.ToTime | Date: 'd'}}',
-                    startTime: '{{event.FromTime | Date: 't'}}',
-                    endTime: '{{event.ToTime | Date: 't'}}',
-                    start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
-                    end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
-                    allDay : false,
-                    editable: false,
-                    ignoreTimezone: true,
-                    color: getColurFromName('{{ linkedResource.Name | Replace: "'", "\'" }}')
-                  },
-                {% endfor %}
-              {% endif %}
-            {% endfor %}
-          ]
-        },
-      ]
+    ];
+
+    {% include 'event_json.js' %}
     
     function viewRender (view) {
       var date = view.intervalStart.format('YYYY-MM-DD');
@@ -246,6 +219,7 @@
       },
       resourceRender: resourceRender,
       eventSources: eventSources,
+      slotEventOverlap: false,
       views: {
         week: {
           columnFormat: 'ddd D/M'
