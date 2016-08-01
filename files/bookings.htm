@@ -8,7 +8,7 @@
 
 {% assign showMemberDetails = data.Setting_Calendars_ShowMemberDetailsInFeed %}
 {% assign defaultView = data.Setting_Calendars_DefaultView %}
-{% assign resourceInAgendaView = 4 %}
+{% assign resourceInAgendaView = 50 %}
 {% if defaultView == 1 and data.Resources.size > resourceInAgendaView %}{% assign defaultView = 'timelineDay' %}{% endif %}
 {% if defaultView == 1 and data.Resources.size <= resourceInAgendaView %}{% assign defaultView = 'agendaDay' %}{% endif %}
 {% if defaultView == 2 %}{% assign defaultView = 'agendaWeek' %}{% endif %}
@@ -41,24 +41,8 @@
             {% endif %}
 
             <div class="clearfix pull-right">
-              <div class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  {% if data.Local.Resource != null %}
-                  {{ data.Local.Resource.Name | TruncateWords: 3 }}
-                  {% else %}
-                  {% T Resources %}
-                  {% endif %}
-                  <b class="caret" style="margin-top: 8px"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="{% Url Bookings, Index %}">{% T Show all resources %}</a></li>
-                  {% for resource in data.Resources %}
-                  <li class="{% if data.Local.Resource.Id == resource.Id %}active{% endif %}"><a data-url="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}" href="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}">{{ resource.Name }}</a></li>
-                  {% endfor %}
-                </ul>
-              </div>
-
               {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
-              <a class="btn btn-orange" href="#" onclick="createBooking(new Date())"><strong>{% T Make a booking %}</strong></a>
+              <a class="btn btn-orange" href="#" onclick="createBooking(new Date())">{% T Make a booking %}</a>
               {% else %}
               <a class="btn btn-grey" href="{% Url Login, Index, lang: data.Language %}&returnUrl=/{{ data.Language }}/bookings">{% T Log in %}</a>
               {% endif %}
@@ -69,8 +53,8 @@
         <div id="calendar"></div>
         <div class="row">
           <div class="span9">
-            <a href="{% Url Bookings, Index, showAll: false %}"><span class="label"><span class="label-colour" style="background: black"></span>{% T Your bookings %}</span></a>
-            <a href="{% Url Bookings, Index, showAll: false %}"><span class="label"><span class="label-colour" style="background: #484848"></span>{% T Your team %}</span></a>
+            <a href="{% Url Bookings, Index %}"><span class="label"><span class="label-colour" style="background: black"></span>{% T Your bookings %}</span></a>
+            <a href="{% Url Bookings, Index %}"><span class="label"><span class="label-colour" style="background: #484848"></span>{% T Your team %}</span></a>
 
 
             <span class="label"><span class="label-colour" style="background: #a1a1a1"></span>{% T Events %}</span>
@@ -109,109 +93,51 @@
     {% endfor %}
     $('#modal_unpaidbooking').modal();
 
-    var vm;
-    var fc = $('#calendar').fullCalendar({
-      schedulerLicenseKey: '0011856468-fcs-1444557994',
-      lang: '{{ data.Language }}',
-      allDaySlot: false, titleFormat: $(window).width() >= 768 ? 'ddd, MMM Do YYYY' : 'ddd, MMM DD',
-    	scrollTime: '06:00',
-    	minTime:'06:00',
-      aspectRatio: 1.8,
-    	height: 'auto',
-      firstDay: 1,
-    	editable: false,
-    	resourceLabelText: '{{ data.Business.Name | Replace: "'", "\'" }}',
-    	resourceGroupField: 'groupName',
-     	viewRender: function (view) {
-      	var date = view.intervalStart.format('YYYY-MM-DD');
-      	$('a[data-url]').each(function(){
-      	  var url = $(this).attr('data-url');
-          $(this).attr('href', url + (url.indexOf('?') > -1 ? '&' : '?') +'date=' + date + '&view=' + view.name);
-      	});
-    	},
-      eventAfterAllRender: function(view) {
-        if (view.el.find('.fc-event-container').length == 0 && view.type == 'list') {
-          view.el.find('tbody').append('<tr id="fc-empty-message"><td class="text-center"><span>No events for these dates.</span></td></tr>')
-        } else {
-          view.el.find('#fc-empty-message').remove();
-        }
-      },
-      resources: [
-        {% if data.Local.Resource == null %}
-           {% for resource in data.Resources %}
-           {% assign resourceGroupKey = resource.GroupName | Clean %}
-           {% assign resourceGroupName = resource.GroupName %}
-           {% if resourceGroupKey == '' %}
-           {% assign resourceGroupKey = 'resources' %}
-           {% assign resourceGroupName = 'Resources' %}
-           {% endif %}
-           {% if type == resourceGroupKey or type == '' %}
-           {'id':{{ resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ resource.Name | Replace: "'", "\'" }}')},
-           {% endif %}
-           {% endfor %}
-           {% else %}
-           {'id':{{ data.Local.Resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ data.Local.Resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ data.Local.Resource.Name | Replace: "'", "\'" }}')}
-           {% endif %}
-        ],
-        eventClick: function(calEvent, jsEvent, view) {
-          if(calEvent.url)
-              window.location = calEvent.url;
-          else if(calEvent.private) {
-              showWarningMessage("{% T This is a booking made by another member of {0} ||  data.Business.Name %}");
-              return false;
-          }
-          else
-          {
-              showBooking(calEvent);
-              return false;
-          }
-        },
-        dayClick: function(date, evData, jsEvent, resourceObj ) {
-          if(resourceObj)
-              $('#Booking_Resource').val(resourceObj.id);
-          else
-              $('#Booking_Resource').val(null);
-          {% if data.Coworker != null %}
-          createBooking(date.local().toDate());
-          {% elseif data.Setting_Bookings_EnableGuestBookings %}
-          createBooking(date.local().toDate());
-          {% else %}
-          showWarningMessage('{% T Login to make a booking %}');
-          {% endif %}
-        },
-        defaultView: $(window).width() < 768 ? 'list' : '{% if data.Local.Resource.Id > 0 %}agendaDay{% else %}{{defaultView}}{% endif %}',
-        editable: true,
-        displayEventEnd: true,
-        defaultDate: moment('{{ data.Local.CurrentDate | FormatDate: 'yyyy-MM-dd' }}'),
-        header: {
-            left:   'title',
-            center: $(window).width() < 768 ? null : 'month,agendaWeek,{% if data.Local.Resource.Id > 0 or data.Resources.size <= resourceInAgendaView %}agendaDay{% else %}timelineDay{% endif %},list',
-            right:  'today prev,next'
-        },
-        resourceRender: function(resourceObj, dataTds, eventTd) {
-          {% for resource in data.Resources %}
-          {% if resource.HasImage %}
-            if(resourceObj.id == {{ resource.Id }}){
-              dataTds.find('.fc-cell-text').prepend('<img data-toggle="lightbox" href="#resource-image-{{resource.Id}}"  style="cursor: pointer; display: inline; margin-right: 10px; border: 1px solid rgb(51, 51, 51)" src="{% Url PublicResources, GetImage, id: resource.Id, h: 20, w: 20 %}" />');
-              $('#calendar').append('<div id="resource-image-{{resource.Id}}" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true"><div class="lightbox-content"><img src="{% Url PublicResources, GetImage, id: resource.Id, h: 600, w: 800 %}"/><div class="lightbox-caption"><p>{{ resource.Name }}</p></div></div></div>');
-            }
-          {% endif %}
-          {% endfor %}
-
-        },
-        eventSources: [
+    var resources = [
+      {% if data.Local.Resource == null %}
+         {% for resource in data.Resources %}
+         {% assign resourceGroupKey = resource.GroupName | Clean %}
+         {% assign resourceGroupName = resource.GroupName %}
+         {% if resourceGroupKey == '' %}
+         {% assign resourceGroupKey = 'resources' %}
+         {% assign resourceGroupName = 'Resources' %}
+         {% endif %}
+         {% if type == resourceGroupKey or type == '' %}
+         {'id':{{ resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ resource.Name | Replace: "'", "\'" }}')},
+         {% endif %}
+         {% endfor %}
+         {% else %}
+         {'id':{{ data.Local.Resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ data.Local.Resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ data.Local.Resource.Name | Replace: "'", "\'" }}')}
+       {% endif %}
+    ], eventSources = [
         {
-            events: [
-              {% for event in data.Local.Bookings %}
-                {% assign groupKey = event.Resource.GroupName | Clean %}
-                {% if groupKey == '' %}
-                  {% assign groupKey = 'resources' %}
-                {% endif %}
-                {% if groupKey == type or data.Local.Resource != null or type == '' %}
+          events: [
+            {% for event in data.Local.Bookings %}
+              {% assign groupKey = event.Resource.GroupName | Clean %}
+              {% if groupKey == '' %}
+                {% assign groupKey = 'resources' %}
+              {% endif %}
+              {% if groupKey == type or data.Local.Resource != null or type == '' %}
+                {
+                  id: {{ event.Id }},
+                  resourceId: '{{ event.Resource.Id }}',
+                  title  : '{{ event.Resource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
+                  startDate: '{{event.FromTime | Date: 'd'}}',
+                  endDate: '{{event.ToTime | Date: 'd'}}',
+                  startTime: '{{event.FromTime | Date: 't'}}',
+                  endTime: '{{event.ToTime | Date: 't'}}',
+                  start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
+                  end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
+                  allDay : false,
+                  editable: false,
+                  ignoreTimezone: true,
+                  color: 'black'
+                },
+                {% for linkedResource in event.Resource.LinkedResources %}
                   {
                     id: {{ event.Id }},
-                    resourceId: '{{ event.Resource.Id }}',
-                    title  : '{{ event.Resource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
+                    resourceId: '{{ linkedResource.Id }}',
+                    title  : '{{ linkedResource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
                     startDate: '{{event.FromTime | Date: 'd'}}',
                     endDate: '{{event.ToTime | Date: 'd'}}',
                     startTime: '{{event.FromTime | Date: 't'}}',
@@ -221,31 +147,114 @@
                     allDay : false,
                     editable: false,
                     ignoreTimezone: true,
-                    color: 'black'
+                    color: getColurFromName('{{ linkedResource.Name | Replace: "'", "\'" }}')
                   },
-                  {% for linkedResource in event.Resource.LinkedResources %}
-                    {
-                      id: {{ event.Id }},
-                      resourceId: '{{ linkedResource.Id }}',
-                      title  : '{{ linkedResource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
-                      startDate: '{{event.FromTime | Date: 'd'}}',
-                      endDate: '{{event.ToTime | Date: 'd'}}',
-                      startTime: '{{event.FromTime | Date: 't'}}',
-                      endTime: '{{event.ToTime | Date: 't'}}',
-                      start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
-                      end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
-                      allDay : false,
-                      editable: false,
-                      ignoreTimezone: true,
-                      color: getColurFromName('{{ linkedResource.Name | Replace: "'", "\'" }}')
-                    },
-                  {% endfor %}
-                {% endif %}
-              {% endfor %}
-            ]},
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          ]
+        },
+      ]
+    
+    function viewRender (view) {
+      var date = view.intervalStart.format('YYYY-MM-DD');
+      $('a[data-url]').each(function(){
+        var url = $(this).attr('data-url');
+        $(this).attr('href', url + (url.indexOf('?') > -1 ? '&' : '?') +'date=' + date + '&view=' + view.name);
+      });
+    }
 
-            ]
-          });
+    function eventsAfterAllRender (view) {
+      if (view.type.startsWith('agenda')) {
+        var row = 60;
+        // setTimeout(function() {
+        //   $(view.el).find('.fc-time-grid-container').scrollTop(row * 3)
+        // }, 0);
+      } else if (view.el.find('.fc-event-container').length == 0 && view.type == 'list') {
+        view.el.find('tbody').append('<tr id="fc-empty-message"><td class="text-center"><span>No events for these dates.</span></td></tr>')
+      } else {
+        view.el.find('#fc-empty-message').remove();
+      }
+    }
+
+    function eventClick (calEvent, jsEvent, view) {
+      if(calEvent.url)
+          window.location = calEvent.url;
+      else if(calEvent.private) {
+          showWarningMessage("{% T This is a booking made by another member of {0} ||  data.Business.Name %}");
+          return false;
+      }
+      else
+      {
+          showBooking(calEvent);
+          return false;
+      }
+    }
+
+    function dayClick (date, evData, jsEvent, resourceObj ) {
+      if(resourceObj)
+        $('#Booking_Resource').val(resourceObj.id);
+      else
+        $('#Booking_Resource').val(null);
+      {% if data.Coworker != null %}
+        createBooking(date.local().toDate());
+      {% elseif data.Setting_Bookings_EnableGuestBookings %}
+        createBooking(date.local().toDate());
+      {% else %}
+        showWarningMessage('{% T Login to make a booking %}');
+      {% endif %}
+    }
+
+    function resourceRender (resourceObj, dataTds, eventTd) {
+      {% for resource in data.Resources %}
+      {% if resource.HasImage %}
+        if(resourceObj.id == {{ resource.Id }}){
+          dataTds.find('.fc-cell-text').prepend('<img data-toggle="lightbox" href="#resource-image-{{resource.Id}}"  style="cursor: pointer; display: inline; margin-right: 10px; border: 1px solid rgb(51, 51, 51)" src="{% Url PublicResources, GetImage, id: resource.Id, h: 20, w: 20 %}" />');
+          $('#calendar').append('<div id="resource-image-{{resource.Id}}" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true"><div class="lightbox-content"><img src="{% Url PublicResources, GetImage, id: resource.Id, h: 600, w: 800 %}"/><div class="lightbox-caption"><p>{{ resource.Name }}</p></div></div></div>');
+        }
+      {% endif %}
+      {% endfor %}
+    }
+
+    var vm;
+    var fc = $('#calendar').fullCalendar({
+      schedulerLicenseKey: '0011856468-fcs-1444557994',
+      lang: '{{ data.Language }}',
+      allDaySlot: false, 
+      titleFormat: 'MMMM YYYY',
+    	scrollTime: '09:00',
+    	minTime:'06:00',
+      aspectRatio: 2,
+    	height: 'auto',
+      firstDay: 1,
+    	editable: false,
+    	resourceLabelText: '{{ data.Business.Name | Replace: "'", "\'" }}',
+    	resourceGroupField: 'groupName',
+     	viewRender: viewRender,
+      eventAfterAllRender: eventsAfterAllRender,
+      resources: resources,
+      eventClick: eventClick,
+      dayClick: dayClick,
+      defaultView: $(window).width() < 768 ? 'list' : '{% if data.Local.Resource.Id > 0 %}agendaDay{% else %}{{defaultView}}{% endif %}',
+      editable: true,
+      displayEventEnd: true,
+      defaultDate: moment('{{ data.Local.CurrentDate | FormatDate: 'yyyy-MM-dd' }}'),
+      header: {
+          left:   'title',
+          center: $(window).width() < 768 ? null : 'month,agendaWeek,{% if data.Local.Resource.Id > 0 or data.Resources.size <= resourceInAgendaView %}agendaDay{% else %}timelineDay{% endif %},list',
+          right:  'today prev,next'
+      },
+      resourceRender: resourceRender,
+      eventSources: eventSources,
+      views: {
+        week: {
+          columnFormat: 'ddd D/M'
+        },
+        day: {
+          titleFormat: 'ddd, MMM Do YYYY'
+        }
+      }
+    });
 
     $(function () {
 

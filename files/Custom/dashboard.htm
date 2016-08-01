@@ -4,7 +4,7 @@
       <div class="dashboard__section span4">
         <h3>{% T Shortcuts %}</h3>
         <ul>
-          <li><a href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li>
+          <li><a href="{% Url Bookings, Index %}">{% T My Bookings %}</a></li>
           <li><a href="{% Url Invoices, Index %}">{% T Payments %}</a></li>
           <li><a href="{% Url Profile, Index %}">{% T Settings %}</a></li>
         </ul>
@@ -35,7 +35,7 @@
           </div>
           <div class="dashboard__list">
             <h3 v-text="activeMoment | moment 'dddd Do MMMM'"></h3>
-            <a class="dashboard__link" href="{% Url Bookings, Index, ShowAll: false %}">{% T See All %}</a>
+            <a class="dashboard__link" href="{% Url Bookings, Index %}">{% T See All Events %}</a>
             <p v-if="!eventsOn(activeMoment)">{% T No bookings on this day %}</p>
             <ul v-else class="dashboard__events-list">
               <li class="events-list__item" v-for="event in eventsOn(activeMoment) | orderBy sortEvents">
