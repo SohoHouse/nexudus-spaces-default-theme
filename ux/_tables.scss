@@ -8,6 +8,19 @@
 
 table {
   border: 0 !important;
+
+  tr.clickable {
+    cursor: pointer;
+
+    td {
+      transition: .2s background ease;
+    }
+
+    &:hover td {
+      background-color: rgba($secondary, .05) !important;
+    }
+  }
+
   td, th {
     padding: 30px 0 !important;
     border-top: 0 !important;

@@ -6,61 +6,40 @@
   <div id="main" class="container">
     
     <div class="row">
-      <h2 class="page-title span12">{% T Help %}</h2>
       <!-- CONTENT -->
       <section id="content" class="span12">
-        <div class="well well-large text-center">
-          <h2>{% T Problems? {0} to the rescue! || data.Business.Name %}</h2>
-          <p >{% T SupportWallWelcome %}</p>
-          {% if data.Setting_Members_AllowHelpMessages %}
-          <a href="#modal_help"  role="button" class="btn btn-orange btn-large" data-toggle="modal">{% T Request help or report a problem %}</a>
-          {% else %}
-          <div class="media comment comment-form">
-            <a href="{% Url Contact, Index %}" class="btn btn-orange btn-large">{% T Contact us for help %}</a>
-          </div>
-          {% endif %}
-        </div>
+        <h3 class="pull-left">{% T Help Desk %}</h3>
+        {% if data.Setting_Members_AllowHelpMessages %}
+          <a href="#modal_help"  role="button" class="pull-right btn btn-orange btn-large" data-toggle="modal">{% T Open a Ticket %}</a>
+        {% else %}
+          <a href="{% Url Contact, Index %}" class="pull-right btn btn-orange btn-large">{% T Contact us for help %}</a>
+        {% endif %}
         
         {% if data.Local.Messages.size > 0 %}
         <!-- COMMENTS -->
         <section id="comments">
-          <div class="container">	
-            <h3>{% T Support messages at {0} || data.Business.Name %}</h3>
-            {% for item in data.Local.Messages %}
-            <!-- COMMENT -->
-            <div class="media comment">
-              <a class="media-object pull-left" href="{% Url Directory, Profile, id: item.Coworker.Id, name: item.Coworker.FullName | Clean %}">
-            	{% if item.Coworker.HasAvatar %}
-                <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: item.Coworker.Id, h:64, w:64 %}" alt="{{ item.Coworker.FullName | Capitalize }}" >
-                {% else %}
-                <img class="img-circle" height="64" width="64" src="/content/themes/public/clean/images/comment-avatar.jpg" alt="{{ item.Coworker.FullName | Capitalize }}" >
+          <table class="table">
+            <thead>
+              <tr>
+                <th class="span1 minor">Status</th>
+                <th class="span8">Subject</th>
+                <th class="span2 minor">Date</th>
+                <th class="span1 minor text-right">Comments</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in data.Local.Messages %}
+                {% if data.Coworker.UniqueId == item.Coworker.UniqueId %}
+                  <tr data-url="{% Url Support, Message, id: item.Id %}" class="clickable">
+                    <td class="minor"><span class="pill pill--{% if item.Closed %}closed{% else %}open{% endif %}">{% if item.Closed %}Closed{% else %}Open{% endif %}</span></td>
+                    <td class="body-font"><a href="{% Url Support, Message, id: item.Id %}">{{ item.Subject | TruncateWords: 50 }}</a></td>
+                    <td class="minor">{{ item.CreatedOn | Date: 'd MMMM H:mm' }} </td>
+                    <td class="minor text-right">{{ item.Comments.size }}</td> 
+                  </tr>
                 {% endif %}
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">
-                  {{ item.Subject | TruncateWords: 50 }} 
-                  {% if item.Closed %}
-                  <span class="label label-success">{% T Closed %}</span>
-                  {% else %}
-                  <span class="label label-important">{% T Open %}</span>
-                  {% endif %}
-                </h4>
-                <blockquote>
-                  <p>{{ item.MessageText | StripHtml }}</p>
-                  <small>
-                    {{ item.CreatedOn | Date: 'd MMMM @htt' }} 
-                    {% T by %}
-                    <a href="{% Url Directory, Profile, id: item.Coworker.Id, name: item.Coworker.FullName | Clean %}">
-                      {{ item.Coworker.FullName }}
-                    </a>
-                  </small>
-                </blockquote>
-                <a class="btn btn-orange" href="{% Url Support, Message, id: item.Id %}">{% T Read more or leave a reply %}</a>
-              </div>
-            </div>
-            <!-- END COMMENT -->
-            {% endfor %}
-          </div>
+              {% endfor %}
+            </tbody>
+          </table>
         </section>
         <!-- END COMMENTS -->
         {% endif %}
@@ -72,4 +51,13 @@
   <!-- END CONTAINER -->  
 </div>
 {% include newsupportmessage.htm %}
+{% endblock %}
+{% block script %}
+  <script type="text/javascript">
+    $(function () {
+      $('tr.clickable').click(function () {
+        window.document.location = $(this).data('url');
+      })
+    })
+  </script>
 {% endblock %}

@@ -84,7 +84,10 @@ a {
   color: $highlight;
 }
 
-a:hover {}
+a:hover,
+a:focus {
+  color: initial;
+}
 
 h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 {
   text-decoration: none;

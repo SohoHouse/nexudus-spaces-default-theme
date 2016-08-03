@@ -57,3 +57,22 @@ span.label {
     color: white;
   }
 }
+
+.pill {
+  @include main-font;
+  font-size: .8em;
+  border-radius: 50px;
+  padding: 2px 8px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.pill--open {
+  background-color: $accent;
+  color: white;
+}
+
+.pill--closed {
+  background-color: $bg;
+  color: rgba($dark, .4);
+}
