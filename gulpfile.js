@@ -5,6 +5,10 @@ var gulp          = require('gulp'),
   dotenv          = require('dotenv').config(),
   fileDestination     = process.env.FILE_DESTINATION || './dest';
 
+fileSrc = ['js', 'htm', 'json', 'master', 'png', 'jpg', 'jpeg'].map(function (ext) {
+  return './**/*.' + ext;
+})
+
 var scss = function () {
   gulp.src('css.scss')
     .pipe($.plumber({
@@ -23,17 +27,17 @@ var scss = function () {
 
 var files = function () {
     
-  gulp.src('files/**/*')
+  gulp.src(fileSrc)
     .pipe(gulp.dest(fileDestination))
   console.log('Built Files to ' + fileDestination)
 };
 
 var emails = function() {
-  return gulp.src('emails/partials/*.nunjucks')
+  return gulp.src('Emails/partials/*.nunjucks')
     .pipe($.plumber({
       errorHandler: $.notify.onError("<%= error.message %>")}))
     .pipe($.nunjucksRender({
-      path: ['emails/layouts']
+      path: ['Emails/layouts']
     }))
     .pipe($.inlineSource())
     .pipe($.inlineCss({
@@ -41,7 +45,7 @@ var emails = function() {
       preserveMediaQueries: true,
       applyStyleTags: false
     }))
-    .pipe(gulp.dest('emails'))
+    .pipe(gulp.dest('Emails'))
 };
 
 gulp.task('build:scss', scss);
@@ -50,6 +54,6 @@ gulp.task('build:emails', emails);
 
 gulp.task('default', ['build:scss', 'build:files', 'build:emails'], function () {
   gulp.watch('**/*.scss', ['build:scss']);
-  gulp.watch('files/**/*', ['build:files']);
-  gulp.watch(['emails/**/*.nunjucks', 'emails/**/*.css'], ['build:emails']);
+  gulp.watch(fileSrc, ['build:files']);
+  gulp.watch(['Emails/**/*.nunjucks', 'Emails/**/*.css'], ['build:emails']);
 });
