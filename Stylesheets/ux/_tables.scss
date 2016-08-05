@@ -9,6 +9,10 @@
 table {
   border: 0 !important;
 
+  tbody {
+    border: 0 !important;
+  }
+
   tr.clickable {
     cursor: pointer;
 
