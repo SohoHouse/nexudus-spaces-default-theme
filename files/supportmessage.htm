@@ -1,98 +1,68 @@
 {% extends master.master %}
 {% block title %}{{ data.Local.Message.Subject | StripHtml | TruncateWords: 10 }} | {% T Help %} | {{ data.Business.Name }}{% endblock %}
 {% block content %}
+
 <div id="wrapper">
   <!-- CONTAINER -->
   <div id="main" class="container">
     
     <div class="row">
-      <h2 class="page-title span12">{% T Help Message %}</h2>
       <!-- CONTENT -->
       <section id="content" class="span12">
-        <div class="well well-large ">
-          <h2>
-            {{ data.Local.Message.Subject | StripHtml }}
-
-          </h2>
-          <p>
-            <blockquote>
-              <p>{{ data.Local.Message.MessageText | StripHtml }}</p>
-              <small>
-                {{ data.Local.Message.CreatedOn | Date: 'd MMMM @htt' }}
-                {% T by %}
-                <a href="{% Url Directory, Profile, id: data.Local.Message.Coworker.Id, name: data.Local.Message.Coworker.FullName | Clean %}">
-                  {{ data.Local.Message.Coworker.FullName }}
-                </a>
-              </small>
-            </blockquote>
-            {% if data.Local.Message.Closed %}
-            <a  class="btn btn-orange disabled">{% T This help request is closed %}</a>
-            {% else %}
-            <a href="#comment-form"  class="btn btn-orange">{% T Leave a reply %}</a>
-            {% T or %}
-            <a href="#modal_help" role="button" class="btn btn-orange" data-toggle="modal">{% T Create a brand new help message %}</a>
-            {% T or %}
-            <a href="#modal_close" role="button" class="btn btn-orange" data-toggle="modal">{% T Close this help request %}</a>
-            {% endif %}
-          </p>
-          
-        </div>
-        
-        
-        <!-- COMMENTS -->
-        <section id="comments">
-          <div class="container">	
-            <h3>{% T Comments about this help message %}</h3>
-            {% for item in data.Local.Message.Comments %}
-            <!-- COMMENT -->
-            <div class="media comment">
-              <a class="media-object pull-left" href="{% Url Directory, Profile, id: item.Coworker.Id, name: item.Coworker.FullName | Clean %}">
-            	{% if item.Coworker.HasAvatar %}
-                <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: item.Coworker.Id, h:64, w:64 %}" alt="{{ item.Coworker.FullName | Capitalize }}" >
-                {% else %}
-                <img class="img-circle" height="64" width="64" src="/content/themes/public/clean/images/comment-avatar.jpg" alt="{{ item.Coworker.FullName | Capitalize }}" >
-                {% endif %}
-              </a>
-              <div class="media-body">
-                <h4 class="media-heading">{{ item.Cowoker.FullName }} </h4>
-                <blockquote>
-                  <p>{{ item.MessageText | StripHtml }}</p>
-                  <small>
-                    {{ item.CreatedOn | Date: 'd MMMM @htt' }}
-                    {% T by %}
-                    <a href="{% Url Directory, Profile, id: item.Coworker.Id, name: item.Coworker.FullName | Clean %}">
-                      {{ item.Coworker.FullName }}
-                    </a>
-                  </small>
-                </blockquote>
-              </div>
+        <h3 class="pull-left">
+          {{ data.Local.Message.Subject | StripHtml }} 
+          <span class="pill pill--{% if data.Local.Message.Closed %}closed{% else %}open{% endif %}">{% if data.Local.Message.Closed %}Closed{% else %}Open{% endif %}</span>
+        </h3>
+        {% unless data.Local.Message.Closed %}
+          <a href="#modal_close" role="button" class="btn btn-orange pull-right" data-toggle="modal">{% T Close Ticket %}</a>
+        {% endunless %}
+        <div class="messages">
+          <div class="message message--mine">
+            <div class="message__avatar">
+              {% if data.Local.Message.Coworker.HasAvatar %}
+                <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: data.Local.Message.Coworker.Id, h:64, w:64 %}" alt="{{ data.Local.Message.Coworker.FullName | Capitalize }}" >
+              {% endif %}
             </div>
-            <!-- END COMMENT -->
-            {% endfor %}
-            {% if data.Local.Message.Closed == false %}
-            <div class="media comment comment-form" id="comment-form">
-              <a class="media-object pull-left" href="{% Url Directory, Profile, id: data.Coworker.Id %}">
-                {% if data.Coworker.HasAvatar %}
-                <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: data.Coworker.Id, h:64, w:64 %}" alt="{{ data.Coworker.FullName | Capitalize }}" >
-                {% else %}
-                <img class="img-circle" height="64" width="64" src="/content/themes/public/clean/images/comment-avatar.jpg" alt="{{ data.Coworker.FullName | Capitalize }}" >
-                {% endif %}
-              </a>
-              <div class="media-body">
-                <form class="row-fluid" action="{% Url Support, NewComment %}" method="post">
-                  {% AntiforgeryToken %}
-                  <input type="hidden" name="Comment.HelpDeskMessage" value="{{data.Local.Message.Id}}" />
-                  <textarea class="span12" name="Comment.MessageText" required="required"></textarea>
-                  <button type="submit" class="btn btn-orange pull-right">{% T Post comment %}</button>
-                </form>
-              </div>
-            </div>
-            {% endif %}
+            <p class="message__text" title="{{ data.Local.Message.CreatedOn | Date: 'd MMMM H:mm' }}">{{ data.Local.Message.MessageText | StripHtml }}</p>
           </div>
-        </section>
-        <!-- END COMMENTS -->
-        
-        
+
+          {% for item in data.Local.Message.Comments %}
+            {% assign next = forloop.index + 1 %}
+            {% assign inGroup = false %}
+            {% unless forloop.last %}
+              {% if data.Local.Message.Comments[next].Coworker.IdString == item.Coworker.IdString %}
+                {% assign inGroup = true  %}
+              {% endif %}
+            {% endunless %}
+
+            <div class="message{% if inGroup %} message--group{% endif %} message--{% if item.Coworker.UniqueId == data.Coworker.UniqueId %}mine{% else %}theirs{% endif %}">
+              {% if inGroup == false %}
+                <div class="message__avatar">
+                  {% if item.Coworker.HasAvatar %}
+                    <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: item.Coworker.Id, h:64, w:64 %}" alt="{{ item.Coworker.FullName | Capitalize }}" >
+                  {% endif %}
+                </div>
+              {% endif %}
+              <p class="message__text" title="{{ item.CreatedOn | Date: 'd MMMM H:mm' }}">{{ item.MessageText | StripHtml }}</p>
+            </div>
+          {% endfor %}
+
+          {% unless data.Local.Message.Closed %}
+            <div class="message message--mine message--form">
+              <div class="message__avatar">
+                {% if data.Local.Message.Coworker.HasAvatar %}
+                  <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: data.Local.Message.Coworker.Id, h:64, w:64 %}" alt="{{ data.Local.Message.Coworker.FullName | Capitalize }}" >
+                {% endif %}
+              </div>
+              <form class="message__text" action="{% Url Support, NewComment %}" method="post">
+                {% AntiforgeryToken %}
+                <input type="hidden" name="Comment.HelpDeskMessage" value="{{data.Local.Message.Id}}" />
+                <textarea placeholder="{% T Type a new message %}" name="Comment.MessageText" required="required"></textarea>
+                <button type="submit" class="message__button">{% T Send %}</button>
+              </form>
+            </div>
+          {% endunless %}
+        </div>        
       </section>
       <!-- END CONTENT -->
     </div>

@@ -1,0 +1,128 @@
+.messages {
+  clear: both;
+  padding: 50px 0;
+}
+
+
+.message {
+  @include clearfix;
+  clear: both;
+  display: block;
+  padding: 0 40px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.message__avatar {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  bottom: 0;
+  left: 0;
+  border-radius: 30px;
+  background-color: $bg;
+}
+
+.message__text {
+  @include body-font;
+  border-radius: 5px;
+  border: 1px solid rgba($secondary, 0.5);
+  box-sizing: border-box;
+  color: $dark;
+  display: inline-block;
+  margin: 0;
+  max-width: 60%;
+  padding: 8px 12px;
+
+  @media (max-width: $small) {
+    max-width: 80%;
+  }
+}
+
+.message--theirs {
+  padding-right: 0;
+
+  .message__text {
+    border-bottom-left-radius: 1px; 
+  }
+}
+
+.message--mine {
+  padding-left: 0;
+
+  .message__avatar {
+    left: auto;
+    right: 0px;
+  }
+
+  .message__text {
+    background-color: $bg;
+    border-color: $bg;
+    color: $dark;
+    float: right;
+    border-bottom-right-radius: 1px; 
+    border-bottom-left-radius: 5px; 
+  }
+}
+
+.message--group {
+  margin-bottom: 5px;
+
+  .message__text {
+    border-bottom-right-radius: 5px; 
+    border-bottom-left-radius: 5px; 
+  }
+}
+.message--form {
+  .message__text {
+    textarea {
+      background-color: transparent;
+      border: 0;
+      box-sizing: border-box;
+      display: inline-block;
+      margin-bottom: 0;
+      margin-right: 10px;
+      max-width: calc(100% - 90px);
+      width: 400px;
+
+      &::placeholder {
+        color: rgba($dark, .6);
+      }
+    }
+
+    button {
+      background-color: $primary;
+      border-radius: 5px;
+      border: 0;
+      color: white;
+      display: inline-block;
+      float: right;
+      height: 70px;
+      width: 80px;
+    }
+  }
+
+  @media (max-width: $small) {
+    padding-right: 0;
+
+    .message__avatar {
+      display: none;
+    }
+    
+    .message__text {
+      max-width: 100%;
+    }
+
+    textarea {
+      max-width: 100%;
+      margin-bottom: 15px;
+    }
+
+    button {
+      float: none;
+      width: 100%;
+      height: auto;
+      padding: 8px;
+    }
+  }
+}

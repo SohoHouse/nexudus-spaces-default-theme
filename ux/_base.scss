@@ -7,6 +7,19 @@ $weird-blue: #F5FAFF;
 $pale: #F8F8F9;
 $secondary: #C9CCCC;
 
+$small: 560px;
+$medium: 980px;
+
+
+@mixin clearfix {
+  &::after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+}
+
+
 @function image-url($file) {
   @return url("/images/#{$file}.png");
 }

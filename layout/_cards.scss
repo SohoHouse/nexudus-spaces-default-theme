@@ -8,6 +8,7 @@ article.card {
   position: relative;
   transition: .2s all ease;
   width: 100%;
+  overflow: hidden;
 
   &:hover {
     box-shadow: 0 15px 25px rgba(black, 0.3), 0 7px 10px rgba(black, 0.1);

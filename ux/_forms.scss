@@ -58,6 +58,8 @@ input {
 textarea {
   min-height: 70px !important;
   resize: vertical;
+  box-shadow: none !important;
+  @include body-font;
 }
 
 .form-section {

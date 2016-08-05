@@ -1,6 +1,3 @@
-$small: 560px;
-$medium: 980px;
-
 @import "ux/base";
 @import "ux/typography";
 @import "ux/buttons";
@@ -12,6 +9,7 @@ $medium: 980px;
 @import "ux/generics";
 @import "ux/tables";
 @import "ux/modals";
+@import "ux/messages";
 
 @import "layout/regions";
 @import "layout/home";
