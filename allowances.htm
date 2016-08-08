@@ -76,10 +76,22 @@
                       <td>
                         {{ xs.ExtraService.Name }}<br/><small>{{ xs.ExtraService.Description }}</small>
                       </td>
-                      <td>{{ xs.UsesIncluded }} {% T every %} {% T xs.ServiceRenewalTime %}</td>
-                      <td class="text-right">
-                        {{ xs.Remaining }}
-                      </td>
+                      {% if xs.ChargePeriod == 'Minutes' %}
+                        <td>
+                          {% assign total = xs.UsesIncluded %}
+                          {% include 'minute_formatter.htm' %}
+                          {% T every %} {% T xs.ServiceRenewalTime %}
+                        </td>
+                        <td class="text-right">
+                          {% assign total = xs.Remaining %}
+                          {% include 'minute_formatter.htm' %}
+                        </td>
+                      {% else %}
+                        <td>{{ xs.UsesIncluded }} {% T every %} {% T xs.ServiceRenewalTime %}</td>
+                        <td class="text-right">
+                          {{ xs.Remaining }}
+                        </td>
+                      {% endif %}
                     </tr>
                     {% endfor %}
                   </tbody>

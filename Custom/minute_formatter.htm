@@ -1,0 +1,4 @@
+{% assign hours = total | DividedBy: 60 | Floor %}
+{% assign hourMinutes = hours | Times: 60 %}
+{% assign mins = total | Minus: hourMinutes %}
+<span class="body-font">{{hours}}h{% if mins > 0 %} {{mins}}m{% endif %}</span>
