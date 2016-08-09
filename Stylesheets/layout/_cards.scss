@@ -58,6 +58,7 @@ article.card {
     .card-wrapper--list & {
       padding-left: 40%;
       width: 97.5%;
+      height: 260px;
       
       .card-content {
         padding: 20px 20px 20px 40px;
@@ -81,7 +82,7 @@ article.card {
       }
       &:first-of-type {
         padding-left: 60%;
-        min-height: 380px;
+        min-height: 400px;
         .card-image {
           width: 60%;
         }
