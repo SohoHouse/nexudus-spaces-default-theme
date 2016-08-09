@@ -5,7 +5,7 @@ var gulp          = require('gulp'),
   dotenv          = require('dotenv').config(),
   fileDestination     = process.env.FILE_DESTINATION || './dest';
 
-fileSrc = ['./**/*.js', './**/*.htm', './**/*.json', './**/*.master', './**/*.png', './**/*.jpg', './**/*.jpeg', '!node_modules/**/*', '!package.json']
+fileSrc = ['./**/*.js', './**/*.htm', './**/*.json', './**/*.master', './**/*.png', './**/*.jpg', './**/*.jpeg', '!node_modules/**/*', '!package.json', '!gulpfile.js']
 
 var scss = function () {
   gulp.src('css.scss')

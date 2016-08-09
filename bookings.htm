@@ -46,11 +46,11 @@
                   {% if data.Local.Resource != null %}
                   {{ data.Local.Resource.Name | TruncateWords: 3 }}
                   {% else %}
-                  {% T Types %}
+                  {% T Resources %}
                   {% endif %}
                   <b class="caret" style="margin-top: 8px"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="{% Url Bookings, Index %}">{% T Show all types %}</a></li>
+                  <li><a href="{% Url Bookings, Index %}">{% T Show all resources %}</a></li>
                   {% for resource in data.Resources %}
                   <li class="{% if data.Local.Resource.Id == resource.Id %}active{% endif %}"><a data-url="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}" href="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}">{{ resource.Name }}</a></li>
                   {% endfor %}
@@ -183,7 +183,7 @@
       {% if resource.HasImage %}
         if(resourceObj.id == {{ resource.Id }}){
           dataTds.find('.fc-cell-text').prepend('<img data-toggle="lightbox" href="#resource-image-{{resource.Id}}"  style="cursor: pointer; display: inline; margin-right: 10px; border: 1px solid rgb(51, 51, 51)" src="{% Url PublicResources, GetImage, id: resource.Id, h: 20, w: 20 %}" />');
-          $('#calendar').append('<div id="resource-image-{{resource.Id}}" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true"><div class="lightbox-content"><img src="{% Url PublicResources, GetImage, id: resource.Id, h: 600, w: 800 %}"/><div class="lightbox-caption"><p>{{ resource.Name }}</p></div></div></div>');
+          $('#calendar').append('<div id="resource-image-{{resource.Id}}" class="lightbox hide fade"  tabindex="-1" role="dialog" aria-hidden="true"><div class="lightbox-content"><img src="{% Url PublicResources, GetImage, id: resource.Id, h: 600, w: 800 %}"/><div class="lightbox-caption"><p>{{ resource.Name | Replace: '\'', '\\'' }}</p></div></div></div>');
         }
       {% endif %}
       {% endfor %}

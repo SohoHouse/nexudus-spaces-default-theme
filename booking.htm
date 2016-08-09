@@ -43,7 +43,7 @@
           </div>
         </div>
         <div class="row-fluid">
-          <div class="span12">
+          <div class="controls">
             <label for="Coworker_Address">{% T Address %}</label>
             <textarea rows="2" id="Coworker_Address" name="Coworker.Address" type="text" class="span12">{{ data.Coworker.Address }}</textarea>
           </div>
@@ -80,10 +80,10 @@
       <div id="booking-details" style="{% if data.Coworker == null %}display: none{% endif %}">
         <table>
           <tr>
-            <td>{% T Resource %}</td>
+            <td>{% T I want to book %}</td>
             <td>
               <select name="Booking.Resource" id="Booking_Resource" data-bind="event: { change: updateProducts }">
-                <option>Choose a resource</option>
+                <option disabled selected>{% T Pick one %}</option>
                 {% for resource in data.Resources %}
                   <option value="{{resource.Id}}">{{resource.Name}}</option>
                 {% endfor %}
@@ -108,13 +108,23 @@
               </div>
             </td>
           </tr>
+          <tr>
+            <td>{% T Number of Attendees %}</td>
+            <td>
+              <select class="select--number" data-breakdown="Number of Attendees">
+                {% for i in (0..10) %}
+                  <option>{{i}}</option>
+                {% endfor %}
+              </select>
+            </td>
+          </tr>
         </table>
         <div style="display: none" class="alert alert-info resource_not_available body-font">
           <span>{% T Resource is not available at this time %}</span>
         </div>
 
         <div class="row-fluid hidden-phone" data-bind="visible: bookingProducts() && bookingProducts().length > 0">
-          <div class="span12">
+          <div class="controls">
             <label class="body-label">{% T Select the items you will require during this booking %}</label>
             <table class="table">
               <tbody data-bind="foreach: bookingProducts">
@@ -152,9 +162,12 @@
           {% endif %}
         </div>
         <div class="row-fluid hidden-phone">
-          <div class="span12">
-            <label>{% T Notes %}</label>
-            <textarea class="span12" id="Booking_Notes" name="Booking.Notes"></textarea>
+          <div class="controls">
+            <textarea class="span12" id="Booking_Notes" style="display: none" name="Booking.Notes"></textarea>
+            <label>{% T Guest Names %}</label>
+            <textarea class="span12" data-breakdown="Guest Names"></textarea>
+            <label>{% T Notes/Special Requests %}</label>
+            <textarea class="span12" data-breakdown="Notes/Special Requests"></textarea>
           </div>
         </div>
 
@@ -173,6 +186,10 @@
 </div>
 <!-- END MODAL -->
 <script>
+  function escapeRegExp(str) {
+    // http://stackoverflow.com/a/6969486/5743493
+    return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+  }
   function verifyContactDetailsAndContinue(){
     if(!$('#Coworker_FullName').val()){
       showErrorMessage('{% T Please enter your full name %}')
@@ -228,6 +245,8 @@
       $('#Booking_From').datetimepicker('setDate', date);
       $('#Booking_To').datetimepicker('setDate', moment(date).add(1, 'hours').toDate());
 
+      emptyNotesBreakdown();
+
       var rid = $('#resource-filter').val()
           if(rid) $('#Booking_Resource').val(rid);
 
@@ -235,7 +254,6 @@
       vm.updateProducts();
       setTimeout(checkBooking, 1000);
      }
-
 
      function showBooking(calEvent) {
        $.get('{% Url Bookings, BookingJson %}/' + calEvent.id, function (data) {
@@ -262,14 +280,53 @@
 
          $('#delete-button').show();
          $('#Booking_Notes').val(data.Value.Notes);
+         emptyNotesBreakdown();
+         parseNotesBreakdown();
          setTimeout(checkBooking, 500);
          vm.updateProducts();
        });
      }
 
+    function emptyNotesBreakdown() {
+      var els = $('[data-breakdown]');
+      els.each(function() {
+        $(this).val('');
+      })
+    }
+
+    function parseNotesBreakdown() {
+      var els = $('[data-breakdown]'),
+        labels = els.map(function() {
+          return escapeRegExp($(this).data('breakdown'));
+        }).get(),
+        reg = new RegExp('^(' + labels.join('|') + '): (.+)', 'gm'),
+        str = $('#Booking_Notes').val(),
+        matches;
+
+      while ((matches = reg.exec(str)) !== null) {
+        $('[data-breakdown="' + matches[1] + '"]').val(matches[2]);
+      }
+    }
+
+    function serializeNotesBreakdown() {
+      var els = $('[data-breakdown]'),
+        vals = [];
+
+      els.each(function() {
+        var str = '';
+        str += $(this).data('breakdown')
+        str += ': '
+        str += $(this).val()
+        vals.push(str);
+      })
+      $('#Booking_Notes').val(vals.join('\n'));
+    }
+
      function getBookingData() {
        var fromDate = $('#Booking_From').datetimepicker('getDate');
        var toDate = $('#Booking_To').datetimepicker('getDate');
+
+       serializeNotesBreakdown()
 
        $('#Booking_FromTime').val(fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate() + ' ' + fromDate.getHours() + ':' + fromDate.getMinutes());
        $('#Booking_ToTime').val(toDate.getFullYear() + '-' + (toDate.getMonth() + 1) + '-' + toDate.getDate() + ' ' + toDate.getHours() + ':' + toDate.getMinutes());
