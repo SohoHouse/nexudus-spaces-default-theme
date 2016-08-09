@@ -37,7 +37,7 @@
           </div>
           <div class="dashboard__list">
             <h3 v-text="activeMoment | moment 'dddd Do MMMM'"></h3>
-            <a class="dashboard__link" href="{% Url Bookings, Index %}">{% T See All Events %}</a>
+            <a class="dashboard__link" href="{% Url Bookings, Index %}">{% T Go to calendar %}</a>
             <p v-if="!eventsOn(activeMoment)">{% T No bookings on this day %}</p>
             <ul v-else class="dashboard__events-list">
               <li class="events-list__item" v-for="event in eventsOn(activeMoment) | orderBy sortEvents">
