@@ -28,7 +28,7 @@
                 <th class="span8">{% T Product %}</th>
                 <th class="span1 minor">{% T Price %}</th>
                 <th class="span1 minor">{% T Qty. %}</th>
-                <th class="span2 minor" style="white-space: nowrap;">{% T Add to my plan %}</th>
+                <th class="span2 minor" style="white-space: nowrap;"></th>
               </tr>
             </thead>
             <tbody data-bind="foreach: products">
@@ -43,7 +43,10 @@
                   </select>
                 </td>
                 <td class="text-center minor">
-                  <input data-bind="checked: RegularCharge, visible: Quantity() > 0, disable: AlwaysRecurrent() || AlwaysOneOff()" type="checkbox" {% if data.coworker.tariff= =null %}disabled="disabled" {% endif %} />
+                  {% if data.coworker.tariff == null %}
+                    <input data-bind="attr: {id: 'add-to-plan-' + $index() }, checked: RegularCharge, visible: Quantity() > 0 && !AlwaysRecurrent() && !AlwaysOneOff()" type="checkbox" />
+                    <label class="body-font" data-bind="attr: {for: 'add-to-plan-' + $index() }, visible: Quantity() > 0 && !AlwaysRecurrent() && !AlwaysOneOff()">{% T Add to my plan %}</label>
+                  {% endif %}
                 </td>
               </tr>
             </tbody>
