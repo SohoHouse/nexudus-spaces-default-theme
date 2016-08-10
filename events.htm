@@ -52,7 +52,7 @@
 
         {% endif %}
         {% for ev in data.Local.CalendarEvents %}
-          {% include 'event_card.htm' format=list %}
+          {% include 'event_card.htm' %}
         {% endfor %}
 
         {% if data.Local.CalendarEvents.size > 2 %}

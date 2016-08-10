@@ -108,7 +108,7 @@ var eventSources = [
               {% if event.HasResource %}
                 resourceId: {{ event.Resource.Id }},
               {% endif %}
-              url: '{% Url events, view, id: event.Id, title: event.Name | Clean %}',{% if event.Resource != null %}resources: {{ event.Resource.Id }},{% endif %}
+              url: '{% Url events, tickets, id: event.Id, title: event.Name | Clean %}',{% if event.Resource != null %}resources: {{ event.Resource.Id }},{% endif %}
               title  : '{{ event.Name | Replace: "'", "\'" }}',
               start  : '{{ event.StartDate | Date: 'yyyy' }}-{{ event.StartDate | Date: 'MM' }}-{{ event.StartDate | Date: 'dd' }}T{{ event.StartDate | Date: 'HH' }}:{{ event.StartDate | Date: 'mm' }}Z',
               end  : '{{ event.EndDate | Date: 'yyyy' }}-{{ event.EndDate | Date: 'MM' }}-{{ event.EndDate | Date: 'dd' }}T{{ event.EndDate | Date: 'HH' }}:{{ event.EndDate | Date: 'mm' }}Z',

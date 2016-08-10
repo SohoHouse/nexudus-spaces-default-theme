@@ -76,3 +76,21 @@ span.label {
   background-color: $bg;
   color: rgba($dark, .4);
 }
+
+@media (max-width: 767px) {
+  .hidden-desktop {
+    display:initial !important;
+  }
+
+  .visible-desktop {
+    display: none !important;
+  }
+
+  .visible-phone {
+    display: initial !important;
+  }
+
+  .hidden-phone {
+    display: none !important;
+  }
+}

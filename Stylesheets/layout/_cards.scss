@@ -10,7 +10,7 @@ article.card {
   width: 100%;
   overflow: hidden;
 
-  &:hover {
+  &:not(.card--no-hover):hover {
     box-shadow: 0 15px 25px rgba(black, 0.3), 0 7px 10px rgba(black, 0.1);
     .card-description {
       opacity: 0;
@@ -81,17 +81,20 @@ article.card {
         }
       }
       &:first-of-type {
-        padding-left: 60%;
+        padding-left: 55%;
         min-height: 400px;
         .card-image {
-          width: 60%;
+          width: 55%;
+        }
+        .card-content {
+          padding-bottom: 0;
         }
         .card-title {
           font-size: 2em;
-          margin: 40px 0;
+          line-height: 150%;
         }
         .card-hover {
-          left: 60%;
+          left: 55%;
           text-align: center;
           .btn-orange {
             margin-bottom: 20px;
@@ -135,12 +138,16 @@ article.card {
   @include body-font;
   opacity: 1;
   transition: .2s opacity ease;
-  max-height: 100px;
+  max-height: 100%;
   overflow: hidden;
 
   * {
     color: rgba($dark, 0.4);
   }
+}
+
+.card--no-hover a {
+  pointer-events: none;
 }
 
 .resource_features {

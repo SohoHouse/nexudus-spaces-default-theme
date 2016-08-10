@@ -7,6 +7,10 @@ textarea:focus {
   outline: 0;
 }
 
+label {
+  display: inline-block;
+}
+
 input {
   
   &[type="text"], 
@@ -23,6 +27,7 @@ input {
   &[type="search"], 
   &[type="tel"], 
   &[type="color"] {
+    @include body-font;
     box-shadow: none !important;
     padding: 22px 20px;
     box-sizing: border-box;
@@ -192,6 +197,7 @@ label.checkbox {
 select.select--number {
   width: 35px;
   border: 0;
+  background-color: transparent;
   background-image: url('/images/asset_select-arrows.png');
   background-position: right bottom 4px;
   appearance: none;
@@ -202,6 +208,10 @@ select.select--number {
   font-size: 12px;
   margin-top: -5px;
   padding: 0 5px; 
+
+  &[disabled] {
+    opacity: 0.5;
+  }
 }
 
 .input-append {

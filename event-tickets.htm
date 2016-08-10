@@ -2,34 +2,28 @@
 {% block title %}{{ data.Local.Event.Name }} | {% T Tickets %} | {{ data.Business.Name }}{% endblock %}
 {% block content %}
 <div id="wrapper">
+  <div id="main" class="container basic">
+    <div class="row card-wrapper--list">
+      <article class="card span card--no-hover">
+        <a href="{% Url Events, Tickets, Id: data.Local.Event.Id, title: data.Local.Event.Name | Clean %}">
+          <div class="card-image" style="background-image: url({% Url Events, GetLargeImage, id: data.Local.Event.Id, w: 870 %})"></div>
+        </a>
+        <div class="card-content">
+          <a class="card-meta" href="{% Url Events, ICal, Id: data.Local.Event.Id %}">{{ data.Local.Event.StartDate | Date: 'dd MMMM - h:mmtt' }}</a>
+          <h2 class="card-title"><a href="{% Url Events, Tickets, Id: data.Local.Event.Id, title: data.Local.Event.Name | Clean %}">{{ data.Local.Event.Name | StripHtml }}</a></h2>
+          <div class="card-description">
+            {{ data.Local.Event.ShortDescription | StripHtml | MarkDown }}
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
   <!-- CONTAINER -->
   <div id="main" class="container">
     <div class="row">
 
       <!-- CONTENT -->
       <section id="content" class="span12">
-        <article class="post">
-          <h2 class="page-title"><a href="{% Url events, view, id: data.Local.Event.Id, title: data.Local.Event.Name | Clean %}">{{ data.Local.Event.Name }}</a></h2>
-          <ul class="post-info">
-            <li>
-              <span aria-hidden="true" class="icon i-16 icon-calendar"></span> <a href="#">{{ data.Local.Event.StartDate | Date: 'D' }} @ {{ data.Local.Event.StartDate | Date: 'hh:mm tt' }}</a>
-            </li>
-          </ul>
-
-          <div class="row">
-            {% if data.Local.Event.HasSmallImage %}
-            <div class="span2">
-              <a href="{% Url Events, View, Id: data.Local.Event.Id, title: data.Local.Event.Name | Clean %}" class="thumbnail pull-left">
-                <img style="width:100%" src="{% Url Events, GetSmallImage, id: data.Local.Event.Id, h: 200, w: 200 %}" alt="{{ data.Local.Event.Title | StripHtml }}" class="entry-image" />
-              </a>
-              <div class="clearfix"></div>
-            </div>
-            {% endif %}
-            <div class="{% if data.Local.Event.HasSmallImage %}span10{%else%}span12{%endif%}">
-              {{ data.Local.Event.ShortDescription | StripHtml | MarkDown }}
-            </div>
-          </div>
-        </article>
 
         <div class="body-content" id="tickets">
 
@@ -140,7 +134,6 @@
                 <thead>
                   <tr>
                     <th class="span8">{% T Product %}</th>
-                    <th class="span1 hidden-phone">{% T Price %}</th>
                     <th class="span1 hidden-phone">{% T Qty. %}</th>
                   </tr>
                 </thead>
@@ -167,40 +160,18 @@
                       </small>
                       <div class="visible-phone">
                         <br />
-                        <select style="width:50px" data-bind="value: Quantity, optionsCaption: '', options: qtys, visible: IsAvailableNow() && !SoldOut()"></select>
-                        <select data-bind="visible: !IsAvailableNow() || SoldOut()" disabled="disabled" style="width:50px"><option>0</option></select>
-                        x
-                        <span data-bind="text: PriceFormatted"></span>
-
+                        <br />
+                        <select class="select--number" style="width:50px" data-bind="value: Quantity, optionsCaption: '0', options: [1, 2], visible: IsAvailableNow() && !SoldOut()"></select>
+                        <select class="select--number" data-bind="visible: !IsAvailableNow() || SoldOut()" disabled="disabled" style="width:50px"><option>0</option></select>
                       </div>
                     </td>
-                    <td class="hidden-phone"><span data-bind="text: PriceFormatted"></span></td>
                     <td class="hidden-phone">
-                      <select style="width:50px" data-bind="value: Quantity, optionsCaption: '', options: qtys, visible: IsAvailableNow() && !SoldOut()"></select>
-                      <select data-bind="visible: !IsAvailableNow() || SoldOut()" disabled="disabled" style="width:50px"><option>0</option></select>
+                      <select class="select--number" style="width:50px" data-bind="value: Quantity, optionsCaption: '0', options: [1, 2], visible: IsAvailableNow() && !SoldOut()"></select>
+                      <select class="select--number" data-bind="visible: !IsAvailableNow() || SoldOut()" disabled="disabled" style="width:50px"><option>0</option></select>
                     </td>
                   </tr>
 
                 </tbody>
-              </table>
-              <table class="table" style="border-top: 1px solid black">
-                <tbody>
-                  <tr data-bind="visible: availableCredit() > 0">
-                    <th class="span10"><p class="text-right">{% T Event Credit: %}</p></th>
-                    <th class="span2">
-                      {{ data.Business.Currency.Code }}
-                      <span data-bind="text: availableCredit().toFixed(2)"></span>
-                    </th>
-                  </tr>
-                  <tr>
-                    <th class="span10 hidden-phone"><p class="text-right">{% T One-off Payment: %}</p></th>
-                    <th class="span2">
-                      {{ data.Business.Currency.Code }}
-                      <span data-bind="text: totalOneOff"></span>
-                    </th>
-                  </tr>
-                </tbody>
-
               </table>
 
 
@@ -209,21 +180,21 @@
           <div class="row-fluid" style="display: none" data-bind="visible: attendees().length > 0">
             <div class="span12">
               <h3>{% T Attendees %}</h3>
-              <p>
+              <p class="body-font">
                 {% T Please type the name and email address of each person attending this event. They will receive a notification and their ticket by email %}
               </p>
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th class="span3">{% T Ticket %}</th>
-                    <th class="span6 hidden-phone">{% T Fullname %}</th>
-                    <th class="span3 hidden-phone">{% T Email %}</th>
+                    <th></th>
+                    <th class="hidden-phone">{% T Fullname %}</th>
+                    <th class="hidden-phone">{% T Email %}</th>
                   </tr>
                 </thead>
                 <tbody data-bind="foreach: attendees">
                   <tr>
                     <td>
-                      <strong><span data-bind="text: productName"></span></strong><br /><br />
+                      <span data-bind="text: 'Attendee ' + ($index() + 1)"></span><br /><br />
                       <div class="visible-phone row-fluid">
                         {% T Fullname %}<br />
                         <input class="span12" data-bind="value: fullName" type="text" />
@@ -244,7 +215,7 @@
               </table>
 
               <div class="pull-right">
-                <button class="btn btn-orange" data-bind="click: function () { selectedProducts().length == 0 ? doPurchase() : confirmPurchase() }">{% T Continue %}</button>
+                <button class="btn btn-orange" data-bind="click: doPurchase, enable: doPurchaseEnabled, text: doPurchaseEnabled() ? '{% T Continue %}' : '{% T Please wait... %}'">{% T Continue %}</button>
               </div>
 
             </div>

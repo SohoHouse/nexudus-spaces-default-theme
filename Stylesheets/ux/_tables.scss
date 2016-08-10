@@ -23,6 +23,11 @@ table {
     &:hover td {
       background-color: rgba($secondary, .05) !important;
     }
+
+    .row,
+    .row-fluid {
+      display: block;
+    }
   }
 
   td, th {
