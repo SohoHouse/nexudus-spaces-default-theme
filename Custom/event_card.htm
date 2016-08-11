@@ -1,4 +1,13 @@
-<article class="card span">
+{% assign hasTickets = ev.TicketsPage != null %}
+{% assign soldOut = false %}
+{% if hasTickets %}
+  {% assign soldOut = true %}
+  {% for prod in ev.EventProducts %}
+    {% if prod.SoldOut == false %}{% assign soldOut = false %}{% endif %}
+  {% endfor %}
+{% endif %}
+
+<article class="card span {% if soldOut or (hasTickets == false) %}card--no-hover{% endif %} {% if soldOut %}card--error{% endif %}">
   <a href="{% Url Events, Tickets, Id: ev.Id, title: ev.Name | Clean %}">
     <div class="card-image" style="background-image: url({% Url Events, GetLargeImage, id: ev.Id, w: 870 %})"></div>
   </a>
@@ -8,10 +17,9 @@
     <div class="card-description">
       {{ ev.ShortDescription | StripHtml | MarkDown }}
     </div>
-    <!-- END POST INFO -->
-    <!-- POST CONTENT -->
+    {% if soldOut %}<h2 class="card-error">{% T Fully Booked %}</h2>{% endif %}
     <div class="card-hover">
-      {% if ev.TicketsPage != null %}
+      {% if hasTickets %}
         <a href="{{ev.TicketsPage}}" class="btn btn-orange">
           <i class="icon-ticket"></i>
           {% T Book Now %}
@@ -29,5 +37,4 @@
       {% endif %}
     </div>
   </div>
-  <!-- END POST CONTENT -->
 </article>

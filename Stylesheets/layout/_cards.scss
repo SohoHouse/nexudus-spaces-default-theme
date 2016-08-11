@@ -10,15 +10,18 @@ article.card {
   width: 100%;
   overflow: hidden;
 
-  &:not(.card--no-hover):hover {
+  &:hover {
     box-shadow: 0 15px 25px rgba(black, 0.3), 0 7px 10px rgba(black, 0.1);
-    .card-description {
-      opacity: 0;
-    }
-    .card-hover {
-      opacity: 1;
-      bottom: 0;
-      pointer-events: auto;
+
+    &:not(.card--no-hover) {
+      .card-description {
+        opacity: 0;
+      }
+      .card-hover {
+        opacity: 1;
+        bottom: 0;
+        pointer-events: auto;
+      }
     }
   }
 
@@ -148,6 +151,17 @@ article.card {
 
 .card--no-hover a {
   pointer-events: none;
+}
+
+.card--error {
+  .card-title {
+    opacity: .5;
+  }
+}
+
+.card-error {
+  color: $error;
+  margin-top: 20px;
 }
 
 .resource_features {
