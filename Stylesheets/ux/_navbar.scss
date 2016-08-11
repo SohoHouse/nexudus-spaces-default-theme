@@ -215,7 +215,7 @@ label[for=sw-collapse] {
     &.active a {
       background-color: $pale;
       background-image: none;
-      color: $accent;
+      color: $accent !important;
       font-weight: bold;
     }
   }

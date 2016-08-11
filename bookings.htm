@@ -30,29 +30,39 @@
       <section id="content" class="span12">
     		{% if data.Resources.size > 0 %}
           <div class="nav nav--calendar">
-            <a class="btn btn-link btn-toggle {% if type == '' and data.Local.Resource == null %}active{% endif %}" data-url="{% Url Bookings, Index %}" href="{% Url Bookings, Index %}">{% T All Bookings %}</a>
-            {% if data.Local.Resource != null %}
-            <a class="btn btn-link btn-toggle active" href="#">{{ data.Local.Resource.Name | TruncateWords: 3 }}</a>
-            {% else %}
-            {% for group in data.ResourceGroups %}
-            {% assign groupKey = group | Clean %}
-            <a class="btn btn-link btn-toggle {% if type == groupKey %}active{% endif %}" data-url="{% Url Bookings, Index, type: groupKey, showAll: data.Local.ShowAll  %}" href="{% Url Bookings, Index, type: groupKey, showAll: data.Local.ShowAll  %}">{{ group }}</a>
-            {% endfor %}
-            {% endif %}
+            <div class="types dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                {% if type != '' %}
+                  {% T {{type}} %}
+                {% elsif data.Local.ShowAll == false %}
+                  {% T My Bookings %}
+                {% else %}
+                  {% T All Bookings %}
+                {% endif %}
+                <b class="caret" style="margin-top: 8px"></b></a>
+              <ul class="dropdown-menu">
+                <li class="{% if type == '' and data.Local.ShowAll == true %}active{% endif %}"><a data-url="{% Url Bookings, Index %}" href="{% Url Bookings, Index %}">{% T All Bookings %}</a></li>
+                <li class="{% if type == '' and data.Local.ShowAll == false %}active{% endif %}"><a data-url="{% Url Bookings, Index, ShowAll: false %}" href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li>
+                {% for group in data.ResourceGroups %}
+                  {% assign groupKey = group | Clean %}
+                  <li class="{% if type == groupKey %}active{% endif %}"><a data-url="{% Url Bookings, Index, type: groupKey  %}" href="{% Url Bookings, Index, type: groupKey %}">{{ group }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
 
             <div class="clearfix pull-right">
-              <div class="dropdown">
+              <div class="filter dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   {% if data.Local.Resource != null %}
-                  {{ data.Local.Resource.Name | TruncateWords: 3 }}
+                    {{ data.Local.Resource.Name | TruncateWords: 3 }}
                   {% else %}
-                  {% T Resources %}
+                    {% T Filter Resources %}
                   {% endif %}
                   <b class="caret" style="margin-top: 8px"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="{% Url Bookings, Index %}">{% T Show all resources %}</a></li>
                   {% for resource in data.Resources %}
-                  <li class="{% if data.Local.Resource.Id == resource.Id %}active{% endif %}"><a data-url="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}" href="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}">{{ resource.Name }}</a></li>
+                    <li class="{% if data.Local.Resource.Id == resource.Id %}active{% endif %}"><a data-url="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}" href="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}">{{ resource.Name }}</a></li>
                   {% endfor %}
                 </ul>
               </div>
