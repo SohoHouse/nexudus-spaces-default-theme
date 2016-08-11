@@ -270,11 +270,11 @@
             </div>
             <label for="Same_Billing_Details" class="checkbox">
               <input onclick="$(this).is(':checked') ? $('#billing-details, #billing-details-form, #billing-details-button').hide(): $('#billing-details, #billing-details-form, #billing-details-button').show()" id="Same_Billing_Details" type="checkbox" {% if hasBillingDetails == false %}checked="checked"{% endif %} />
-                {% T My billing details are the same as my contact details %}
+                {% T My registered company details are the same as my contact details %}
             </label>
           </div>
 
-          <h3 id="billing-details" {% if hasBillingDetails == false %}style="display: none"{% endif %}>{% T Billing Details %}</h3>
+          <h3 id="billing-details" {% if hasBillingDetails == false %}style="display: none"{% endif %}>{% T Registered Company Details %}</h3>
           <div class="form-section" id="billing-details-form" {% if hasBillingDetails == false %}style="display: none"{% endif %}>
             <div class="input-group">
               <label for="Coworker_BillingName">{% T Company Name %}</label>
