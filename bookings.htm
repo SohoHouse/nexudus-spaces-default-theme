@@ -14,7 +14,6 @@
 {% if defaultView == 2 %}{% assign defaultView = 'agendaWeek' %}{% endif %}
 {% if defaultView == 3 %}{% assign defaultView = 'month' %}{% endif %}
 {% if defaultView == 4 %}{% assign defaultView = 'list' %}{% endif %}
-{% if data.Local.ShowAll == false %}{% assign defaultView = 'list' %}{% endif %}
 
 {% assign qsView = data.QueryString["view"] %}
 {% if qsView != null %}{% assign defaultView = qsView %}{% endif %}
