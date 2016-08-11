@@ -46,6 +46,7 @@
                   {% if data.coworker.tariff == null %}
                     <input data-bind="attr: {id: 'add-to-plan-' + $index() }, checked: RegularCharge, visible: Quantity() > 0 && !AlwaysRecurrent() && !AlwaysOneOff()" type="checkbox" />
                     <label class="body-font" data-bind="attr: {for: 'add-to-plan-' + $index() }, visible: Quantity() > 0 && !AlwaysRecurrent() && !AlwaysOneOff()">{% T Add to my plan %}</label>
+                    <label class="body-font" data-bind="visible: Quantity() > 0 && AlwaysRecurrent()">{% T Added to your plan %}</label>
                   {% endif %}
                 </td>
               </tr>

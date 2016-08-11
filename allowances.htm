@@ -192,7 +192,7 @@
               {% endif %}
             </div>
             <p class="pull-right">
-              <a class="btn btn-orange"  href="{% Url Store, Products %}">{% T Buy Additional Services %}</a>
+              <a class="btn btn-orange"  href="{% Url Store, Products %}">{% T Buy Extras %}</a>
             </p>
           </div>
           <!-- END SUMMARY TAB -->
@@ -296,7 +296,7 @@
               </table>
             </div>
             <p class="pull-right" style="margin-top:10px">
-              <a class="btn btn-orange"  href="{% Url Store, Products %}">{% T Buy Additional Services %}</a>
+              <a class="btn btn-orange"  href="{% Url Store, Products %}">{% T Buy Extras %}</a>
             </p>
           </div>
           <!-- TIME PASSES TAB END -->
@@ -304,7 +304,7 @@
           {% if data.Coworker.ExtraServices.size > 0 %}
           <div class="tab-pane" id="extraservices">
             <div class="alert alert-info">
-              {% T The tokens below give you access to book a resource in the space. Some resources are charged  based on the time you used them, some based on the times you used them. %}
+              {% T The tokens below give you access to book a resource in the space. Some resources are charged based on the time you used them, some based on the times you used them. %}
             </div>
             <small>{% T You may need to scroll to see the entire list %}</small>
             <div style="overflow:auto; max-height: 200px">
