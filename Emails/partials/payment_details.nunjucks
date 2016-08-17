@@ -1,0 +1,25 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Please update your payment details' %}
+
+{% block teaser %}
+  Please update your payment details
+{% endblock %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+      <br />Please update your payment details.</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>Click the button below to provide us with your payment details for your ongoing membership.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ button(label='Update Details', href="{businessurl}user/login?t={useraccesstoken}&redirectUrl=%2Finvoices%3Fsp%3D1") }}
+    </td>
+  </tr>
+{% endblock %}
