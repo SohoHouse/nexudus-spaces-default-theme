@@ -68,7 +68,7 @@
           <div class="card-description">{{ resource.Description }}</div>
           <div class="card-hover">
             {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
-              <a href="#" onclick="$('#Booking_Resource').val({{ resource.Id }});createBooking(new Date());return false;" class="btn btn-orange">{% T Make a booking %}</a>
+              <a href="{% Url Bookings, Index, ResourceId: resource.Id%}" class="btn btn-orange">{% T Make a booking %}</a>
             {% else %}
               <a href="{% Url Login, Index, lang: data.Language %}&returnUrl={% Url PublicResources, Details, id: resource.Id, name: resource.Name | Clean %}" class="btn btn-orange">{% T Login to make a booking %}</a>
             {% endif %}
