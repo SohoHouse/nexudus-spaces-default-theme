@@ -40,8 +40,8 @@
                 {% endif %}
                 <b class="caret" style="margin-top: 8px"></b></a>
               <ul class="dropdown-menu">
-                <li class="{% if type == '' and data.Local.ShowAll == true %}active{% endif %}"><a data-url="{% Url Bookings, Index %}" href="{% Url Bookings, Index %}">{% T All Bookings %}</a></li>
-                <li class="{% if type == '' and data.Local.ShowAll == false %}active{% endif %}"><a data-url="{% Url Bookings, Index, ShowAll: false %}" href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li>
+                <li class="{% if type == '' and data.Local.ShowAll == true %}active{% endif %}"><a data-url="{% Url Bookings, Index, ResourceId: data.Local.Resource.Id %}" href="{% Url Bookings, Index %}">{% T All Bookings %}</a></li>
+                <li class="{% if type == '' and data.Local.ShowAll == false %}active{% endif %}"><a data-url="{% Url Bookings, Index, ShowAll: false, ResourceId: data.Local.Resource.Id %}" href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li>
                 {% for group in data.ResourceGroups %}
                   {% assign groupKey = group | Clean %}
                   <li class="{% if type == groupKey %}active{% endif %}"><a data-url="{% Url Bookings, Index, type: groupKey  %}" href="{% Url Bookings, Index, type: groupKey %}">{{ group }}</a></li>
