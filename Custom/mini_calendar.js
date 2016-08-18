@@ -1,7 +1,7 @@
 var vm = new Vue({
   el: '#mini-calendar',
   data: {
-    bookings: bookingsJson,
+    bookings: bookingsJson.concat(eventsJson),
     currentDate: moment().date(1).toDate(),
     activeDate: moment().toDate()
   },
@@ -35,7 +35,7 @@ var vm = new Vue({
     events: function () {
       var evs = {};
       this.bookings.forEach(function (ev) {
-        var formatted = moment(ev.FromTime).format('YYYY-MM-DD');
+        var formatted = moment(ev.FromTime || ev.StartDate).format('YYYY-MM-DD');
         if (!evs[formatted]) evs[formatted] = [];
         evs[formatted].push(ev);
       });
@@ -61,6 +61,9 @@ var vm = new Vue({
   methods: {
     eventsOn: function (day) {
       return this.events[day.format('YYYY-MM-DD')];
+    },
+    linkFor: function (ev) {
+      return ev.TicketsPage || '';
     },
     sortEvents: function (a, b) {
       return moment(a.FromTime) - moment(b.FromTime);

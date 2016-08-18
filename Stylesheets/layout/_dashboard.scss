@@ -213,6 +213,15 @@
     left: 0px;
     top: 7px;
   }
+
+  @media (min-width: $medium) {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 30px;
+    bottom: 30px;
+    overflow-y: auto;
+  }
 }
 
 .dashboard__dots {
