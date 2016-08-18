@@ -16,7 +16,7 @@
           <div class="dashboard__cal">
             <h3 v-text="currentMoment | moment 'MMMM YYYY'"></h3>
             <div class="dashboard__arrows">
-              <a class="dashboard__prev" @click="currentMoment = currentMoment.subtract(1, 'month')">Prev</a>
+              <a class="dashboard__prev" v-if="displayPrev" @click="currentMoment = currentMoment.subtract(1, 'month')">Prev</a>
               <a class="dashboard__next" @click="currentMoment = currentMoment.add(1, 'month')">Next</a>
             </div>
             <table id="mini-calendar-table">

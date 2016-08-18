@@ -13,6 +13,9 @@ var vm = new Vue({
         return d[0];
       });
     },
+    displayPrev: function () {
+      return this.currentMoment.isAfter( moment(), 'month')
+    },
     currentMoment: {
       get: function () {
         return moment(this.currentDate);
