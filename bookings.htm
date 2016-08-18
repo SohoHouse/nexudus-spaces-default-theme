@@ -121,18 +121,18 @@
     var resources = [
       {% if data.Local.Resource == null %}
          {% for resource in data.Resources %}
-         {% assign resourceGroupKey = resource.GroupName | Clean %}
-         {% assign resourceGroupName = resource.GroupName %}
-         {% if resourceGroupKey == '' %}
-         {% assign resourceGroupKey = 'resources' %}
-         {% assign resourceGroupName = 'Resources' %}
-         {% endif %}
-         {% if type == resourceGroupKey or type == '' %}
-         {'id':{{ resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ resource.Name | Replace: "'", "\'" }}')},
-         {% endif %}
+           {% assign resourceGroupKey = resource.GroupName | Clean %}
+           {% assign resourceGroupName = resource.GroupName %}
+           {% if resourceGroupKey == '' %}
+             {% assign resourceGroupKey = 'resources' %}
+             {% assign resourceGroupName = 'Resources' %}
+           {% endif %}
+           {% if type == resourceGroupKey or type == '' %}
+             {'id':{{ resource.Id }}, 'groupName': '{{ resourceGroupName | Replace: "'", "\'" }}', 'title':'{{ resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ resource.Name | Replace: "'", "\'" }}')},
+           {% endif %}
          {% endfor %}
-         {% else %}
-         {'id':{{ data.Local.Resource.Id }}, 'groupName': '{% T resourceGroupName %}', 'title':'{{ data.Local.Resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ data.Local.Resource.Name | Replace: "'", "\'" }}')}
+       {% else %}
+         {'id':{{ data.Local.Resource.Id }}, 'groupName': '{{ resourceGroupName | Replace: "'", "\'" }}', 'title':'{{ data.Local.Resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ data.Local.Resource.Name | Replace: "'", "\'" }}')}
        {% endif %}
     ];
 
@@ -328,11 +328,20 @@
         var loadProducts = function(){
             var bid = $('#booking_id').val();
             var rid = $('#Booking_Resource').val();
-            if(bid && bid > 0 && rid && rid > 0)
+            if(bid && bid > 0 && rid && rid > 0) {
                 return $.post('/en/bookings/GetResourceProducts?bookingId=' + bid + '&resourceId=' + rid);
-            else
+            } else {
                 return $.post('/en/bookings/GetResourceProducts?resourceId=' + $('#Booking_Resource').val());
+            }
         }
+
+        function hideOrShowFields() {
+          var rid = $('#Booking_Resource').val();
+          resource = resources.filter(function(r) {return r.id == rid})[0]
+          $('[data-show-for]').hide()
+          $('[data-show-for="' + resource.groupName + '"]').show()
+        }
+
         var mapData = function(data){
             return vm.bookingProducts = ko.mapping.fromJS(data);
         }
@@ -343,6 +352,7 @@
             return ko.applyBindings(vm);
         }
         var updateProducts = function(){
+            hideOrShowFields();
             $.when(loadProducts())
              .then(updateData)
              .then(checkBooking);

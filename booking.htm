@@ -108,7 +108,7 @@
               </div>
             </td>
           </tr>
-          <tr>
+          <tr data-show-for="Meeting Rooms">
             <td>{% T Number of Attendees %}</td>
             <td>
               <select class="select--number" data-breakdown="Number of Attendees">
@@ -161,7 +161,7 @@
           <small class="body-font">{% T Price plan concessions are not included in this price. %}</small>
           {% endif %}
         </div>
-        <div class="row-fluid hidden-phone">
+        <div class="row-fluid hidden-phone" data-show-for="Meeting Rooms">
           <div class="controls">
             <textarea class="span12" id="Booking_Notes" style="display: none" name="Booking.Notes"></textarea>
             <label>{% T Guest Names %}</label>
