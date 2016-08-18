@@ -3,12 +3,12 @@ var gulp          = require('gulp'),
   $               = gulpLoadPlugins(),
   argv            = require('yargs').argv,
   dotenv          = require('dotenv').config(),
-  fileDestination     = process.env.FILE_DESTINATION || './dest';
+  fileDestinations= process.env.FILE_DESTINATION.split(',') || ['./dest'];
 
 fileSrc = ['./**/*.js', './**/*.css', './**/*.htm', './**/*.json', './**/*.master', './**/*.png', './**/*.jpg', './**/*.jpeg', '!node_modules/**/*', '!package.json', '!gulpfile.js', '!data.json']
 
 var scss = function () {
-  gulp.src('css.scss')
+  return gulp.src('css.scss')
     .pipe($.plumber({
       errorHandler: $.notify.onError("<%= error.message %>")}))
     .pipe($.sass({
@@ -19,15 +19,10 @@ var scss = function () {
       cascade: false
     }))
     .pipe($.if(argv.production, $.cleanCss()))
-    .pipe(gulp.dest(fileDestination));
-  console.log('Built CSS to ' + fileDestination)
 };
 
 var files = function () {
-    
-  gulp.src(fileSrc)
-    .pipe(gulp.dest(fileDestination))
-  console.log('Built Files to ' + fileDestination)
+  return gulp.src(fileSrc)
 };
 
 var emails = function() {
@@ -49,9 +44,24 @@ var emails = function() {
     .pipe(gulp.dest('Emails'))
 };
 
-gulp.task('build:scss', scss);
-gulp.task('build:files', files);
+gulp.task('build:scss', function () {
+  var stream = scss();
+  fileDestinations.forEach(function(dest) {
+    stream.pipe(gulp.dest(dest));
+    console.log('Built CSS to ' + dest)
+  })
+});
+
+gulp.task('build:files', function () {
+  var stream = files();
+  fileDestinations.forEach(function(dest) {
+    stream.pipe(gulp.dest(dest));
+    console.log('Built Files to ' + dest)
+  })
+});
+
 gulp.task('build:emails', emails);
+
 
 gulp.task('default', ['build:scss', 'build:files', 'build:emails'], function () {
   gulp.watch('**/*.scss', ['build:scss']);
