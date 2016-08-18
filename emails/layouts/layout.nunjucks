@@ -60,7 +60,7 @@
                       {% endif %}
                       <tr>
                         <td>
-                          <p>You are receiving this email because you are a member at <a href="{businessurl}">Soho Works</a>.</p>
+                          <p>You are receiving this email because you are a member at <a href="{{ spaceUrl }}">Soho Works</a>.</p>
                         </td>
                       </tr>
                       <tr>

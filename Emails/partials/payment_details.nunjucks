@@ -19,7 +19,7 @@
   </tr>
   <tr>
     <td>
-      {{ button(label='Update Details', href="{businessurl}user/login?t={useraccesstoken}&redirectUrl=%2Finvoices%3Fsp%3D1") }}
+      {{ button(label='Update Details', href=spaceUrl + "/en/user/login?t={useraccesstoken}&redirectUrl=%2Fen%2Finvoices%3Fsp%3D1") }}
     </td>
   </tr>
 {% endblock %}

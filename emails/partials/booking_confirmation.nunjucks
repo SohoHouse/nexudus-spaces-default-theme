@@ -1,6 +1,6 @@
 {% extends "layout.nunjucks" %}
 {% set subject = 'Booking Confirmation' %}
-{% set footer = '*Please keep in mind that this price does not include any credit you may have available in your account or as part of your price plan. If at the time the booking is charged to your account there is credit available, it will be used towards the price of this booking. You can check your credit at any point in <a href="{businessurl}/en/allowances">your account</a>.' %}
+{% set footer = '*Please keep in mind that this price does not include any credit you may have available in your account or as part of your price plan. If at the time the booking is charged to your account there is credit available, it will be used towards the price of this booking. You can check your credit at any point in <a href="{{ spaceUrl }}/en/allowances">your account</a>.' %}
 
 {% block teaser %}
   We've received your booking request
@@ -37,7 +37,7 @@
   </tr>
   <tr>
     <td>
-      {{ button(label='Go to your calendar', href="{businessurl}/en/bookings") }}
+      {{ button(label='Go to your calendar', href=spaceUrl +"/en/bookings") }}
     </td>
   </tr>
 {% endblock %}

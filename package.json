@@ -4,6 +4,7 @@
     "gulp": "*",
     "gulp-autoprefixer": "*",
     "gulp-clean-css": "*",
+    "gulp-data": "*",
     "gulp-if": "*",
     "gulp-inline-css": "^3.1.0",
     "gulp-inline-source": "^2.1.0",

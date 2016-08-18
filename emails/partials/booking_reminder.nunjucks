@@ -35,7 +35,7 @@
   </tr>
   <tr>
     <td>
-      {{ button(label='Go to your calendar', href="{businessurl}/en/bookings") }}
+      {{ button(label='Go to your calendar', href= spaceUrl + "/en/bookings") }}
     </td>
   </tr>
 {% endblock %}

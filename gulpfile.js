@@ -5,7 +5,7 @@ var gulp          = require('gulp'),
   dotenv          = require('dotenv').config(),
   fileDestination     = process.env.FILE_DESTINATION || './dest';
 
-fileSrc = ['./**/*.js', './**/*.css', './**/*.htm', './**/*.json', './**/*.master', './**/*.png', './**/*.jpg', './**/*.jpeg', '!node_modules/**/*', '!package.json', '!gulpfile.js']
+fileSrc = ['./**/*.js', './**/*.css', './**/*.htm', './**/*.json', './**/*.master', './**/*.png', './**/*.jpg', './**/*.jpeg', '!node_modules/**/*', '!package.json', '!gulpfile.js', '!data.json']
 
 var scss = function () {
   gulp.src('css.scss')
@@ -34,6 +34,9 @@ var emails = function() {
   return gulp.src('Emails/partials/*.nunjucks')
     .pipe($.plumber({
       errorHandler: $.notify.onError("<%= error.message %>")}))
+    .pipe($.data(function () {
+      return require('./data.json')
+    }))
     .pipe($.nunjucksRender({
       path: ['Emails/layouts']
     }))

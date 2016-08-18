@@ -20,7 +20,7 @@
   </tr>
   <tr>
     <td>
-      {{ button(label='Top up my credit', href="{businessurl}/en/store/products") }}
+      {{ button(label='Top up my credit', href=spaceUrl + "/en/store/products") }}
     </td>
   </tr>
 {% endblock %}
