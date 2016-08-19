@@ -65,6 +65,11 @@ var vm = new Vue({
     linkFor: function (ev) {
       return ev.TicketsPage || '';
     },
+    timesFor: function (ev) {
+      var start = moment(ev.FromTime || ev.StartDate),
+          end = moment(ev.ToTime || ev.EndDate);
+      return start.format('HH:mm') + ' - ' + end.format('HH:mm');
+    },
     sortEvents: function (a, b) {
       return moment(a.FromTime) - moment(b.FromTime);
     },

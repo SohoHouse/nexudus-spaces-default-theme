@@ -159,6 +159,8 @@
 
 .dashboard__list {
   position: relative;
+  width: 100%;
+  
   .dashboard__link {
     position: absolute;
     bottom: 0;
@@ -180,8 +182,6 @@
   }
 
   .dashboard__list {
-    width: 100%;
-
     .dashboard__link {
       left: auto;
       bottom: auto;

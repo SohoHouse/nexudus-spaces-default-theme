@@ -44,7 +44,7 @@
                 <a :href="linkFor(event)">
                   <span class="dashboard__dot"></span>
                   <p>{% raw %}
-                    {{ event.FromTime | moment 'HH:mm' }} - {{ event.ToTime | moment 'HH:mm' }}
+                    {{ timesFor(event) }}
                   {% endraw %}</p>
                   <h3 v-text="event.ResourceName || event.Name"></h3>
                 </a>
