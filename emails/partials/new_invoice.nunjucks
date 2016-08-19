@@ -1,15 +1,16 @@
 {% extends "layout.nunjucks" %}
 {% set subject = 'New Invoice' %}
+{% set signoff = 'Stephen Wood, Works Manager' %}
 
 {% block teaser %}
-  A new invoice has been raised.
+  A new invoice has been raised on your account.
 {% endblock %}
 
 {% block content %}
   <tr>
     <td>
       <h1>Hi {salutation},
-      <br />A new invoice has been raised.</h1>
+      <br />A new invoice has been raised on your account.</h1>
     </td>
   </tr>
   <tr>

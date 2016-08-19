@@ -1,5 +1,6 @@
 {% extends "layout.nunjucks" %}
 {% set subject = 'Payment Received' %}
+{% set signoff = 'Stephen Wood, Works Manager' %}
 
 {% block teaser %}
   We have received your payment

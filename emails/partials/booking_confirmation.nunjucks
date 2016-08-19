@@ -10,7 +10,7 @@
   <tr>
     <td>
       <h1>Hi {salutation},
-      <br />Your booking has been successfully created.</h1>
+      <br />You're booked in {resourceName}.</h1>
     </td>
   </tr>
   <tr>
@@ -32,7 +32,7 @@
   </tr>
   <tr>
     <td>
-      <p>You can view and edit this and any of your other bookings from the calendar.</p>
+      <p>You can view and edit this and any of your other bookings via your calendar.</p>
     </td>
   </tr>
   <tr>

@@ -1,5 +1,6 @@
 {% extends "layout.nunjucks" %}
 {% set subject = 'Please update your payment details' %}
+{% set signoff = 'Stephen Wood, Works Manager' %}
 
 {% block teaser %}
   Please update your payment details

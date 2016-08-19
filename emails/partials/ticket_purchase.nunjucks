@@ -37,7 +37,7 @@
   </tr>
   <tr>
     <td>
-      <p>Please let us know if for whatever reason you are unable to come.</p>
+      <p>Please reply to this email to let us know if for whatever reason you are unable to come.</p>
     </td>
   </tr>
 {% endblock %}

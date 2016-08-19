@@ -1,5 +1,6 @@
 {% extends "layout.nunjucks" %}
 {% set subject = 'Direct Debit Setup' %}
+{% set signoff = 'Stephen Wood, Works Manager' %}
 
 {% block teaser %}
   Setup your direct debit payment
@@ -14,7 +15,7 @@
   </tr>
   <tr>
     <td>
-      <p>Please click the button below to set up your Direct Debit agreement.</p>
+      <p>Please click the button below to confirm and set up your Direct Debit agreement.</p>
     </td>
   </tr>
   <tr>
