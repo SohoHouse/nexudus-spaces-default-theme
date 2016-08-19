@@ -1,6 +1,8 @@
 <body style="margin: 0 !important; padding: 0 !important;" bgcolor="#F5FAFF">
   {% from 'macros.nunjucks' import button, field %}
   {% set subject = subject | default('{businessname}') %}
+  {% set signoff = signoff | default('Stephen and the Soho Works team') %}
+
   <link rel="stylesheet" type="text/css" href="../layouts/style.css">
   <link rel="stylesheet" type="text/css" href="../layouts/no-inline.css" inline>
   <!-- HIDDEN PREHEADER TEXT -->
@@ -43,7 +45,7 @@
                       {%- block content %}{%- endblock %}
                       <tr><td>
                         <p>Thanks,</p>
-                        <p> Stephen and your Soho Works team</p>
+                        <p>{{ signoff }}</p>
                       </td></tr>
                     </table>
                   </td>
