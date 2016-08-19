@@ -21,12 +21,12 @@
         <!-- MAIN NAVIGATION -->
         <nav class="sw-collapse">
           <ul class="nav nav-pills pull-right">
-            <li id='dashboard' class="{%if data.Controller == 'publichome'%}active{%endif%}"><a href="{% Url PublicHome, Index %}">{% T Home %}</a></li>
+            <li id='home' class="{%if data.Controller == 'publichome'%}active{%endif%}"><a href="{% Url PublicHome, Index %}">{% T Home %}</a></li>
             <li id='events' class="{%if data.Controller == 'events'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Events, Index %}">{% T Events %}</a></li>
-            <li id="events {%if data.Controller == 'bookings' and data.Local.ShowAll %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index %}">{% T Bookings %}</a></li>
-            <li id='meeting-rooms' class="{%if data.Controller == 'publicresources'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Space resources %}</a></li>
-            {% if data.Setting_PublicWebSite_Contact %}
-            <li id="contact" class="{%if data.Controller == 'contact'%}active{%endif%}"><a href="{% Url Contact, Index %}">{% T Contact %}</a></li>
+            <li id="bookings" class="{%if data.Controller == 'bookings' and data.Local.ShowAll %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index %}">{% T Bookings %}</a></li>
+            <li id='resources' class="{%if data.Controller == 'publicresources'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Space resources %}</a></li>
+            {% if data.Setting_PublicWebSite_Help %}
+              <li id="support" class="{%if data.Controller == 'support'%}active{%endif%}"><a href="{% Url Support, Index %}">{% T Support %}</a></li>
             {% endif %}
             {% if data.Setting_PublicWebSite_MyAccount %}
               {% if data.UserIsLoggedIn %}
