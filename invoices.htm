@@ -207,6 +207,10 @@
             {% if data.Setting_Paypal_Adaptive_Enabled %}
             <a class="btn btn-responsive btn-grey btn-spacer pull-right" href="https://{{ data.Domain }}/{{ data.Language }}/payments/PayPalAdaptive"><span aria-hidden="true" class="icon i-16 icon-credit"></span> {% T Link PayPal Account %}</a>
             {% endif %}
+
+            {% if data.Coworker.HasGoCardlessContractNumber == false %}
+            <a class="btn btn-responsive btn-grey btn-spacer pull-right" href="https://spaces.nexudus.com/Callbacks/GoCardlessPre/{{ data.Coworker.Id }}"><span aria-hidden="true" class="icon i-24 icon-library"></span> {% T Setup Direct Debit  %}</a>
+            {% endif %}
           </div>
 
 

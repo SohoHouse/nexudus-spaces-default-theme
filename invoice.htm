@@ -2,212 +2,277 @@
   <head>
     <title>Invoice. {{ data.Local.Invoice.InvoiceNumber }}</title>
 
-    <link href="/Content/themes/admin/css/Invoice.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="{% Url Page, Index, name: 'invoice.css' %}">
+    <link rel="stylesheet" type="text/css" href="http://sohoworksshoreditch.spaces.nexudus.com/en/page/invoice.css">
+    <style type="text/css">
+      @font-face {
+        font-family: 'Varela Round';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Varela Round'), local('VarelaRound-Regular'), url(https://fonts.gstatic.com/s/varelaround/v7/APH4jr0uSos5wiut5cpjrqRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+      }
+
+      * {
+        font-family: "Varela Round", sans-serif;
+        font-style: normal;
+        font-weight: 100;
+        letter-spacing: 0.9px;
+        text-rendering: optimizeLegibility;
+        text-shadow: none !important;
+        font-size: 12px;
+        color: #172433;
+      }
+
+      #title {
+        color: #2E9BE5;
+        margin-bottom: 100px;
+        text-transform: uppercase;
+      }
+
+      .highlight {
+        color: #2E9BE5;
+      }
+
+      .numeric {
+        text-align: right !important;
+      }
+
+      .fade {
+        opacity: 0.5;
+      }
+
+      .pull-right {
+        float: right;
+      }
+
+      h1 {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      h2 {
+        color: #8E8E8D;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table.invoice-boxes {
+        table-layout: fixed;
+      }
+
+      table.invoice-boxes td {
+        vertical-align: top;
+        padding: 0 10px;
+      }
+
+      table.invoice-boxes td:last-child {
+        text-align: right;
+        padding-right: 0;
+      }
+
+      table.invoice-boxes td:first-child {
+        padding-left: 0;
+      }
+
+      div.invoice-box {
+        border-top: 1px solid #ECECEC;
+        height: 130px;
+      }
+
+      table.invoice-lines {
+        margin: 50px 0
+      }
+
+      table.invoice-lines th, 
+      table.invoice-lines td {
+        padding: 12px 5px 12px 0;
+        line-height: 140%;
+      }
+
+      table.invoice-lines th {
+        color: #8E8E8D;
+        text-align: left;
+        border-bottom: 1px solid #ECECEC;
+      }
+
+      table.invoice-lines tr:first-child th {
+        border-top: 1px solid #ECECEC;
+      }
+
+      table.invoice-lines td {
+        border-bottom: 1px dotted #ECECEC;
+      }
+
+      table.invoice-lines tr.foot th {
+        color: #172433 !important;
+      }
+      table.invoice-lines tr.bold th {
+        font-weight: bold !important;
+      }
+
+      .payment-details {
+        margin: 30px 0 50px;
+      }
+    </style>
   </head>
   <body>
-    <div class="block-content">
-      <div class="float-right" style="margin-top:-43px">
-        <button type="button"><img src="/Content/themes/admin/images/icons/fugue/printer.png" width="16" height="16"> Print</button>
-      </div>
-
-      <div id="invoice" class="pagestyle">
-        <div id="invoice-header">
-          {% if data.Local.Invoice.Business.HasLogo %}
-          <img class="logo" src="{% Url Business, GetLogo, h: 100 %}">
-          {% else %}
-          <div class="title" class="logo" style="font-size: 4em; color: Black; font-family: Open Sans, sans-serif;">{{ data.Local.Invoice.Business.Name }}</div>
-          {% endif %}
-          <div class="vcard" id="company-address">
-            <div class="fn org">
-              <strong>{{ data.Setting_Billing_BillToName }}</strong>
+    {% capture currencySymbol %}
+      {% case data.Local.Invoice.Currency.Code %}
+      {% when 'GBP' %}£
+      {% when 'USD' %}$
+      {% when 'EUR' %}€
+      {% endcase %}
+    {% endcapture %}
+    <h1 id="title">Soho Works</h1>
+    <table class="invoice-boxes">
+      <tbody>
+        <tr>
+          <td>
+            <div class="invoice-box">
+              <h2>Due Amount</h2>
+              <h1>{{ data.Local.Invoice.TotalAmount | FormatDecimal: 'N' | Prepend:currencySymbol }}</h1>
             </div>
-            <div class="adr">
-              <div class="street-address">
-                {{ data.Local.TaxIDCode }}
-              </div>
-              <div class="street-address">
-                {{ data.Local.BillToAddress | Replace: 'Not Available', '' | NewlineToBr }}
-              </div>
-              <div class="locality">
-                {{ data.Local.BillToCity | Replace: 'Not Available', '' }}
-              </div>
-              <div id="company-postcode">
-                <span class="postal-code">{{ data.Local.BillToPostCode | Replace: 'Not Available', '' }}</span>
-              </div>
+          </td>
+          <td>
+            <div class="invoice-box">
+              {% if data.Local.Invoice.Paid == false %}
+                <h2>{% T Due Date %}</h2>
+                <h1>{{ data.Local.Invoice.DueDate | Date: 'dd MMMM yyyy' }}</h1>
+              {% else %}
+                <h2>{% T Paid Date %}</h2>
+                <h1>{{ data.Local.Invoice.PaidOn | Date: 'dd MMMM yyyy' }}</h1>
+              {% endif %}
             </div>
-          </div>
-      </div>
-      <div id="invoice-info" style="width: 400px">
-        <h2>
-          {% if data.Local.Invoice.TotalAmount > 0 % %}
-          {% T Invoice %}
-          {% else %}
-          {% T Credit Note %}
-          {% endif %}
-          <strong>{{ data.Local.Invoice.InvoiceNumber }}</strong></h2>
-          <p>{{ data.Local.Invoice.CreatedOn | Date: 'D' }}</p>
-          <br/>
-        {% if data.Local.Invoice.PurchaseOrder.size > 0%}
-        <strong>{% T Purchase Order %}</strong>: {{ data.Local.Invoice.PurchaseOrder }}
-        {% endif %}
-        {% if data.Local.Invoice.InvoiceFromDate %}
-        <strong>{% T Period %}</strong>:
-        {{ data.Local.Invoice.InvoiceFromDate | Date: 'M' }}
-        -
-        {{ data.Local.Invoice.InvoiceToDate | Date: 'M' }}
-        {% endif %}
-        <p id="invoice-total">
-        </p>
-        <p id="payment-due">
-          {% if data.Local.Invoice.Paid == false %}
-          <strong>{% T Due %}</strong>:
-          {{ data.Local.Invoice.DueDate | Date: 'D' }}
-          {% else %}
-          <strong>{% T Paid %}</strong>:
-          {{ data.Local.Invoice.PaidOn | Date: 'D' }}
-          {% endif %}
-        </p>
-      </div>
-      <div class="vcard" id="client-details">
-        <div class="org">
-          {{ data.Local.Invoice.BillToName | Replace: 'Not Available', '' }}
-        </div>
-        <div class="adr">
-          <div class="street-address">
-            {{ data.Local.Invoice.BillToTaxIDNumber | Replace: 'Not Available', '' }}
-          </div>
-          <div class="street-address">
-            {{ data.Local.Invoice.BillToAddress | Replace: 'Not Available', '' | NewLineToBr }}
-          </div>
-          <div class="locality">
-            {{ data.Local.Invoice.BillToCity | Replace: 'Not Available', '' }}
-          </div>
-          <div id="client-postcode">
-            <span class="postal-code">{{ data.Local.Invoice.BillToPostCode | Replace: 'Not Available', '' }}</span>
-          </div>
-        </div>
-      </div>
-      <table id="invoice-amount">
-        <thead>
-          <tr id="header_row">
-            <th class="quantity_th">
-              {% T Quantity %}
-            </th>
-            <th class="details_notax_th">
-              {% T Details %}
-            </th>
-            <th class="unitprice_th">
-              {% T Unit Price %}
-            </th>
-            <th class="subtotal_th">
-              {% T SubTotal %}
-            </th>
-            <th class="subtotal_th">
-              {% T Tax %}
-            </th>
-          </tr>
-        </thead>
-        <tfoot>
-          {% for taxCat in data.Local.Invoice.TaxCategories %}
-          <tr id="">
-            <td colspan="2">
-              &nbsp;
-            </td>
-            <td colspan="1" class="total" id="total_currency">
-              {% T Tax %}
-              ({{ taxCat.Rate | FormatDecimal: 'N2' }}%)
-            </td>
-            <td class="total" id="total_amount">
-              {{ taxCat.TaxSubTotal | FormatDecimal: 'N2' }}
-            </td>
-            <td>&nbsp;</td>
-          </tr>
-          {% endfor %}
-          <tr id="total_tr">
-            <td colspan="2">
-              &nbsp;
-            </td>
-            <td colspan="1" class="total" id="Td1">
-                {% T Total %}
-                (<span class="currency">{{ data.Local.Invoice.Currency.Code  }}</span>):
-            </td>
-            <td class="total" id="Td2">
-              {{ data.Local.Invoice.TotalAmount | FormatDecimal: 'N' }}
-            </td>
-            <td>&nbsp;</td>
-          </tr>
-          {% for payment in data.Local.Invoice.Payments %}
-          <tr id="settlement_tr">
-            <td colspan="3" class="item_r">
+          </td>
+          <td>
+            <div class="invoice-box">
+              <h2>Invoice Details</h2>
+              <p>{{ data.Local.Invoice.InvoiceNumber }}</p>
+              {% if data.Local.Invoice.InvoiceFromDate %}
+                <p>{{ data.Local.Invoice.InvoiceFromDate | Date: 'dd MMMM yyyy' }} - {{ data.Local.Invoice.InvoiceToDate | Date: 'dd MMMM yyyy' }}</p>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="invoice-box">
+            </div>
+          </td>
+          <td>
+            <div class="invoice-box">
+              <h2>Billing Date</h2>
+              <p>{{ data.Local.Invoice.CreatedOn | Date: 'dd MMMM yyyy' }}</p>
+            </div>
+          </td>
+          <td>
+            <div class="invoice-box">
+              <h2>Billed To</h2>
+              <p>{{ data.Local.Invoice.BillToName }}</p>
+              <p>{{ data.Local.Invoice.BillToAddress | Replace: 'Not Available', '' | NewlineToBr }}</p>
+              <p>{{ data.Local.Invoice.BillToCity | Replace: 'Not Available', '' }}</p>
+              <p>{{ data.Local.Invoice.BillToPostCode | Replace: 'Not Available', '' }}</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="invoice-lines">
+      <tbody>
+        <tr>
+          <th>Quantity</th>
+          <th>Details</th>
+          <th>Purchase Date</th>
+          <th class="numeric">Unit Price</th>
+          <th class="numeric">Subtotal</th>
+          <th class="numeric">Tax</th>
+        </tr>
+        {% for line in data.Local.Invoice.Lines %}
+        {% assign desc = line.Description | Remove: 'Credit note for Invoice' | Remove: '\"' | Remove: 'Team charge. Member: ' | Remove: '\.' | Split: '- ' %}
+        <tr>
+          <td>{{ line.Quantity }}</td>
+          <td>
+            {{ desc | Last }}
+            {% if desc.size == 2 %}
+            <br /><span class="fade">Team Charge: {{ desc | First }}</span>{% endif %}
+          </td>
+          <td>{{ line.CreatedOn | Date: 'dd-MM-yy' }}</td>
+          <td class="numeric">{{ line.UnitPriceFormatted }}</td>
+          <td class="numeric">{{ line.SubTotalFormatted }}</td>
+          <td class="numeric">{{ line.TaxPercentage | FormatDecimal: 'N' }}%</td>
+        </tr>
+        {% endfor %}
+        {% for taxCat in data.Local.Invoice.TaxCategories %}
+        <tr class="foot">
+          <th colspan="3"></th>
+          <th class="numeric">Tax Amount ({{ taxCat.Rate | FormatDecimal: 'N2' }}%)</th>
+          <th class="numeric">{{ taxCat.TaxSubTotal | FormatDecimal: 'N' | Prepend:currencySymbol }}</th>
+          <th></th>
+        </tr>
+        {% endfor %}
+        <tr class="foot bold">
+          <th colspan="3"></th>
+          <th class="numeric">Total Amount</th>
+          <th class="numeric">{{ data.Local.Invoice.TotalAmount | FormatDecimal: 'N' | Prepend:currencySymbol }}</th>
+          <th></th>
+        </tr>
+        {% for payment in data.Local.Invoice.Payments %}
+          <tr class="foot bold">
+            <th colspan="3"></th>
+            <th class="numeric">
               {% T Paid On %}
-              {{ payment.PaymentDate | Date: 'D' }} ({{ payment.PaymentGatewayName | Replace: 'MultiGateway', 'Card' | Replace: 'Manual', 'Credit' }})
-            </td>
-            <td class="item_r">
-              {{ payment.Credit | FormatDecimal: 'N' }}
-            </td>
-            <td>&nbsp;</td>
+              {{ payment.PaymentDate | Date: 'dd MMMM yyyy' }} ({{ payment.PaymentGatewayName | Replace: 'MultiGateway', 'Card' | Replace: 'Manual', 'Credit' }})
+            </th>
+            <th class="numeric">{{ payment.Credit | FormatDecimal: 'N' }}</th>
+            <th></th>
           </tr>
-          {% endfor %}
-          <tr id="due_tr">
-            <td colspan="3" class="total">
-              {% T Due %}
-              (<span class="currency">{{ data.Local.Invoice.Currency.Code  }}</span>):
-            </td>
-            <td class="total">
-              {{ data.Local.Invoice.TransactionTotalAmount | FormatDecimal: 'N' }}
-            </td>
-            <td>&nbsp;</td>
-          </tr>
-        </tfoot>
-        <tbody id="invoice_items">
-          {% for line in data.Local.Invoice.Lines %}
-          <tr data-model="invoice_item" class="item odd" id="invoice_item_{{ data.Local.Invoice.Id }}">
-            <td class="item_l quantity_td">
-              {{ line.Quantity }}
-            </td>
-            <td class="item_l description_td">
-              {{ line.Description }}
-            </td>
-            <td class="item_r price_td">
-              {{ line.UnitPrice | FormatDecimal: 'N' }}
-            </td>
-            <td class="item_r subtotal_td">
-              {{ line.SubTotal | FormatDecimal: 'N' }}
-            </td>
-            <td class="item_r subtotal_td">
-              {{ line.TaxPercentage | FormatDecimal: 'N' }}%
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <div id="payment-details">
-        <h2>
-          {% T Payment Details %}</h2>
-        <div id="bank_name">
-          {{ data.Local.BankName }}
+        {% endfor %}
+        <tr class="foot bold">
+          <th></th>
+          <th></th>
+          <th></th>
+          <th class="numeric">Due</th>
+          <th class="numeric">{{ data.Local.Invoice.TransactionTotalAmount | FormatDecimal: 'N' | Prepend:currencySymbol }}</th>
+          <th class="numeric"></th>
+        </tr>
+      </tbody>
+    </table>
+    <div class="payment-details">
+      <h2>Payment Details</h2>
+      <p>{{ data.Local.BankName }}</p>
+      <p>{{ data.Local.BankCode }}</p>
+      <p>{{ data.Local.SortCode }}</p>
+      <p>{{ data.Local.AccountNumber }}</p>
+    </div>
 
-        </div>
-        <div id="bank-code">
-          <strong>{% T Bank Code %}</strong>
-          {{ data.Local.BankCode }} </div>
-
-        <div id="sort-code">
-          <strong>{% T Sort code %}</strong>
-          {{ data.Local.SortCode }} </div>
-
-        <div id="account-number">
-          <strong>{% T Account Number %}</strong>
-          {{ data.Local.AccountNumber }} </div>
-        <div id="payment-reference">
-          <strong>{% T Payment reference %}</strong> {{ data.Local.Invoice.PaymentReference }}</div>
-      </div>
-          </div>
-          <div class="clear"></div>
-
-      </div>
-
-
+    <table class="invoice-boxes">
+      <tbody>
+        <tr>
+          <td>
+            <div class="invoice-box">
+              <h2 class="highlight">Thank you!</h2>
+            </div>
+          </td>
+          <td>
+            <div class="invoice-box">
+              <h2>Address</h2>
+              <p>{{ data.Setting_Billing_BillToName }}</p>
+              <p>{{ data.Local.BillToAddress | Replace: 'Not Available', '' | NewlineToBr }}</p>
+              <p>{{ data.Local.BillToCity | Replace: 'Not Available', '' }}</p>
+              <p>{{ data.Local.BillToPostCode | Replace: 'Not Available', '' }}</p>
+            </div>
+          </td>
+          <td>
+            <div class="invoice-box">
+              <h2>Contact</h2>
+              <p>{{ data.Business.EmailContact }}</p>
+              <p>{{ data.Business.Phone}}</p>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>
