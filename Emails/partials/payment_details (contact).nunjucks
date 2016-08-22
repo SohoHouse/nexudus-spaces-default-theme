@@ -10,12 +10,12 @@
   <tr>
     <td>
       <h1>Hi {salutation},
-      <br />Welcome to {businessname}.</h1>
+      <br />Please provide your payment details.</h1>
     </td>
   </tr>
   <tr>
     <td>
-      <p>We’re launching our online portal soon, but in the meantime please click the button below to update us with your payment details for your ongoing membership.</p>
+      <p>Click the button below to provide us with your payment details for your booking.</p>
     </td>
   </tr>
   <tr>
