@@ -75,7 +75,7 @@
     <script type="text/javascript" src="/content/themes/public/default/js/knockout.mapping-latest.js"></script>
     <script type="text/javascript" src="{% Url JS, Index %}"></script>
     <script>
-        var data = {{ data | Json | StripHtml | StripNewlines }};
+
     </script>
     <script>
         var flickrID = '{% Setting Social.Flickr %}';

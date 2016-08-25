@@ -121,10 +121,10 @@
           <h1>{{ data.Coworker.FullName }}</h1>
           <h3>{{ data.Coworker.Tariff.Name }} Member</h3>
           <h3>{{ data.Coworker.CompanyName }}</h3>
-          <a target="_blank" href="/Login/ResetPassword?lang={{ data.Language }}&email={{ data.Coworker.User.Email }}" class="btn btn-grey">{% T Change password %}</a>
+          <a type="submit" onClicl="$('#profiile-form').submit();" class="btn btn-orange btn-stacked">{% T Save Changes %}</a>
+          <a target="_blank" href="/Login/ResetPassword?lang={{ data.Language }}&email={{ data.Coworker.User.Email }}" class="btn btn-grey btn-stacked">{% T Change password %}</a>
         </div>
         <form action="{% Url Profile, Index %}" method="POST" enctype="multipart/form-data" id="profile-form" class="span8">
-          <button type="submit" class="btn pull-right btn-orange">{% T Update %}</button>
           <div class="form-section">
             <h3 id="personal-details">{% T Personal Details %}</h3>
             <div class="input-group">
@@ -396,7 +396,13 @@
 <!-- END CREDIT CARD DETAILS -->
 {% endblock %}
 {% block script %}
-
+<script type="text/javascript">
+  $(function () {
+    $.getScript("/files/sticky.js", function() {
+      $('.profile-section').stickit({top: 30});
+    })
+  })  
+</script>
 <script>
   $(function () {
     $('.ccPayButton').click(function () {
