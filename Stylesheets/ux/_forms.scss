@@ -95,32 +95,6 @@ textarea {
     display: inline-block;
   }
 
-  &.select::after {
-    content: '';
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    right: 24px;
-    top: 22px;
-    margin-top: -5px;
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-    border-right: 1px solid $secondary;
-    border-bottom: 1px solid $secondary; 
-  }
-
-  &.select::before {
-    content: '';
-    position: absolute;
-    height: 100%;
-    right: 0;
-    top: 0;
-    width: 56px;
-    border-left: 1px solid $secondary;
-    background-color: white;
-    pointer-events: none; 
-  }
-
   label {
     display: block;
     margin-bottom: 0;
@@ -184,8 +158,9 @@ textarea {
     box-sizing: border-box;
     display: inline-block;
     font-size: 12px;
+    height: auto !important;
     margin: 10px 0;
-    padding: 25px 20px;
+    padding: 15px 20px;
     white-space: nowrap;
 
     &[type=checkbox] {

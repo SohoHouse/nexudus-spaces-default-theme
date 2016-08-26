@@ -202,13 +202,13 @@
 
                 {% if field.AllowMultipleOptions %}
                 <input type="text" id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}" value="{{data.Coworker[customFieldName]}}"  class="span12 multiple_select" style="display: none">
-                <select {% if field.Required %}required="required"{% endif %}  multiple="multiple" id="Coworker_{{ customFieldName }}_Select">
+                <select class="selectize" {% if field.Required %}required="required"{% endif %}  multiple="multiple" id="Coworker_{{ customFieldName }}_Select">
                   {% for opt in field.AvailableOptionArray %}
                   <option {% if {{data.Coworker[customFieldName]}} != null and opt contains {{data.Coworker[customFieldName]}} %}selected="selected"{% endif %}>{{opt}}</option>
                   {% endfor %}
                 </select>
                 {% else %}
-                <select {% if field.Required %}required="required"{% endif %}  id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}">
+                <select class="selectize" {% if field.Required %}required="required"{% endif %}  id="Coworker_{{ customFieldName }}" name="Coworker.{{ customFieldName }}">
                   <option></option>
                   {% for opt in field.AvailableOptionArray %}
                   {% if opt == {{data.Coworker[customFieldName]}} %}
@@ -245,21 +245,25 @@
 
           <div class="form-section">
             <h3 id="account-details">{% T Contact Details %}</h3>
-            <div class="input-group half">
-              <label for="Coworker_Address">{% T Address Line 1 %}</label>
-              <input id="Coworker_Address" name="Coworker.Address" type="text" value="{{ data.Coworker.Address }}" />
+            <div class="input-wrapper">
+              <div class="input-group half">
+                <label for="Coworker_Address">{% T Address Line 1 %}</label>
+                <input id="Coworker_Address" name="Coworker.Address" type="text" value="{{ data.Coworker.Address }}" />
+              </div>
+              <div class="input-group half">
+                <label for="Coworker_CityName">{% T Town %}</label>
+                <input value="{{ data.Coworker.CityName }}" type="text" name="Coworker.CityName" id="Coworker_CityName">
+              </div>
             </div>
-            <div class="input-group half">
-              <label for="Coworker_CityName">{% T Town %}</label>
-              <input value="{{ data.Coworker.CityName }}" type="text" name="Coworker.CityName" id="Coworker_CityName">
-            </div>
-            <div class="input-group half">
-              <label for="Coworker_State">{% T State / Province %}</label>
-              <input value="{{ data.Coworker.State }}" type="text" name="Coworker.State" id="Coworker_State">
-            </div>
-            <div class="input-group half">
-              <label for="Coworker_PostCode">{% T Postcode / Zip code %}</label>
-              <input value="{{ data.Coworker.PostCode }}" type="text" name="Coworker.PostCode" id="Coworker_PostCode">
+            <div class="input-wrapper">
+              <div class="input-group half">
+                <label for="Coworker_State">{% T State / Province %}</label>
+                <input value="{{ data.Coworker.State }}" type="text" name="Coworker.State" id="Coworker_State">
+              </div>
+              <div class="input-group half">
+                <label for="Coworker_PostCode">{% T Postcode / Zip code %}</label>
+                <input value="{{ data.Coworker.PostCode }}" type="text" name="Coworker.PostCode" id="Coworker_PostCode">
+              </div>
             </div>
             <label for="Same_Billing_Details" class="checkbox">
               <input onclick="$(this).is(':checked') ? $('#billing-details, #billing-details-form, #billing-details-button').hide(): $('#billing-details, #billing-details-form, #billing-details-button').show()" id="Same_Billing_Details" type="checkbox" {% if hasBillingDetails == false %}checked="checked"{% endif %} />
@@ -273,21 +277,25 @@
               <label for="Coworker_BillingName">{% T Company Name %}</label>
               <input value="{{ data.Coworker.BillingName }}" type="text" name="Coworker.BillingName" id="Coworker_BillingName" />
             </div>
-            <div class="input-group half">
-              <label for="Coworker_BillingAddress">{% T Address %}</label>
-              <input id="Coworker_BillingAddress" name="Coworker.BillingAddress" type="text" value="{{ data.Coworker.BillingAddress }}" />
+            <div class="input-wrapper">
+              <div class="input-group half">
+                <label for="Coworker_BillingAddress">{% T Address Line 1 %}</label>
+                <input id="Coworker_BillingAddress" name="Coworker.BillingAddress" type="text" value="{{ data.Coworker.BillingAddress }}" />
+              </div>
+              <div class="input-group half">
+                <label for="Coworker_BillingCityName">{% T Town %}</label>
+                <input value="{{ data.Coworker.BillingCityName }}" type="text" name="Coworker.BillingCityName" id="Coworker_BillingCityName">
+              </div>
             </div>
-            <div class="input-group half">
-              <label for="Coworker_BillingCityName">{% T Town %}</label>
-              <input value="{{ data.Coworker.BillingCityName }}" type="text" name="Coworker.BillingCityName" id="Coworker_BillingCityName">
-            </div>
-            <div class="input-group half">
-              <label for="Coworker_BillingState">{% T State / Province %}</label>
-              <input value="{{ data.Coworker.BillingState }}" type="text" name="Coworker.BillingState" id="Coworker_BillingState">
-            </div>
-            <div class="input-group half">
-              <label for="Coworker_BillingPostCode">{% T Postcode / Zip code %}</label>
-              <input value="{{ data.Coworker.BillingPostCode }}" type="text" name="Coworker.BillingPostCode" id="Coworker_BillingPostCode">
+            <div class="input-wrapper">
+              <div class="input-group half">
+                <label for="Coworker_BillingState">{% T State / Province %}</label>
+                <input value="{{ data.Coworker.BillingState }}" type="text" name="Coworker.BillingState" id="Coworker_BillingState">
+              </div>
+              <div class="input-group half">
+                <label for="Coworker_BillingPostCode">{% T Postcode / Zip code %}</label>
+                <input value="{{ data.Coworker.BillingPostCode }}" type="text" name="Coworker.BillingPostCode" id="Coworker_BillingPostCode">
+              </div>
             </div>
             <div class="input-group half">
               <label for="Coworker_TaxIDNumber">{% T TAX/VAT Number %}</label>
@@ -297,13 +305,15 @@
 
           <div class="form-section">
             <h3 id="location">{% T Your location %}</h3>
-            <div class="input-group select">
-              <label>{% T Country %}</label>
-              {% CountriesDropdown data.Coworker.Country.Id, Coworker.Country %}
-            </div>
-            <div class="input-group select">
-              <label>{% T Timezone %}</label>
-              {% TimeZonesDropdown data.Coworker.SimpleTimeZone.Id, Coworker.SimpleTimeZone %}
+            <div class="input-wrapper">
+              <div class="input-group half">
+                <label>{% T Country %}</label>
+                {% CountriesDropdown data.Coworker.Country.Id, Coworker.Country %}
+              </div>
+              <div class="input-group half">
+                <label>{% T Timezone %}</label>
+                {% TimeZonesDropdown data.Coworker.SimpleTimeZone.Id, Coworker.SimpleTimeZone %}
+              </div>
             </div>
           </div>
           </div>

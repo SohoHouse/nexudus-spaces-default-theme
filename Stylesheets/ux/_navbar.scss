@@ -211,7 +211,7 @@ label[for=sw-collapse] {
       &:focus {
         background-color: $pale !important;
         background-image: none !important;
-        color: #172433 !important;
+        color: $dark !important;
       }
     }
     &.active a {

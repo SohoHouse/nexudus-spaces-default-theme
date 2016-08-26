@@ -73,6 +73,7 @@
     <!--[if lte IE 7]><script src="js/lte-ie7.js"></script><![endif]-->
     <script type="text/javascript" src="/content/themes/public/default/js/knockout-2.3.0.js"></script>
     <script type="text/javascript" src="/content/themes/public/default/js/knockout.mapping-latest.js"></script>
+    <script type="text/javascript" src="/files/select.js"></script>
     <script type="text/javascript" src="{% Url JS, Index %}"></script>
     <script>
 
