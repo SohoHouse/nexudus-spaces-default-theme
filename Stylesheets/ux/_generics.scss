@@ -94,3 +94,16 @@ span.label {
     display: none !important;
   }
 }
+
+.copyable {
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+
+  p {
+    @include body-font;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

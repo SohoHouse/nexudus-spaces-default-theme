@@ -113,6 +113,7 @@
 
       <!-- CONTENT -->
       <section id="content">
+      <form action="{% Url Profile, Index %}" id="profile-form" method="POST" enctype="multipart/form-data">
         <div class="profile-section span4">
           <h3>Your Profile</h3>
           {% if data.Coworker.HasAvatar %}
@@ -120,28 +121,24 @@
           {% endif %}
           <h1>{{ data.Coworker.FullName }}</h1>
           <h3>{{ data.Coworker.Tariff.Name }} Member</h3>
+          <h3>{{ data.Coworker.Email }}</h3>
           <h3>{{ data.Coworker.CompanyName }}</h3>
-          <a type="submit" onClicl="$('#profiile-form').submit();" class="btn btn-orange btn-stacked">{% T Save Changes %}</a>
+          <button type="submit" class="btn btn-orange btn-stacked">{% T Save Changes %}</button>
           <a target="_blank" href="/Login/ResetPassword?lang={{ data.Language }}&email={{ data.Coworker.User.Email }}" class="btn btn-grey btn-stacked">{% T Change password %}</a>
         </div>
-        <form action="{% Url Profile, Index %}" method="POST" enctype="multipart/form-data" id="profile-form" class="span8">
+        <div class="profile-form span8">
           <div class="form-section">
             <h3 id="personal-details">{% T Personal Details %}</h3>
-            <div class="input-group">
+            <div class="input-group half">
               <label for="Coworker_FullName">{% T Fullname %}</label>
               <input type="text" id="Coworker_FullName" name="Coworker.FullName" value="{{ data.Coworker.FullName }}" required="required">
             </div>
-            <div class="input-group">
+            <div class="input-group half">
               <label for="Coworker_Salutation">{% T What should we call you? %}</label>
               <input type="text" id="Coworker_Salutation" name="Coworker.Salutation" value="{{ data.Coworker.Salutation }}" required="required">
             </div>
             <div class="input-group">
-              <label for="Coworker_Email">{% T Email %}</label>
-              <input type="text" readonly="readonly" id="Coworker_Email" name="Coworker.Email" value="{{ data.Coworker.Email }}">
-            </div>
-            <div class="input-group">
-              <label for="Coworker_Avatar">{% T Photo %}</label>
-              
+              <label for="Coworker_Avatar" class="file">{% T Photo %}</label>
               <input type="file" name="Coworker_Avatar" id="Coworker_Avatar" />
               <small>{% T Max 10Mb. %}</small>
             </div>
@@ -151,29 +148,25 @@
 
           <div class="form-section" id="team-details-form">
             <h3 id="team-details" >{% T My Team %}</h3>
-            <div class="input-group">
-              <label for="Team_Name">{% T Team Name %}</label>
-              <input readonly="readonly" type="text" id="Team_Name" name="Team.Name" value="{{ data.Coworker.PaysForTeam.Name }}">
-            </div>
+            <h1>{{ data.Coworker.PaysForTeam.Name }}</h1>
 
-            <div class="input-group">
-              <label for="Team_SignupLink">{% T Invite Link %}</label>
-              <input readonly="readonly" type="text" id="Team_SignupLink" value="https://{{ data.Business.WebAddress }}.{{ data.PublicSiteSubDomain }}/{{ data.Language }}/signup/{{ data.Coworker.PaysForTeam.UniqueId }}">
-              <small>
-                {% T You can send this link to anyone who you want to add to your team %}
-              </small>
-            </div>
+            <table style="margin-bottom: 40px;">
+              <tr>
+                <th colspan="2">{% T Team Members %}</th>
+              </tr>
+              {% for member in data.Coworker.PaysForTeam.AllTeamMembers %}
+              <tr>
+                <td><img class="img-circle" src="{% Url Coworker, GetAvatar, id: member.Id, h:40, w:40 %}" style="width: 40px; height: 40px"/></td>
+                <td>{{ member.FullName }}</td>
+              </tr>
+              {% endfor %}
+            </table>
 
-            <h3>{% T Team Members %}</h3>
-            {% DivRow member in data.Coworker.PaysForTeam.AllTeamMembers cols:3, colClass: 'span4', rowClass: 'row-fluid' %}
-            <img class="img-circle" src="{% Url Coworker, GetAvatar, id: member.Id, h:20, w:20 %}" style="width: 20px; height: 20px"/>
-            <a href="{% Url Directory, Profile, Id: member.Id, name: member.FullName | Clean %}">
-            {{ member.FullName }}
-            </a>
-            {% if member.Id != data.Coworker.Id %}
-            <a class="btn btn-mini btn-link" href="/en/user/login?t={{ member.User.AccessToken }}&returnurl={% Url Profile, Index %}">{% T Access Account %}</a>
-            {% endif %}
-            {% endDivRow %}
+            <h3>{% T Invite Link %}</h3>
+            <div class="copyable">
+              <p id="team-link">https://shoreditch-members.sohoworks.com/{{ data.Language }}/signup/{{ data.Coworker.PaysForTeam.UniqueId }}</p>
+              <a id="copy-btn" class="btn btn-grey" data-clipboard-target="#team-link">Copy Link</a>
+            </div>
 
           </div>
 
@@ -252,21 +245,21 @@
 
           <div class="form-section">
             <h3 id="account-details">{% T Contact Details %}</h3>
-            <div class="input-group">
-              <label for="Coworker_Address">{% T Address %}</label>
-              <textarea rows="5" id="Coworker_Address" name="Coworker.Address" type="text">{{ data.Coworker.Address }}</textarea>
+            <div class="input-group half">
+              <label for="Coworker_Address">{% T Address Line 1 %}</label>
+              <input id="Coworker_Address" name="Coworker.Address" type="text" value="{{ data.Coworker.Address }}" />
             </div>
-            <div class="input-group">
-              <label for="Coworker_PostCode">{% T Postcode / Zip code %}</label>
-              <input value="{{ data.Coworker.PostCode }}" type="text" name="Coworker.PostCode" id="Coworker_PostCode">
-            </div>
-            <div class="input-group">
+            <div class="input-group half">
               <label for="Coworker_CityName">{% T Town %}</label>
               <input value="{{ data.Coworker.CityName }}" type="text" name="Coworker.CityName" id="Coworker_CityName">
             </div>
-            <div class="input-group">
+            <div class="input-group half">
               <label for="Coworker_State">{% T State / Province %}</label>
               <input value="{{ data.Coworker.State }}" type="text" name="Coworker.State" id="Coworker_State">
+            </div>
+            <div class="input-group half">
+              <label for="Coworker_PostCode">{% T Postcode / Zip code %}</label>
+              <input value="{{ data.Coworker.PostCode }}" type="text" name="Coworker.PostCode" id="Coworker_PostCode">
             </div>
             <label for="Same_Billing_Details" class="checkbox">
               <input onclick="$(this).is(':checked') ? $('#billing-details, #billing-details-form, #billing-details-button').hide(): $('#billing-details, #billing-details-form, #billing-details-button').show()" id="Same_Billing_Details" type="checkbox" {% if hasBillingDetails == false %}checked="checked"{% endif %} />
@@ -280,23 +273,23 @@
               <label for="Coworker_BillingName">{% T Company Name %}</label>
               <input value="{{ data.Coworker.BillingName }}" type="text" name="Coworker.BillingName" id="Coworker_BillingName" />
             </div>
-            <div class="input-group">
+            <div class="input-group half">
               <label for="Coworker_BillingAddress">{% T Address %}</label>
-              <textarea rows="5" id="Coworker_BillingAddress" name="Coworker.BillingAddress" type="text">{{ data.Coworker.BillingAddress }}</textarea>
+              <input id="Coworker_BillingAddress" name="Coworker.BillingAddress" type="text" value="{{ data.Coworker.BillingAddress }}" />
             </div>
-            <div class="input-group">
+            <div class="input-group half">
               <label for="Coworker_BillingCityName">{% T Town %}</label>
               <input value="{{ data.Coworker.BillingCityName }}" type="text" name="Coworker.BillingCityName" id="Coworker_BillingCityName">
             </div>
-            <div class="input-group">
+            <div class="input-group half">
               <label for="Coworker_BillingState">{% T State / Province %}</label>
               <input value="{{ data.Coworker.BillingState }}" type="text" name="Coworker.BillingState" id="Coworker_BillingState">
             </div>
-            <div class="input-group">
+            <div class="input-group half">
               <label for="Coworker_BillingPostCode">{% T Postcode / Zip code %}</label>
               <input value="{{ data.Coworker.BillingPostCode }}" type="text" name="Coworker.BillingPostCode" id="Coworker_BillingPostCode">
             </div>
-            <div class="input-group">
+            <div class="input-group half">
               <label for="Coworker_TaxIDNumber">{% T TAX/VAT Number %}</label>
               <input value="{{ data.Coworker.TaxIDNumber }}" type="text" name="Coworker.TaxIDNumber" id="Coworker_TaxIDNumber">
             </div>
@@ -312,6 +305,7 @@
               <label>{% T Timezone %}</label>
               {% TimeZonesDropdown data.Coworker.SimpleTimeZone.Id, Coworker.SimpleTimeZone %}
             </div>
+          </div>
           </div>
         </form>
 
@@ -400,6 +394,18 @@
   $(function () {
     $.getScript("/files/sticky.js", function() {
       $('.profile-section').stickit({top: 30});
+    })
+
+    $.getScript('https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js', function () {
+      var clipboard = new Clipboard('#copy-btn');
+
+      clipboard.on('success', function(e) {
+        $('#copy-btn').text('Copied!')
+      })
+
+      clipboard.on('error', function(e) {
+        $('#copy-btn').text('Press Ctrl-C to copy')
+      })      
     })
   })  
 </script>

@@ -94,7 +94,6 @@ header {
     padding-bottom: 40px;
 
     &#content {
-      @include clearfix;
       border: none;
     }
 
@@ -242,17 +241,21 @@ footer {
 }
 
 #profile-form {
-  margin-left: 0;
-  margin-top: -30px;
-  padding-top: 30px;
-  margin-bottom: -30px;
+  @include clearfix;
+  
+  .profile-form {
+    margin-left: 0;
+    margin-top: -30px;
+    padding-top: 30px;
+    margin-bottom: -30px;
 
-  @media (min-width: $medium + 1px) {
-    border-left: 1px solid #C9CCCC;
-    padding-left: 30px;
-  }
+    @media (min-width: $medium + 1px) {
+      border-left: 1px solid #C9CCCC;
+      padding-left: 30px;
+    }
 
-  h3 {
-    margin-bottom: 50px;
+    h3:first-child {
+      margin-bottom: 30px;
+    }
   }
 }

@@ -16,7 +16,7 @@
   @include main-font;
   color: inherit;
   text-transform: none;
-  letter-spacing: 0;
+  letter-spacing: 2px;
   line-height: 175%;
   font-size: 13px;
 }
@@ -57,7 +57,8 @@ h1.subheader, h2.subheader, h3.subheader, h4.subheader, h5.subheader, h6.subhead
 }
 
 h3 {
-  color: rgba(23, 36, 51, 0.4);
+  font-weight: bold;
+  color: rgba($dark, 0.4);
   font-size: 0.9em;
 }
 

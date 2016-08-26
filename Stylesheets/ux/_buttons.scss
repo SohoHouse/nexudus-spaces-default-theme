@@ -1,16 +1,16 @@
 .btn {
   @include main-font;
-  border-color: transparent;
-  box-shadow: 0 0 0;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-  transition: all 200ms ease-in;
-  box-sizing: border-box;
-  max-width: 100%;
   background-image: none !important; 
   border-color: transparent;
+  border-color: transparent;
+  border-radius: 4px;
   box-shadow: 0 0 0;
+  box-sizing: border-box;
+  max-width: 100%;
   outline: none !important;
   padding: 10px 30px;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+  transition: all 200ms ease-in;
   transition: all 200ms ease-in;
   width: 250px;
 
