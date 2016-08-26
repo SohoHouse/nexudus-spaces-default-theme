@@ -265,10 +265,12 @@
                 <input value="{{ data.Coworker.PostCode }}" type="text" name="Coworker.PostCode" id="Coworker_PostCode">
               </div>
             </div>
-            <label for="Same_Billing_Details" class="checkbox">
+            <div class="input-group checkbox">
               <input onclick="$(this).is(':checked') ? $('#billing-details, #billing-details-form, #billing-details-button').hide(): $('#billing-details, #billing-details-form, #billing-details-button').show()" id="Same_Billing_Details" type="checkbox" {% if hasBillingDetails == false %}checked="checked"{% endif %} />
+              <label for="Same_Billing_Details">
                 {% T My registered company details are the same as my contact details %}
-            </label>
+              </label>
+            </div>
           </div>
 
           <h3 id="billing-details" {% if hasBillingDetails == false %}style="display: none"{% endif %}>{% T Registered Company Details %}</h3>
