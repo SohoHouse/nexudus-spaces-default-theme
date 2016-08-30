@@ -99,12 +99,8 @@ header {
 
     &:last-child {
       border-bottom: none;
-      margin-bottom: 0;
+      margin-bottom: 0
     }
-  }
-
-  .container + .container {
-    margin-top: -50px;
   }
 
   .container {
@@ -119,7 +115,7 @@ header {
       background: transparent;
       border-radius: 0;
       box-shadow: none;
-      padding: 30px 0; 
+      padding: 30px 0 0; 
     }
 
     :not(.stick) {
@@ -154,10 +150,6 @@ header {
       &.span3 {
         width: 22.2% !important; 
       }
-    }
-
-    &:last-child {
-      margin-bottom: 0;
     }
 
     @media (max-width: $medium) {
