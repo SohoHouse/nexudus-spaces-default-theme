@@ -190,13 +190,25 @@
           <th class="numeric">Tax</th>
         </tr>
         {% for line in data.Local.Invoice.Lines %}
-        {% assign desc = line.Description | Remove: 'Credit note for Invoice' | Remove: '\"' | Remove: 'Team charge. Member: ' | Remove: '\.' | Split: '- ' %}
+        {% assign splitOnMember = line.Description | Split: 'Member:' | Size %}
+        {% assign isTeamCharge = false %}
+        {% if splitOnMember == 2 %}
+          {% assign isTeamCharge = true %}
+        {% endif %}
+        {% assign desc = line.Description | Replace: 'Being shared with another member', '<span class="fade">Being shared with another member</span>' | Remove: 'Credit note for Invoice' | Remove: '"' | Remove: '.' | Remove: 'Team charge. Member:' | Split: ' - ' %}
+        {% if isTeamCharge %}
+          {% assign teamName = desc | First %}
+          {% assign withoutTeamName = desc | Join: ' - ' | Remove: teamName | ReplaceFirst: ' - ', '' %}
+        {% endif %}
         <tr>
           <td>{{ line.Quantity }}</td>
           <td>
-            {{ desc | Last }}
-            {% if desc.size == 2 %}
-            <br /><span class="fade">Team Charge: {{ desc | First }}</span>{% endif %}
+            {% if isTeamCharge %}
+              {{ withoutTeamName }}
+              <br /><span class="fade">Team Charge: {{ teamName }}</span>
+            {% else %}
+              {{ desc | Join: ' - '}}
+            {% endif %}
           </td>
           <td>{{ line.CreatedOn | Date: 'dd-MM-yy' }}</td>
           <td class="numeric">{{ line.UnitPriceFormatted }}</td>
