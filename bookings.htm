@@ -113,6 +113,16 @@
         var url = $(this).attr('data-url');
         $(this).attr('href', url + (url.indexOf('?') > -1 ? '&' : '?') +'date=' + date + '&view=' + view.name);
       });
+
+      $('.fc-resource-cell').each(function() {
+        var name = $(this).text(),
+            colour = getColurFromName(name),
+            span = $('<span class="resource-label resource-label--hover"><span class="resource-tooltip"><span class="resource-tooltip__arrow"></span><span class="resource-tooltip__label">' + name + '</span></span><span class="resource-dot"></span></span>');
+        span.find('.resource-dot, .resource-tooltip').css('backgroundColor', colour);
+        span.find('.resource-tooltip__label').css('color', colour)
+        span.find('.resource-tooltip__arrow').css('borderTopColor', colour)
+        $(this).html(span)
+      })
     }
 
     function eventsAfterAllRender (view) {
