@@ -54,24 +54,20 @@
     		{% endif %}
 
         <div id="calendar"></div>
-        <div class="row">
-          <div class="span9">
-            <a href="{% Url Bookings, Index %}"><span class="label"><span class="label-colour" style="background: black"></span>{% T Your bookings %}</span></a>
-            <a href="{% Url Bookings, Index %}"><span class="label"><span class="label-colour" style="background: #484848"></span>{% T Your team %}</span></a>
-
-
-            <span class="label"><span class="label-colour" style="background: #a1a1a1"></span>{% T Events %}</span>
-            <br />
-            {% for resource in data.Resources %}
-            <a data-url="{% Url Bookings, Index, resourceId: resource.Id, showAll: data.Local.ShowAll %}" href="{% Url Bookings, Index, resourceId: resource.Id, showAll: data.Local.ShowAll %}">
-              <span class="label resource"><span id="legend-resource-{{ resource.Id }}" class="label-colour" style="background: lightgray"></span>{{ resource.Name }}</span>
-            </a>
-            {% endfor %}
-          </div>
-        </div>
-
       </section>
       <!-- END CONTENT -->
+    </div>
+  </div>
+  <div class="container basic">
+    <div class="row">
+      <div class="span12 text-center">
+        <h3>Resources</h3>
+        {% for resource in data.Resources %}
+        <a data-url="{% Url Bookings, Index, resourceId: resource.Id, showAll: true %}" href="{% Url Bookings, Index, resourceId: resource.Id, showAll: true %}">
+          <span class="resource-label resource-label--text{% if data.Local.Resource.Id == resource.Id %} active{% endif %}"><span class="resource-label__text">{{ resource.Name }}</span></span>
+        </a>
+        {% endfor %}
+      </div>
     </div>
   </div>
   <!-- END CONTAINER -->
@@ -82,9 +78,12 @@
 {% block script %}
 
 <script>
-    {% for resource in data.Resources %}
-    $('#legend-resource-{{ resource.Id }}').css('background-color', getColurFromName('{{ resource.Name | Replace: "'", "\'" }}'));
-    {% endfor %}
+    $('.resource-label--text').each(function () {
+      var name = $(this).text(),
+          colour = getColurFromName(name);
+      $(this).css('backgroundColor', colour)
+      $(this).find('span').css('color', colour)
+    })
     $('#modal_unpaidbooking').modal();
 
     var resources = [
@@ -126,12 +125,7 @@
     }
 
     function eventsAfterAllRender (view) {
-      if (view.type.startsWith('agenda')) {
-        var row = 60;
-        // setTimeout(function() {
-        //   $(view.el).find('.fc-time-grid-container').scrollTop(row * 3)
-        // }, 0);
-      } else if (view.el.find('.fc-event-container').length == 0 && view.type == 'list') {
+      if (view.el.find('.fc-event-container').length == 0 && view.type == 'list') {
         view.el.find('tbody').append('<tr id="fc-empty-message"><td class="text-center"><span>No events for these dates.</span></td></tr>')
       } else {
         view.el.find('#fc-empty-message').remove();

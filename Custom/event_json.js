@@ -20,7 +20,7 @@ var eventSources = [
             allDay : false,
             editable: false,
             ignoreTimezone: true,
-            color: 'black'
+            color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')
           },
           {% for linkedResource in event.Resource.LinkedResources %}
             {
@@ -61,7 +61,7 @@ var eventSources = [
             private: true,
             editable: false,
             ignoreTimezone: true,
-            color: '#484848'
+            color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')
           },
         {% endif %}
       {% endfor %}
