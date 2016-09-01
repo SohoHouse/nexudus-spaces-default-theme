@@ -343,6 +343,26 @@
       margin-bottom: 0;
     }
   }
+  .fc-list-view {
+    .fc-event-handle {
+      padding: 0 20px !important;
+    }
+    .resource-tooltip {
+      left: -10px;
+      transform: translate3D(0, 0, 0);
+    }
+
+    .resource-tooltip__arrow {
+      margin-left: 0;
+      left: 23px;
+    }
+
+    .resource-label:hover {
+      .resource-tooltip {
+        transform: translate3D(0, -10px, 0);
+      }
+    }
+  }
 }
 
 .resource-label {

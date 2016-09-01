@@ -201,6 +201,7 @@
           {% assign withoutTeamName = desc | Join: ' - ' | Remove: teamName | ReplaceFirst: ' - ', '' %}
         {% endif %}
         <tr>
+          {{ line |Json }}
           <td>{{ line.Quantity }}</td>
           <td>
             {% if isTeamCharge %}
