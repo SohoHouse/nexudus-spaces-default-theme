@@ -254,6 +254,31 @@ label[for=sw-collapse] {
       }
     }
   }
+
+  .btn-dropdown + & {
+    background-color: $primary;
+    left: auto;
+    right: 0;
+    top: 120%;
+
+    &::after {
+      border-bottom-color: $primary;
+      left: auto;
+      right: 20px;
+    }
+
+    li {
+      a {
+        color: white;
+
+        &:hover,
+        &:focus {
+          background-color: rgba(white, .1) !important;
+          color: white !important;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 480px) {
@@ -273,7 +298,6 @@ label[for=sw-collapse] {
   }
   .nav .dropdown {
     display: inline-block;
-    margin-right: 20px;
 
     &.types {
       margin-top: 10px;

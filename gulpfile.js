@@ -64,7 +64,7 @@ gulp.task('build:emails', emails);
 
 
 gulp.task('default', ['build:scss', 'build:files', 'build:emails'], function () {
-  gulp.watch('**/*.scss', ['build:scss']);
-  gulp.watch(fileSrc, ['build:files']);
-  gulp.watch(['Emails/**/*.nunjucks', 'Emails/**/*.css'], ['build:emails']);
+  gulp.watch('**/*.scss', { interval: 750 }, ['build:scss']);
+  gulp.watch(fileSrc, { interval: 750 }, ['build:files']);
+  gulp.watch(['Emails/**/*.nunjucks', 'Emails/**/*.css'], { interval: 750 }, ['build:emails']);
 });

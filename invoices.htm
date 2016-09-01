@@ -129,7 +129,7 @@
           <div class="alert alert-success">
             {% T You don't have any pending payments %}
           </div>
-          {% endif %}
+          {% else %}
           <div class="table-responsive">
             {% capture currencySymbol %}
               {% case data.Business.Currency.Code %}
@@ -198,25 +198,25 @@
                 {% endfor %}
               </tbody>
             </table>
-            <div class="clearfix">
-              <button class="btn btn-responsive btn-wide btn-orange pull-right" onclick="$(this).attr('disabled', 'disabled'); window.location='{% Url Invoices, Draft %}'">{% T View My Next Invoice %}</button>
-              {% if data.Local.SpreedlyEnabled %}
-              <a class="btn btn-responsive btn-grey btn-wide btn-spacer spreedlyButton pull-right" data-paybuttontext="{% T Update Payment Details %}" data-payurl="https://{{ data.Domain }}/{{ data.Language }}/payments/SpreedlyPaymentToken/0" href="#">{% T Update Payment Details %}</a>
-              {% endif %}
+          </div>
+          {% endif %}
+          <div class="clearfix">
+            <button class="btn btn-responsive btn-wide btn-orange pull-right" onclick="$(this).attr('disabled', 'disabled'); window.location='{% Url Invoices, Draft %}'">{% T View My Next Invoice %}</button>
+            {% if data.Local.SpreedlyEnabled and data.Coworker.HasGoCardlessContractNumber == false %}
+            <a class="btn btn-responsive btn-grey btn-wide btn-spacer spreedlyButton pull-right" data-paybuttontext="{% T Update Payment Details %}" data-payurl="https://{{ data.Domain }}/{{ data.Language }}/payments/SpreedlyPaymentToken/0" href="#">{% T Update Payment Details %}</a>
+            {% endif %}
 
-              {% if data.Setting_AuthorizeNet_EnableSubscriptions %}
-              <a class="btn btn-responsive btn-grey btn-wide btn-spacer ccPayButton pull-right" data-description="{% T Update Payment Details %}" data-payurl="{% Url Invoices, StoreCard, provider: 'authorizeNetSubscription' %}" href="#">{% T Update Payment Details %}</a>
-              {% endif %}
+            {% if data.Setting_AuthorizeNet_EnableSubscriptions %}
+            <a class="btn btn-responsive btn-grey btn-wide btn-spacer ccPayButton pull-right" data-description="{% T Update Payment Details %}" data-payurl="{% Url Invoices, StoreCard, provider: 'authorizeNetSubscription' %}" href="#">{% T Update Payment Details %}</a>
+            {% endif %}
 
-              {% if data.Setting_Paypal_Adaptive_Enabled %}
-              <a class="btn btn-responsive btn-grey btn-wide btn-spacer pull-right" href="https://{{ data.Domain }}/{{ data.Language }}/payments/PayPalAdaptive">{% T Link PayPal Account %}</a>
-              {% endif %}
+            {% if data.Setting_Paypal_Adaptive_Enabled %}
+            <a class="btn btn-responsive btn-grey btn-wide btn-spacer pull-right" href="https://{{ data.Domain }}/{{ data.Language }}/payments/PayPalAdaptive">{% T Link PayPal Account %}</a>
+            {% endif %}
 
-              {% if data.Coworker.HasGoCardlessContractNumber == false %}
-              <a class="btn btn-responsive btn-grey btn-wide btn-spacer pull-right" href="https://spaces.nexudus.com/Callbacks/GoCardlessPre/{{ data.Coworker.Id }}">{% T Setup Direct Debit  %}</a>
-              {% endif %}
-            </div>
-
+            {% if data.Coworker.HasGoCardlessContractNumber == false %}
+            <a class="btn btn-responsive btn-grey btn-wide btn-spacer pull-right" href="https://spaces.nexudus.com/Callbacks/GoCardlessPre/{{ data.Coworker.Id }}">{% T Setup Direct Debit  %}</a>
+            {% endif %}
           </div>
         </div>
       </div>

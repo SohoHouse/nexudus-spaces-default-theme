@@ -23,19 +23,19 @@
           <ul class="nav nav-pills pull-right">
             <li id='home' class="{%if data.Controller == 'publichome'%}active{%endif%}"><a href="{% Url PublicHome, Index %}">{% T Home %}</a></li>
             <li id='events' class="{%if data.Controller == 'events'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Events, Index %}">{% T Events %}</a></li>
-            <li id="bookings" class="{%if data.Controller == 'bookings' and data.Local.ShowAll %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index %}">{% T Bookings %}</a></li>
+            <li id="bookings" class="{%if data.Controller == 'bookings' %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T Bookings %}</a></li>
             <li id='resources' class="{%if data.Controller == 'publicresources'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Space resources %}</a></li>
             {% if data.Setting_PublicWebSite_Help %}
               <li id="support" class="{%if data.Controller == 'support'%}active{%endif%}"><a href="{% Url Support, Index %}">{% T Support %}</a></li>
             {% endif %}
             {% if data.Setting_PublicWebSite_MyAccount %}
               {% if data.UserIsLoggedIn %}
-              <li id='settings' class="dropdown {%if data.Controller == 'profile' or data.Controller == 'invoices' or data.Controller == 'bookings' or data.Controller == 'allowances' or data.Controller == 'store' %}active{%endif%}">
+              <li id='settings' class="dropdown {%if data.Controller == 'profile' or data.Controller == 'invoices' or data.Controller == 'allowances' or data.Controller == 'store' %}active{%endif%}">
                 <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">{% T Account %}</a>
                 <ul class="dropdown-menu" role="menu">
                   <li class="{%if data.Controller == 'profile' and data.Action == 'index'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Index %}">{% T My profile %}</a></li>
                   <li class="{%if data.Controller == 'invoices'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Invoices, Index %}">{% T Payments %}</a></li>
-                  <li class="{%if data.Controller == 'bookings' and data.Local.ShowAll == false %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li>
+                  <!-- <li class="{%if data.Controller == 'bookings' and data.Local.ShowAll == false %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li> -->
                   <li class="{%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Credits %}</a></li>
 
                   <li class="{%if data.Controller == 'store'%}active{%endif%} {% if data.ProductTags.size > 0 %} dropdown-submenu {% endif %}">

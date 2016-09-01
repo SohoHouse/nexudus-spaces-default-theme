@@ -18,6 +18,8 @@
 {% assign qsView = data.QueryString["view"] %}
 {% if qsView != null %}{% assign defaultView = qsView %}{% endif %}
 
+{% if data.Local.ShowAll %}{% assign defaultView = 'agendaWeek' %}{% endif %}
+
 
 
 <div id="wrapper">
@@ -28,49 +30,25 @@
       <!-- CONTENT -->
       <section id="content" class="span12">
     		{% if data.Resources.size > 0 %}
-          <div class="nav nav--calendar">
-            <div class="types dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                {% if type != '' %}
-                  {% T {{type}} %}
-                {% elsif data.Local.ShowAll == false %}
-                  {% T My Bookings %}
-                {% else %}
-                  {% T All Bookings %}
-                {% endif %}
-                <b class="caret" style="margin-top: 8px"></b></a>
-              <ul class="dropdown-menu">
-                <li class="{% if type == '' and data.Local.ShowAll == true %}active{% endif %}"><a data-url="{% Url Bookings, Index, ResourceId: data.Local.Resource.Id %}" href="{% Url Bookings, Index %}">{% T All Bookings %}</a></li>
-                <li class="{% if type == '' and data.Local.ShowAll == false %}active{% endif %}"><a data-url="{% Url Bookings, Index, ShowAll: false, ResourceId: data.Local.Resource.Id %}" href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li>
-                {% for group in data.ResourceGroups %}
-                  {% assign groupKey = group | Clean %}
-                  <li class="{% if type == groupKey %}active{% endif %}"><a data-url="{% Url Bookings, Index, type: groupKey  %}" href="{% Url Bookings, Index, type: groupKey %}">{{ group }}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
-
-            <div class="clearfix pull-right">
+          <div class="nav nav--calendar clearfix"> 
+            {% if data.Local.ShowAll == true %}
+              <a class="btn btn-back btn-grey" href="{% Url Bookings, Index, ShowAll: false %}">{% T Back to Calendar %}</a>
+            {% else %}
+              <h3 class="pull-left">{% T My Bookings %}</h3>
+            {% endif %}
+            <div class="pull-right">
               <div class="filter dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  {% if data.Local.Resource != null %}
-                    {{ data.Local.Resource.Name | TruncateWords: 3 }}
-                  {% else %}
-                    {% T Filter Resources %}
-                  {% endif %}
-                  <b class="caret" style="margin-top: 8px"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="{% Url Bookings, Index %}">{% T Show all resources %}</a></li>
+                <a href="#" class="btn btn-orange btn-dropdown" data-toggle="dropdown">
+                  {% if data.Local.ShowAll and data.Local.Resource %}{{data.Local.Resource.Name}}{% else %} {% T Make a Booking %} {% endif %}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
                   {% for resource in data.Resources %}
-                    <li class="{% if data.Local.Resource.Id == resource.Id %}active{% endif %}"><a data-url="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}" href="{% Url Bookings, Index, ResourceId: resource.Id, showAll: data.Local.ShowAll %}">{{ resource.Name }}</a></li>
+                    {% unless resource.Id == data.Local.Resource.Id %}
+                      <li><a data-url="{% Url Bookings, Index, ResourceId: resource.Id, showAll: true %}" href="{% Url Bookings, Index, ResourceId: resource.Id, showAll: true %}">{{ resource.Name }}</a></li>
+                    {% endunless %} 
                   {% endfor %}
                 </ul>
               </div>
-
-              {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
-              <a class="btn btn-orange" href="#" onclick="createBooking(new Date())">{% T Make a booking %}</a>
-              {% else %}
-              <a class="btn btn-grey" href="{% Url Login, Index, lang: data.Language %}&returnUrl=/{{ data.Language }}/bookings">{% T Log in %}</a>
-              {% endif %}
             </div>
           </div>
     		{% endif %}
@@ -90,15 +68,6 @@
             </a>
             {% endfor %}
           </div>
-          {% if data.Resources.size > 0 %}
-          <div class="span3">
-            {% if data.Coworker != null or data.Setting_Bookings_EnableGuestBookings %}
-            <a onclick="createBooking(new Date())" class="btn btn-orange pull-right">{% T Make a booking %}</a>
-            {% else %}
-            <a class="btn btn-orange pull-right" href="{% Url Login, Index, lang: data.Language %}&returnUrl=/{{ data.Language }}/bookings">{% T Login to make a booking %}</a>
-            {% endif %}
-          </div>
-          {% endif %}
         </div>
 
       </section>
@@ -168,16 +137,16 @@
       }
       else
       {
+          $('#Booking_Resource').val('{{ data.Local.Resource.Id }}');
           showBooking(calEvent);
           return false;
       }
     }
 
     function dayClick (date, evData, jsEvent, resourceObj ) {
-      if(resourceObj)
-        $('#Booking_Resource').val(resourceObj.id);
-      else
-        $('#Booking_Resource').val(null);
+      // if (!{{ data.Local.ShowAll }}) return;
+      if (resourceObj) $('#Booking_Resource').val(resourceObj.id);
+      else $('#Booking_Resource').val('{{ data.Local.Resource.Id }}');
       {% if data.Coworker != null %}
         createBooking(date.local().toDate());
       {% elseif data.Setting_Bookings_EnableGuestBookings %}
@@ -217,13 +186,13 @@
       resources: resources,
       eventClick: eventClick,
       dayClick: dayClick,
-      defaultView: $(window).width() < 768 ? 'list' : '{% if data.Local.Resource.Id > 0 %}agendaDay{% else %}{{defaultView}}{% endif %}',
+      defaultView: $(window).width() < 768 ? 'list' : '{{defaultView}}',
       editable: true,
       displayEventEnd: true,
       defaultDate: moment('{{ data.Local.CurrentDate | FormatDate: 'yyyy-MM-dd' }}'),
       header: {
           left:   'title',
-          center: $(window).width() < 768 ? null : 'month,agendaWeek,{% if data.Local.Resource.Id > 0 or data.Resources.size <= resourceInAgendaView %}agendaDay{% else %}timelineDay{% endif %},list',
+          center: $(window).width() < 768 || {{ data.Local.ShowAll == false }} ? null : 'month,agendaWeek,{% if data.Local.Resource.Id > 0 or data.Resources.size <= resourceInAgendaView %}agendaDay{% else %}timelineDay{% endif %},list',
           right:  'today prev,next'
       },
       resourceRender: resourceRender,

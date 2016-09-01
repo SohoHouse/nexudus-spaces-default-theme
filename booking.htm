@@ -83,7 +83,7 @@
             <td>{% T I want to book %}</td>
             <td>
               <select name="Booking.Resource" id="Booking_Resource" data-bind="event: { change: updateProducts }">
-                <option disabled selected>{% T Pick one %}</option>
+                <option disabled>{% T Pick one %}</option>
                 {% for resource in data.Resources %}
                   <option value="{{resource.Id}}">{{resource.Name}}</option>
                 {% endfor %}

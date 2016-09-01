@@ -37,6 +37,56 @@
   width: auto;
 }
 
+.btn-dropdown {
+  width: auto;
+  padding-right: 85px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    right: 24px;
+    top: 50%;
+    margin-top: -8px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border-right: 1px solid white;
+    border-bottom: 1px solid white; 
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    right: 0;
+    top: 0;
+    width: 56px;
+    border-left: 1px solid white;
+    pointer-events: none; 
+  }
+}
+
+.btn-back {
+  width: auto;
+  padding-left: 50px;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    left: 24px;
+    top: 50%;
+    margin-top: -5px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border-left: 1px solid $primary;
+    border-bottom: 1px solid $primary; 
+  }
+}
+
 .btn-link {
   color: $primary;
   width: auto;
