@@ -317,6 +317,7 @@
         str += $(this).data('breakdown')
         str += ': '
         str += $(this).val()
+        str += '\n'
         vals.push(str);
       })
       $('#Booking_Notes').val(vals.join('\n'));

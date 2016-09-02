@@ -47,7 +47,8 @@ table {
   }
 
   th {
-    font-weight: bold !important;
+    font-weight: normal !important;
+    font-size: .9em;
     color: rgba($dark, 0.4);
     border-bottom: 1px solid $secondary !important;
 

@@ -30,7 +30,7 @@
 
       <!-- CONTENT -->
         {% if data.Local.CalendarEvents.size == 0 and data.Local.Page > 1 %}
-          <article class="card span12 text-center">
+          <article class="container span12 text-center">
             {% T There are no more events. %}
             <br /><br />
             <a class="btn btn-orange" href="{% Url Events, Index, page: data.Local.Page | Minus: 1 %}">{% T Go back %}</a>

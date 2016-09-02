@@ -71,7 +71,6 @@
       {% endif %}
       {% endif %}
     </div>
-    <hr />
   </section>
   {% elseif data.Coworker.Active == false and data.Coworker.Tariff != null  %}
   <section id="content" class="span12">
@@ -107,23 +106,23 @@
       {% T Your price plan is due for renewal on {0}. || renewDateFormated %}
     </div>
     {% endif %}
+    {% if data.Coworker.Teams.size > 0 and data.Coworker.PaysInvoicesViaTeam %}
+    <div class="alert alert-info">
+      <div>
+        {% T Any bills will be paid by %}
+        <strong>{{ data.Coworker.PayingMember.FullName }}</strong>
+        {% T as you are part of the team %}
+        <strong>{{ data.Coworker.Teams }}</strong>.
+      </div>
+    </div>
+    {% endif %}
   </section>
+
 
   <div id="wrapper">
     <div id="main" class="container">
       <div class="row">
         <div class="span12">
-          {% if data.Coworker.Teams.size > 0 and data.Coworker.PaysInvoicesViaTeam %}
-          <div class="alert">
-            <div>
-              {% T Any bills will be paid by %}
-              <strong>{{ data.Coworker.PayingMember.FullName }}</strong>
-              {% T as you are part of the team %}
-              <strong>{{ data.Coworker.Teams }}</strong>.
-            </div>
-          </div>
-          <hr />
-          {% endif %}
           <h3>{% T Pending payments %}</h3>
           {% if  data.Local.UnPaidInvoices.size == 0 %}
           <div class="alert alert-success">
@@ -226,40 +225,41 @@
         <div class="span12">
           {% if data.Coworker.Active %}
             <h3>{% T Completed payments %}</h3>
-            <div class="table-responsive">
-              <table class="table invoices">
-                {% if data.Local.PaidInvoices.size == 0 %}
-                <div class="alert alert-info">
-                  {% T You don't have any completed payments %}
-                </div>
-                {% endif %}
-                <thead>
-                  <tr>
-                    <th>Invoice Number</th>
-                    <th>Amount</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for invoice in data.Local.PaidInvoices %}
-                  <tr>
-                    <td>
-                      {% T Invoice %} #{{invoice.InvoiceNumber}}
-                      <span class="fade">({{invoice.CreatedOn | Date: 'dd MMMM yyyy'}})</span>
-                    </td>
-                    <td>
-                      {{ invoice.TotalAmount | FormatDecimal format: 'N2' | Prepend: currencySymbol }}
-                    </td>
-                    <td class="text-right">
-                      {% if data.Setting_Members_PrintInvoices == "true" %}
-                        <a href="{% Url Invoices, Print, guid: invoice.UniqueId, lang: data.Language %}" class="btn btn-wide btn-grey">{% T Download %}</a>
-                      {% endif %}
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+            {% if data.Local.PaidInvoices.size == 0 %}
+            <div class="alert alert-info">
+              {% T You don't have any completed payments %}
             </div>
+            {% else %}
+              <div class="table-responsive">
+                <table class="table invoices">
+                  <thead>
+                    <tr>
+                      <th>Invoice Number</th>
+                      <th>Amount</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for invoice in data.Local.PaidInvoices %}
+                    <tr>
+                      <td>
+                        {% T Invoice %} #{{invoice.InvoiceNumber}}
+                        <span class="fade">({{invoice.CreatedOn | Date: 'dd MMMM yyyy'}})</span>
+                      </td>
+                      <td>
+                        {{ invoice.TotalAmount | FormatDecimal format: 'N2' | Prepend: currencySymbol }}
+                      </td>
+                      <td class="text-right">
+                        {% if data.Setting_Members_PrintInvoices == "true" %}
+                          <a href="{% Url Invoices, Print, guid: invoice.UniqueId, lang: data.Language %}" class="btn btn-wide btn-grey">{% T Download %}</a>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            {% endif %}
 
             {% if data.Local.CurrentBalance > 0 %}
             <h3>{% T Account Credit %}</h3>

@@ -33,14 +33,14 @@ span.label {
   margin-bottom: 40px;
   color: $dark !important;
 
-  #main.container & {
+  #wrapper .container &,  {
     @include body-font;
     padding: 0;
     box-shadow: none;
-    background-color: transparent;
+    background-color: transparent !important;
     
     &, * {
-      color: $dark;
+      color: $dark !important;
     }
   }
 
@@ -48,7 +48,8 @@ span.label {
     background-color: $accent;
     
     &, * {
-      color: white !important;
+      color: white;
+      font-size: 1em;
     }
   }
 
@@ -56,7 +57,8 @@ span.label {
     background-color: $primary;
     
     &, * {
-      color: white !important;
+      color: white;
+      font-size: 1em;
     }
   }
 
@@ -65,7 +67,8 @@ span.label {
     background-color: #D41C2D;
     
     &, * {
-      color: white !important;
+      color: white;
+      font-size: 1em;
     }
   }
 }

@@ -101,7 +101,7 @@ textarea {
     @include main-font;
     text-shadow: none !important;
     color: rgba($dark, 0.4);
-    font-weight: bold;
+    font-weight: normal;
     font-size: 0.9em;
 
     &.checkbox, &.radio {

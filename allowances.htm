@@ -169,7 +169,8 @@
                       </td>
                       <td>
                         <p class="text-right">
-                          {{ p.Remaining }}
+                          {% assign total = p.Remaining %}
+                          {% include 'minute_formatter.htm' %}
                         </p>
                       </td>
                     </tr>
