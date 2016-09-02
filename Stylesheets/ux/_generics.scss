@@ -31,30 +31,42 @@ span.label {
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 16px rgba(0, 0, 0, 0.05);
   background-color: white;
   margin-bottom: 40px;
-  color: $dark;
+  color: $dark !important;
 
   #main.container & {
     @include body-font;
     padding: 0;
     box-shadow: none;
     background-color: transparent;
-    color: $dark;
+    
+    &, * {
+      color: $dark;
+    }
   }
 
   &.alert-info {
     background-color: $accent;
-    color: white;
+    
+    &, * {
+      color: white !important;
+    }
   }
 
   &.alert-success {
     background-color: $primary;
-    color: white;
+    
+    &, * {
+      color: white !important;
+    }
   }
 
   &.alert-error {
     @include body-font;
     background-color: #D41C2D;
-    color: white;
+    
+    &, * {
+      color: white !important;
+    }
   }
 }
 

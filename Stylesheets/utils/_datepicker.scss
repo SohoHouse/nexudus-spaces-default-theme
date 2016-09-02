@@ -7,20 +7,7 @@
  * */
 
 .clearfix {
-  *zoom: 1;
-
-  &:before {
-    display: table;
-    content: "";
-    line-height: 0;
-  }
-
-  &:after {
-    display: table;
-    content: "";
-    line-height: 0;
-    clear: both;
-  }
+  @include clearfix;
 }
 
 .hide-text {
@@ -35,275 +22,94 @@
   display: block;
   width: 100%;
   min-height: 30px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
 
-.bootstrap-datetimepicker-widget {
-  top: 0;
-  left: 0;
-  width: 250px;
-  padding: 4px;
-  margin-top: 1px;
-  z-index: 3000;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+.datetimepicker {
+  margin-top: 20px !important;
+  padding: 20px !important;
+  width: 280px;
 
-  &:before {
-    content: "";
-    display: inline-block;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-bottom: 7px solid #ccc;
-    border-bottom-color: rgba(0, 0, 0, 0.2);
-    position: absolute;
-    top: -7px;
-    left: 6px;
+  table tr td, th {
+    padding: 15px 0 !important;
+    border-top: 0 !important;
+    border-bottom: 0 !important;
   }
 
-  &:after {
-    content: "";
-    display: inline-block;
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid #fff;
-    position: absolute;
-    top: -6px;
-    left: 7px;
+  legend {
+    @include main-font;
+    color: $secondary;
+    border-bottom: 0;
   }
 
-  &.pull-right {
-    &:before {
-      left: auto;
-      right: 6px;
-    }
-
-    &:after {
-      left: auto;
-      right: 7px;
-    }
+  .active {
+    background-image: none !important;
+    background-color: $primary !important;
   }
 
-  > ul {
-    list-style-type: none;
-    margin: 0;
+  span.hour, 
+  td.day {
+    height: 40px !important;
+    width: 40px !important;
+    line-height: 40px !important;
+    border-radius: 50px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
   }
 
-  .timepicker-hour, .timepicker-minute, .timepicker-second {
-    width: 100%;
-    font-weight: bold;
-    font-size: 1.2em;
+  span.minute,
+  span.month,
+  span.year {
+    border-radius: 40px !important;
+    height: 40px !important;
+    line-height: 40px !important;
   }
 
-  table[data-hour-format="12"] .separator {
-    width: 4px;
-    padding: 0;
-    margin: 0;
-  }
+  th.today {
+    position: relative;
+    color: white;
+    font-weight: normal !important;
 
-  .datepicker > div {
-    display: none;
-  }
-
-  .picker-switch {
-    text-align: center;
-  }
-
-  table {
-    width: 100%;
-    margin: 0;
-  }
-
-  td, th {
-    text-align: center;
-    width: 20px;
-    height: 20px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-  }
-
-  td {
-    &.day:hover, &.hour:hover, &.minute:hover, &.second:hover {
-      background: #eee;
-      cursor: pointer;
-    }
-
-    &.old, &.new {
-      color: #999;
-    }
-
-    &.active {
-      color: #fff;
-      background-color: #006dcc;
-      background-image: -moz-linear-gradient(top, #08c, #04c);
-      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#08c), to(#04c));
-      background-image: -webkit-linear-gradient(top, #08c, #04c);
-      background-image: -o-linear-gradient(top, #08c, #04c);
-      background-image: linear-gradient(to bottom, #08c, #04c);
-      background-repeat: repeat-x;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='#ff0044cc',GradientType=0);
-      border-color: #04c #04c #002a80;
-      border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-      *background-color: #04c;
-      filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-      color: #fff;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-
-      &:hover {
-        color: #fff;
-        background-color: #006dcc;
-        background-image: -moz-linear-gradient(top, #08c, #04c);
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#08c), to(#04c));
-        background-image: -webkit-linear-gradient(top, #08c, #04c);
-        background-image: -o-linear-gradient(top, #08c, #04c);
-        background-image: linear-gradient(to bottom, #08c, #04c);
-        background-repeat: repeat-x;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='#ff0044cc',GradientType=0);
-        border-color: #04c #04c #002a80;
-        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-        *background-color: #04c;
-        filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-        color: #fff;
-        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-        color: #fff;
-        background-color: #04c;
-        *background-color: #003bb3;
-      }
-
-      &:active, &:hover:active, &.active, &:hover.active, &.disabled, &:hover.disabled, &[disabled], &:hover[disabled] {
-        color: #fff;
-        background-color: #04c;
-        *background-color: #003bb3;
-      }
-
-      &:active, &:hover:active, &.active, &:hover.active {
-        background-color: #039 \9;
-      }
-    }
-
-    &.disabled {
-      background: 0;
-      color: #999;
-      cursor: not-allowed;
-
-      &:hover {
-        background: 0;
-        color: #999;
-        cursor: not-allowed;
-      }
-    }
-
-    span {
-      display: block;
-      width: 47px;
-      height: 54px;
-      line-height: 54px;
-      float: left;
-      margin: 2px;
-      cursor: pointer;
-      -webkit-border-radius: 4px;
-      -moz-border-radius: 4px;
+    &::before {
+      background: $primary;
       border-radius: 4px;
-
-      &:hover {
-        background: #eee;
-      }
-
-      &.active {
-        color: #fff;
-        background-color: #006dcc;
-        background-image: -moz-linear-gradient(top, #08c, #04c);
-        background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#08c), to(#04c));
-        background-image: -webkit-linear-gradient(top, #08c, #04c);
-        background-image: -o-linear-gradient(top, #08c, #04c);
-        background-image: linear-gradient(to bottom, #08c, #04c);
-        background-repeat: repeat-x;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='#ff0044cc',GradientType=0);
-        border-color: #04c #04c #002a80;
-        border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-        *background-color: #04c;
-        filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-        color: #fff;
-        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-
-        &:hover, &:active, &.active, &.disabled, &[disabled] {
-          color: #fff;
-          background-color: #04c;
-          *background-color: #003bb3;
-        }
-
-        &:active, &.active {
-          background-color: #039 \9;
-        }
-      }
-
-      &.old {
-        color: #999;
-      }
-
-      &.disabled {
-        background: 0;
-        color: #999;
-        cursor: not-allowed;
-
-        &:hover {
-          background: 0;
-          color: #999;
-          cursor: not-allowed;
-        }
-      }
+      bottom: 0;
+      content: '';
+      left: 20px;
+      position: absolute;
+      right: 20px;
+      top: 0;
+      z-index: -1;
     }
   }
 
-  th {
-    &.switch {
-      width: 145px;
-    }
+  .next,
+  .prev {
+    font-size: 0;
+    padding-top: 0 !important;    
+    padding-bottom: 0 !important;    
 
-    &.next, &.prev {
-      font-size: 21px;
-    }
-
-    &.disabled {
-      background: 0;
-      color: #999;
-      cursor: not-allowed;
-
-      &:hover {
-        background: 0;
-        color: #999;
-        cursor: not-allowed;
-      }
+    &::before {
+      border: 0;
+      border-right: 1px solid $dark;
+      border-top: 1px solid $dark;
+      content: '';
+      display: block;
+      height: 10px;
+      margin-top: 20px;
+      width: 10px;
     }
   }
 
-  thead tr:first-child th {
-    cursor: pointer;
+  .next::before {
+    transform: rotate(45deg);
+  }
 
-    &:hover {
-      background: #eee;
-    }
+  .prev::before {
+    transform: rotate(-135deg);
   }
 }
 
-.input-append.date .add-on i, .input-prepend.date .add-on i {
-  display: block;
-  cursor: pointer;
-  width: 16px;
-  height: 16px;
-}
-
-.bootstrap-datetimepicker-widget.left-oriented {
-  &:before {
-    left: auto;
-    right: 6px;
-  }
-
-  &:after {
-    left: auto;
-    right: 7px;
-  }
+.datetimepicker-dropdown-bottom-left:after {
+  left: auto;
 }
