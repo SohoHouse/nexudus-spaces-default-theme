@@ -123,3 +123,19 @@ span.label {
     text-overflow: ellipsis;
   }
 }
+
+.footer-social {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 10px 5px;
+  background-size: contain;
+
+  $footer-items: facebook twitter instagram;
+  @each $item in $footer-items {
+    &[id=footer-#{$item}] {
+      background-image: image-url('asset_#{$item}');
+    }
+  }
+}
+

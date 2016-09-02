@@ -2,14 +2,10 @@
   <div class="row">
     <div class="span12">
       <div class="well text-center">
-        <p>{% T Keep up to date with soho works — sign up for our newsletter and follow us on social media %}</p>
-        <form action="{% Url Newsletter, SignUp %}" method="post">
-          {% AntiforgeryToken %}
-          <div class="input-append">
-            <input autocomplete="off" required="required" type="email" id="name" class="full-width" name="email" placeholder="{% T Your email %}" />
-            <button class="btn btn-orange" type="submit">{% T Signup %}</button>
-          </div>
-        </form>
+        <p>{% T Keep up to date with soho works — follow us on social media %}</p>
+        <a class="footer-social" id="footer-facebook" href="{{ data.Setting_Social_Facebook }}"></a>
+        <a class="footer-social" id="footer-twitter" href="{{ data.Setting_Social_Twitter }}"></a>
+        <a class="footer-social" id="footer-instagram" href="{{ data.Setting_Social_Instagram }}"></a>
       </div>
     </div>
   </div>
