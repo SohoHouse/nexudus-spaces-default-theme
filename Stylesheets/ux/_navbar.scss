@@ -1,4 +1,5 @@
 $nav-items: events support settings resources home bookings;
+$dropdown-items: profile payments extras credits logout;
 
 header.navbar .container {
   @media (max-width: $small) {
@@ -207,18 +208,56 @@ label[for=sw-collapse] {
       padding: 30px 30px !important;
       text-align: right;
       color: $secondary;
-      &:hover, 
-      &:focus {
-        background-color: $pale !important;
-        background-image: none !important;
-        color: $dark !important;
-      }
     }
     &.active a {
       background-color: $pale;
       background-image: none;
       color: $accent !important;
       font-weight: bold;
+    }
+
+    &.dropdown--icon {
+      position: relative;
+
+      a {
+        padding-right: 75px !important;
+      }
+      span {
+        background-position: center right;
+        background-size: 200%;
+        height: 25px;
+        opacity: 0.2;
+        position: absolute;
+        right: 25px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 25px;
+        transition: .2s opacity ease;
+
+        @each $item in $dropdown-items {
+          &[id=#{$item}] {
+            background-image: image-url("icon_#{$item}_dark_small");
+          }
+        }
+      }
+
+      &.active span {
+        background-position: center left;
+        opacity: 1;
+      }
+
+      &:hover, 
+      &:focus {
+        span {
+          opacity: 1;
+        }
+
+        a {
+          background-color: $pale !important;
+          background-image: none !important;
+          color: $dark !important;
+        }
+      }
     }
   }
 

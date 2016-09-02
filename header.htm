@@ -33,23 +33,11 @@
               <li id='settings' class="dropdown {%if data.Controller == 'profile' or data.Controller == 'invoices' or data.Controller == 'allowances' or data.Controller == 'store' %}active{%endif%}">
                 <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">{% T Account %}</a>
                 <ul class="dropdown-menu" role="menu">
-                  <li class="{%if data.Controller == 'profile' and data.Action == 'index'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Index %}">{% T My profile %}</a></li>
-                  <li class="{%if data.Controller == 'invoices'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Invoices, Index %}">{% T Payments %}</a></li>
-                  <!-- <li class="{%if data.Controller == 'bookings' and data.Local.ShowAll == false %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T My Bookings %}</a></li> -->
-                  <li class="{%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Credits %}</a></li>
-
-                  <li class="{%if data.Controller == 'store'%}active{%endif%} {% if data.ProductTags.size > 0 %} dropdown-submenu {% endif %}">
-                    <a role="menuitem" tabindex="-1" href="{% Url Store, Products %}">{% T Extras %}</a>
-                    {% if data.ProductTags.size > 0 %}
-                  	<ul class="dropdown-menu" role="menu">
-                      {% for tag in data.ProductTags %}
-                      <li><a role="menuitem" tabindex="-1" href="{% Url Store, Products %}?tag={{ tag }}">{{ tag }}</a></li>
-                      {% endfor %}
-                    </ul>
-                    {% endif %}
-                  </li>
-
-                  <li><a role="menuitem" tabindex="-1" href="{% Url Login, Logout %}">{% T Logout %}</a></li>
+                  <li class="dropdown--icon {%if data.Controller == 'profile' and data.Action == 'index'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Index %}">{% T My profile %}</a><span id="profile"></span></li>
+                  <li class="dropdown--icon {%if data.Controller == 'invoices'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Invoices, Index %}">{% T Payments %}</a><span id="payments"></span></li>
+                  <li class="dropdown--icon {%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Credits %}</a><span id="credits"></span></li>
+                  <li class="dropdown--icon {%if data.Controller == 'store'%}active{%endif%} {% if data.ProductTags.size > 0 %} dropdown-submenu {% endif %}"><a role="menuitem" tabindex="-1" href="{% Url Store, Products %}">{% T Extras %}</a><span id="extras"></span></li>
+                  <li class="dropdown--icon "><a role="menuitem" tabindex="-1" href="{% Url Login, Logout %}">{% T Logout %}</a><span id="logout"></span></li>
                 </ul>
               </li>
               {% else %}

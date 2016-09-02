@@ -234,6 +234,7 @@ footer {
 
 #profile-form {
   @include clearfix;
+  margin-bottom: -40px;
   
   .profile-form {
     margin-left: 0;
