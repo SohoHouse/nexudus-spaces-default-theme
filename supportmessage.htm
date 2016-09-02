@@ -9,10 +9,10 @@
     <div class="row">
       <!-- CONTENT -->
       <section id="content" class="span12">
-        <h3 class="pull-left">
-          {{ data.Local.Message.Subject | StripHtml }} 
-          <span class="pill pill--{% if data.Local.Message.Closed %}closed{% else %}open{% endif %}">{% if data.Local.Message.Closed %}Closed{% else %}Open{% endif %}</span>
-        </h3>
+        <div class="pull-left">
+          <span class="pill pill--{% if data.Local.Message.Closed %}closed{% else %}open{% endif %}">Ticket {% if data.Local.Message.Closed %}Closed{% else %}Open{% endif %}</span>
+          <h1 class="message-subject">{{ data.Local.Message.Subject | StripHtml }} </h1>
+        </div>
         {% unless data.Local.Message.Closed %}
           <a href="#modal_close" role="button" class="btn btn-orange pull-right" data-toggle="modal">{% T Close Ticket %}</a>
         {% endunless %}
@@ -23,38 +23,35 @@
                 <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: data.Local.Message.Coworker.Id, h:64, w:64 %}" alt="{{ data.Local.Message.Coworker.FullName | Capitalize }}" >
               {% endif %}
             </div>
+            <p class="message__name">{{ data.Local.Message.Coworker.Salutation | Default: data.Local.Message.Coworker.FullName }}</p>
             <p class="message__text" title="{{ data.Local.Message.CreatedOn | Date: 'd MMMM H:mm' }}">{{ data.Local.Message.MessageText | StripHtml }}</p>
           </div>
 
           {% for item in data.Local.Message.Comments %}
-            {% assign next = forloop.index + 1 %}
-            {% assign inGroup = false %}
-            {% unless forloop.last %}
-              {% if data.Local.Message.Comments[next].Coworker.IdString == item.Coworker.IdString %}
-                {% assign inGroup = true  %}
+            {% assign prev = forloop.index | Minus: 2 %} 
+            {% assign newGroup = true %}
+            {% unless prev < 0 %}
+              {% if data.Local.Message.Comments[prev].Coworker.IdString == item.Coworker.IdString %}
+                {% assign newGroup = false %}
               {% endif %}
             {% endunless %}
 
-            <div class="message{% if inGroup %} message--group{% endif %} message--{% if item.Coworker.UniqueId == data.Coworker.UniqueId %}mine{% else %}theirs{% endif %}">
-              {% if inGroup == false %}
+            <div class="message{% if newGroup %} message--first{% endif %} message--{% if item.Coworker.UniqueId == data.Coworker.UniqueId %}mine{% else %}theirs{% endif %}">
+              {% if newGroup %}
                 <div class="message__avatar">
                   {% if item.Coworker.HasAvatar %}
                     <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: item.Coworker.Id, h:64, w:64 %}" alt="{{ item.Coworker.FullName | Capitalize }}" >
                   {% endif %}
                 </div>
+                <p class="message__name">{{ item.Coworker.Salutation | Default: item.Coworker.FullName }}</p>
               {% endif %}
               <p class="message__text" title="{{ item.CreatedOn | Date: 'd MMMM H:mm' }}">{{ item.MessageText | StripHtml }}</p>
             </div>
           {% endfor %}
 
           {% unless data.Local.Message.Closed %}
-            <div class="message message--mine message--form">
-              <div class="message__avatar">
-                {% if data.Local.Message.Coworker.HasAvatar %}
-                  <img class="img-circle" height="64" width="64" src="{% Url Coworker, GetAvatar, id: data.Local.Message.Coworker.Id, h:64, w:64 %}" alt="{{ data.Local.Message.Coworker.FullName | Capitalize }}" >
-                {% endif %}
-              </div>
-              <form class="message__text" action="{% Url Support, NewComment %}" method="post">
+            <div class="message-form">
+              <form action="{% Url Support, NewComment %}" method="post">
                 {% AntiforgeryToken %}
                 <input type="hidden" name="Comment.HelpDeskMessage" value="{{data.Local.Message.Id}}" />
                 <textarea placeholder="{% T Type a new message %}" name="Comment.MessageText" required="required"></textarea>

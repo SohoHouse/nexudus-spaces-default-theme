@@ -9,11 +9,11 @@
     </div>
     <div class="modal-body">
 
-      <div class="controls">
+      <div class="input-group">
         <label class="span8">{% T Card Number %}</label>
         <label class="span4">{% T Expires %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <input type="hidden" name="configuration[0].key" value="CardNumber" />
         <input type="hidden" name="configuration[1].key" value="CardExpMonth" />
         <input type="hidden" name="configuration[2].key" value="CardExpYear" />
@@ -24,31 +24,31 @@
         <input autocomplete="off" name="configuration[1].value" class="span2" type="text" placeholder="MM">
         <input autocomplete="off" name="configuration[2].value" class="span2" type="text" placeholder="YY">
       </div>
-      <div class="controls">
+      <div class="input-group">
         <label class="span8">{% T Name on Card %}</label>
         <label class="span4">{% T CVC %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <input autocomplete="off" name="configuration[3].value" value="{{ data.Coworker.FullNameForInvoice }}" class="span8" type="text" placeholder="">
         <input autocomplete="off" name="configuration[4].value" class="span4" type="text" placeholder="CVC">
       </div>
-      <div class="controls">
+      <div class="input-group">
         <label class="span12">{% T Address %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <textarea autocomplete="off" name="Coworker.BillingAddress" class="span12">{{ data.Coworker.AddressForInvoice }}</textarea>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <label class="span12">{% T State %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <input autocomplete="off" name="Coworker.BillingState" value="{{ data.Coworker.StateForInvoice }}" class="span12" type="text" placeholder="{% T State %}">
       </div>
-      <div class="controls">
+      <div class="input-group">
         <label class="span5">{% T City %}</label>
         <label class="span7">{% T Postcode / Zip code %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <input autocomplete="off" name="Coworker.BillingCityName" value="{{ data.Coworker.CityForInvoice }}" class="span5" type="text" placeholder="{% T City %}">
         <input autocomplete="off" name="Coworker.BillingPostCode" value="{{ data.Coworker.PostCodeForInvoice }}" class="span7" type="text" placeholder="{% T Postcode / Zip code %}">
       </div>
@@ -77,54 +77,54 @@
     <form id="payment-form" accept-charset="UTF-8" action="#" method="POST"
     onsubmit="submitSpreedlyPaymentForm(); return false;">
       <input type="hidden" name="token" id="payment_method_token" value="" />
-      <div class="controls">
+      <div class="input-group">
         <label class="span12">{% T Name on Card %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <input class="span6" id="first_name" name="credit_card[first_name]" value="{{ data.Coworker.GuessedFirstNameForInvoice }}" type="text" placeholder="{% T First name %}" />
         <input class="span6" id="last_name" name="credit_card[last_name]" value="{{ data.Coworker.GuessedLastNameForInvoice }}" type="text" placeholder="{% T Last name %}" />
       </div>
-      <div class="controls">
+      <div class="input-group">
         <label class="span9">{% T Card Number %}</label>
         <label class="span3">{% T CVC %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <div id='frame-holder' style="height: 70px;">
           <iframe id="spreedly-iframe" frameborder="0" width="100%" height="100%" scrolling="no"></iframe>
         </div>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <label class="span12">{% T Expires %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <input class="span2" id="month" name="credit_card[month]" type="text" placeholder="MM" />
         <input class="span3" id="year" name="credit_card[year]" type="text" placeholder="YYYY" />
       </div>
 
-      <div class="controls">
+      <div class="input-group">
         <label for="address1">{% T Address %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <textarea class="span12" rows="3" id="address1" name="credit_card[address1]">{{ data.Coworker.AddressForInvoice }}</textarea>
       </div>
 
-      <div class="controls">
+      <div class="input-group">
         <label class="span6" for="credit_card_address1">{% T City %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <input class="span12" id="city" name="credit_card[city]" type="text" value="{{ data.Coworker.CityForInvoice }}" />
       </div>
-      <div class="controls">
+      <div class="input-group">
         <label class="span6" for="credit_card_address1">{% T State %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <input class="span12" id="state" name="credit_card[state]" type="text" value="{{ data.Coworker.StateForInvoice }}" />
       </div>
-      <div class="controls">
+      <div class="input-group">
         <label class="span6" for="zip">{% T Zip %}</label>
         <label class="span6" for="country">{% T Country %}</label>
       </div>
-      <div class="controls">
+      <div class="input-group">
         <input class="span6" id="zip" name="credit_card[zip]" type="text" value="{{ data.Coworker.PostCodeForInvoice }}" />
         <input class="span6" id="country" name="credit_card[country]" type="text" value="{{ data.Coworker.Country.Name }}" />
       </div>

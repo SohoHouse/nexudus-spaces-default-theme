@@ -68,7 +68,7 @@
     border-radius: 0;
   }
 
-  .controls {
+  .input-group {
     margin-bottom: 10px;
 
     &:nth-child(even) {
@@ -76,7 +76,8 @@
     }
 
     input {
-      border-bottom: 1px solid white;
+      background-color: white;
+      color: $dark;
     }
 
     textarea {

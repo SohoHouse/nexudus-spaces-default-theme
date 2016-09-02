@@ -60,9 +60,10 @@ span.label {
 
 .pill {
   @include main-font;
-  font-size: .8em;
   border-radius: 50px;
-  padding: 2px 8px;
+  padding: 10px 16px;
+  height: 40px;
+  box-sizing: border-box;
   display: inline-block;
   vertical-align: middle;
 }
