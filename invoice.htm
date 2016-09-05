@@ -210,7 +210,7 @@
               {{ desc | Join: ' - '}}
             {% endif %}
           </td>
-          <td>{{ line.CreatedOn | Date: 'dd-MM-yy' }}</td>
+          <td>{{ line.SaleDate | Date: 'dd-MM-yy' }}</td>
           <td class="numeric">{{ line.UnitPriceFormatted }}</td>
           <td class="numeric">{{ line.SubTotalFormatted }}</td>
           <td class="numeric">{{ line.TaxPercentage | FormatDecimal: 'N' }}%</td>
