@@ -1,7 +1,7 @@
 <body style="margin: 0 !important; padding: 0 !important;" bgcolor="#F5FAFF">
   {% from 'macros.nunjucks' import button, field %}
   {% set subject = subject | default('{businessname}') %}
-  {% set signoff = signoff | default('Stephen and the Soho Works team') %}
+  {% set signoff = signoff | default('The Soho Works Team – Shoreditch') %}
 
   <link rel="stylesheet" type="text/css" href="../layouts/style.css">
   <link rel="stylesheet" type="text/css" href="../layouts/no-inline.css" inline>

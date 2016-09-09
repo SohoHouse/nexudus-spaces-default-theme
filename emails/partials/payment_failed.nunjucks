@@ -1,7 +1,7 @@
 {% extends "layout.nunjucks" %}
 {% set subject = 'Failed Payment' %}
 {% set error = 'Something went wrong with your payment.' %}
-{% set signoff = 'Stephen Wood, Works Manager' %}
+{% set signoff = 'Stephen Wood, Membership Manager' %}
 
 {% block teaser %}
   Something went wrong with your payment

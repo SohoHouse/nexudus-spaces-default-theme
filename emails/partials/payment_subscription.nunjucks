@@ -1,6 +1,6 @@
 {% extends "layout.nunjucks" %}
 {% set subject = 'Direct Debit Setup' %}
-{% set signoff = 'Stephen Wood, Works Manager' %}
+{% set signoff = 'Stephen Wood, Membership Manager' %}
 
 {% block teaser %}
   Setup your direct debit payment

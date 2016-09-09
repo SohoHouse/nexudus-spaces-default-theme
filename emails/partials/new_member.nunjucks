@@ -1,5 +1,6 @@
 {% extends "layout.nunjucks" %}
 {% set subject = 'Account Active' %}
+{% set signoff = 'Stephen Wood, Membership Manager' %}
 
 {% block teaser %}
   Your Soho Works account is active.
