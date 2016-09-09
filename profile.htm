@@ -114,6 +114,9 @@
       <!-- CONTENT -->
       <section id="content">
       <form action="{% Url Profile, Index %}" id="profile-form" method="POST" enctype="multipart/form-data">
+        <input type="hidden" id="Coworker_Email" name="Coworker.Email" value="{{ data.Coworker.Email }}" />
+        <input type="hidden" id="Team_Name" name="Team.Name" value="{{ data.Coworker.PaysForTeam.Name }}" />
+
         <div class="profile-section span4">
           <h3>Your Profile</h3>
           {% if data.Coworker.HasAvatar %}

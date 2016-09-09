@@ -48,7 +48,7 @@ span.label {
     background-color: $accent;
     
     &, * {
-      color: white;
+      color: white !important;
       font-size: 1em;
     }
   }
@@ -57,7 +57,7 @@ span.label {
     background-color: $primary;
     
     &, * {
-      color: white;
+      color: white !important;
       font-size: 1em;
     }
   }

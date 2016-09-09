@@ -76,6 +76,13 @@ a {
   text-align: right !important;
 }
 
+.mobile-center {
+  @media (max-width: $medium) {
+    text-align: center;
+    float: none;
+  }
+}
+
 .fade {
   opacity: 0.6;
 }

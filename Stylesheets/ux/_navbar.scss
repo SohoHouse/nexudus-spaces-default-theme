@@ -264,7 +264,7 @@ label[for=sw-collapse] {
   @media (max-width: $medium) {
     position: fixed;
     top: 0;
-    bottom: 0;
+    bottom: auto;
     left: 0 !important;
     right: 0 !important;
     margin: 30px auto;
@@ -314,6 +314,7 @@ label[for=sw-collapse] {
         &:focus {
           background-color: rgba(white, .1) !important;
           color: white !important;
+          background-image: none !important;
         }
       }
     }

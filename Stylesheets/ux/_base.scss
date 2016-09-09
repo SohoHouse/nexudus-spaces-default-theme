@@ -35,3 +35,13 @@ body {
     text-decoration: none;
   }
 }
+
+.mobile-show {
+  display: none;
+}
+
+@media (max-width: $medium) {
+  .mobile-show {
+    display: initial;
+  }
+}

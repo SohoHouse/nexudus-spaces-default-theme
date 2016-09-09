@@ -66,8 +66,8 @@ var vm = new Vue({
       return ev.TicketsPage || '';
     },
     timesFor: function (ev) {
-      var start = moment(ev.FromTime || ev.StartDate),
-          end = moment(ev.ToTime || ev.EndDate);
+      var start = moment(ev.FromTime || ev.StartDate).utc(),
+          end = moment(ev.ToTime || ev.EndDate).utc();
       return start.format('HH:mm') + ' - ' + end.format('HH:mm');
     },
     sortEvents: function (a, b) {

@@ -31,11 +31,14 @@
       <section id="content" class="span12">
     		{% if data.Resources.size > 0 %}
           <div class="nav nav--calendar clearfix"> 
-            {% if data.Local.ShowAll == true %}
-              <a class="btn btn-back btn-grey" href="{% Url Bookings, Index, ShowAll: false %}">{% T Back to Calendar %}</a>
-            {% else %}
-              <h3 class="pull-left">{% T My Bookings %}</h3>
-            {% endif %}
+            <div class="mobile-center pull-left">
+              {% if data.Local.ShowAll == true %}
+                <a class="btn btn-back btn-grey btn-stacked" href="{% Url Bookings, Index, ShowAll: false %}">{% T Back to Calendar %}</a>
+              {% else %}
+                <h3>{% T My Bookings %}</h3>
+              {% endif %}
+              <br /><a class="btn btn-orange mobile-show" href="#" onclick="createBooking(new Date())">{% T Make a booking %}</a>
+            </div>
             <div class="pull-right">
               <div class="filter dropdown">
                 <a href="#" class="btn btn-orange btn-dropdown" data-toggle="dropdown">
@@ -102,6 +105,20 @@
        {% else %}
          {'id':{{ data.Local.Resource.Id }}, 'groupName': '{{ resourceGroupName | Replace: "'", "\'" }}', 'title':'{{ data.Local.Resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ data.Local.Resource.Name | Replace: "'", "\'" }}')}
        {% endif %}
+    ];
+
+    var allResources = [
+     {% for resource in data.Resources %}
+       {% assign resourceGroupKey = resource.GroupName | Clean %}
+       {% assign resourceGroupName = resource.GroupName %}
+       {% if resourceGroupKey == '' %}
+         {% assign resourceGroupKey = 'resources' %}
+         {% assign resourceGroupName = 'Resources' %}
+       {% endif %}
+       {% if type == resourceGroupKey or type == '' %}
+         {'id':{{ resource.Id }}, 'groupName': '{{ resourceGroupName | Replace: "'", "\'" }}', 'title':'{{ resource.Name | Replace: "'", "\'" }}', eventColor: getColurFromName('{{ resource.Name | Replace: "'", "\'" }}')},
+       {% endif %}
+     {% endfor %}
     ];
 
     {% include 'event_json.js' %}
@@ -237,8 +254,20 @@
         });
 
         //Initialize timepickers
-        $("#Booking_From").datetimepicker({ viewSelect: 'year', pickerPosition: 'bottom-left', language: '{{ data.Language }}', format: "dd MM yyyy - HH:ii P", minuteStep: 15, showMeridian: true, autoclose: true, todayBtn: true, startDate: '+0d', startView: 1 });
-        $("#Booking_To").datetimepicker({ viewSelect: 'year', pickerPosition: 'bottom-left', language: '{{ data.Language }}', format: "dd MM yyyy - HH:ii P", minuteStep: 15, showMeridian: true, autoclose: true, todayBtn: true, startDate: '+0d', startView: 1 });
+        var pickerOptions = { 
+          viewSelect: 'year', 
+          pickerPosition: 'bottom-left', 
+          language: '{{ data.Language }}', 
+          format: "dd MM yyyy - HH:ii P", 
+          minuteStep: 30, 
+          showMeridian: true, 
+          autoclose: true, 
+          todayBtn: false, 
+          startDate: '+0d', 
+          startView: 1 
+        }
+        $("#Booking_From").datetimepicker(pickerOptions);
+        $("#Booking_To").datetimepicker(pickerOptions);
 
         $("#Booking_From input").attr('readonly','readonly');
         $("#Booking_To input").attr('readonly','readonly');
@@ -322,7 +351,7 @@
 
         function hideOrShowFields() {
           var rid = $('#Booking_Resource').val();
-          resource = resources.filter(function(r) {return r.id == rid})[0]
+          resource = allResources.filter(function(r) {return r.id == rid})[0]
           $('[data-show-for]').hide()
           $('[data-show-for="' + resource.groupName + '"]').show()
         }

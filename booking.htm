@@ -80,7 +80,7 @@
       <div id="booking-details" style="{% if data.Coworker == null %}display: none{% endif %}">
         <table>
           <tr>
-            <td>{% T I want to book %}</td>
+            <td>{% T I want to book the %}</td>
             <td>
               <select name="Booking.Resource" id="Booking_Resource" data-bind="event: { change: updateProducts }">
                 <option disabled>{% T Pick one %}</option>
@@ -124,35 +124,33 @@
         </div>
 
         <div class="row-fluid hidden-phone" data-bind="visible: bookingProducts() && bookingProducts().length > 0">
-          <div class="controls">
-            <label class="body-label">{% T Select the items you will require during this booking %}</label>
-            <table class="table">
-              <tbody data-bind="foreach: bookingProducts">
-                <tr>
-                  <td>
-                    <input type="hidden" data-bind="attr: { name: 'Products[' + $index() + '].ProductId' }, value: ProductId" />
-                    <input type="hidden" data-bind="attr: { name: 'Products[' + $index() + '].Selected' }, value: Selected" />
-                    <input type="hidden" data-bind="attr: { name: 'Products[' + $index() + '].Quantity' }, value: Quantity" />
+          <label class="body-label">{% T Select the items you will require during this booking %}</label>
+          <table class="table">
+            <tbody data-bind="foreach: bookingProducts">
+              <tr>
+                <td>
+                  <input type="hidden" data-bind="attr: { name: 'Products[' + $index() + '].ProductId' }, value: ProductId" />
+                  <input type="hidden" data-bind="attr: { name: 'Products[' + $index() + '].Selected' }, value: Selected" />
+                  <input type="hidden" data-bind="attr: { name: 'Products[' + $index() + '].Quantity' }, value: Quantity" />
 
-                    <span data-bind="text: ProductName"></span>
-                    <span data-bind="text: '(' + FormattedPrice() + '/h.)', visible: Price() != 0 && InvoiceInMinutes()"></span>
-                    <span data-bind="text: '(' + FormattedPrice() + ')', visible: Price() != 0 && InvoiceInMinutes() == false"></span>
-                    <br /><small data-bind="text: ProductDescription"></small>
-                  </td>
-                  <td style="width:45px">
-                    <input data-bind="visible: RequestQuantity() == false, checked: Selected, event: { change: checkBooking }" type="checkbox" />
-                    <select class="select--number" data-bind="visible: RequestQuantity(), value: Quantity, event: { change: checkBooking }">
-                    {% for i in (0..20) %}
-                      <option value="{{ i }}">{{i}}</option>
-                    {% endfor %}
-                    </select>
-                    <!-- <input class="" data-bind="visible: RequestQuantity(), value: Quantity, event: { change: checkBooking }" type="number" value="0" style="width: 45px" /> -->
-                  </td>
-                </tr>
+                  <span data-bind="text: ProductName"></span>
+                  <span data-bind="text: '(' + FormattedPrice() + '/h.)', visible: Price() != 0 && InvoiceInMinutes()"></span>
+                  <span data-bind="text: '(' + FormattedPrice() + ')', visible: Price() != 0 && InvoiceInMinutes() == false"></span>
+                  <br /><small data-bind="text: ProductDescription"></small>
+                </td>
+                <td style="width:45px">
+                  <input data-bind="visible: RequestQuantity() == false, checked: Selected, event: { change: checkBooking }" type="checkbox" />
+                  <select class="select--number" data-bind="visible: RequestQuantity(), value: Quantity, event: { change: checkBooking }">
+                  {% for i in (0..20) %}
+                    <option value="{{ i }}">{{i}}</option>
+                  {% endfor %}
+                  </select>
+                  <!-- <input class="" data-bind="visible: RequestQuantity(), value: Quantity, event: { change: checkBooking }" type="number" value="0" style="width: 45px" /> -->
+                </td>
+              </tr>
 
-              </tbody>
-            </table>
-          </div>
+            </tbody>
+          </table>
         </div>
 
         <div class="alert alert-success resource_available">
@@ -162,10 +160,12 @@
           {% endif %}
         </div>
         <div class="row-fluid hidden-phone" data-show-for="Meeting Rooms">
-          <div class="controls">
-            <textarea class="span12" id="Booking_Notes" style="display: none" name="Booking.Notes"></textarea>
+          <textarea class="span12" id="Booking_Notes" style="display: none" name="Booking.Notes"></textarea>
+          <div class="input-group">
             <label>{% T Guest Names %}</label>
             <textarea class="span12" data-breakdown="Guest Names"></textarea>
+          </div>
+          <div class="input-group">
             <label>{% T Notes/Special Requests %}</label>
             <textarea class="span12" data-breakdown="Notes/Special Requests"></textarea>
           </div>

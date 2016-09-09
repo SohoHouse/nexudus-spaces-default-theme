@@ -65,6 +65,11 @@
     line-height: 40px !important;
   }
 
+  span.minute {
+    float: none !important;
+    display: inline-block !important;
+  }
+
   th.today {
     position: relative;
     color: white;
