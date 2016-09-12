@@ -170,6 +170,9 @@
 }
 
 @media (max-width: $medium) {
+  .dashboard__list {
+    padding-bottom: 30px;
+  }
   .dashboard__cal {
     border: 0;
     margin-right: 0;
