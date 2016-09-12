@@ -215,8 +215,12 @@ footer {
 
 .profile-section {
   text-align: center;
-  padding-right: 30px;
   box-sizing: border-box;
+
+  @media (min-width: $medium) {
+    padding-right: 30px;
+  }
+  
   img {
     margin-bottom: 30px;
   }

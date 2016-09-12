@@ -85,14 +85,16 @@ textarea {
   margin-bottom: 20px;
   position: relative; 
 
-  &.half:nth-child(odd) {
-    float: left;
-    margin-right: 4%;
-  }
+  @media (min-width: $medium) {
+    &.half:nth-child(odd) {
+      float: left;
+      margin-right: 4%;
+    }
 
-  &.half {
-    width: 48%;
-    display: inline-block;
+    &.half {
+      width: 48%;
+      display: inline-block;
+    }
   }
 
   label {

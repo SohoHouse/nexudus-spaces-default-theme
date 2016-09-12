@@ -32,8 +32,8 @@
 
     &.span8 {
       width: 100%;
-      margin-left: 30px;
-      margin-right: 30px;
+      margin-left: 10px;
+      margin-right: 10px;
     }
   }
 }
@@ -99,7 +99,7 @@
 
     @media (max-width: $medium) {
       min-width: 0;
-      min-height: 0;
+      height: 40px;
       padding: 1vw !important;
     }
   }
@@ -173,20 +173,12 @@
   .dashboard__cal {
     border: 0;
     margin-right: 0;
+    padding-right: 0;
     margin-bottom: 30px;
     width: 100%;
 
     #mini-calendar-table {
       width: 100%;
-    }
-  }
-
-  .dashboard__list {
-    .dashboard__link {
-      left: auto;
-      bottom: auto;
-      right: 0;
-      top: 0;
     }
   }
 }
@@ -232,6 +224,14 @@
   text-align: center;
   span {
     margin: 0 2.5px;
+  }
+
+  @media (max-width: $medium) {
+    bottom: -3px;
+  }
+
+  .today & {
+    margin-left: -9px;
   }
 }
 

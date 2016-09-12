@@ -112,15 +112,20 @@ span.label {
 }
 
 .copyable {
-  align-items: center;
-  display: flex;
-  flex-flow: row nowrap;
+  text-align: center;
+  
+  @media (min-width: $medium) {
+    align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+  }
 
   p {
     @include body-font;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-bottom: 10px;
   }
 }
 

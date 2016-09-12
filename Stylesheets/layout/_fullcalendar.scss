@@ -363,6 +363,29 @@
       }
     }
   }
+
+  .fc-today-button {
+    background-image: none !important; 
+    border: 1px solid $primary !important;
+    border-radius: 4px;
+    box-shadow: 0 0 0;
+    box-sizing: border-box;
+    color: $primary;
+    max-width: 100%;
+    outline: none !important;
+    height: auto !important;
+    margin-top: -7px !important;
+    padding: 10px 50px;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    transition: all 200ms ease-in;
+    transition: all 200ms ease-in;
+
+    &:hover, &:focus {
+      background: transparent;
+      border-color: darken($primary, 0.5%);
+      color: darken($primary, 0.5%);
+    }
+  }
 }
 
 .resource-label {
