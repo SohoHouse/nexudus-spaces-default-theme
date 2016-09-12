@@ -155,11 +155,13 @@
   padding-right: 10px;
   border-right: 1px solid rgba(white, 0.2);
   margin-right: 30px;
+  flex: auto 1 0;
 }
 
 .dashboard__list {
   position: relative;
   width: 100%;
+  flex: auto 0 1;
   
   .dashboard__link {
     position: absolute;
