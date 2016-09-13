@@ -9,7 +9,7 @@
           <div class="card-image" style="background-image: url({% Url Events, GetLargeImage, id: data.Local.Event.Id, w: 870 %})"></div>
         </a>
         <div class="card-content">
-          <a class="card-meta" href="{% Url Events, ICal, Id: data.Local.Event.Id %}">{{ data.Local.Event.StartDate | Date: 'dd MMMM - h:mmtt' }}</a>
+          <a class="card-meta" href="{% Url Events, ICal, Id: data.Local.Event.Id %}">{{ data.Local.Event.StartDate | Date: 'dd MMMM - h:mmtt' }} • {{ data.Local.Event.Resource.Name }}</a>
           <h2 class="card-title"><a href="{% Url Events, Tickets, Id: data.Local.Event.Id, title: data.Local.Event.Name | Clean %}">{{ data.Local.Event.Name | StripHtml }}</a></h2>
           <div class="card-description">
             {{ data.Local.Event.ShortDescription | StripHtml | MarkDown }}

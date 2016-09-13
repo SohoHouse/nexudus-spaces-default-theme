@@ -12,7 +12,7 @@
     <div class="card-image" style="background-image: url({% Url Events, GetLargeImage, id: ev.Id, w: 870 %})"></div>
   </a>
   <div class="card-content">
-    <a class="card-meta" href="{% Url Events, ICal, Id: ev.Id %}">{{ ev.StartDate | Date: 'dd MMMM - h:mmtt' }}</a>
+    <a class="card-meta" href="{% Url Events, ICal, Id: ev.Id %}">{{ ev.StartDate | Date: 'dd MMMM - h:mmtt' }} • {{ ev.Resource.Name }}</a>
     <h2 class="card-title"><a href="{% Url Events, Tickets, Id: ev.Id, title: ev.Name | Clean %}">{{ ev.Name | StripHtml }}</a></h2>
     <div class="card-description">
       {{ ev.ShortDescription | StripHtml | MarkDown }}
