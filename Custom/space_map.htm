@@ -24,13 +24,13 @@
         var address = "{{data.Business.Address | Replace: '\n', ' ' | Replace: '\r', ''}}";
         geocoder.geocode( { 'address': address}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
                 var marker = new google.maps.Marker({
                     map: map,
                     position: results[0].geometry.location,
                     icon: '/images/map-marker.png'
                 });
                 generateInfoBox(marker);
+                setTimeout(function() { map.setCenter(results[0].geometry.location); }, 100)
             } else {
                 showErrorMessage("We couldn't map your address. Try changing the format and order of each element of your address. Error: " + status);
             }

@@ -63,7 +63,7 @@ var vm = new Vue({
       return this.events[day.format('YYYY-MM-DD')];
     },
     linkFor: function (ev) {
-      return ev.TicketsPage || '';
+      return ev.TicketsPage || '/bookings?showall=false';
     },
     timesFor: function (ev) {
       var start = moment(ev.FromTime || ev.StartDate).utc(),

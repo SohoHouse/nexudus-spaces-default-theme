@@ -18,7 +18,9 @@
 {% assign qsView = data.QueryString["view"] %}
 {% if qsView != null %}{% assign defaultView = qsView %}{% endif %}
 
+{% assign daily = data.QueryString["daily"] %}
 {% if data.Local.ShowAll %}{% assign defaultView = 'agendaWeek' %}{% endif %}
+{% if daily %}{% assign defaultView = 'agendaDay' %}{% endif %}
 
 
 
@@ -40,6 +42,7 @@
               <br /><a class="btn btn-orange mobile-show" href="#" onclick="createBooking(new Date())">{% T Make a booking %}</a>
             </div>
             <div class="pull-right">
+              {% unless daily %}<a class="btn btn-grey btn-wide" href="{% Url Bookings, Index, showAll: true, daily: true %}">Find an available resource</a>{% endunless %}
               <div class="filter dropdown">
                 <a href="#" class="btn btn-orange btn-dropdown" data-toggle="dropdown">
                   {% if data.Local.ShowAll and data.Local.Resource %}{{data.Local.Resource.Name}}{% else %} {% T Make a Booking %} {% endif %}
@@ -53,6 +56,9 @@
                 </ul>
               </div>
             </div>
+          </div>
+          <div class="clearfix">
+            <p class="fade body-font">Click an empty time slot to make a booking.</p>
           </div>
     		{% endif %}
 
@@ -206,7 +212,7 @@
       lang: '{{ data.Language }}',
       allDaySlot: false, 
       titleFormat: 'MMMM YYYY',
-    	scrollTime: '09:00',
+    	scrollTime: '8:00',
     	minTime:'06:00',
       aspectRatio: 2,
     	height: 'auto',
