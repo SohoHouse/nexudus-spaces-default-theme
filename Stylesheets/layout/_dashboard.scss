@@ -72,6 +72,10 @@
   border-right-color: white;
 }
 
+[v-cloak] {
+  display: none !important;
+}
+
 #mini-calendar {
   display: flex;
   h3 {

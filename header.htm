@@ -15,7 +15,6 @@
       </h1>
       <!-- END LOGO OR SPACE NAME -->
       {% unless hideNav %}
-
         <input type="checkbox" id="sw-collapse" />
         <label for="sw-collapse"></label>
         <!-- MAIN NAVIGATION -->
@@ -26,7 +25,13 @@
             <li id="bookings" class="{%if data.Controller == 'bookings' %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T Bookings %}</a></li>
             <li id='resources' class="{%if data.Controller == 'publicresources'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Space resources %}</a></li>
             {% if data.Setting_PublicWebSite_Help %}
-              <li id="support" class="{%if data.Controller == 'support'%}active{%endif%}"><a href="{% Url Support, Index %}">{% T Support %}</a></li>
+              <li id='support' class="dropdown {%if data.Controller == 'support' or data.Controller == 'contact' %}active{%endif%}">
+              <a role="button" data-toggle="dropdown" href="#">{% T Support %}</a>
+                <ul class="dropdown-menu" role="menu">
+                  <li class="{%if data.Controller == 'support'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Support, Index %}">{% T Contact Reception %}</a><span id="support"></span></li>
+                  <li class="{%if data.Controller == 'contact'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Contact, Index %}">{% T Contact Membership %}</a><span id="contact"></span></li>
+                </ul>
+              </li>
             {% endif %}
             {% if data.Setting_PublicWebSite_MyAccount %}
               {% if data.UserIsLoggedIn %}

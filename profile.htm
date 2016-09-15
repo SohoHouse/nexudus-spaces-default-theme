@@ -116,6 +116,12 @@
         <form action="{% Url Profile, Index %}" id="profile-form" method="POST" enctype="multipart/form-data">
           <input type="hidden" id="Coworker_Email" name="Coworker.Email" value="{{ data.Coworker.Email }}" />
           <input type="hidden" id="Team_Name" name="Team.Name" value="{{ data.Coworker.PaysForTeam.Name }}" />
+          <input id="User_OnHelpDeskMsg_Hidden" name="User.OnHelpDeskMsg" type="hidden" value="false" />
+          <input id="User_OnNewWallPost_Hidden" name="User.OnNewWallPost" type="hidden" value="false" />
+          <input id="User_OnNewBlogComment_Hidden" name="User.OnNewBlogComment" type="hidden" value="false" />
+          <input id="User_OnNewEventComment_Hidden" name="User.OnNewEventComment" type="hidden" value="false" />          
+          <input id="User_ReceiveCommunityDigest_Hidden" name="User.ReceiveCommunityDigest" type="hidden" value="false" />
+          <input id="User_ReceiveEveryMessage_Hidden" name="User.ReceiveEveryMessage" type="hidden" value="false" />          
 
           <div class="profile-section span4">
             <h3>Your Profile</h3>
@@ -132,13 +138,15 @@
           <div class="profile-form span8">
             <div class="form-section">
               <h3 id="personal-details">{% T Personal Details %}</h3>
-              <div class="input-group half">
-                <label for="Coworker_FullName">{% T Fullname %}</label>
-                <input type="text" id="Coworker_FullName" name="Coworker.FullName" value="{{ data.Coworker.FullName }}" required="required">
-              </div>
-              <div class="input-group half">
-                <label for="Coworker_Salutation">{% T What should we call you? %}</label>
-                <input type="text" id="Coworker_Salutation" name="Coworker.Salutation" value="{{ data.Coworker.Salutation }}" required="required">
+              <div class="input-wrapper">
+                <div class="input-group half">
+                  <label for="Coworker_FullName">{% T Fullname %}</label>
+                  <input type="text" id="Coworker_FullName" name="Coworker.FullName" value="{{ data.Coworker.FullName }}" required="required">
+                </div>
+                <div class="input-group half">
+                  <label for="Coworker_Salutation">{% T What should we call you? %}</label>
+                  <input type="text" id="Coworker_Salutation" name="Coworker.Salutation" value="{{ data.Coworker.Salutation }}" required="required">
+                </div>
               </div>
               <div class="input-group">
                 <label for="Coworker_Avatar" class="file">{% T Photo %}</label>

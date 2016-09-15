@@ -12,7 +12,7 @@
         </ul>
       </div>  
       <div class="dashboard__section span8">
-        <div id="mini-calendar">
+        <div id="mini-calendar" v-cloak>
           <div class="dashboard__cal">
             <h3 v-text="currentMoment | moment 'MMMM YYYY'"></h3>
             <div class="dashboard__arrows">
@@ -59,6 +59,17 @@
 <div id="map-canvas"></div>
 <div id="wrapper">
   <div id="main" class="container basic">
+    <div class="mobile-show">
+      <h3>Your Soho Works</h3>
+      <h1>{{ data.Business.Name}}</h1>
+      <p class="fade">Email:</p>
+      <p class="body-font">{{ data.Business.EmailContact }}</p>
+      <p class="fade">Tel:</p>
+      <p class="body-font">{{ data.Business.Phone }}</p><br />
+      <p class="fade">Address:</p>
+      <p class="body-font">{{ data.Business.Address | NewlineToBr | StripNewlines }}</p>
+      <br /><br /><br />
+    </div>  
     <h3>{% T Upcoming Events %}</h3>
     <div class="row card-wrapper--grid">
       {% for ev in data.CalendarEvents limit:3 %}

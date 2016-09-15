@@ -1,5 +1,5 @@
 $nav-items: events support settings resources home bookings;
-$dropdown-items: profile payments extras credits logout;
+$dropdown-items: profile payments extras credits logout support contact;
 
 header.navbar .container {
   @media (max-width: $small) {
@@ -245,18 +245,18 @@ label[for=sw-collapse] {
         background-position: center left;
         opacity: 1;
       }
+    }
 
-      &:hover, 
-      &:focus {
-        span {
-          opacity: 1;
-        }
+    &:hover, 
+    &:focus {
+      span {
+        opacity: 1;
+      }
 
-        a {
-          background-color: $pale !important;
-          background-image: none !important;
-          color: $dark !important;
-        }
+      a {
+        background-color: $pale !important;
+        background-image: none !important;
+        color: $dark !important;
       }
     }
   }

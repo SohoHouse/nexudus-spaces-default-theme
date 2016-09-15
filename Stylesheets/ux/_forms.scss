@@ -79,6 +79,10 @@ textarea {
   }
 }
 
+.input-wrapper {
+  @include clearfix;
+}
+
 .input-group {
   width: 100%;
   display: block;
@@ -189,7 +193,7 @@ textarea {
     display: block;
     width: 100%;
     box-sizing: border-box;
-    border: 0;
+    border: 1px solid $secondary;
     box-shadow: none;
     padding: 10px 0 0;
   }

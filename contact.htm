@@ -6,47 +6,39 @@
   <!-- CONTAINER -->
   <div id="main" class="container">
     <form id="contact-form" method="post" action="{% Url Contact, NewUserMessage %}" class="row-fluid">
-      <div>
-        <div class="span8">
-          <h3>{% T Send us an email %}</h3>
-          <div class="input-group">
-            <label>{% T Your email address%}</label>
-            <input type="text" id="UserMessage_FromName" name="UserMessage.FromName" required="required" class="required" value="{{data.Local.FromName}}">
-          </div>
-          <div class="input-group select">
-            <label>{% T Subject %}</label>
-            <select id="UserMessage_Header" name="UserMessage.Header" value="{{data.Local.Header}}">
-              <option>My team size is changing</option>
-              <option>I want to change my membership type</option>
-              <option>I want to move to a different desk/study</option> 
-              <option>I want to change my payment method</option>
-              <option>I have a payment query</option>
-              <option>I want to visit another Soho Works location</option>
-            </select>
-          </div>
+      <h3>{% T Send us an email %}</h3>
+      <div class="input-wrapper clearfix">
+        <div class="input-group half">
+          <label>{% T Your email address%}</label>
+          <input type="text" id="UserMessage_FromName" name="UserMessage.FromName" required="required" class="required" value="{{data.Local.FromName}}">
         </div>
-        <div class="span4">
-          <button type="submit" class="btn btn-orange pull-right">{% T Send %}</button>
+        <div class="input-group select half">
+          <label>{% T Subject %}</label>
+          <select id="UserMessage_Header" name="UserMessage.Header" value="{{data.Local.Header}}">
+            <option>My team size is changing</option>
+            <option>I want to change my membership type</option>
+            <option>I want to move to a different desk/study</option> 
+            <option>I want to change my payment method</option>
+            <option>I have a payment query</option>
+            <option>I want to visit another Soho Works location</option>
+          </select>
         </div>
       </div>
-      <div>
-        <div class="span12">
-          <div class="input-group">
-            <label>{% T Message %}</label>
-            <textarea type="text" name="UserMessage.Body" id="UserMessage_Body" class="required">{{data.Local.Body}}</textarea>
-          </div>
 
-          {% if data.User.IsAuthenticated == false %}
-          <p class="textarea-block">
-            <label>{% T Text in the image: %}</label>
-            {% Captcha %}
-          </p>
-          {% else %}
-          <input type="hidden" value="disabled" name="recaptcha_challenge_field" />
-          <input type="hidden" value="disabled" name="recaptcha_response_field" />
-          {% endif %}
-        </div>
+      <div class="input-group">
+        <label>{% T Message %}</label>
+        <textarea type="text" name="UserMessage.Body" id="UserMessage_Body" class="required">{{data.Local.Body}}</textarea>
       </div>
+      {% if data.User.IsAuthenticated == false %}
+      <p class="textarea-block">
+        <label>{% T Text in the image: %}</label>
+        {% Captcha %}
+      </p>
+      {% else %}
+      <input type="hidden" value="disabled" name="recaptcha_challenge_field" />
+      <input type="hidden" value="disabled" name="recaptcha_response_field" />
+      {% endif %}
+      <button type="submit" class="btn btn-orange pull-right">{% T Send %}</button>
     </form>
       <!-- END CONTACT FORM -->
     </div>

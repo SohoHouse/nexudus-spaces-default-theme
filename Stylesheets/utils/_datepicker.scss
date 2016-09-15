@@ -47,6 +47,12 @@
     background-color: $primary !important;
   }
 
+  .switch {
+    background-color: white !important;
+    color: $dark;
+    font-size: 1em;
+  }
+
   span.hour, 
   td.day {
     height: 40px !important;
