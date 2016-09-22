@@ -250,4 +250,8 @@
   background-color: $highlight;
   display: inline-block;
   border-radius: 100%;
+
+  &.alternate {
+    background-color: $alternate-highlight;
+  }
 }
