@@ -79,6 +79,9 @@ var vm = new Vue({
         today: day.isSame(moment(), 'day'),
         active: day.isSame(this.activeMoment, 'date')
       };
+    },
+    dotClassFor: function(ev) {
+      if (!ev.Coworker) return 'alternate';
     }
   }
 });

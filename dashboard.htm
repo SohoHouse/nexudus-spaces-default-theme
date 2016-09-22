@@ -28,7 +28,7 @@
                   <td v-for="day in week" :class="classFor(day)" @click="activeMoment = day">
                     {% raw %}{{ day.date() }}{% endraw %}
                     <div class="dashboard__dots" v-if="eventsOn(day)">
-                      <span v-for="event in eventsOn(day)" class="dashboard__dot"></span>
+                      <span v-for="event in eventsOn(day)" :class="['dashboard__dot', dotClassFor(event)]"></span>
                     </div>
                   </td>
                 </tr>
@@ -42,7 +42,7 @@
             <ul v-else class="dashboard__events-list">
               <li class="events-list__item" v-for="event in eventsOn(activeMoment) | orderBy sortEvents">
                 <a :href="linkFor(event)">
-                  <span class="dashboard__dot"></span>
+                  <span :class="['dashboard__dot', dotClassFor(event)]"></span>
                   <p>{% raw %}
                     {{ timesFor(event) }}
                   {% endraw %}</p>
