@@ -20,30 +20,78 @@
         <!-- MAIN NAVIGATION -->
         <nav class="sw-collapse">
           <ul class="nav nav-pills pull-right">
-            <li id='home' class="{%if data.Controller == 'publichome'%}active{%endif%}"><a href="{% Url PublicHome, Index %}">{% T Home %}</a></li>
-            <li id='events' class="{%if data.Controller == 'events'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Events, Index %}">{% T Events %}</a></li>
-            <li id="bookings" class="{%if data.Controller == 'bookings' %}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T Bookings %}</a></li>
-            <li id='resources' class="{%if data.Controller == 'publicresources'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Space resources %}</a></li>
+
+            <li id='home' class="{%if data.Controller == 'publichome'%}active{%endif%}">
+              <span class="resource-label resource-label--hover">
+                <span class="resource-tooltip">
+                  <span class="resource-tooltip__arrow"></span>
+                  <span class="resource-tooltip__label">Home</span>
+                </span>
+                <a class='nav-icon' role="menuitem" tabindex="-1" href="{% Url PublicHome, Index %}">{% T Home %}</a>
+              </span>
+            </li>
+
+            <li id='events' class="{%if data.Controller == 'events'%}active{%endif%}">
+              <span class="resource-label resource-label--hover">
+                <span class="resource-tooltip">
+                  <span class="resource-tooltip__arrow"></span>
+                  <span class="resource-tooltip__label">Events</span>
+                </span>
+                <a class='nav-icon' role="menuitem" tabindex="-1" href="{% Url Events, Index %}">{% T Events %}</a>
+              </span>
+            </li>
+
+            <li id="bookings" class="{%if data.Controller == 'bookings' %}active{%endif%}">
+              <span class="resource-label resource-label--hover">
+                <span class="resource-tooltip">
+                  <span class="resource-tooltip__arrow"></span>
+                  <span class="resource-tooltip__label">Bookings</span>
+                </span>
+                <a class='nav-icon' role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T Bookings %}</a>
+              </span>
+            </li>
+
+            <li id='resources' class="{%if data.Controller == 'publicresources'%}active{%endif%}">
+              <span class="resource-label resource-label--hover">
+                <span class="resource-tooltip">
+                  <span class="resource-tooltip__arrow"></span>
+                  <span class="resource-tooltip__label">Space Resources</span>
+                </span>
+                <a class='nav-icon' role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Space resources %}</a>
+              </span>
+            </li>
             {% if data.Setting_PublicWebSite_Help %}
               <li id='support' class="dropdown {%if data.Controller == 'support' or data.Controller == 'contact' %}active{%endif%}">
-              <a role="button" data-toggle="dropdown" href="#">{% T Support %}</a>
-                <ul class="dropdown-menu" role="menu">
-                  <li class="{%if data.Controller == 'support'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Support, Index %}">{% T Contact Reception %}</a><span id="support"></span></li>
-                  <li class="{%if data.Controller == 'contact'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Contact, Index %}">{% T Contact Membership %}</a><span id="contact"></span></li>
-                </ul>
+                <span class="resource-label resource-label--hover">
+                  <span class="resource-tooltip">
+                    <span class="resource-tooltip__arrow"></span>
+                    <span class="resource-tooltip__label">Support</span>
+                  </span>
+                  <a class='nav-icon' role="button" data-toggle="dropdown" href="#">{% T Support %}</a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li class="{%if data.Controller == 'support'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Support, Index %}">{% T Contact Reception %}</a><span id="support"></span></li>
+                    <li class="{%if data.Controller == 'contact'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Contact, Index %}">{% T Contact Membership %}</a><span id="contact"></span></li>
+                  </ul>
+                </span>
               </li>
             {% endif %}
             {% if data.Setting_PublicWebSite_MyAccount %}
               {% if data.UserIsLoggedIn %}
               <li id='settings' class="dropdown {%if data.Controller == 'profile' or data.Controller == 'invoices' or data.Controller == 'allowances' or data.Controller == 'store' %}active{%endif%}">
-                <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">{% T Account %}</a>
-                <ul class="dropdown-menu" role="menu">
-                  <li class="dropdown--icon {%if data.Controller == 'profile' and data.Action == 'index'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Index %}">{% T My profile %}</a><span id="profile"></span></li>
-                  <li class="dropdown--icon {%if data.Controller == 'invoices'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Invoices, Index %}">{% T Payments %}</a><span id="payments"></span></li>
-                  <li class="dropdown--icon {%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Credits %}</a><span id="credits"></span></li>
-                  <li class="dropdown--icon {%if data.Controller == 'store'%}active{%endif%} {% if data.ProductTags.size > 0 %} dropdown-submenu {% endif %}"><a role="menuitem" tabindex="-1" href="{% Url Store, Products %}">{% T Extras %}</a><span id="extras"></span></li>
-                  <li class="dropdown--icon "><a role="menuitem" tabindex="-1" href="{% Url Login, Logout %}">{% T Logout %}</a><span id="logout"></span></li>
-                </ul>
+                <span class="resource-label resource-label--hover">
+                  <span class="resource-tooltip">
+                    <span class="resource-tooltip__arrow"></span>
+                    <span class="resource-tooltip__label">Support</span>
+                  </span>
+                  <a class="dropdown-toggle nav-icon" role="button" data-toggle="dropdown" href="#">{% T Account %}</a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li class="dropdown--icon {%if data.Controller == 'profile' and data.Action == 'index'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Index %}">{% T My profile %}</a><span id="profile"></span></li>
+                    <li class="dropdown--icon {%if data.Controller == 'invoices'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Invoices, Index %}">{% T Payments %}</a><span id="payments"></span></li>
+                    <li class="dropdown--icon {%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Credits %}</a><span id="credits"></span></li>
+                    <li class="dropdown--icon {%if data.Controller == 'store'%}active{%endif%} {% if data.ProductTags.size > 0 %} dropdown-submenu {% endif %}"><a role="menuitem" tabindex="-1" href="{% Url Store, Products %}">{% T Extras %}</a><span id="extras"></span></li>
+                    <li class="dropdown--icon "><a role="menuitem" tabindex="-1" href="{% Url Login, Logout %}">{% T Logout %}</a><span id="logout"></span></li>
+                  </ul>
+                </span>
               </li>
               {% else %}
               <li><a href="https://{{ data.Business.WebAddress }}.{{ data.PublicSiteSubDomain }}/{{ data.Language }}/profile">{% T My Account %}</a></li>

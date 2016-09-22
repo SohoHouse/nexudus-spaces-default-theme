@@ -13,7 +13,58 @@ header.navbar .nav {
     &:last-child {
       margin-right: 0;
     }
-    > a {
+
+    .resource-label--hover {
+      width: auto;
+    }
+
+    .resource-label {
+      .resource-tooltip__label {
+        color: white;
+      }
+
+      .resource-tooltip__arrow {
+        top: -12px;
+        bottom: auto;
+        border-bottom-color: $dark;
+        border-top-color: transparent;
+        opacity: 1;
+      }
+
+      .resource-tooltip {
+        background-color: $dark;
+        transform: translate3D(-50%, 100px, 0);
+
+        &::before {
+          content: none;
+        }
+      }
+
+      .dark & {
+        .resource-tooltip__label {
+          color: $dark;
+        }
+
+        .resource-tooltip__arrow {
+          border-bottom-color: white;
+        }
+
+        .resource-tooltip {
+          background-color: white;
+        }
+      }
+
+      &.open span.resource-tooltip {
+        transform: translate3D(-50%, 100px, 0) !important;
+        opacity: 0;
+      }
+
+      &:hover .resource-tooltip {
+        transform: translate3D(-50%, 110px, 0);
+      }
+    }
+
+    a.nav-icon {
       background-position: 0 0;
       background-repeat: no-repeat;
       background-size: 200%;
@@ -24,12 +75,13 @@ header.navbar .nav {
       width: 50px;
       box-shadow: none !important;
       background-color: transparent !important;
+      display: block;
     }
-    &.active > a {
+    &.active > a.nav-icon {
       background-position: 100% 0px;
     }
     @each $item in $nav-items {
-      &[id=#{$item}] > a {
+      &[id=#{$item}] a.nav-icon {
         background-image: image-url("icon_#{$item}_dark");
       }
     }
@@ -39,7 +91,7 @@ header.navbar .nav {
       height: 60px;
       margin: 0 4vw;
 
-      > a {
+      > a.nav-icon {
         width: 100%;
         height: 100%;
       }
@@ -74,7 +126,7 @@ header.navbar .nav {
   }
   li {
     @each $item in $nav-items {
-      &[id=#{$item}] > a {
+      &[id=#{$item}] a.nav-icon {
         background-image: image-url("icon_#{$item}");
       }
     }
@@ -191,6 +243,9 @@ label[for=sw-collapse] {
 }
 
 .dropdown-menu {
+  margin-top: 20px;
+  left: auto;
+  right: 0;
   border: 0;
   padding: 0;
   &::after {
@@ -201,7 +256,8 @@ label[for=sw-collapse] {
     border-bottom: 8px solid #ffffff;
     position: absolute;
     top: -8px;
-    left: 10px;
+    left: auto;
+    right: 20px;
   }
   li {
     a {
@@ -296,14 +352,10 @@ label[for=sw-collapse] {
 
   .btn-dropdown + & {
     background-color: $primary;
-    left: auto;
-    right: 0;
     top: 120%;
 
     &::after {
       border-bottom-color: $primary;
-      left: auto;
-      right: 20px;
     }
 
     li {
