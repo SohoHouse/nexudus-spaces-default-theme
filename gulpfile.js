@@ -3,11 +3,12 @@ var gulp          = require('gulp'),
   $               = gulpLoadPlugins(),
   argv            = require('yargs').argv,
   dotenv          = require('dotenv').config(),
-  fileDestinations= process.env.FILE_DESTINATION.split(',') || ['./dest'];
+  stagingPath= process.env.STAGING_PATH || ['./dest'],
+  productionPath= process.env.PRODUCTION_PATH || ['./dest'];
 
 fileSrc = ['./**/*.js', './**/*.css', './**/*.htm', './**/*.json', './**/*.master', './**/*.png', './**/*.jpg', './**/*.jpeg', '!node_modules/**/*', '!package.json', '!gulpfile.js', '!data.json']
 
-var scss = function () {
+var scss = function (production) {
   return gulp.src('css.scss')
     .pipe($.plumber({
       errorHandler: $.notify.onError("<%= error.message %>")}))
@@ -18,7 +19,7 @@ var scss = function () {
       browsers: ['last 2 versions'],
       cascade: false
     }))
-    .pipe($.if(argv.production, $.cleanCss()))
+    .pipe($.if(production, $.cleanCss()))
 };
 
 var files = function () {
@@ -46,21 +47,27 @@ var emails = function() {
 
 gulp.task('build:scss', function () {
   var stream = scss();
-  fileDestinations.forEach(function(dest) {
-    stream.pipe(gulp.dest(dest));
-    console.log('Built CSS to ' + dest)
-  })
+  stream.pipe(gulp.dest(stagingPath));
+  console.log('Built CSS to ' + stagingPath)
 });
 
 gulp.task('build:files', function () {
   var stream = files();
-  fileDestinations.forEach(function(dest) {
-    stream.pipe(gulp.dest(dest));
-    console.log('Built Files to ' + dest)
-  })
+  stream.pipe(gulp.dest(stagingPath));
+  console.log('Built Files to ' + stagingPath)
 });
 
 gulp.task('build:emails', emails);
+
+gulp.task('deploy', function () {
+  var styleStream = scss(true);
+  styleStream.pipe(gulp.dest(productionPath));
+
+  var fileStream = files();
+  fileStream.pipe(gulp.dest(productionPath));
+
+  console.log('Deployed to ' + productionPath);
+})
 
 
 gulp.task('default', ['build:scss', 'build:files', 'build:emails'], function () {
