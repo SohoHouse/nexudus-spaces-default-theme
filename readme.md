@@ -1,6 +1,21 @@
 # Soho Works Nexudus Theme
 
-This repo uses Gulp to run tasks to make things easier.
+> Soho Works' Membership portal
+
+## About
+
+Nexudus is a 3rd party solution for running a cooworking space. Visit [spaces.nexudus.com](http://spaces.nexudus.com) to get started (ask a human for an account).
+
+1. Visit _System > Web Templates_ to view the list of templates. 
+2. Sync Dropbox by opening Dropbox > Connect Dropbox
+3. The template files will be added to your local dropbox under _Apps > Nexudus Spaces > Nexudus Spaces > {Site Name}_
+
+## Prerequisites
+
+This repo uses [Gulp](http://gulpjs.com) to run tasks to make things easier.
+
+- _NPM_ - Install NPM
+- _Gulp_ - Install globally by `npm install gulp -g`
 
 ## Setup
 
