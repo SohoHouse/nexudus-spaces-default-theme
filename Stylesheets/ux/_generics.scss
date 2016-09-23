@@ -73,6 +73,25 @@ span.label {
   }
 }
 
+#modal_messages {
+  padding-top: 50px;
+
+  &::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: rgba($dark, 0.8);
+  }
+
+  .modal-header,
+  .modal-footer {
+    position: relative;
+  }
+}
+
 .pill {
   @include main-font;
   border-radius: 50px;

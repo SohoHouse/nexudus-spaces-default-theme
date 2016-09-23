@@ -112,7 +112,7 @@
             <td>{% T Number of Attendees %}</td>
             <td>
               <select class="select--number" data-breakdown="Number of Attendees">
-                {% for i in (0..12) %}
+                {% for i in (1..12) %}
                   <option>{{i}}</option>
                 {% endfor %}
               </select>
@@ -299,7 +299,7 @@
         labels = els.map(function() {
           return escapeRegExp($(this).data('breakdown'));
         }).get(),
-        reg = new RegExp('^(' + labels.join('|') + '): (.+)', 'gm'),
+        reg = new RegExp('^(' + labels.join('|') + '): (.+)<br />', 'gm'),
         str = $('#Booking_Notes').val(),
         matches;
 
@@ -317,7 +317,7 @@
         str += $(this).data('breakdown')
         str += ': '
         str += $(this).val()
-        str += '\n'
+        str += '<br />'
         vals.push(str);
       })
       $('#Booking_Notes').val(vals.join('\n'));

@@ -328,7 +328,7 @@
 
             var fromDateFormatted = moment($('#Booking_From').datetimepicker('getDate')).format('YYYY-MM-DD');
             var data = getBookingData();
-            postAndClose(url, data, function(){ window.location = '{% Url Bookings, Index %}?type={{ type }}&date=' + fromDateFormatted; });
+            postAndClose(url, data, function () { location.reload(); });
             event.preventDefault();
         });
 
@@ -338,7 +338,7 @@
                 var url = '{% Url Bookings, DeleteJson %}';
                 var id = $('#booking_id').val();
                 var fromDateFormatted = moment($('#Booking_From').datetimepicker('getDate')).format('YYYY-MM-DD');
-                postAndClose(url, {id: id}, function(){ window.location = '{% Url Bookings, Index %}?date=' + fromDateFormatted; });
+                postAndClose(url, {id: id}, function () { location.reload(); });
             }
             return false;
         });
