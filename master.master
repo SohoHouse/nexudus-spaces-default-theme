@@ -125,6 +125,7 @@
             $el.addClass('alert-' + cssClass);
             $el.html(message);
             $('#modal_messages').modal('show');
+            $(window).animate({scrollTop: 0}, 500);
         }
         if (top !== self) {
             $('body').addClass('in-iframe');
