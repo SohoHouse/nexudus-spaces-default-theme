@@ -8,12 +8,14 @@
     <div class="row">
       <!-- CONTENT -->
       <section id="content" class="span12">
-        <h3 class="pull-left">{% T Help Desk %}</h3>
-        {% if data.Setting_Members_AllowHelpMessages %}
-          <a href="#modal_help"  role="button" class="pull-right btn btn-orange btn-large" data-toggle="modal">{% T Open a Ticket %}</a>
-        {% else %}
-          <a href="{% Url Contact, Index %}" class="pull-right btn btn-orange btn-large">{% T Contact us for help %}</a>
-        {% endif %}
+        <div class="clearfix">
+          <h3 class="pull-left">{% T Help Desk %}</h3>
+          {% if data.Setting_Members_AllowHelpMessages %}
+            <a href="#modal_help"  role="button" class="pull-right btn btn-orange btn-large" data-toggle="modal">{% T Send us a note %}</a>
+          {% else %}
+            <a href="{% Url Contact, Index %}" class="pull-right btn btn-orange btn-large">{% T Contact us for help %}</a>
+          {% endif %}
+        </div>
         
         {% if data.Local.Messages.size > 0 %}
         <!-- COMMENTS -->
@@ -28,8 +30,10 @@
               </tr>
             </thead>
             <tbody>
+              {% assign count = 0 %}
               {% for item in data.Local.Messages %}
                 {% if data.Coworker.UniqueId == item.Coworker.UniqueId %}
+                  {% assign count = count + 1 %}
                   <tr data-url="{% Url Support, Message, id: item.Id %}" class="clickable">
                     <td class="minor"><span class="pill pill--{% if item.Closed %}closed{% else %}open{% endif %}">{% if item.Closed %}Closed{% else %}Open{% endif %}</span></td>
                     <td class="body-font"><a href="{% Url Support, Message, id: item.Id %}">{{ item.Subject | TruncateWords: 50 }}</a></td>
@@ -38,10 +42,16 @@
                   </tr>
                 {% endif %}
               {% endfor %}
+              {% if count == 0 %}
+                <tr><td colspan="4" class="body-font text-center">Please send us a note with any of your day-to-day queries and we'll get back to you.</td></tr>
+              {% endif %}
             </tbody>
           </table>
         </section>
         <!-- END COMMENTS -->
+        {% else %}
+        <br /><br />
+        <p class="body-font">Please send us a note with any of your day-to-day queries and we'll get back to you.</p>
         {% endif %}
         
       </section>
