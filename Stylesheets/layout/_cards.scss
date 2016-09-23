@@ -56,6 +56,16 @@ article.card {
         transition: .2s opacity ease;
         border-radius: 0 0 5px 5px;
       }
+
+      .card-content {
+        max-height: calc(100% - 215px);
+        overflow: hidden;
+      }
+
+      .card-description {
+        max-height: 110px;
+        overflow-x: hidden;
+      }
     }
 
     .card-wrapper--list & {
