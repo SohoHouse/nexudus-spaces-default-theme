@@ -1,6 +1,6 @@
 .well {
   background: transparent;
-  border: 1px solid $secondary;
+  border: 1px solid $border;
   box-shadow: none;
   padding: 40px;
 }
@@ -8,7 +8,7 @@
 span.label {
   background-color: transparent;
   border-radius: 0;
-  color: rgba($dark, 0.4);
+  color: $secondary;
   margin-right: 20px;
   margin-bottom: 5px;
   font-weight: normal;
@@ -83,7 +83,7 @@ span.label {
     right: 0;
     bottom: 0;
     top: 0;
-    background: rgba($dark, 0.8);
+    background: $secondary;
   }
 
   .modal-header,
@@ -109,7 +109,7 @@ span.label {
 
 .pill--closed {
   background-color: $bg;
-  color: rgba($dark, .4);
+  color: $secondary;
 }
 
 @media (max-width: 767px) {

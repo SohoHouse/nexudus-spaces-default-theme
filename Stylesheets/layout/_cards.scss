@@ -155,7 +155,7 @@ article.card {
   overflow: hidden;
 
   * {
-    color: rgba($dark, 0.4);
+    color: $secondary;
   }
 }
 
@@ -181,7 +181,7 @@ $icons: air-conditioning catering cctv conference-phone drinks heating internet 
   margin: 0 0 20px 0;
   li {
     display: inline-block;
-    color: rgba($dark, 0.4);
+    color: $secondary;
 
     span {
       width: 30px;

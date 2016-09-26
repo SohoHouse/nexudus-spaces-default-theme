@@ -99,7 +99,7 @@
         content: '';
         position: absolute;
         height: 1px;
-        background-color: $secondary;
+        background-color: $border;
         left: 3px;
         right: 3px;
         top: 0;
@@ -184,7 +184,7 @@
     background-image: none;
     background-color: transparent;
     box-shadow: none;
-    color: rgba($dark, 0.4);
+    color: $secondary;
     outline: none;
     &.fc-state-active, &.fc-today-button {
       color: #2499E8;
@@ -240,7 +240,7 @@
         }
       }
       &.fc-widget-content:not(.fc-axis) {
-        border-top: 1px solid $secondary !important;
+        border-top: 1px solid $border !important;
       }
     }
     tr {
@@ -248,7 +248,7 @@
         border-top-color: rgba(201, 204, 204, 0.2) !important;
       }
       &:last-child td.fc-widget-content:not(.fc-axis) {
-        border-bottom: 1px solid $secondary !important;
+        border-bottom: 1px solid $border !important;
       }
     }
   }
@@ -305,23 +305,23 @@
   .fc-list-view {
     margin-top: 60px;
     .fc-scroller {
-      border-color: $secondary;
+      border-color: $border;
     }
     th {
       background-color: transparent;
-      border-bottom: 1px solid $secondary !important;
-      color: rgba($dark, 0.4);
+      border-bottom: 1px solid $border !important;
+      color: $secondary;
     }
     tr:not(:first-child) th {
-      border-top: 1px solid $secondary !important;
+      border-top: 1px solid $border !important;
     }
     td {
-      border-bottom: 1px solid rgba($secondary, 0.2) !important;
+      border-bottom: 1px solid rgba($border, 0.2) !important;
       &.fc-time {
         min-width: 180px;
       }
       &.fc-title {
-        color: rgba($dark, 0.4);
+        color: $secondary;
       }
     }
     span.fc-event {
