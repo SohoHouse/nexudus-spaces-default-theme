@@ -64,7 +64,8 @@
 
 @media (max-width: $medium) {
   .nav--calendar {
-    .dropdown {
+    .dropdown, 
+    #find-available {
       display: none !important;
     }
   }
@@ -72,7 +73,7 @@
 
 
 #calendar {
-  margin: 40px 0 -50px;
+  margin: 0 0 -50px;
   table {
     border-collapse: separate;
   }
@@ -83,6 +84,7 @@
     font-weight: normal !important;
   }
   td.fc-head-container {
+    padding-top: 0 !important;
     padding-bottom: 0 !important;
   }
   th.fc-day-header {

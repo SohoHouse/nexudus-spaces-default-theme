@@ -37,12 +37,12 @@
               {% if data.Local.ShowAll == true %}
                 <a class="btn btn-back btn-grey btn-stacked" href="{% Url Bookings, Index, ShowAll: false %}">{% T Back to your Calendar %}</a>
               {% else %}
-                <h3>{% T My Bookings %}</h3>
+                <p class="fade body-font">Click an empty time slot to make a booking.</p>
               {% endif %}
               <br /><a class="btn btn-orange mobile-show" href="#" onclick="createBooking(new Date())">{% T Make a booking %}</a>
             </div>
             <div class="pull-right">
-              {% unless daily %}<a class="btn btn-grey btn-wide" href="{% Url Bookings, Index, showAll: true, daily: true %}">Find an available resource</a>{% endunless %}
+              {% unless daily %}<a id="find-available" class="btn btn-grey btn-wide" href="{% Url Bookings, Index, showAll: true, daily: true %}">Find an available resource</a>{% endunless %}
               <div class="filter dropdown">
                 <a href="#" class="btn btn-orange btn-dropdown" data-toggle="dropdown">
                   {% if data.Local.ShowAll and data.Local.Resource %}{{data.Local.Resource.Name}}{% else %} {% T Make a Booking %} {% endif %}
@@ -57,12 +57,9 @@
               </div>
             </div>
           </div>
-          <div class="clearfix">
-            <p class="fade body-font">Click an empty time slot to make a booking.</p>
-          </div>
     		{% endif %}
 
-        <div id="calendar"></div>
+        <div id="calendar" title="Click an empty time slot to make a booking."></div>
       </section>
       <!-- END CONTENT -->
     </div>

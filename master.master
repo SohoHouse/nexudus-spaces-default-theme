@@ -43,6 +43,14 @@
   {% assign showPayment = data.QueryString["sp"] %}
   {% assign hideNav = showPayment %}
 
+  {% capture currencySymbol %}
+    {% case data.Business.Currency.Code %}
+    {% when 'GBP' %}£
+    {% when 'USD' %}$
+    {% when 'EUR' %}€
+    {% endcase %}
+  {% endcapture %}
+
   <body class="{% block bodyClass%}{% endblock%}">
 
     {% include header.htm %}

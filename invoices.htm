@@ -129,13 +129,6 @@
           </div>
           {% else %}
           <div class="table-responsive">
-            {% capture currencySymbol %}
-              {% case data.Business.Currency.Code %}
-              {% when 'GBP' %}£
-              {% when 'USD' %}$
-              {% when 'EUR' %}€
-              {% endcase %}
-            {% endcapture %}
             <table class="table invoices">
               <thead>
                 <tr>

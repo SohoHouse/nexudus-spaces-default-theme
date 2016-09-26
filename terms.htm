@@ -6,13 +6,13 @@
   <div id="main" class="container">
     <div class="row">
 
-      <h2 class="page-title span12">{% T Terms and Conditions %}</h2>
+      <h3>{% T Our Terms &amp; Conditions have changed %}</h3>
 
       <!-- CONTENT -->
       <section id="content" class="span12" style="height: 250px;overflow: auto; margin-bottom: 10px;">
         {% if data.Business.TermsAndConditions.size > 0 and data.Coworker.GeneralTermsAccepted == false %}
         <h4>{% T General Terms and Conditions %}</h4>
-        {{ data.Business.TermsAndConditions | StripHtml | MarkDown }}
+        {{ data.Business.TermsAndConditions }}
         {% endif %}
 
 
@@ -20,7 +20,7 @@
         {% for contract in data.Coworker.NotAgreedContracts %}
         {% if contract.Tariff.TermsAndConditions.size > 0 %}
         <h4>{% T Price Plan Terms and Conditions %} ({{ contract.Tariff.Name }})</h4>
-        {{ contract.Tariff.TermsAndConditions | StripHtml | MarkDown }}
+        {{ contract.Tariff.TermsAndConditions }}
         {% endif %}
         {% endfor %}
         {% endif %}

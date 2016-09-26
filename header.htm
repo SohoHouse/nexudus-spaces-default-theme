@@ -87,8 +87,8 @@
                   <ul class="dropdown-menu" role="menu">
                     <li class="dropdown--icon {%if data.Controller == 'profile' and data.Action == 'index'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Profile, Index %}">{% T My profile %}</a><span id="profile"></span></li>
                     <li class="dropdown--icon {%if data.Controller == 'invoices'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Invoices, Index %}">{% T Payments %}</a><span id="payments"></span></li>
-                    <li class="dropdown--icon {%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Credits %}</a><span id="credits"></span></li>
-                    <li class="dropdown--icon {%if data.Controller == 'store'%}active{%endif%} {% if data.ProductTags.size > 0 %} dropdown-submenu {% endif %}"><a role="menuitem" tabindex="-1" href="{% Url Store, Products %}">{% T Extras %}</a><span id="extras"></span></li>
+                    <li class="dropdown--icon {%if data.Controller == 'allowances'%}active{%endif%}"><a role="menuitem" tabindex="-1" href="{% Url Allowances, Index %}">{% T Allowances %}</a><span id="credits"></span></li>
+                    <li class="dropdown--icon {%if data.Controller == 'store'%}active{%endif%} {% if data.ProductTags.size > 0 %} dropdown-submenu {% endif %}"><a role="menuitem" tabindex="-1" href="{% Url Store, Products %}">{% T Store %}</a><span id="extras"></span></li>
                     <li class="dropdown--icon "><a role="menuitem" tabindex="-1" href="{% Url Login, Logout %}">{% T Logout %}</a><span id="logout"></span></li>
                   </ul>
                 </span>
