@@ -1,6 +1,6 @@
 .well {
   background: transparent;
-  border: 1px solid $secondary;
+  border: 1px solid $border;
   box-shadow: none;
   padding: 40px;
 }
@@ -8,7 +8,7 @@
 span.label {
   background-color: transparent;
   border-radius: 0;
-  color: rgba($dark, 0.4);
+  color: $secondary;
   margin-right: 20px;
   margin-bottom: 5px;
   font-weight: normal;
@@ -73,6 +73,25 @@ span.label {
   }
 }
 
+#modal_messages {
+  padding-top: 50px;
+
+  &::before {
+    content: '';
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: $secondary;
+  }
+
+  .modal-header,
+  .modal-footer {
+    position: relative;
+  }
+}
+
 .pill {
   @include main-font;
   border-radius: 50px;
@@ -90,7 +109,7 @@ span.label {
 
 .pill--closed {
   background-color: $bg;
-  color: rgba($dark, .4);
+  color: $secondary;
 }
 
 @media (max-width: 767px) {

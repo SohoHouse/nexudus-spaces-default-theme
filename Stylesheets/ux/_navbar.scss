@@ -270,6 +270,7 @@ label[for=sw-collapse] {
       background-image: none;
       color: $accent !important;
       font-weight: bold;
+      border-radius: 6px;
     }
 
     &.dropdown--icon {
@@ -282,7 +283,7 @@ label[for=sw-collapse] {
         background-position: center right;
         background-size: 200%;
         height: 25px;
-        opacity: 0.2;
+        opacity: 0.5;
         position: absolute;
         right: 25px;
         top: 50%;
@@ -313,6 +314,7 @@ label[for=sw-collapse] {
         background-color: $pale !important;
         background-image: none !important;
         color: $dark !important;
+        border-radius: 6px;
       }
     }
   }
@@ -344,7 +346,7 @@ label[for=sw-collapse] {
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba($dark, 0.5);
+        background-color: $secondary;
         z-index: 100;
       }
     }

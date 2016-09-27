@@ -22,23 +22,6 @@ var eventSources = [
             ignoreTimezone: true,
             color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')
           },
-          {% for linkedResource in event.Resource.LinkedResources %}
-            {
-              id: {{ event.Id }},
-              resourceId: '{{ linkedResource.Id }}',
-              title  : '{{ linkedResource.Name | Replace: "'", "\'" }}{% if showMemberDetails %} - {{ event.Coworker.FullName | Replace: "'", "\'" }}{% endif %}',
-              startDate: '{{event.FromTime | Date: 'd'}}',
-              endDate: '{{event.ToTime | Date: 'd'}}',
-              startTime: '{{event.FromTime | Date: 't'}}',
-              endTime: '{{event.ToTime | Date: 't'}}',
-              start  : '{{event.FromTime | Date: 'yyyy' }}-{{ event.FromTime | Date: 'MM' }}-{{ event.FromTime | Date: 'dd' }}T{{ event.FromTime | Date: 'HH' }}:{{ event.FromTime | Date: 'mm' }}Z',
-              end  : '{{ event.ToTime | Date: 'yyyy' }}-{{ event.ToTime  | Date: 'MM' }}-{{ event.ToTime  | Date: 'dd' }}T{{ event.ToTime  | Date: 'HH' }}:{{ event.ToTime  | Date: 'mm' }}Z',
-              allDay : false,
-              editable: false,
-              ignoreTimezone: true,
-              color: getColurFromName('{{ linkedResource.Name | Replace: "'", "\'" }}')
-            },
-          {% endfor %}
         {% endif %}
       {% endfor %}
       {% for event in data.Local.TeamBookings %}

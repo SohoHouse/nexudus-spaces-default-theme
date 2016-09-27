@@ -50,7 +50,7 @@
 .modal-body {
   max-height: none;
 
-  label, p {
+  label, p, span {
     color: white;
   }
 
@@ -93,12 +93,20 @@
   table {
     width: 100%;
     margin: 20px 0;
-    border-top: 1px solid rgba($secondary, 0.2) !important;
-    border-bottom: 1px solid rgba($secondary, 0.2) !important;
+    border-bottom: 1px solid rgba($border, 0.3) !important;
+  }
+
+  tr:last-child td {
+    border-bottom-color: rgba($border, 0.3) !important;
   }
 
   th {
     color: rgba(white, 0.4);
+    border-bottom-color: rgba($border, 0.3) !important;
+
+    &:last-child {
+      text-align: right;
+    }
   }
 
   td {

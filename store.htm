@@ -45,8 +45,7 @@
                 <td class="text-center minor">
                   {% if data.coworker.tariff == null %}
                     <input data-bind="attr: {id: 'add-to-plan-' + $index() }, checked: RegularCharge, visible: Quantity() > 0 && !AlwaysRecurrent() && !AlwaysOneOff()" type="checkbox" />
-                    <label class="body-font" data-bind="attr: {for: 'add-to-plan-' + $index() }, visible: Quantity() > 0 && !AlwaysRecurrent() && !AlwaysOneOff()">{% T Add to my plan %}</label>
-                    <label class="body-font" data-bind="visible: Quantity() > 0 && AlwaysRecurrent()">{% T Added to your plan %}</label>
+                    <label class="body-font" data-bind="attr: {for: 'add-to-plan-' + $index() }, visible: Quantity() > 0 && !AlwaysRecurrent() && !AlwaysOneOff()">{% T Add to my monthly plan %}</label>
                   {% endif %}
                 </td>
               </tr>
@@ -55,27 +54,29 @@
           <table class="table" style="border-top: 1px solid black">
             <tbody>
               <tr>
-                <td class="span9">
-                  <p class="text-right">{% T One-off Payment: %}</p>
+                <td class="span9 text-right">
+                  {% T One-off Payment: %}
+                  &nbsp;&nbsp;&nbsp;
                 </td>
                 <td class="span3">
-                  {{ data.Business.Currency.Code }}
+                  {{ currencySymbol }}
                   <span data-bind="text: totalOneOff"></span>
                 </td>
               </tr>
               <tr>
                 <td class="span9 text-right">
-                  <p class="text-right">{% T Added to your price plan: %}</p>
+                  {% T Added to your price plan: %}
+                  &nbsp;&nbsp;&nbsp;
                 </td>
                 <td class="span3">
-                  {{ data.Business.Currency.Code }}
+                  {{ currencySymbol }}
                   <span data-bind="text: totalTariff"></span>
                 </td>
               </tr>
             </tbody>
           </table>
           <div class="pull-right">
-            <button class="btn btn-orange" data-bind="click: function () { selectedProducts().length == 0 ? doPurchase() : confirmPurchase() }, text: doPurchaseEnabled() ? '{% T Continue %}' : '{% T Please wait... %}'">{% T Continue %}</button>
+            <button class="btn btn-orange" data-bind="click: function () { selectedProducts().length == 0 ? doPurchase() : confirmPurchase() }, text: doPurchaseEnabled() ? '{% T Confirm Purchase %}' : '{% T Please wait... %}'">{% T Confirm Purchase %}</button>
           </div>
         </div>
       </section>
@@ -106,29 +107,37 @@
               </tbody>
               <tbody>
                 <tr>
-                  <th class="span10">
-                    <p class="text-right">{% T One-off Payment: %}</p>
+                  <th class="span10 text-right">
+                    <span>{% T One-off Payment %}</span>
+                    &nbsp;&nbsp;&nbsp;
+                    <br />
+                    <span class="fade body-font">Added to your next incidentals invoice</span>
+                    &nbsp;&nbsp;&nbsp;
                   </th>
                   <th class="span2">
-                    {{ data.Business.Currency.Code }}
+                    <span>{{ currencySymbol }}</span>
                     <span data-bind="text: totalOneOff"></span>
                   </th>
                 </tr>
                 <tr>
                   <th class="span10 text-right">
-                    <p class="text-right">{% T Added to your price plan: %}</p>
+                    <span>{% T Added as a monthly cost: %}</span>
+                    &nbsp;&nbsp;&nbsp;
                   </th>
                   <th class="span2">
-                    {{ data.Business.Currency.Code }}
+                    <span>{{ currencySymbol }}</span>
                     <span data-bind="text: totalTariff"></span>
                   </th>
                 </tr>
               </tbody>
             </table>
           </form>
+          <div class="text-center fade body-font">
+            You will receive confirmation of your purchases shortly from a member of the Soho Works team.
+          </div>
         </div>
         <div class="modal-footer">
-          <a href="#" class="btn btn-orange" data-bind="click: doPurchase, enable: doPurchaseEnabled, text: doPurchaseEnabled() ? '{% T Continue %}' : '{% T Please wait... %}'">{% T Continue %}</a>
+          <a href="#" class="btn btn-orange" data-bind="click: doPurchase, enable: doPurchaseEnabled, text: doPurchaseEnabled() ? '{% T Confirm Purchase %}' : '{% T Please wait... %}'">{% T Confirm Purchase %}</a>
           <a href="#" class="btn btn-link" data-bind="click: closeConfirmation">{% T Cancel %}</a>
         </div>
       </div>

@@ -2,7 +2,7 @@
   -webkit-font-smoothing: inherit;
   background: #ffffff;
   border-radius: 4px;
-  border: 1px solid $secondary;
+  border: 1px solid $border;
   box-sizing: border-box;
   cursor: text;
   display: inline-block;
@@ -134,8 +134,8 @@
         margin-top: -5px;
         -webkit-transform: rotate(45deg);
         transform: rotate(45deg);
-        border-right: 1px solid $secondary;
-        border-bottom: 1px solid $secondary; 
+        border-right: 1px solid $border;
+        border-bottom: 1px solid $border; 
       }
 
       &::before {
@@ -145,7 +145,7 @@
         right: 0;
         top: 0;
         width: 56px;
-        border-left: 1px solid $secondary;
+        border-left: 1px solid $border;
         background-color: white;
         pointer-events: none; 
       }
@@ -155,8 +155,8 @@
           top: 28px;
           border-right: 0;
           border-bottom: 0;
-          border-top: 1px solid $secondary;
-          border-left: 1px solid $secondary; 
+          border-top: 1px solid $border;
+          border-left: 1px solid $border; 
         }
 
         &::before {
@@ -214,7 +214,7 @@
   background: #ffffff;
   border-radius: 0 0 4px 4px;
   border-top: 0 none;
-  border: 1px solid $secondary;
+  border: 1px solid $border;
   box-sizing: border-box;
   color: $secondary;
   margin: -1px 0 0 0;

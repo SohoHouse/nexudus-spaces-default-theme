@@ -50,7 +50,7 @@ h1.message-subject {
 
   textarea {
     background-color: transparent;
-    border: 1px solid $secondary !important;
+    border: 1px solid $border !important;
     box-sizing: border-box;
     display: inline-block;
     margin-bottom: 0;
@@ -61,7 +61,7 @@ h1.message-subject {
     padding: 15px;
 
     &::placeholder {
-      color: rgba($dark, .6);
+      color: $secondary;
     }
   }
 

@@ -35,14 +35,14 @@
           <div class="nav nav--calendar clearfix"> 
             <div class="mobile-center pull-left">
               {% if data.Local.ShowAll == true %}
-                <a class="btn btn-back btn-grey btn-stacked" href="{% Url Bookings, Index, ShowAll: false %}">{% T Back to Calendar %}</a>
+                <a class="btn btn-back btn-grey btn-stacked" href="{% Url Bookings, Index, ShowAll: false %}">{% T Back to my Calendar %}</a>
               {% else %}
-                <h3>{% T My Bookings %}</h3>
+                <p class="fade body-font">Click an empty time slot to make a booking.</p>
               {% endif %}
               <br /><a class="btn btn-orange mobile-show" href="#" onclick="createBooking(new Date())">{% T Make a booking %}</a>
             </div>
             <div class="pull-right">
-              {% unless daily %}<a class="btn btn-grey btn-wide" href="{% Url Bookings, Index, showAll: true, daily: true %}">Find an available resource</a>{% endunless %}
+              {% unless daily %}<a id="find-available" class="btn btn-grey btn-wide" href="{% Url Bookings, Index, showAll: true, daily: true %}">Find an available resource</a>{% endunless %}
               <div class="filter dropdown">
                 <a href="#" class="btn btn-orange btn-dropdown" data-toggle="dropdown">
                   {% if data.Local.ShowAll and data.Local.Resource %}{{data.Local.Resource.Name}}{% else %} {% T Make a Booking %} {% endif %}
@@ -57,12 +57,9 @@
               </div>
             </div>
           </div>
-          <div class="clearfix">
-            <p class="fade body-font">Click an empty time slot to make a booking.</p>
-          </div>
     		{% endif %}
 
-        <div id="calendar"></div>
+        <div id="calendar" title="Click an empty time slot to make a booking."></div>
       </section>
       <!-- END CONTENT -->
     </div>
@@ -328,7 +325,7 @@
 
             var fromDateFormatted = moment($('#Booking_From').datetimepicker('getDate')).format('YYYY-MM-DD');
             var data = getBookingData();
-            postAndClose(url, data, function(){ window.location = '{% Url Bookings, Index %}?type={{ type }}&date=' + fromDateFormatted; });
+            postAndClose(url, data, function () { reloadToToday(fromDateFormatted); });
             event.preventDefault();
         });
 
@@ -338,12 +335,16 @@
                 var url = '{% Url Bookings, DeleteJson %}';
                 var id = $('#booking_id').val();
                 var fromDateFormatted = moment($('#Booking_From').datetimepicker('getDate')).format('YYYY-MM-DD');
-                postAndClose(url, {id: id}, function(){ window.location = '{% Url Bookings, Index %}?date=' + fromDateFormatted; });
+                postAndClose(url, {id: id}, function () { reloadToToday(fromDateFormatted); });
             }
             return false;
         });
 
         $('#Booking_Resource').attr('data-bind','event: { change: updateProducts }');
+
+        function reloadToToday (date) {
+          window.location.search = window.location.search.replace(/&date=[0-9\-]{10}/, '&date=' + date)
+        }
 
         var loadProducts = function(){
             var bid = $('#booking_id').val();

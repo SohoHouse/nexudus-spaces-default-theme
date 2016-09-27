@@ -56,6 +56,16 @@ article.card {
         transition: .2s opacity ease;
         border-radius: 0 0 5px 5px;
       }
+
+      .card-content {
+        max-height: calc(100% - 215px);
+        overflow: hidden;
+      }
+
+      .card-description {
+        max-height: 110px;
+        overflow-x: hidden;
+      }
     }
 
     .card-wrapper--list & {
@@ -145,7 +155,7 @@ article.card {
   overflow: hidden;
 
   * {
-    color: rgba($dark, 0.4);
+    color: $secondary;
   }
 }
 
@@ -171,7 +181,7 @@ $icons: air-conditioning catering cctv conference-phone drinks heating internet 
   margin: 0 0 20px 0;
   li {
     display: inline-block;
-    color: rgba($dark, 0.4);
+    color: $secondary;
 
     span {
       width: 30px;
