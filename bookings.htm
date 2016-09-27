@@ -325,7 +325,7 @@
 
             var fromDateFormatted = moment($('#Booking_From').datetimepicker('getDate')).format('YYYY-MM-DD');
             var data = getBookingData();
-            postAndClose(url, data, function () { location.reload(); });
+            postAndClose(url, data, function () { reloadToToday(fromDateFormatted); });
             event.preventDefault();
         });
 
@@ -335,12 +335,16 @@
                 var url = '{% Url Bookings, DeleteJson %}';
                 var id = $('#booking_id').val();
                 var fromDateFormatted = moment($('#Booking_From').datetimepicker('getDate')).format('YYYY-MM-DD');
-                postAndClose(url, {id: id}, function () { location.reload(); });
+                postAndClose(url, {id: id}, function () { reloadToToday(fromDateFormatted); });
             }
             return false;
         });
 
         $('#Booking_Resource').attr('data-bind','event: { change: updateProducts }');
+
+        function reloadToToday (date) {
+          window.location.search = window.location.search.replace(/&date=[0-9\-]{10}/, '&date=' + date)
+        }
 
         var loadProducts = function(){
             var bid = $('#booking_id').val();

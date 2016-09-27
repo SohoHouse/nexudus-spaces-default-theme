@@ -270,6 +270,7 @@ label[for=sw-collapse] {
       background-image: none;
       color: $accent !important;
       font-weight: bold;
+      border-radius: 6px;
     }
 
     &.dropdown--icon {
@@ -313,6 +314,7 @@ label[for=sw-collapse] {
         background-color: $pale !important;
         background-image: none !important;
         color: $dark !important;
+        border-radius: 6px;
       }
     }
   }
