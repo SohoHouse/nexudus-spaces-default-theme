@@ -1,6 +1,6 @@
 {% extends "layout.nunjucks" %}
 {% set subject = 'Booking Confirmation' %}
-{% set footer = '*Please keep in mind that this price does not include any credit you may have available in your account or as part of your price plan. If at the time the booking is charged to your account there is credit available, it will be used towards the price of this booking. You can check your credit at any point in <a href="{{ spaceUrl }}/en/allowances">your account</a>.' %}
+{% set footer = '*Please keep in mind that this price does not include any credit you may have available in your account or as part of your price plan. If at the time the booking is charged to your account there is credit available, it will be used towards the price of this booking. You can check your credit at any point in <a href="' + spaceUrl + '/en/allowances">your account</a>.' %}
 
 {% block teaser %}
   We've received your booking request
@@ -10,7 +10,7 @@
   <tr>
     <td>
       <h1>Hi {salutation},
-      <br />You're booked in {resourceName}.</h1>
+      <br />You're booked into {resourceName}.</h1>
     </td>
   </tr>
   <tr>
@@ -37,7 +37,7 @@
   </tr>
   <tr>
     <td>
-      {{ button(label='Go to your calendar', href=spaceUrl +"/en/bookings") }}
+      {{ button(label='Go to your calendar', href=spaceUrl +"/en/bookings?showall=false") }}
     </td>
   </tr>
 {% endblock %}
