@@ -76,7 +76,9 @@ header.navbar .nav {
       box-shadow: none !important;
       background-color: transparent !important;
       display: block;
+      white-space: nowrap;
     }
+    
     &.active > a.nav-icon {
       background-position: 100% 0px;
     }

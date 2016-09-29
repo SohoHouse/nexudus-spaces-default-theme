@@ -6,35 +6,30 @@
   <div id="main" class="container">
     <div class="row">
 
-      <h3>{% T Our Terms &amp; Conditions have changed %}</h3>
-
       <!-- CONTENT -->
-      <section id="content" class="span12" style="height: 250px;overflow: auto; margin-bottom: 10px;">
-        {% if data.Business.TermsAndConditions.size > 0 and data.Coworker.GeneralTermsAccepted == false %}
-        <h4>{% T General Terms and Conditions %}</h4>
+      <section id="content" class="span12">
+        {% if data.Coworker.GeneralTermsAccepted == false %}
+          <h3>{% T Our Terms &amp; Conditions have changed %}</h3>
+        {% else %}
+          <h3>{% T Our Terms &amp; Conditions %}</h3>
+        {% endif %}
+        
         {{ data.Business.TermsAndConditions }}
-        {% endif %}
 
-
-        {% if data.Coworker.NotAgreedContracts.size > 0 %}
-        {% for contract in data.Coworker.NotAgreedContracts %}
-        {% if contract.Tariff.TermsAndConditions.size > 0 %}
-        <h4>{% T Price Plan Terms and Conditions %} ({{ contract.Tariff.Name }})</h4>
-        {{ contract.Tariff.TermsAndConditions }}
+        {% if data.Coworker.GeneralTermsAccepted == false %}
+          <a href="{% Url TermsAndConditions, Accept, returnUrl: data.Local.ReturnUrl %}" class="btn pull-right btn-orange">{% T Accept %}</a>
         {% endif %}
-        {% endfor %}
-        {% endif %}
-
       </section>
-      <!-- END CONTENT -->
     </div>
-    <div class="row-fluid">
-      <a href="{% Url TermsAndConditions, Accept, returnUrl: data.Local.ReturnUrl %}" class="btn pull-right btn-orange">{% T Accept %}</a>
-    </div>
-
-
   </div>
   <!-- END CONTAINER -->
 </div>
 
+{% endblock %}
+{% block script %}
+  {% if data.Coworker.NextTariffId == 0 %}
+    <script>
+      $('.members-only').hide();
+    </script>
+  {% endif %}
 {% endblock %}

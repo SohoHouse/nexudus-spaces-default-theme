@@ -8,6 +8,8 @@
         | <span>
         {% if data.Controller == 'publichome' or hideNav %}
           {% T Welcome back %}, {{data.Coworker.Salutation}}
+        {% elsif data.Controller == 'page' %}
+          {{ data.Local.Page.Title }}
         {% else %}
           {% T {{data.Controller}} %}
         {% endif %}
@@ -45,9 +47,9 @@
               <span class="resource-label resource-label--hover">
                 <span class="resource-tooltip">
                   <span class="resource-tooltip__arrow"></span>
-                  <span class="resource-tooltip__label">Bookings</span>
+                  <span class="resource-tooltip__label">My Calendar</span>
                 </span>
-                <a class='nav-icon' role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T Bookings %}</a>
+                <a class='nav-icon' role="menuitem" tabindex="-1" href="{% Url Bookings, Index, ShowAll: false %}">{% T My Calendar %}</a>
               </span>
             </li>
 
@@ -55,9 +57,9 @@
               <span class="resource-label resource-label--hover">
                 <span class="resource-tooltip">
                   <span class="resource-tooltip__arrow"></span>
-                  <span class="resource-tooltip__label">Space Resources</span>
+                  <span class="resource-tooltip__label">Meeting Rooms and Extras</span>
                 </span>
-                <a class='nav-icon' role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Space resources %}</a>
+                <a class='nav-icon' role="menuitem" tabindex="-1" href="{% Url PublicResources, Index %}">{% T Meeting Rooms and Extras %}</a>
               </span>
             </li>
             {% if data.Setting_PublicWebSite_Help %}

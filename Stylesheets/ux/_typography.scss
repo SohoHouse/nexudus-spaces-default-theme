@@ -108,3 +108,14 @@ a.thumbnail {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(248, 171, 3, 0.6);
   }
 }
+
+.text-columns {
+  @media (min-width: $medium) {
+    column-count: 2;
+    column-gap: 75px;
+  }
+
+  p + strong {
+    margin-top: 30px;
+  }
+}

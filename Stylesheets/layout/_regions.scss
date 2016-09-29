@@ -190,7 +190,7 @@ footer {
   padding: 40px 0;
   .block {
     margin-bottom: 20px;
-    p {
+    p, a {
       @include body-font;
       color: #C9CCCC;
       margin-bottom: 20px;
