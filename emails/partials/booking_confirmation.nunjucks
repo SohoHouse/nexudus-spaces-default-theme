@@ -1,6 +1,6 @@
 {% extends "layout.nunjucks" %}
 {% set subject = 'Booking Confirmation' %}
-{% set footer = '*Please keep in mind that this price does not include any credit you may have available in your account or as part of your price plan. If at the time the booking is charged to your account there is credit available, it will be used towards the price of this booking. You can check your credit at any point in <a href="' + spaceUrl + '/en/allowances">your account</a>.' %}
+{% set footer = '*Please keep in mind that this price does not include any credit you may have available in your account or as part of your price plan. If at the time the booking is charged to your account there is credit available, it will be used towards the price of this booking. You can check your credit at any point in <a href="' + spaceUrl + '/en/allowances">your account</a>.<br /><br />Please be advised that meeting rooms cancelled less than 24 hours before the start time will still be charged.' %}
 
 {% block teaser %}
   We've received your booking request
