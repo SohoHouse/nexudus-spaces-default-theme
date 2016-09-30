@@ -255,3 +255,14 @@
     background-color: $alternate-highlight;
   }
 }
+
+a.dashboard__make-booking {
+  color: white;
+  text-align: left;
+  display: block;
+
+  @media (min-width: $medium) {
+    position: absolute;
+    bottom: 0;
+  }
+}
