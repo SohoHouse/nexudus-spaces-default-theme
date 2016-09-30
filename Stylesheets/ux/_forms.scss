@@ -101,6 +101,10 @@ textarea {
     }
   }
 
+  &.withFile .file::after {
+    content: 'CHANGE';
+  }
+
   label {
     display: block;
     margin-bottom: 0;
@@ -125,7 +129,7 @@ textarea {
         @extend .btn;
         color: $primary;
         border: 1px solid $primary;
-        margin-left: 20px
+        margin-left: 20px;
       }
 
       + input[type=file] {

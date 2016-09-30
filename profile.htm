@@ -151,7 +151,8 @@
               <div class="input-group">
                 <label for="Coworker_Avatar" class="file">{% T Photo %}</label>
                 <input type="file" name="Coworker_Avatar" id="Coworker_Avatar" />
-                <small>{% T Max 10Mb. %}</small>
+                <small id="file-name"></small>
+                <small class="fade">{% T Max 10Mb. %}</small>
               </div>
             </div>
 
@@ -384,6 +385,32 @@
 {% endblock %}
 {% block script %}
 <script type="text/javascript">
+  $(function(){  
+    $('input[type=file]').change(function(){
+      var parent = $(this).parent(),
+          label = parent.find('#file-name'); 
+      if(typeof(this.files) !='undefined'){ // IE      
+        if(this.files.length == 0){
+          parent.removeClass('withFile');
+          label.text('');
+        }
+        else{
+          var file = this.files[0]; 
+          var name = file.name;
+          var size = (file.size / 1048576).toFixed(3); //size in mb 
+          parent.addClass('withFile');
+          label.text(name + ' (' + size + 'mb)');
+        }
+      }
+      else{
+        var name = this.value.split("\\");
+        parent.addClass('withFile')
+        label.text(name[name.length-1]);
+      }
+      return false;
+    });  
+  });
+
   $(function () {
     $.getScript("/files/sticky.js", function() {
       $('.profile-section').stickit({top: 30, screenMinWidth: 980});
