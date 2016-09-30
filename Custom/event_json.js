@@ -89,7 +89,6 @@ var eventSources = [
         {% for event in data.Local.Events %}
           {% if data.Local.Resource == null or event.Resource.Id == data.Local.Resource.Id %}
             {
-              private: true,
               {% if event.HasResource %}
                 resourceId: {{ event.Resource.Id }},
               {% endif %}
