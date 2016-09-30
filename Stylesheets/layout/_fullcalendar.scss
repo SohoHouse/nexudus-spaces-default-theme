@@ -26,6 +26,10 @@
   -o-transition: all 200ms ease-in;
   transition: all 200ms ease-in;
 
+  &.private {
+    opacity: .5;
+  }
+
   &:hover {
     background: #666;
     border-color: #666;

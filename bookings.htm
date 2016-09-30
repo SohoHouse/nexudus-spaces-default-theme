@@ -140,6 +140,14 @@
       }
     }
 
+    function eventRender (event, element) {
+      if (event.private) element.addClass('private');
+      else {
+        var title = event.notes.split('<br />')[1].split(': ')[1]
+        if (title.length) element.find('.fc-title').html(title + ' <span class="fade">(' + element.find('.fc-title').text() + ')</span>')
+      }
+    }
+
     function eventsAfterAllRender (view) {
       if (view.el.find('.fc-event-container').length == 0 && view.type == 'list') {
         view.el.find('tbody').append('<tr id="fc-empty-message"><td class="text-center"><span>No events for these dates.</span></td></tr>')
@@ -217,7 +225,8 @@
     	editable: false,
     	resourceLabelText: '{{ data.Business.Name | Replace: "'", "\'" }}',
     	resourceGroupField: 'groupName',
-     	viewRender: viewRender,
+      viewRender: viewRender,
+     	eventRender: eventRender,
       eventAfterAllRender: eventsAfterAllRender,
       resources: resources,
       eventClick: eventClick,

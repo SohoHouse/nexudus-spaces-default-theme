@@ -20,7 +20,8 @@ var eventSources = [
             allDay : false,
             editable: false,
             ignoreTimezone: true,
-            color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')
+            color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}'),
+            notes: '{{ event.Notes | StripNewlines }}'
           },
         {% endif %}
       {% endfor %}
@@ -44,7 +45,8 @@ var eventSources = [
             private: true,
             editable: false,
             ignoreTimezone: true,
-            color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}')
+            color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}'),
+            notes: '{{ event.Notes | StripNewlines }}'
           },
         {% endif %}
       {% endfor %}
