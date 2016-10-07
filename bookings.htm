@@ -37,7 +37,7 @@
               {% if data.Local.ShowAll == true %}
                 <a class="btn btn-back btn-grey btn-stacked" href="{% Url Bookings, Index, ShowAll: false %}">{% T Back to my Calendar %}</a>
               {% else %}
-                <p class="fade body-font">Click an empty time slot to make a booking.</p>
+                <h3>My Bookings</h3>
               {% endif %}
               <br /><a class="btn btn-orange mobile-show" href="#" onclick="createBooking(new Date())">{% T Make a booking %}</a>
             </div>
@@ -60,6 +60,9 @@
     		{% endif %}
 
         <div id="calendar" title="Click an empty time slot to make a booking."></div>
+        <p class="body-font fade">
+          Click an empty time slot to make a booking. For any bookings outside of these times please contact Reception.
+        </p>
       </section>
       <!-- END CONTENT -->
     </div>
