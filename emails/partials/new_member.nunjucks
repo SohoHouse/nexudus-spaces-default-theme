@@ -23,7 +23,7 @@
   </tr>
   <tr>
     <td>
-      {{ button(label='Login Now', href="http://google.com") }}
+      {{ button(label='Login Now', href=spaceUrl) }}
     </td>
   </tr>
 {% endblock %}
