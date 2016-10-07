@@ -1,0 +1,34 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Account Active' %}
+{% set signoff = 'Stephen Wood, Membership Manager' %}
+
+{% block teaser %}
+  Your Soho Works account is active.
+{% endblock %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Good news {salutation}
+      <br />Your soho works account is ready to use.</h1>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>Log-in with the details below</p>
+      {{ field('Username', '{username}') }}
+      {{ field('Password', '{password}') }}
+      {{ field('PIN', '{accesscardid}') }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <p>Please go to Settings and Payments to update your payment details.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      {{ button(label='Login Now', href=spaceUrl) }}
+    </td>
+  </tr>
+{% endblock %}
