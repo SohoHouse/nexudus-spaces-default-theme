@@ -17,5 +17,5 @@
 {% endmacro %}
 
 {% macro field(key, value) %}
-  <p>{% if value %}<span class="fade">{% endif %}{{key}}{% if value %}</span>: {{value}}</span>{% endif %}</p>
+  <p>{% if value %}<span class="fade">{% endif %}{{key}}{% if value %}:</span> {{value}}</span>{% endif %}</p>
 {% endmacro %}
