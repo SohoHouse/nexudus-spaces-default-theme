@@ -23,6 +23,11 @@
   </tr>
   <tr>
     <td>
+      <p>Please go to Settings and Payments to update your payment details.</p>
+    </td>
+  </tr>
+  <tr>
+    <td>
       {{ button(label='Login Now', href=spaceUrl) }}
     </td>
   </tr>

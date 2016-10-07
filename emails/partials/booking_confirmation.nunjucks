@@ -20,6 +20,7 @@
       {{ field("From", "{fromTime}") }}
       {{ field("To", "{toTime}") }}
       {{ field("Price*", "{price}") }}
+      Please see notes below if you have booking credits.
     </td>
   </tr>
   <tr>
