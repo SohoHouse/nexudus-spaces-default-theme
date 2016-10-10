@@ -1,0 +1,15 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Your guest has arrived' %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Just a note to let you know that your guest has arrived and is waiting in reception for you.
+    </td>
+  </tr>
+{% endblock %}
