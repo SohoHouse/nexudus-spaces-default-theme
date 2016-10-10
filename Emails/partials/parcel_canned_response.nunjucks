@@ -1,0 +1,15 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'You have a parcel' %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Just a note to let you know that you have had a parcel delivered. Please come round to reception to collect it.
+    </td>
+  </tr>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "layout.nunjucks" %}
+{% set subject = 'Your meeting has ended' %}
+
+{% block content %}
+  <tr>
+    <td>
+      <h1>Hi {salutation},
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Just a note to let you know that your meeting room booking time has ended. Please reply to this email if you need to extend your booking.
+    </td>
+  </tr>
+{% endblock %}
