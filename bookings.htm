@@ -145,8 +145,10 @@
 
     function eventRender (event, element) {
       if (event.private) element.addClass('private');
-      else {
-        var title = event.notes.split('<br />')[1].split(': ')[1]
+      else if (event.notes.length) {
+        var split = event.notes.split('<br />')
+        if (split.length == 1) return;
+        var title = split[1].split(': ')[1]
         if (title.length) element.find('.fc-title').html(title + ' <span class="fade">(' + element.find('.fc-title').text() + ')</span>')
       }
     }
