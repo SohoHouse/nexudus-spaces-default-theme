@@ -83,10 +83,7 @@
                 {% endif %}
               </div>
             </div>
-            
-          <a class="pull-right btn btn-link" href="javascript: window.prompt('{{ data.Local.Resource.Name | Replace: "'","\'" }}. Calendar URL:','http://{{ data.Domain }}{% Url Feeds, ResourceBookings, guid: data.Local.Resource.UniqueId %}'); return false;">
-              {% T Calendar Feed %}
-          </a>
+
           <a class="pull-right btn btn-link" href="{% Url Bookings, Index, Resourceid: data.Local.Resource.Id %}">
             {% T Calendar %}
           </a>

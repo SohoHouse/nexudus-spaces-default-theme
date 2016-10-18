@@ -2,7 +2,6 @@
 {% block title %}{% T Contact %} {% endblock %}
 {% block content %}
 <div id="wrapper">
-  <div id="map-canvas"></div>
   <!-- CONTAINER -->
   <div id="main" class="container">
     <form id="contact-form" method="post" action="{% Url Contact, NewUserMessage %}" class="row-fluid">
@@ -47,7 +46,4 @@
   <!-- END CONTAINER -->
 </div>
 
-{% endblock %}
-{% block script %}
-  {% include 'space_map.htm' %}
 {% endblock %}
