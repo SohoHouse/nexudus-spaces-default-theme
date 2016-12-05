@@ -132,7 +132,7 @@
           <td>
             <div class="invoice-box">
               <h2>Due Amount</h2>
-              <h1>{{ data.Local.Invoice.TotalAmount | FormatDecimal: 'N' | Prepend:currencySymbol }}</h1>
+              <h1>{{ data.Local.Invoice.TransactionTotalAmount | FormatDecimal: 'N' | Prepend:currencySymbol }}</h1>
             </div>
           </td>
           <td>
