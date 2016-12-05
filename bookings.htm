@@ -145,7 +145,7 @@
 
     function eventRender (event, element) {
       if (event.private) element.addClass('private');
-      else if (event.notes.length) {
+      else if (event.notes && event.notes.length) {
         var split = event.notes.split('<br />')
         if (split.length == 1) return;
         var title = split[1].split(': ')[1]
