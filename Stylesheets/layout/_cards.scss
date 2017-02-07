@@ -20,7 +20,7 @@ article.card {
 
   @media (min-width: $medium) {
     height: 460px;
-    
+
     .card-hover {
       position: absolute;
       bottom: -5px;
@@ -72,6 +72,10 @@ article.card {
       padding-left: 40%;
       width: 97.5%;
       height: 260px;
+
+      &.full-height {
+        height: auto;
+      }
       
       .card-content {
         padding: 20px 20px 20px 40px;
