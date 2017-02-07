@@ -7,7 +7,7 @@
   {% endfor %}
 {% endif %}
 
-<article class="card span {% if soldOut or (hasTickets == false) %}card--no-hover{% endif %} {% if soldOut %}card--error{% endif %}">
+<article class="card span {% if soldOut or (hasTickets == false) %}card--no-hover{% endif %} {% if soldOut %}card--error{% endif %} height-auto">
   <a href="{% Url Events, Tickets, Id: ev.Id, title: ev.Name | Clean %}">
     <div class="card-image" style="background-image: url({% Url Events, GetLargeImage, id: ev.Id, w: 870 %})"></div>
   </a>
