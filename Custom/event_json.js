@@ -21,7 +21,7 @@ var eventSources = [
             editable: false,
             ignoreTimezone: true,
             color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}'),
-            notes: '{{ event.Notes | StripNewlines }}'
+            notes: '{{ event.Notes | StripNewlines | Replace: "'", "\'" }}'
           },
         {% endif %}
       {% endfor %}
@@ -46,7 +46,7 @@ var eventSources = [
             editable: false,
             ignoreTimezone: true,
             color: getColurFromName('{{ event.Resource.Name | Replace: "'", "\'" }}'),
-            notes: '{{ event.Notes | StripNewlines }}'
+            notes: '{{ event.Notes | StripNewlines | Replace: "'", "\'" }}'
           },
         {% endif %}
       {% endfor %}
