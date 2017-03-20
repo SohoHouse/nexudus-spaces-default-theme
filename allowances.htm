@@ -141,56 +141,85 @@
                   </thead>
                   <tbody>
 
-                    <!-- OTHER TIME PASSES -->
-                    {% for p in data.Local.OtherTimePasses %}
-                    <tr>
-                      <td>
-                        {{ p.TimePass.Name }}<br/><small>{{ p.TimePass.Description }}</small>
-                      </td>
-                      <td>
-                        <p class="text-right">
-                          {% if p.RemainingHours > 0 %}
-                          {{ p.RemainingHours }} {% T hours %}
-                          {% elseif p.RemainingUses > 0 %}
-                          {{ p.RemainingUses }} {% T minutes %}
-                          {% else %}
-                          {{ p.Remaining }}
-                          {% endif %}
-                        </p>
-                      </td>
-                    </tr>
-                    {% endfor %}
+                                    <!-- OTHER TIME PASSES -->
+                                    {% for group in data.Local.OtherTimePasses %}
+                                    <tr>
+                                      <td>
+                                        {{ group.TimePass.Name }}<br/><small>{{ group.TimePass.Description }}</small>
+                                      </td>
+                                      <td>
+                                        <p class="text-right">
+                                {% if group.TotalMinutes > 0 %}
+                                  {% capture hoursLeft %}{{ group.MinutesLeft | DividedBy: 60.0 }}{% endcapture %}
+                                  {% T {0} hours || hoursLeft %}
+                                {% elseif group.TotalDays > 0 %}
+                                  {% T {0} day(s) || group.TotalDays %}
+                                {% elseif group.TotalMonths > 0 %}
+                                  {% T {0} month(s) || group.TotalMonths %}
+                                {% elseif group.TotalUses > 0 %}
+                                  {% T {0} use(s) || group.TotalUses %}
+                                {% elseif group.TotalWeeks > 0 %}
+                                  {% T {0} weeks(s) || group.TotalWeeks %}
+                                {% elseif group.Count > 0 %}
+                                  {% T {0} passes || group.Count %}
+                                {% elseif group.TotalCredit > 0 %}
+                                  {% T {0:0.00} {1} || group.TotalCredit || data.Business.Currency.Code %}
+                                {% else %}
+                                  {% T none %}
+                                {% endif %}
+                                        </p>
+                                      </td>
+                                    </tr>
+                                    {% endfor %}
 
-                    <!-- OTHER EXTRA SERVICECS -->
-                    {% for p in data.Local.OtherExtraServices %}
-                    <tr>
-                      <td>
-                        {{ p.ExtraService.Name }}<br/><small>{{ p.ExtraService.Description }}</small>
-                      </td>
-                      <td>
-                        <p class="text-right">
-                          {% assign total = p.Remaining %}
-                          {% include 'minute_formatter.htm' %}
-                        </p>
-                      </td>
-                    </tr>
-                    {% endfor %}
+                                    <!-- OTHER EXTRA SERVICECS -->
+                                    {% for group in data.Local.OtherExtraServices %}
+                                    <tr>
+                                      <td>
+                                        {{ group.ExtraService.Name }}<br/><small>{{ group.ExtraService.Description }}</small>
+                                      </td>
+                                      <td>
+                                        <p class="text-right">
+                                {% if group.TotalMinutes > 0 %}
+                                  {% capture hoursLeft %}{{ group.MinutesLeft | DividedBy: 60.0 }}{% endcapture %}
+                                  {% T {0} hours || hoursLeft %}
+                                {% elseif group.TotalDays > 0 %}
+                                  {% T {0} day(s) || group.TotalDays %}
+                                {% elseif group.TotalMonths > 0 %}
+                                  {% T {0} month(s) || group.TotalMonths %}
+                                {% elseif group.TotalUses > 0 %}
+                                  {% T {0} use(s) || group.TotalUses %}
+                                {% elseif group.TotalWeeks > 0 %}
+                                  {% T {0} weeks(s) || group.TotalWeeks %}
+                                {% elseif group.Count > 0 %}
+                                  {% T {0} passes || group.Count %}
+                                {% elseif group.TotalCredit > 0 %}
+                                  {% T {0:0.00} {1} || group.TotalCredit || data.Business.Currency.Code %}
+                                {% else %}
+                                  {% T none %}
+                                {% endif %}
+                                        </p>
+                                      </td>
+                                    </tr>
+                                    {% endfor %}
 
-                    {% if data.Coworker.TotalRemainingBookingCredit > 0 %}
-                    <tr>
-                      <td>
-                        {{ data.Coworker.TotalTotalBookingCredit | FormatDecimal format: 'N2' }} {% T Booking Credit %}
-                      </td>
-                      <td>
-                        <p class="text-right">
-                          {{ data.Business.Currency.Code }} {{ data.Coworker.TotalRemainingBookingCredit | FormatDecimal format: 'N2' }}
-                        </p>
-                      </td>
-                    </tr>
-                    {% endif %}
-                  </tbody>
-                </table>
-              {% endif %}
+                                    {% if data.Coworker.TotalRemainingBookingCredit > 0 %}
+                                    <tr>
+                                      <td>
+                                        {{ data.Business.Currency.Code }}
+                                        {{ data.Coworker.TotalTotalBookingCredit | FormatDecimal format: 'N2' }}
+                                        {% T Booking Credit %}
+                                      </td>
+                                      <td>
+                                        <p class="text-right">
+                                          {{ data.Business.Currency.Code }} {{ data.Coworker.TotalRemainingBookingCredit | FormatDecimal format: 'N2' }}
+                                        </p>
+                                      </td>
+                                    </tr>
+                                    {% endif %}
+                                  </tbody>
+                                </table>
+                                {% endif %}
             </div>
             <p class="mobile-center pull-right">
               <a class="btn btn-orange"  href="{% Url Store, Products %}">{% T Go To Store %}</a>
