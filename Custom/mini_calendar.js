@@ -2,8 +2,8 @@ var vm = new Vue({
   el: '#mini-calendar',
   data: {
     bookings: bookingsJson.concat(eventsJson),
-    currentDate: moment().date(1).toDate(),
-    activeDate: moment().toDate()
+    currentDate: moment.utc().date(1).toDate(),
+    activeDate: moment.utc().toDate()
   },
   computed: {
     dayHeaders: function () {
@@ -14,7 +14,7 @@ var vm = new Vue({
       });
     },
     displayPrev: function () {
-      return this.currentMoment.isAfter( moment(), 'month')
+      return this.currentMoment.isAfter( moment.utc(), 'month')
     },
     currentMoment: {
       get: function () {
@@ -43,8 +43,8 @@ var vm = new Vue({
     },
     weeks: function () {
       var date = this.currentMoment,
-          basic = date.monthWeeks().map(function (w) { 
-            return date.clone().date(w.begin); 
+          basic = date.monthWeeks().map(function (w) {
+            return date.clone().date(w.begin);
           });
       return basic.map(function (w) {
         var runner = w.trueWeek().begin,
@@ -63,11 +63,11 @@ var vm = new Vue({
       return this.events[day.format('YYYY-MM-DD')];
     },
     linkFor: function (ev) {
-      return ev.TicketsPage || '/en/bookings?showall=false&view=agendaWeek&date=' + moment(ev.FromTime || ev.StartDate).utc().format('YYYY-MM-DD');
+      return ev.TicketsPage || '/en/bookings?showall=false&view=agendaWeek&date=' + moment.utc(ev.FromTime || ev.StartDate).format('YYYY-MM-DD');
     },
     timesFor: function (ev) {
-      var start = moment(ev.FromTime || ev.StartDate).utc(),
-          end = moment(ev.ToTime || ev.EndDate).utc();
+      var start = moment.utc(ev.FromTime || ev.StartDate),
+          end = moment.utc(ev.ToTime || ev.EndDate);
       return start.format('HH:mm') + ' - ' + end.format('HH:mm');
     },
     sortEvents: function (a, b) {
@@ -76,7 +76,7 @@ var vm = new Vue({
     classFor: function (day) {
       return {
         minor: !day.isSame(this.currentMoment, 'month'),
-        today: day.isSame(moment(), 'day'),
+        today: day.isSame(moment.utc(), 'day'),
         active: day.isSame(this.activeMoment, 'date')
       };
     },
