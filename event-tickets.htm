@@ -197,17 +197,17 @@
                       <span data-bind="text: 'Attendee ' + ($index() + 1)"></span><br /><br />
                       <div class="visible-phone row-fluid">
                         {% T Fullname %}<br />
-                        <input class="span12" data-bind="value: fullName" type="text" />
+                        <input class="span12" data-bind="value: $index() == 0 ? fullName : null" type="text" />
                         <br />
                         {% T Email %}<br />
-                        <input class="span12" data-bind="value: email" type="email" /><br />
+                        <input class="span12" data-bind="value: $index() == 0 ? email : null" type="email" /><br />
                       </div>
                     </td>
                     <td class="hidden-phone">
-                      <input class="span12" data-bind="value: fullName" type="text" /><br />
+                      <input class="span12" data-bind="value: $index() == 0 ? fullName : null" type="text" /><br />
                     </td>
                     <td class="hidden-phone">
-                      <input class="span12" data-bind="value: email" type="email" /><br />
+                      <input class="span12" data-bind="value: $index() == 0 ? email : null" type="email" /><br />
                     </td>
                   </tr>
 
