@@ -71,9 +71,9 @@ article.card {
     .card-wrapper--list & {
       padding-left: 40%;
       width: 97.5%;
-      height: 260px;
+      min-height: 260px;
 
-      &.full-height {
+      &.height-auto {
         height: auto;
       }
       
